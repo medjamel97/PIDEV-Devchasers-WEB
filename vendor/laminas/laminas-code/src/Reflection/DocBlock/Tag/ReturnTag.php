@@ -15,10 +15,14 @@ use function trim;
 
 class ReturnTag implements TagInterface, PhpDocTypedTagInterface
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $types = [];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $description;
 
     /**
@@ -48,9 +52,8 @@ class ReturnTag implements TagInterface, PhpDocTypedTagInterface
     }
 
     /**
-     * @deprecated 2.0.4 use getTypes instead
-     *
      * @return string
+     * @deprecated 2.0.4 use getTypes instead
      */
     public function getType()
     {
@@ -61,7 +64,6 @@ class ReturnTag implements TagInterface, PhpDocTypedTagInterface
         return $this->types[0];
     }
 
-    /** {@inheritDoc} */
     public function getTypes()
     {
         return $this->types;

@@ -6,9 +6,9 @@
  * @license   https://github.com/laminas/laminas-code/blob/master/LICENSE.md New BSD License
  */
 
-namespace Laminas\Code\Generator\Exception;
+namespace Laminas\Code\Scanner;
 
-class ClassNotFoundException extends RuntimeException implements
-    ExceptionInterface
+class ValueScanner
 {
+    // @todo
 }

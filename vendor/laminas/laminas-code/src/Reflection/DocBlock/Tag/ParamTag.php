@@ -16,15 +16,18 @@ use function trim;
 class ParamTag implements TagInterface, PhpDocTypedTagInterface
 {
     /**
-     * @var string[]
-     * @psalm-return list<string>
+     * @var array
      */
     protected $types = [];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $variableName;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $description;
 
     /**
@@ -62,9 +65,8 @@ class ParamTag implements TagInterface, PhpDocTypedTagInterface
     /**
      * Get parameter variable type
      *
-     * @deprecated 2.0.4 use getTypes instead
-     *
      * @return string
+     * @deprecated 2.0.4 use getTypes instead
      */
     public function getType()
     {
@@ -75,7 +77,6 @@ class ParamTag implements TagInterface, PhpDocTypedTagInterface
         return $this->types[0];
     }
 
-    /** {@inheritDoc} */
     public function getTypes()
     {
         return $this->types;

@@ -17,15 +17,18 @@ class MethodTag implements TagInterface, PhpDocTypedTagInterface
     /**
      * Return value type
      *
-     * @var string[]
-     * @psalm-var list<string>
+     * @var array
      */
     protected $types = [];
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $methodName;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $description;
 
     /**
@@ -74,9 +77,8 @@ class MethodTag implements TagInterface, PhpDocTypedTagInterface
     /**
      * Get return value type
      *
-     * @deprecated 2.0.4 use getTypes instead
-     *
      * @return null|string
+     * @deprecated 2.0.4 use getTypes instead
      */
     public function getReturnType()
     {
@@ -87,7 +89,6 @@ class MethodTag implements TagInterface, PhpDocTypedTagInterface
         return $this->types[0];
     }
 
-    /** {@inheritDoc} */
     public function getTypes()
     {
         return $this->types;
@@ -117,10 +118,6 @@ class MethodTag implements TagInterface, PhpDocTypedTagInterface
         return $this->isStatic;
     }
 
-    /**
-     * @return string
-     * @psalm-return non-empty-string
-     */
     public function __toString()
     {
         return 'DocBlock Tag [ * @' . $this->getName() . ' ]' . "\n";

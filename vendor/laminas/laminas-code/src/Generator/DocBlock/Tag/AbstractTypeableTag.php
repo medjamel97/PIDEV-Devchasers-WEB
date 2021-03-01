@@ -22,10 +22,14 @@ use function is_string;
  */
 abstract class AbstractTypeableTag extends AbstractGenerator
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $description;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $types = [];
 
     /**

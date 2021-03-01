@@ -12,7 +12,9 @@ use function ltrim;
 
 class PropertyTag extends AbstractTypeableTag implements TagInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $propertyName;
 
     /**
@@ -60,9 +62,11 @@ class PropertyTag extends AbstractTypeableTag implements TagInterface
      */
     public function generate()
     {
-        return '@property'
+        $output = '@property'
             . (! empty($this->types) ? ' ' . $this->getTypesAsString() : '')
             . (! empty($this->propertyName) ? ' $' . $this->propertyName : '')
             . (! empty($this->description) ? ' ' . $this->description : '');
+
+        return $output;
     }
 }

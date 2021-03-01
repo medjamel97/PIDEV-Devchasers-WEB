@@ -35,40 +35,50 @@ class ValueGenerator extends AbstractGenerator
     /**#@+
      * Constant values
      */
-    public const TYPE_AUTO        = 'auto';
-    public const TYPE_BOOLEAN     = 'boolean';
-    public const TYPE_BOOL        = 'bool';
-    public const TYPE_NUMBER      = 'number';
-    public const TYPE_INTEGER     = 'integer';
-    public const TYPE_INT         = 'int';
-    public const TYPE_FLOAT       = 'float';
-    public const TYPE_DOUBLE      = 'double';
-    public const TYPE_STRING      = 'string';
-    public const TYPE_ARRAY       = 'array';
-    public const TYPE_ARRAY_SHORT = 'array_short';
-    public const TYPE_ARRAY_LONG  = 'array_long';
-    public const TYPE_CONSTANT    = 'constant';
-    public const TYPE_NULL        = 'null';
-    public const TYPE_OBJECT      = 'object';
-    public const TYPE_OTHER       = 'other';
+    const TYPE_AUTO        = 'auto';
+    const TYPE_BOOLEAN     = 'boolean';
+    const TYPE_BOOL        = 'bool';
+    const TYPE_NUMBER      = 'number';
+    const TYPE_INTEGER     = 'integer';
+    const TYPE_INT         = 'int';
+    const TYPE_FLOAT       = 'float';
+    const TYPE_DOUBLE      = 'double';
+    const TYPE_STRING      = 'string';
+    const TYPE_ARRAY       = 'array';
+    const TYPE_ARRAY_SHORT = 'array_short';
+    const TYPE_ARRAY_LONG  = 'array_long';
+    const TYPE_CONSTANT    = 'constant';
+    const TYPE_NULL        = 'null';
+    const TYPE_OBJECT      = 'object';
+    const TYPE_OTHER       = 'other';
     /**#@-*/
 
-    public const OUTPUT_MULTIPLE_LINE = 'multipleLine';
-    public const OUTPUT_SINGLE_LINE   = 'singleLine';
+    const OUTPUT_MULTIPLE_LINE = 'multipleLine';
+    const OUTPUT_SINGLE_LINE   = 'singleLine';
 
-    /** @var mixed */
+    /**
+     * @var mixed
+     */
     protected $value;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $type = self::TYPE_AUTO;
 
-    /** @var int */
+    /**
+     * @var int
+     */
     protected $arrayDepth = 0;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $outputMode = self::OUTPUT_MULTIPLE_LINE;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $allowedTypes;
 
     /**
@@ -115,7 +125,7 @@ class ValueGenerator extends AbstractGenerator
      */
     public function initEnvironmentConstants()
     {
-        $constants = [
+        $constants   = [
             '__DIR__',
             '__FILE__',
             '__LINE__',
@@ -134,6 +144,7 @@ class ValueGenerator extends AbstractGenerator
      * Add constant to list
      *
      * @param string $constant
+     *
      * @return $this
      */
     public function addConstant($constant)
@@ -147,6 +158,7 @@ class ValueGenerator extends AbstractGenerator
      * Delete constant from constant list
      *
      * @param string $constant
+     *
      * @return bool
      */
     public function deleteConstant($constant)
@@ -295,10 +307,6 @@ class ValueGenerator extends AbstractGenerator
                 return self::TYPE_BOOLEAN;
             case 'string':
                 foreach ($this->constants as $constant) {
-                    if ($value === $constant) {
-                        return self::TYPE_CONSTANT;
-                    }
-
                     if (strpos($value, $constant) !== false) {
                         return self::TYPE_CONSTANT;
                     }
@@ -386,7 +394,7 @@ class ValueGenerator extends AbstractGenerator
                     $endArray   = ')';
                 } else {
                     $startArray = '[';
-                    $endArray   = ']';
+                    $endArray = ']';
                 }
 
                 $output .= $startArray;
@@ -396,7 +404,7 @@ class ValueGenerator extends AbstractGenerator
                 $outputParts = [];
                 $noKeyIndex  = 0;
                 foreach ($value as $n => $v) {
-                    /** @var ValueGenerator $v */
+                    /* @var $v ValueGenerator */
                     $v->setArrayDepth($this->arrayDepth + 1);
                     $partV = $v->generate();
                     $short = false;
@@ -475,7 +483,6 @@ class ValueGenerator extends AbstractGenerator
         return $this->outputMode;
     }
 
-    /** @return string */
     public function __toString()
     {
         return $this->generate();

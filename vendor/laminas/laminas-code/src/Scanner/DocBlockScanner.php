@@ -8,6 +8,9 @@
 
 namespace Laminas\Code\Scanner;
 
+use Laminas\Code\Annotation\AnnotationManager;
+use Laminas\Code\NameInformation;
+
 use function array_pop;
 use function array_push;
 use function current;
@@ -21,30 +24,56 @@ use function strpos;
 use function substr;
 use function trim;
 
-/** @internal this class is not part of the public API of this package */
-class DocBlockScanner
+class DocBlockScanner implements ScannerInterface
 {
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $isScanned = false;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $docComment;
 
-    /** @var string */
+    /**
+     * @var NameInformation
+     */
+    protected $nameInformation;
+
+    /**
+     * @var AnnotationManager
+     */
+    protected $annotationManager;
+
+    /**
+     * @var string
+     */
     protected $shortDescription;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $longDescription = '';
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $tags = [];
 
     /**
-     * @param  string $docComment
+     * @var array
      */
-    public function __construct($docComment)
+    protected $annotations = [];
+
+    /**
+     * @param  string $docComment
+     * @param null|NameInformation $nameInformation
+     */
+    public function __construct($docComment, NameInformation $nameInformation = null)
     {
-        $this->docComment = $docComment;
+        $this->docComment      = $docComment;
+        $this->nameInformation = $nameInformation;
     }
 
     /**
@@ -75,6 +104,16 @@ class DocBlockScanner
         $this->scan();
 
         return $this->tags;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAnnotations()
+    {
+        $this->scan();
+
+        return $this->annotations;
     }
 
     /**
@@ -166,7 +205,7 @@ class DocBlockScanner
         $currentWord = null;
         $currentLine = null;
 
-        $MACRO_STREAM_ADVANCE_CHAR       = function ($positionsForward = 1) use (
+        $MACRO_STREAM_ADVANCE_CHAR = function ($positionsForward = 1) use (
             &$stream,
             &$streamIndex,
             &$currentChar,

@@ -10,7 +10,6 @@ namespace Laminas\Code\Generator;
 
 class PropertyValueGenerator extends ValueGenerator
 {
-    /** @var int */
     protected $arrayDepth = 1;
 
     /**

@@ -15,12 +15,13 @@ use function strtolower;
 
 class TraitGenerator extends ClassGenerator
 {
-    public const OBJECT_TYPE = 'trait';
+    const OBJECT_TYPE = 'trait';
 
     /**
      * Build a Code Generation Php Object from a Class Reflection
      *
-     * @return static
+     * @param  ClassReflection $classReflection
+     * @return TraitGenerator
      */
     public static function fromReflection(ClassReflection $classReflection)
     {
@@ -70,6 +71,7 @@ class TraitGenerator extends ClassGenerator
      * @configkey docblock       string        The docblock information
      * @configkey properties
      * @configkey methods
+     *
      * @throws Exception\InvalidArgumentException
      * @param  array $array
      * @return TraitGenerator

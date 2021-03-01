@@ -25,24 +25,24 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '00ec308475912c8982301ce4bcc694b967346a90',
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '00ec308475912c8982301ce4bcc694b967346a90',
     ),
     'composer/package-versions-deprecated' => 
     array (
@@ -208,12 +208,12 @@ private static $installed = array (
     ),
     'laminas/laminas-code' => 
     array (
-      'pretty_version' => '4.0.0',
-      'version' => '4.0.0.0',
+      'pretty_version' => '3.4.1',
+      'version' => '3.4.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '28a6d70ea8b8bca687d7163300e611ae33baf82a',
+      'reference' => '1cb8f203389ab1482bf89c0e70a04849bacd7766',
     ),
     'laminas/laminas-eventmanager' => 
     array (
@@ -1112,7 +1112,7 @@ private static $installed = array (
     array (
       'replaced' => 
       array (
-        0 => '4.0.0',
+        0 => '3.4.1',
       ),
     ),
     'zendframework/zend-eventmanager' => 

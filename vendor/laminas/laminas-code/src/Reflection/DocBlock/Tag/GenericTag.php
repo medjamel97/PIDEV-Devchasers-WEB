@@ -15,16 +15,24 @@ use function trim;
 
 class GenericTag implements TagInterface, PrototypeGenericInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $name;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $content;
 
-    /** @var null|string */
+    /**
+     * @var null|string
+     */
     protected $contentSplitCharacter;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $values = [];
 
     /**
@@ -86,7 +94,6 @@ class GenericTag implements TagInterface, PrototypeGenericInterface
      *
      * @todo   What should this do?
      * @return string
-     * @psalm-return non-empty-string
      */
     public function __toString()
     {
@@ -99,6 +106,6 @@ class GenericTag implements TagInterface, PrototypeGenericInterface
     protected function parse($docBlockLine)
     {
         $this->content = trim($docBlockLine);
-        $this->values  = explode($this->contentSplitCharacter, $docBlockLine);
+        $this->values = explode($this->contentSplitCharacter, $docBlockLine);
     }
 }

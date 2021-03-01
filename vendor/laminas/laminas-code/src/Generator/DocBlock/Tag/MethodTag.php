@@ -12,10 +12,14 @@ use function rtrim;
 
 class MethodTag extends AbstractTypeableTag implements TagInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $methodName;
 
-    /** @var bool */
+    /**
+     * @var bool
+     */
     protected $isStatic = false;
 
     /**
@@ -84,10 +88,12 @@ class MethodTag extends AbstractTypeableTag implements TagInterface
      */
     public function generate()
     {
-        return '@method'
+        $output = '@method'
             . ($this->isStatic ? ' static' : '')
             . (! empty($this->types) ? ' ' . $this->getTypesAsString() : '')
             . (! empty($this->methodName) ? ' ' . $this->methodName . '()' : '')
             . (! empty($this->description) ? ' ' . $this->description : '');
+
+        return $output;
     }
 }

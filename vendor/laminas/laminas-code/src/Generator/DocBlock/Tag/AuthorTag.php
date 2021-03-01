@@ -14,10 +14,14 @@ use Laminas\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionTagInterface;
 
 class AuthorTag extends AbstractGenerator implements TagInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $authorName;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $authorEmail;
 
     /**
@@ -36,9 +40,9 @@ class AuthorTag extends AbstractGenerator implements TagInterface
     }
 
     /**
-     * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
-     *
+     * @param ReflectionTagInterface $reflectionTag
      * @return AuthorTag
+     * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
      */
     public static function fromReflection(ReflectionTagInterface $reflectionTag)
     {
@@ -96,8 +100,10 @@ class AuthorTag extends AbstractGenerator implements TagInterface
      */
     public function generate()
     {
-        return '@author'
+        $output = '@author'
             . (! empty($this->authorName) ? ' ' . $this->authorName : '')
             . (! empty($this->authorEmail) ? ' <' . $this->authorEmail . '>' : '');
+
+        return $output;
     }
 }

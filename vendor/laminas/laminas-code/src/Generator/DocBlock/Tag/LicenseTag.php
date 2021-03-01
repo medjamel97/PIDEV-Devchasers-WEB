@@ -14,10 +14,14 @@ use Laminas\Code\Reflection\DocBlock\Tag\TagInterface as ReflectionTagInterface;
 
 class LicenseTag extends AbstractGenerator implements TagInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $url;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $licenseName;
 
     /**
@@ -36,9 +40,9 @@ class LicenseTag extends AbstractGenerator implements TagInterface
     }
 
     /**
-     * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
-     *
+     * @param ReflectionTagInterface $reflectionTag
      * @return ReturnTag
+     * @deprecated Deprecated in 2.3. Use TagManager::createTagFromReflection() instead
      */
     public static function fromReflection(ReflectionTagInterface $reflectionTag)
     {
@@ -96,8 +100,10 @@ class LicenseTag extends AbstractGenerator implements TagInterface
      */
     public function generate()
     {
-        return '@license'
+        $output = '@license'
             . (! empty($this->url) ? ' ' . $this->url : '')
             . (! empty($this->licenseName) ? ' ' . $this->licenseName : '');
+
+        return $output;
     }
 }
