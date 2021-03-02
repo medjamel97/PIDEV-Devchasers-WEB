@@ -48,7 +48,7 @@ class Education
     private $duree;
 
     /**
-     * @ORM\ManyToOne(targetEntity=candidat::class, inversedBy="education")
+     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="education")
      */
     private $candidat;
 

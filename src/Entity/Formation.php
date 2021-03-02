@@ -25,12 +25,12 @@ class Formation
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=societe::class, inversedBy="formation")
+     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="formation")
      */
     private $societe;
 
     /**
-     * @ORM\OneToMany(targetEntity=candidatureformation::class, mappedBy="formation")
+     * @ORM\OneToMany(targetEntity=Candidatureformation::class, mappedBy="formation")
      */
     private $candidatureFormation;
 

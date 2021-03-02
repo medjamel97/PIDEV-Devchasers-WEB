@@ -36,14 +36,13 @@ class RevueRepository extends ServiceEntityRepository
     }
     */
 
-    public function findSinglePageResults($firstResult,$maxResults)
+    public function findSinglePageResults($firstResult, $maxResults)
     {
         return $this->createQueryBuilder('r')
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResults)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function countItemNumber()
@@ -51,7 +50,15 @@ class RevueRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->select('count(r.id)')
             ->getQuery()
-            ->getResult()
             ->getSingleScalarResult();
+    }
+
+    public function findFirst()
+    {
+        return $this->createQueryBuilder('r')
+            ->setFirstResult(0)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult();
     }
 }

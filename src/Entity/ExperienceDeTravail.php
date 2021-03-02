@@ -43,7 +43,7 @@ class ExperienceDeTravail
     private $duree;
 
     /**
-     * @ORM\ManyToOne(targetEntity=candidat::class, inversedBy="experienceDeTravail")
+     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="experienceDeTravail")
      */
     private $candidat;
 

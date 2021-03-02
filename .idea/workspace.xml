@@ -2,83 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="126c6e24-da75-4d47-86ea-9b882b98ccd4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/revue/afficherRevueSociete.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/revue/ajouter.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/revue/modifier.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/InterviewRevueController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InterviewController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/RevueController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RevueController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Entity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/interviewRevue/afficher.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/interview/afficher.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/revue/afficher.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/revue/afficher.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/InstalledVersions.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/InstalledVersions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.json" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/installed.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/installed.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/package-versions-deprecated/src/PackageVersions/Versions.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/package-versions-deprecated/src/PackageVersions/Versions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/platform_check.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/platform_check.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/COPYRIGHT.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/COPYRIGHT.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/LICENSE.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/LICENSE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/composer.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/DeclareStatement.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/DeclareStatement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/AbstractGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/AbstractGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/AbstractMemberGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/AbstractMemberGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/BodyGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/BodyGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/ClassGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/ClassGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/AbstractTypeableTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/AbstractTypeableTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/AuthorTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/AuthorTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/GenericTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/GenericTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/LicenseTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/LicenseTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/MethodTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/MethodTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/ParamTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/ParamTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/PropertyTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/PropertyTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/ReturnTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/ReturnTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/ThrowsTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/ThrowsTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/VarTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/Tag/VarTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/TagManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlock/TagManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlockGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/DocBlockGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/Exception/ClassNotFoundException.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/FileGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/FileGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/GeneratorInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/GeneratorInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/InterfaceGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/InterfaceGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/MethodGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/MethodGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/ParameterGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/ParameterGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/PropertyGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/PropertyGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/PropertyValueGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/PropertyValueGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/TraitGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/TraitGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/TraitUsageGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/TraitUsageGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/TypeGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/TypeGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/TypeGenerator/AtomicType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/ValueGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generator/ValueGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generic/Prototype/PrototypeClassFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generic/Prototype/PrototypeClassFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generic/Prototype/PrototypeGenericInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generic/Prototype/PrototypeGenericInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generic/Prototype/PrototypeInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Generic/Prototype/PrototypeInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/ClassReflection.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/ClassReflection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/AuthorTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/AuthorTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/GenericTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/GenericTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/LicenseTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/LicenseTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/MethodTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/MethodTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/ParamTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/ParamTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/PhpDocTypedTagInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/PhpDocTypedTagInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/PropertyTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/PropertyTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/ReturnTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/ReturnTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/ThrowsTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/ThrowsTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/VarTag.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/Tag/VarTag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/TagManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlock/TagManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlockReflection.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/DocBlockReflection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/FunctionReflection.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/FunctionReflection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/MethodReflection.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/MethodReflection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/ParameterReflection.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/ParameterReflection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/PropertyReflection.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/PropertyReflection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/ReflectionInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Reflection/ReflectionInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Scanner/DocBlockScanner.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/laminas/laminas-code/src/Scanner/DocBlockScanner.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Candidat.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Candidat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/CandidatureEvenement.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/CandidatureEvenement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/CandidatureMission.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/CandidatureMission.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/CandidatureOffre.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/CandidatureOffre.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Categorie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Categorie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Commentaire.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Commentaire.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Competence.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Competence.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Education.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Education.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/ExperienceDeTravail.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/ExperienceDeTravail.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Formation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Formation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Publication.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Publication.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Questionnaire.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Questionnaire.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Societe.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Societe.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/RevueRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/RevueRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/revue/afficherRevueSociete.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/revue/afficherRevueSociete.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/revue/ajouter.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/revue/ajouter.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -211,7 +153,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="D:/Desktop/PIDEV-Devchasers-main" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
@@ -265,7 +207,8 @@
       <workItem from="1614349553604" duration="13806000" />
       <workItem from="1614375717246" duration="10317000" />
       <workItem from="1614593267768" duration="2525000" />
-      <workItem from="1614606844114" duration="29099000" />
+      <workItem from="1614606844114" duration="32576000" />
+      <workItem from="1614642328349" duration="6777000" />
     </task>
     <servers />
   </component>

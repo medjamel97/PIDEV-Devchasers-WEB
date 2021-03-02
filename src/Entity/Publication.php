@@ -25,7 +25,7 @@ class Publication
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=candidat::class, inversedBy="publication")
+     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="publication")
      */
     private $candidat;
 

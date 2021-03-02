@@ -28,7 +28,7 @@ class CandidatureMission
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity=questionnaire::class, inversedBy="candidatureMission", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Questionnaire::class, inversedBy="candidatureMission", cascade={"persist", "remove"})
      */
     private $questionnaire;
 

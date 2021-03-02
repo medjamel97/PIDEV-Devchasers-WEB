@@ -20,17 +20,17 @@ class CandidatureOffre
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=interview::class, mappedBy="candidatureOffre")
+     * @ORM\OneToMany(targetEntity=Interview::class, mappedBy="candidatureOffre")
      */
     private $interview;
 
     /**
-     * @ORM\OneToMany(targetEntity=revue::class, mappedBy="candidatureOffre")
+     * @ORM\OneToMany(targetEntity=Revue::class, mappedBy="candidatureOffre")
      */
     private $revue;
 
     /**
-     * @ORM\ManyToOne(targetEntity=offredetravail::class, inversedBy="candidatureOffres")
+     * @ORM\ManyToOne(targetEntity=OffreDeTravail::class, inversedBy="candidatureOffres")
      */
     private $offreDeTravail;
 

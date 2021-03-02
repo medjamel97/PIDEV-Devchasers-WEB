@@ -28,7 +28,7 @@ class Competence
     private $level;
 
     /**
-     * @ORM\ManyToOne(targetEntity=candidat::class, inversedBy="competence")
+     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="competence")
      */
     private $candidat;
 

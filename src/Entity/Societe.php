@@ -40,12 +40,12 @@ class Societe extends Utilisateur
     private $idPhotoSociete;
 
     /**
-     * @ORM\OneToMany(targetEntity=mission::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="societe")
      */
     private $mission;
 
     /**
-     * @ORM\OneToMany(targetEntity=offredetravail::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=OffreDeTravail::class, mappedBy="societe")
      */
     private $offreDeTravail;
 
@@ -55,7 +55,7 @@ class Societe extends Utilisateur
     private $evenement;
 
     /**
-     * @ORM\OneToMany(targetEntity=formation::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="societe")
      */
     private $formation;
 

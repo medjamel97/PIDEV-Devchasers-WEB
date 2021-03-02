@@ -50,22 +50,22 @@ class Candidat extends Utilisateur
     private $idPhoto;
 
     /**
-     * @ORM\OneToMany(targetEntity=candidatureformation::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=CandidatureFormation::class, mappedBy="candidat")
      */
     private $candidatureFormation;
 
     /**
-     * @ORM\OneToMany(targetEntity=candidatureevenement::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=CandidatureEvenement::class, mappedBy="candidat")
      */
     private $candidatureEvenement;
 
     /**
-     * @ORM\OneToMany(targetEntity=candidatureoffre::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="candidat")
      */
     private $candidatureOffre;
 
     /**
-     * @ORM\OneToMany(targetEntity=candidatureMission::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="candidat")
      */
     private $candidatureMission;
 
