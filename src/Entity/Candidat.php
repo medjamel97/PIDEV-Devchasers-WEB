@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=CandidatRepository::class)
  */
-class Candidat extends Utilisateur
+class Candidat
 {
     /**
      * @ORM\Id
@@ -85,14 +85,14 @@ class Candidat extends Utilisateur
     private $education;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureEvenement::class, mappedBy="candidat")
-     */
-    private $candidatureenement;
-
-    /**
      * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="candidat")
      */
     private $competence;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Utilisateur::class, mappedBy="candidat", cascade={"persist", "remove"})
+     */
+    private $utilisateur;
 
     public function __construct()
     {
@@ -103,7 +103,6 @@ class Candidat extends Utilisateur
         $this->publication = new ArrayCollection();
         $this->experienceDeTravail = new ArrayCollection();
         $this->education = new ArrayCollection();
-        $this->candidatureenement = new ArrayCollection();
         $this->competence = new ArrayCollection();
     }
 
@@ -185,14 +184,14 @@ class Candidat extends Utilisateur
     }
 
     /**
-     * @return Collection|candidatureformation[]
+     * @return Collection|CandidatureFormation[]
      */
     public function getCandidatureFormation(): Collection
     {
         return $this->candidatureFormation;
     }
 
-    public function addCandidatureFormation(candidatureformation $candidatureFormation): self
+    public function addCandidatureFormation(candidatureFormation $candidatureFormation): self
     {
         if (!$this->candidatureFormation->contains($candidatureFormation)) {
             $this->candidatureFormation[] = $candidatureFormation;
@@ -202,7 +201,7 @@ class Candidat extends Utilisateur
         return $this;
     }
 
-    public function removeCandidatureFormation(candidatureformation $candidatureFormation): self
+    public function removeCandidatureFormation(candidatureFormation $candidatureFormation): self
     {
         if ($this->candidatureFormation->removeElement($candidatureFormation)) {
             // set the owning side to null (unless already changed)
@@ -215,14 +214,14 @@ class Candidat extends Utilisateur
     }
 
     /**
-     * @return Collection|candidatureevenement[]
+     * @return Collection|CandidatureEvenement[]
      */
     public function getCandidatureEvenement(): Collection
     {
         return $this->candidatureEvenement;
     }
 
-    public function addCandidatureEvenement(candidatureevenement $candidatureEvenement): self
+    public function addCandidatureEvenement(candidatureEvenement $candidatureEvenement): self
     {
         if (!$this->candidatureEvenement->contains($candidatureEvenement)) {
             $this->candidatureEvenement[] = $candidatureEvenement;
@@ -232,7 +231,7 @@ class Candidat extends Utilisateur
         return $this;
     }
 
-    public function removeCandidatureEvenement(candidatureevenement $candidatureEvenement): self
+    public function removeCandidatureEvenement(candidatureEvenement $candidatureEvenement): self
     {
         if ($this->candidatureEvenement->removeElement($candidatureEvenement)) {
             // set the owning side to null (unless already changed)
@@ -245,14 +244,14 @@ class Candidat extends Utilisateur
     }
 
     /**
-     * @return Collection|candidatureoffre[]
+     * @return Collection|CandidatureOffre[]
      */
     public function getCandidatureOffre(): Collection
     {
         return $this->candidatureOffre;
     }
 
-    public function addCandidatureOffre(candidatureoffre $candidatureOffre): self
+    public function addCandidatureOffre(candidatureOffre $candidatureOffre): self
     {
         if (!$this->candidatureOffre->contains($candidatureOffre)) {
             $this->candidatureOffre[] = $candidatureOffre;
@@ -262,7 +261,7 @@ class Candidat extends Utilisateur
         return $this;
     }
 
-    public function removeCandidatureOffre(candidatureoffre $candidatureOffre): self
+    public function removeCandidatureOffre(candidatureOffre $candidatureOffre): self
     {
         if ($this->candidatureOffre->removeElement($candidatureOffre)) {
             // set the owning side to null (unless already changed)
@@ -275,7 +274,7 @@ class Candidat extends Utilisateur
     }
 
     /**
-     * @return Collection|candidatureMission[]
+     * @return Collection|CandidatureMission[]
      */
     public function getCandidatureMission(): Collection
     {
@@ -395,14 +394,6 @@ class Candidat extends Utilisateur
     }
 
     /**
-     * @return Collection|CandidatureEvenement[]
-     */
-    public function getCandidatureenement(): Collection
-    {
-        return $this->candidatureenement;
-    }
-
-    /**
      * @return Collection|Competence[]
      */
     public function getCompetence(): Collection
@@ -428,6 +419,28 @@ class Candidat extends Utilisateur
                 $competence->setCandidat(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($utilisateur === null && $this->utilisateur !== null) {
+            $this->utilisateur->setCandidat(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($utilisateur !== null && $utilisateur->getCandidat() !== $this) {
+            $utilisateur->setCandidat($this);
+        }
+
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

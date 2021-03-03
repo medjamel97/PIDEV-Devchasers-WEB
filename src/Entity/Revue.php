@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RevueRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=RevueRepository::class)
@@ -19,16 +20,19 @@ class Revue
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="is required")
      */
     private $nbEtoiles;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="is required")
      */
     private $objet;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="is required")
      */
     private $description;
 

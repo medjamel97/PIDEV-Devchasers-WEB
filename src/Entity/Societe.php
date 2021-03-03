@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=SocieteRepository::class)
  */
-class Societe extends Utilisateur
+class Societe
 {
     /**
      * @ORM\Id
@@ -58,6 +58,11 @@ class Societe extends Utilisateur
      * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="societe")
      */
     private $formation;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Utilisateur::class, mappedBy="societe", cascade={"persist", "remove"})
+     */
+    private $utilisateur;
 
     public function __construct()
     {
@@ -122,7 +127,7 @@ class Societe extends Utilisateur
     }
 
     /**
-     * @return Collection|mission[]
+     * @return Collection|Mission[]
      */
     public function getMission(): Collection
     {
@@ -152,14 +157,14 @@ class Societe extends Utilisateur
     }
 
     /**
-     * @return Collection|offredetravail[]
+     * @return Collection|OffreDeTravail[]
      */
     public function getOffreDeTravail(): Collection
     {
         return $this->offreDeTravail;
     }
 
-    public function addOffreDeTravail(offredetravail $offreDeTravail): self
+    public function addOffreDeTravail(offreDeTravail $offreDeTravail): self
     {
         if (!$this->offreDeTravail->contains($offreDeTravail)) {
             $this->offreDeTravail[] = $offreDeTravail;
@@ -169,7 +174,7 @@ class Societe extends Utilisateur
         return $this;
     }
 
-    public function removeOffreDeTravail(offredetravail $offreDeTravail): self
+    public function removeOffreDeTravail(offreDeTravail $offreDeTravail): self
     {
         if ($this->offreDeTravail->removeElement($offreDeTravail)) {
             // set the owning side to null (unless already changed)
@@ -212,7 +217,7 @@ class Societe extends Utilisateur
     }
 
     /**
-     * @return Collection|formation[]
+     * @return Collection|Formation[]
      */
     public function getFormation(): Collection
     {
@@ -237,6 +242,23 @@ class Societe extends Utilisateur
                 $formation->setSociete(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(Utilisateur $utilisateur): self
+    {
+        // set the owning side of the relation if necessary
+        if ($utilisateur->getSociete() !== $this) {
+            $utilisateur->setSociete($this);
+        }
+
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

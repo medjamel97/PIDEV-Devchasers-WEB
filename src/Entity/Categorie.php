@@ -44,12 +44,12 @@ class Categorie
         return $this;
     }
 
-    public function getOffreDeTravail(): ?offredetravail
+    public function getOffreDeTravail(): ?offreDeTravail
     {
         return $this->offreDeTravail;
     }
 
-    public function setOffreDeTravail(?offredetravail $offreDeTravail): self
+    public function setOffreDeTravail(?offreDeTravail $offreDeTravail): self
     {
         $this->offreDeTravail = $offreDeTravail;
 

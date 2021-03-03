@@ -51,7 +51,7 @@ class CandidatureOffre
     }
 
     /**
-     * @return Collection|interview[]
+     * @return Collection|Interview[]
      */
     public function getInterview(): Collection
     {
@@ -81,7 +81,7 @@ class CandidatureOffre
     }
 
     /**
-     * @return Collection|revue[]
+     * @return Collection|Revue[]
      */
     public function getRevue(): Collection
     {
@@ -110,12 +110,12 @@ class CandidatureOffre
         return $this;
     }
 
-    public function getOffreDeTravail(): ?offredetravail
+    public function getOffreDeTravail(): ?offreDeTravail
     {
         return $this->offreDeTravail;
     }
 
-    public function setOffreDeTravail(?offredetravail $offreDeTravail): self
+    public function setOffreDeTravail(?offreDeTravail $offreDeTravail): self
     {
         $this->offreDeTravail = $offreDeTravail;
 

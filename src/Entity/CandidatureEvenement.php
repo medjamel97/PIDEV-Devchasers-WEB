@@ -23,7 +23,7 @@ class CandidatureEvenement
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="TESTEEEEE")
+     * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="candidatureEvenement")
      */
     private $evenement;
 

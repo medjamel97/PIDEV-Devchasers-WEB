@@ -20,7 +20,7 @@ class SocieteRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Societe[] Returns an array of Societe objects
+    //  * @return societe[] Returns an array of societe objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class SocieteRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Societe
+    public function findOneBySomeField($value): ?societe
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

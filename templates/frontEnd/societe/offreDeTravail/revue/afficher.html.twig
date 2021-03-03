@@ -32,9 +32,11 @@
                             <li><span class="text-uppercase text-white font-weight-bold">Revues</span></li>
                         </ul>
                         <div class="mb-4 p-5">
-                            <a href="{{ asset('/revue/ajouter') }}"><h4 class=" title">Ajouter une revue</h4></a>
-                            <a href="{{ asset('/revue/ajouterDebug') }}"><h4 class=" title">INSTANTLY ADD 50 REVUES</h4></a>
-                            <a href="{{ asset('/revue/supprimerDebug/page=1/0') }}"><h4 class=" title">INSTANTLY DELETE ALL REVUES</h4></a>
+                            <a href="/revue/ajouter/page={{ activePage }}"><h4 class=" title">Ajouter une revue</h4></a>
+                            <a href="/revue/ajouterDebug/page={{ activePage }}"><h4 class=" title">ADD 50 REVUES</h4>
+                            </a>
+                            <a href="{{ asset('/revue/supprimerDebug/page=1/id=0') }}"><h4 class=" title">DELETE ALL
+                                    REVUES</h4></a>
                         </div>
                     </div>
                 </div>
@@ -52,7 +54,7 @@
                             <div class="float-left">
                                 <h5 class="text-dark mb-0 pt-2"> Affichage des revues :
                                     {% if nbResults > itemPerPage %}
-                                        {{ firstItem }} - {{ firstItem + itemPerPage }} de {{ nbResults }} revues en total
+                                        {{ firstItem +1 }} - {{ firstItem + itemPerPage }} de {{ nbResults }} revues en total
                                     {% else %}
                                         {{ nbResults }} revues en total
                                     {% endif %}
@@ -95,6 +97,9 @@
                                                 <a href="#">
                                                     <div class="candidates-listing-btn overflow-hidden">
                                                         <div class="text-dark mb-2">
+                                                            {{ Debug }}
+                                                            {# if CandidatureOffre.id == 999999 #}
+                                                            {# endif #}
                                                             <h6>nom{# candidat.nom #}</h6>
                                                             <h6>prenom{# candidat.prenom #}</h6>
                                                         </div>
@@ -135,8 +140,10 @@
                                                     <i class="mdi mdi-heart"></i>
                                                 </div>
                                                 <div class="candidates-listing-btn mt-2">
-                                                    <a href="/revue/modifier/page={{ activePage }}/{{ revue.id }}" class="btn btn-primary-outline btn-sm mt-1">Modifier revue</a>
-                                                    <a href="/revue/supprimer/page={{ activePage }}/{{ revue.id }}" class="btn btn-primary-outline btn-sm mt-1">Supprimer revue</a>
+                                                    <a href="/revue/modifier/page={{ activePage }}/id={{ revue.id }}"
+                                                       class="btn btn-primary-outline btn-sm mt-1">Modifier revue</a>
+                                                    <a href="/revue/supprimer/page={{ activePage }}/id={{ revue.id }}"
+                                                       class="btn btn-primary-outline btn-sm mt-1">Supprimer revue</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,11 +163,13 @@
                                         {% for i in 1..(nbPages) %}
                                             {% if i == activePage %}
                                                 <li class="page-item active">
-                                                    <a class="page-link" href="/revue/afficherRevueSociete/{{ i }}">{{ i }}</a>
+                                                    <a class="page-link"
+                                                       href="/societe=0/offreDeTravail=0/revue/pageIndex={{ i }}">{{ i }}</a>
                                                 </li>
                                             {% else %}
                                                 <li class="page-item">
-                                                    <a class="page-link" href="/revue/afficherRevueSociete/{{ i }}">{{ i }}</a>
+                                                    <a class="page-link"
+                                                       href="/societe=0/offreDeTravail=0/revue/pageIndex={{ i }}">{{ i }}</a>
                                                 </li>
                                             {% endif %}
                                         {% endfor %}

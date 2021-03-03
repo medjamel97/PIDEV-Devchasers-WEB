@@ -27,6 +27,23 @@ class Utilisateur
      */
     private $motDePasse;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Societe::class, inversedBy="utilisateur", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $societe;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Candidat::class, inversedBy="utilisateur", cascade={"persist", "remove"})
+     */
+    private $candidat;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $typeUtilisateur;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,4 +72,41 @@ class Utilisateur
 
         return $this;
     }
+
+    public function getSociete(): ?Societe
+    {
+        return $this->societe;
+    }
+
+    public function setSociete(Societe $societe): self
+    {
+        $this->societe = $societe;
+
+        return $this;
+    }
+
+    public function getCandidat(): ?Candidat
+    {
+        return $this->candidat;
+    }
+
+    public function setCandidat(?Candidat $candidat): self
+    {
+        $this->candidat = $candidat;
+
+        return $this;
+    }
+
+    public function getTypeUtilisateur(): ?int
+    {
+        return $this->typeUtilisateur;
+    }
+
+    public function setTypeUtilisateur(int $typeUtilisateur): self
+    {
+        $this->typeUtilisateur = $typeUtilisateur;
+
+        return $this;
+    }
+
 }

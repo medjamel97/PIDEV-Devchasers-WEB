@@ -32,6 +32,11 @@ class Interview
      */
     private $candidatureOffre;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $difficulte;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Interview
     public function setCandidatureOffre(?CandidatureOffre $candidatureOffre): self
     {
         $this->candidatureOffre = $candidatureOffre;
+
+        return $this;
+    }
+
+    public function getDifficulte(): ?string
+    {
+        return $this->difficulte;
+    }
+
+    public function setDifficulte(string $difficulte): self
+    {
+        $this->difficulte = $difficulte;
 
         return $this;
     }

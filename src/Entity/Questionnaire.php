@@ -40,7 +40,7 @@ class Questionnaire
     }
 
     /**
-     * @return Collection|question[]
+     * @return Collection|Question[]
      */
     public function getQuestion(): Collection
     {

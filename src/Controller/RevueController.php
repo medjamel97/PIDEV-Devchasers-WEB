@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\CandidatureOffre;
+use App\Entity\OffreDeTravail;
 use App\Entity\Revue;
 use App\Form\RevueType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,70 +15,76 @@ use Symfony\Component\Routing\Annotation\Route;
 class RevueController extends AbstractController
 {
     /**
-     * @Route("/revue", name="revue")
+     * @Route("/societe={societe}/offreDeTravail={offreDeTravail}/revue/pageIndex={pageIndex}", name="afficherRevue")
      */
-    public function index(): Response
+    public function afficherRevue($societe,$offreDeTravail,$pageIndex): Response
     {
-        return $this->render('/frontEnd/revue/afficher.html.twig', [
-            'controller_name' => 'RevueController',
-        ]);
-    }
+        $revueRepository = $this->getDoctrine()->getManager()->getRepository(Revue::class);
 
-    /**
-     * @Route("/revue/afficher", name="afficherRevue")
-     */
-    public function afficherRevue()
-    {
-        return $this->render('/frontEnd/revue/afficher.html.twig', [
-            'Revue' => $this->getDoctrine()->getRepository(Revue::class)->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/revue/afficherRevueSociete/{pageIndex}", name="afficherRevueSociete")
-     */
-    public function afficherRevueSociete(Request $requestForDebug, $pageIndex)
-    {
-        $em = $this->getDoctrine()->getManager()->getRepository(Revue::class);
+        $CandidatureOffreRepository = $this->getDoctrine()->getManager()->getRepository(CandidatureOffre::class);
 
         $itemPerPage = 6;
 
         $firstItem = ($pageIndex-1)*($itemPerPage);
 
-        $results = $em->findSinglePageResults($firstItem, $itemPerPage);
+        $revues = $revueRepository->findSinglePageResults($firstItem, $itemPerPage);
 
-        return $this->render('/frontEnd/revue/afficherRevueSociete.html.twig', [
-            'Revue' => $results,
+        $debug = "";
+
+        $candidatureOffres = $CandidatureOffreRepository->getCandidatureOffreId();
+
+        foreach ($candidatureOffres as $candidatureOffre){
+            foreach ($revues as $revue){
+                $NouvRevue = new Revue();
+                $NouvRevue = $candidatureOffre;
+                if ($NouvRevue->getId() == $revue->getId()){
+                    $debug = "Triggered";
+                }
+            }
+        }
+
+        $countItems = $revueRepository->countItemNumber();
+
+        $nbPages = intdiv($countItems, $itemPerPage);
+
+        if (($countItems % 6) != 0 ){
+            $nbPages++;
+        }
+
+        return $this->render('/frontEnd/societe/offreDeTravail/revue/afficher.html.twig', [
+            'Debug' => $debug,
+            'Revue' => $revues,
+            'CandidatureOffre' => $candidatureOffres,
             'itemPerPage' => $itemPerPage,
-            'nbResults' => $em->countItemNumber(),
-            'nbPages' => intdiv($em->countItemNumber()+1, $itemPerPage),
+            'nbResults' => $countItems,
+            'nbPages' => $nbPages,
             'activePage' => $pageIndex,
             'firstItem' => $firstItem,
         ]);
     }
 
     /**
-     * @Route("/revue/ajouterDebug", name="ajouterRevueDebug")
+     * @Route("/revue/ajouterDebug/page={pageIndex}", name="ajouterRevueDebug")
      */
-    public function ajouterRevueDebug(Request $request)
+    public function ajouterRevueDebug(Request $request,$pageIndex)
     {
-        $RevueRepository = $this->getDoctrine()->getManager();
-        for ($i = 0; $i < 50; $i++) {
+        $revueRepository = $this->getDoctrine()->getManager();
+        for ($i = 1; $i < 51; $i++) {
             $revue = new Revue();
             $revue->setNbEtoiles(random_int(0, 5))
-                ->setObjet("Objet " . $i)
+                ->setObjet("Revue " . $i)
                 ->setDescription("Description " . $i);
-            $RevueRepository->persist($revue);
-            $RevueRepository->flush();
+            $revueRepository->persist($revue);
+            $revueRepository->flush();
         }
-        return $this->redirectToRoute('afficherRevueSociete', ['pageIndex' => 1]);
+        return $this->redirectToRoute('afficherRevue', ['societe' => 0,'offreDeTravail' => 0,'pageIndex' => $pageIndex]);
     }
 
 
     /**
-     * @Route("/revue/ajouter", name="ajouterRevue")
+     * @Route("/revue/ajouter/page={pageIndex}", name="ajouterRevue")
      */
-    public function ajouterRevue(Request $request)
+    public function ajouterRevue(Request $request,$pageIndex)
     {
         $revue = new Revue();
 
@@ -88,65 +96,65 @@ class RevueController extends AbstractController
 
             $revue = $form->getData();
 
-            $RevueRepository = $this->getDoctrine()->getManager();
-            $RevueRepository->persist($revue);
-            $RevueRepository->flush();
+            $revueRepository = $this->getDoctrine()->getManager();
+            $revueRepository->persist($revue);
+            $revueRepository->flush();
 
-            return $this->redirectToRoute('afficherRevueSociete', ['pageIndex' => 1]);
+            return $this->redirectToRoute('afficherRevue', ['societe' => 0,'offreDeTravail' => 0,'pageIndex' => $pageIndex]);
         }
 
-        return $this->render('/frontEnd/revue/ajouter.html.twig', [
+        return $this->render('/frontEnd/societe/offreDeTravail/revue/ajouter.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/revue/modifier/{id}", name="modifierRevue")
+     * @Route("/revue/modifier/page={pageIndex}/id={id}", name="modifierRevue")
      */
-    public function modifierRevue(Request $request, $id)
+    public function modifierRevue(Request $request,$pageIndex , $id)
     {
-        $RevueRepository = $this->getDoctrine()->getManager();
-        $revue = $RevueRepository->getRepository(Revue::class)->find($id);
+        $revueRepository = $this->getDoctrine()->getManager();
+        $revue = $revueRepository->getRepository(Revue::class)->find($id);
 
         $form = $this->createForm(RevueType::class, $revue);
         $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $RevueRepository->flush();
-            return $this->redirectToRoute('afficherRevueSociete', ['pageIndex' => 1]);
+            $revueRepository->flush();
+            return $this->redirectToRoute('afficherRevue', ['societe' => 0,'offreDeTravail' => 0,'pageIndex' => $pageIndex]);
         }
 
-        return $this->render('/frontEnd/revue/modifier.html.twig', [
+        return $this->render('/frontEnd/societe/offreDeTravail/revue/modifier.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/revue/supprimer/page={page}/{id}", name="supprimerRevue")
+     * @Route("/revue/supprimer/page={pageIndex}/id={id}", name="supprimerRevue")
      */
-    public function supprimerRevue($id, $page)
+    public function supprimerRevue($id, $pageIndex)
     {
-        $RevueManager = $this->getDoctrine()->getManager();
-        $revue = $RevueManager->getRepository(Revue::class)->find($id);
-        $RevueManager->remove($revue);
-        $RevueManager->flush();
-        return $this->redirectToRoute('afficherRevueSociete', ['pageIndex' => $page]);
+        $revueManager = $this->getDoctrine()->getManager();
+        $revue = $revueManager->getRepository(Revue::class)->find($id);
+        $revueManager->remove($revue);
+        $revueManager->flush();
+        return $this->redirectToRoute('afficherRevue', ['societe' => 0,'offreDeTravail' => 0,'pageIndex' => $pageIndex]);
     }
 
     /**
-     * @Route("/revue/supprimerDebug/page={page}/{id}", name="supprimerRevueDebug")
+     * @Route("/revue/supprimerDebug/page={pageIndex}/id={id}", name="supprimerRevueDebug")
      */
-    public function supprimerRevueDebug($id, $page)
+    public function supprimerRevueDebug($id, $pageIndex)
     {
-        $RevueManager = $this->getDoctrine()->getManager();
-        $length = $RevueManager->getRepository(Revue::class)->countItemNumber();
+        $revueManager = $this->getDoctrine()->getManager();
+        $length = $revueManager->getRepository(Revue::class)->countItemNumber();
         while ($length > 0) {
             $length --;
-            $revue = $RevueManager->getRepository(Revue::class)->findFirst();
-            $RevueManager->remove($revue);
-            $RevueManager->flush();
+            $revue = $revueManager->getRepository(Revue::class)->findFirst();
+            $revueManager->remove($revue);
+            $revueManager->flush();
         }
-        return $this->redirectToRoute('afficherRevueSociete', ['pageIndex' => $page]);
+        return $this->redirectToRoute('afficherRevue', ['societe' => 0,'offreDeTravail' => 0,'pageIndex' => $pageIndex]);
     }
 }

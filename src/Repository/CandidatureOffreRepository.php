@@ -47,4 +47,12 @@ class CandidatureOffreRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getCandidatureOffreId()
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJOIN('c.revue', 'r')
+            ->where('r.id = c.id')
+            ->getQuery()
+            ->getResult();
+    }
 }

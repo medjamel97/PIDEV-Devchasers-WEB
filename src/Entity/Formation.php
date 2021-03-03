@@ -22,6 +22,11 @@ class Formation
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $description;
 
     /**
@@ -30,9 +35,12 @@ class Formation
     private $societe;
 
     /**
-     * @ORM\OneToMany(targetEntity=Candidatureformation::class, mappedBy="formation")
+     * @ORM\OneToMany(targetEntity=CandidatureFormation::class, mappedBy="formation")
      */
     private $candidatureFormation;
+    /**
+     * @var string
+     */
 
     public function __construct()
     {
@@ -42,6 +50,18 @@ class Formation
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -69,14 +89,14 @@ class Formation
     }
 
     /**
-     * @return Collection|candidatureformation[]
+     * @return Collection|CandidatureFormation[]
      */
     public function getCandidatureFormation(): Collection
     {
         return $this->candidatureFormation;
     }
 
-    public function addCandidatureFormation(candidatureformation $candidatureFormation): self
+    public function addCandidatureFormation(candidatureFormation $candidatureFormation): self
     {
         if (!$this->candidatureFormation->contains($candidatureFormation)) {
             $this->candidatureFormation[] = $candidatureFormation;
@@ -86,7 +106,7 @@ class Formation
         return $this;
     }
 
-    public function removeCandidatureFormation(candidatureformation $candidatureFormation): self
+    public function removeCandidatureFormation(candidatureFormation $candidatureFormation): self
     {
         if ($this->candidatureFormation->removeElement($candidatureFormation)) {
             // set the owning side to null (unless already changed)

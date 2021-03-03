@@ -2,19 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
+use App\Form\CategorieType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CategorieController extends AbstractController
 {
     /**
-     * @Route("/categorie", name="categorie")
+     * @Route("/categorie", name="afficherCategorie")
      */
-    public function index(): Response
+    public function afficherCategorie(): Response
     {
-        return $this->render('/frontEnd/categorie/afficher.html.twig', [
-            'controller_name' => 'CategorieController',
+        return $this->render('/frontEnd/societe/offreDeTravail/categorie/afficher.html.twig', [
         ]);
     }
 }

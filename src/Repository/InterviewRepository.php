@@ -47,4 +47,30 @@ class InterviewRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findSinglePageResults($firstResult, $maxResults)
+    {
+        return $this->createQueryBuilder('i')
+            ->setFirstResult($firstResult)
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countItemNumber()
+    {
+        return $this->createQueryBuilder('i')
+            ->select('count(i.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findFirst()
+    {
+        return $this->createQueryBuilder('i')
+            ->setFirstResult(0)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult();
+    }
 }

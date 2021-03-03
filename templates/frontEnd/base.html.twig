@@ -64,9 +64,8 @@
                 </div>
                 <div class="float-right">
                     <ul class="topbar-list list-unstyled d-flex" style="margin: 11px 0;">
-                        <li class="list-inline-item"><a href="{{ asset('/frontEnd/javascript:void(0);') }}"><i
-                                        class="mdi mdi-account mr-2"></i>Benny
-                                Simpson</a></li>
+                        <li class="list-inline-item"><a href="{{ asset('utilisateur') }}"><i
+                                        class="mdi mdi-account mr-2"></i>Utilisateur</a></li>
                         <li class="list-inline-item">
                             <select id="select-lang" class="demo-default">
                                 <option value="">Language</option>
@@ -93,10 +92,7 @@
                     <img src="{{ asset('/frontEnd/images/logo-dark.png') }}" alt="" class="logo-dark" height="18"/>
                 </a>
             </div>
-            <div class="buy-button">
-                <a href="{{ asset('/frontEnd/post-a-job.html') }}" class="btn btn-primary"><i
-                            class="mdi mdi-cloud-upload"></i> Post a Job</a>
-            </div><!--end login button-->
+            <!--end login button-->
             <!-- End Logo container-->
             <div class="menu-extras">
                 <div class="menu-item">
@@ -113,9 +109,17 @@
             </div>
 
             <div id="navigation">
+                {% block links %}
                 <!-- Navigation Menu-->
                 <ul class="navigation-menu">
-                    <li><a href="{{ asset('utilisateur') }}">Utilisateur</a></li>
+                    <li class="has-submenu">
+                        <a href="{{ asset('utilisateur') }}">Utilisateurs</a><span
+                                class="menu-arrow"></span>
+                        <ul class="submenu">
+                            <li><a href="{{ asset('societe') }}">Societes</a></li>
+                            <li><a href="{{ asset('candidat') }}">Candidats</a></li>
+                        </ul>
+                    </li>
                     <li><a href="{{ asset('formation') }}">Formations</a></li>
                     <li><a href="{{ asset('mission') }}">Missions</a></li>
                     <li><a href="{{ asset('offreDeTravail') }}">Offres de travail</a></li>
@@ -135,9 +139,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="{{ asset('revue') }}">Revues</a></li>
+
+                    <li>
+                        <a href="{{ asset('/societe=0/offreDeTravail=0/revue/pageIndex=1') }}">Revues</a>
                     </li>
                 </ul><!--end navigation menu-->
+                {% endblock %}
             </div><!--end navigation-->
 
         </div><!--end container-->

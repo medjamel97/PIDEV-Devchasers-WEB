@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210301221314 extends AbstractMigration
+final class Version20210302230822 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,7 +20,7 @@ final class Version20210301221314 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE candidat (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(255) NOT NULL, mot_de_passe VARCHAR(255) NOT NULL, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL, date_naissance DATE NOT NULL, sexe VARCHAR(255) NOT NULL, tel VARCHAR(255) NOT NULL, id_photo VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE candidat (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL, date_naissance DATE NOT NULL, sexe VARCHAR(255) NOT NULL, tel VARCHAR(255) NOT NULL, id_photo VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE candidature_evenement (id INT AUTO_INCREMENT NOT NULL, evenement_id INT DEFAULT NULL, candidat_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_1CFE8C93FD02F13 (evenement_id), INDEX IDX_1CFE8C938D0EB82 (candidat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE candidature_formation (id INT AUTO_INCREMENT NOT NULL, candidat_id INT DEFAULT NULL, formation_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_5798C5328D0EB82 (candidat_id), INDEX IDX_5798C5325200282E (formation_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE candidature_mission (id INT AUTO_INCREMENT NOT NULL, questionnaire_id INT DEFAULT NULL, mission_id INT DEFAULT NULL, candidat_id INT DEFAULT NULL, nom_formation VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_7ADE8DEACE07E8FF (questionnaire_id), INDEX IDX_7ADE8DEABE6CAE90 (mission_id), INDEX IDX_7ADE8DEA8D0EB82 (candidat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -31,16 +31,16 @@ final class Version20210301221314 extends AbstractMigration
         $this->addSql('CREATE TABLE education (id INT AUTO_INCREMENT NOT NULL, candidat_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, niveau_education VARCHAR(255) NOT NULL, filiere VARCHAR(255) NOT NULL, etablissement VARCHAR(255) NOT NULL, ville VARCHAR(255) NOT NULL, duree VARCHAR(255) NOT NULL, INDEX IDX_DB0A5ED28D0EB82 (candidat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE evenement (id INT AUTO_INCREMENT NOT NULL, societe_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_B26681EFCF77503 (societe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE experience_de_travail (id INT AUTO_INCREMENT NOT NULL, candidat_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, titre_emploi VARCHAR(255) NOT NULL, nom_entreprise VARCHAR(255) NOT NULL, ville VARCHAR(255) NOT NULL, duree VARCHAR(255) NOT NULL, INDEX IDX_4330F3848D0EB82 (candidat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE formation (id INT AUTO_INCREMENT NOT NULL, societe_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_404021BFFCF77503 (societe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE interview (id INT AUTO_INCREMENT NOT NULL, candidature_offre_id INT DEFAULT NULL, objet VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_CF1D3C3423929EC4 (candidature_offre_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE formation (id INT AUTO_INCREMENT NOT NULL, societe_id INT DEFAULT NULL, nom VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_404021BFFCF77503 (societe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE interview (id INT AUTO_INCREMENT NOT NULL, candidature_offre_id INT DEFAULT NULL, objet VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, difficulte VARCHAR(255) NOT NULL, INDEX IDX_CF1D3C3423929EC4 (candidature_offre_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE mission (id INT AUTO_INCREMENT NOT NULL, societe_id INT DEFAULT NULL, date DATE NOT NULL, nbheure INT NOT NULL, prix_h DOUBLE PRECISION NOT NULL, INDEX IDX_9067F23CFCF77503 (societe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE offre_de_travail (id INT AUTO_INCREMENT NOT NULL, societe_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_81CF2B1DFCF77503 (societe_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE publication (id INT AUTO_INCREMENT NOT NULL, candidat_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_AF3C67798D0EB82 (candidat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE question (id INT AUTO_INCREMENT NOT NULL, questionnaire_id INT DEFAULT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_B6F7494ECE07E8FF (questionnaire_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE questionnaire (id INT AUTO_INCREMENT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE revue (id INT AUTO_INCREMENT NOT NULL, candidature_offre_id INT DEFAULT NULL, nb_etoiles INT NOT NULL, objet VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_76244F0523929EC4 (candidature_offre_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE societe (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(255) NOT NULL, mot_de_passe VARCHAR(255) NOT NULL, nom_societe VARCHAR(255) NOT NULL, date_creation_societe DATE NOT NULL, num_tel_societe INT NOT NULL, id_photo_societe VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE utilisateur (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(255) NOT NULL, mot_de_passe VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE societe (id INT AUTO_INCREMENT NOT NULL, nom_societe VARCHAR(255) NOT NULL, date_creation_societe DATE NOT NULL, num_tel_societe INT NOT NULL, id_photo_societe VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE utilisateur (id INT AUTO_INCREMENT NOT NULL, societe_id INT DEFAULT NULL, candidat_id INT DEFAULT NULL, email VARCHAR(255) NOT NULL, mot_de_passe VARCHAR(255) NOT NULL, type_utilisateur INT NOT NULL, UNIQUE INDEX UNIQ_1D1C63B3FCF77503 (societe_id), UNIQUE INDEX UNIQ_1D1C63B38D0EB82 (candidat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE candidature_evenement ADD CONSTRAINT FK_1CFE8C93FD02F13 FOREIGN KEY (evenement_id) REFERENCES evenement (id)');
         $this->addSql('ALTER TABLE candidature_evenement ADD CONSTRAINT FK_1CFE8C938D0EB82 FOREIGN KEY (candidat_id) REFERENCES candidat (id)');
         $this->addSql('ALTER TABLE candidature_formation ADD CONSTRAINT FK_5798C5328D0EB82 FOREIGN KEY (candidat_id) REFERENCES candidat (id)');
@@ -63,6 +63,8 @@ final class Version20210301221314 extends AbstractMigration
         $this->addSql('ALTER TABLE publication ADD CONSTRAINT FK_AF3C67798D0EB82 FOREIGN KEY (candidat_id) REFERENCES candidat (id)');
         $this->addSql('ALTER TABLE question ADD CONSTRAINT FK_B6F7494ECE07E8FF FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (id)');
         $this->addSql('ALTER TABLE revue ADD CONSTRAINT FK_76244F0523929EC4 FOREIGN KEY (candidature_offre_id) REFERENCES candidature_offre (id)');
+        $this->addSql('ALTER TABLE utilisateur ADD CONSTRAINT FK_1D1C63B3FCF77503 FOREIGN KEY (societe_id) REFERENCES societe (id)');
+        $this->addSql('ALTER TABLE utilisateur ADD CONSTRAINT FK_1D1C63B38D0EB82 FOREIGN KEY (candidat_id) REFERENCES candidat (id)');
     }
 
     public function down(Schema $schema) : void
@@ -76,6 +78,7 @@ final class Version20210301221314 extends AbstractMigration
         $this->addSql('ALTER TABLE education DROP FOREIGN KEY FK_DB0A5ED28D0EB82');
         $this->addSql('ALTER TABLE experience_de_travail DROP FOREIGN KEY FK_4330F3848D0EB82');
         $this->addSql('ALTER TABLE publication DROP FOREIGN KEY FK_AF3C67798D0EB82');
+        $this->addSql('ALTER TABLE utilisateur DROP FOREIGN KEY FK_1D1C63B38D0EB82');
         $this->addSql('ALTER TABLE interview DROP FOREIGN KEY FK_CF1D3C3423929EC4');
         $this->addSql('ALTER TABLE revue DROP FOREIGN KEY FK_76244F0523929EC4');
         $this->addSql('ALTER TABLE candidature_evenement DROP FOREIGN KEY FK_1CFE8C93FD02F13');
@@ -90,6 +93,7 @@ final class Version20210301221314 extends AbstractMigration
         $this->addSql('ALTER TABLE formation DROP FOREIGN KEY FK_404021BFFCF77503');
         $this->addSql('ALTER TABLE mission DROP FOREIGN KEY FK_9067F23CFCF77503');
         $this->addSql('ALTER TABLE offre_de_travail DROP FOREIGN KEY FK_81CF2B1DFCF77503');
+        $this->addSql('ALTER TABLE utilisateur DROP FOREIGN KEY FK_1D1C63B3FCF77503');
         $this->addSql('DROP TABLE candidat');
         $this->addSql('DROP TABLE candidature_evenement');
         $this->addSql('DROP TABLE candidature_formation');
