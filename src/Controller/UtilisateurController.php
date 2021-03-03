@@ -53,7 +53,7 @@ class UtilisateurController extends AbstractController
             }
         }
 
-        return $this->render('frontend/utilisateurAjouter.html.twig', [
+        return $this->render('frontEnd/utilisateurAjouter.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -75,7 +75,7 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
-        return $this->render('frontend/utilisateurModifier.html.twig', [
+        return $this->render('frontEnd/utilisateurModifier.html.twig', [
             'form' => $form->createView(),
         ]);
     }

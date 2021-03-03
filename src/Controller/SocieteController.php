@@ -18,7 +18,7 @@ class SocieteController extends AbstractController
      */
     public function afficherSociete()
     {
-        return $this->render('frontend/societe/afficher.html.twig', [
+        return $this->render('frontEnd/societe/afficher.html.twig', [
             'societes' => $this->getDoctrine()->getRepository(Societe::class)->findAll(),
         ]);
     }
@@ -55,7 +55,7 @@ class SocieteController extends AbstractController
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
-        return $this->render('frontend/societe/ajouter.html.twig', [
+        return $this->render('frontEnd/societe/ajouter.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -77,7 +77,7 @@ class SocieteController extends AbstractController
             return $this->redirectToRoute('afficherSociete');
         }
 
-        return $this->render('/frontend/societe/modifier.html.twig', [
+        return $this->render('/frontEnd/societe/modifier.html.twig', [
             'form' => $form->createView(),
         ]);
     }

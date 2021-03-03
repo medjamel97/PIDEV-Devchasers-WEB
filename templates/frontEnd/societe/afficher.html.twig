@@ -9,7 +9,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="title-heading text-center text-white">
-                                <h1 class="heading font-weight-bold mb-4">Candidats</h1>
+                                <h1 class="heading font-weight-bold mb-4">Societes</h1>
                             </div>
                         </div>
                     </div>
@@ -20,23 +20,21 @@
     <div class="col-md-10 p-5">
         <table border="2" class="table">
             <tr>
-                {% set labels =["ID", "Nom de la candidat", "Date creation", "Numero de telephone", "idPhotoCandidat"] %}
+                {% set labels =["ID", "Nom de la societe", "Date creation", "Numero de telephone", "idPhotoSociete"] %}
                 {% for i in 0..labels|length-1 %}
                     <td><b>{{ labels[i] }}</b></td>
                 {% endfor %}
                 <td><b>Operations</b></td>
-                {% for candidat in candidats %}
+                {% for societe in societes %}
             <tr>
-                <td>{{ candidat.id }}</td>
-                <td>{{ candidat.nom }}</td>
-                <td>{{ candidat.prenom }}</td>
-                <td>{{ candidat.dateNaissance|date("d/m/Y") }}</td>
-                <td>{{ candidat.sexe }}</td>
-                <td>{{ candidat.tel }}</td>
-                <td>{{ candidat.idPhotoCandidat }}</td>
+                <td>{{ societe.id }}</td>
+                <td>{{ societe.nomSociete }}</td>
+                <td>{{ societe.dateCreationSociete|date("d/m/Y") }}</td>
+                <td>{{ societe.numTelSociete }}</td>
+                <td>{{ societe.idPhotoSociete }}</td>
                 <td>
-                    <a href="{{ asset('/candidat/modifier/id='~candidat.id) }}">Modifier</a>
-                    <a href="/candidat/supprimer/id={{ candidat.id }}">Supprimer</a>
+                    <a href="{{ asset('/societe/modifier/id='~societe.id) }}">Modifier</a>
+                    <a href="/societe/supprimer/id={{ societe.id }}">Supprimer</a>
                 </td>
             </tr>
             {% endfor %}
