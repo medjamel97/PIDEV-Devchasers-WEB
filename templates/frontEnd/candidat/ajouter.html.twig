@@ -10,8 +10,8 @@
                             <div class="title-heading text-center text-white align-content-center">
                                 {{ form_start(form) }}
                                 <h1 class="heading font-weight-bold mb-4"> Ajouter une societe </h1>
-                                {% set attributs=[form.nomSociete, form.dateCreationSociete, form.numTelSociete, form.idPhotoSociete] %}
-                                {% set labels =["Nom de la societe", "Date creation", "Numero de telephone", "idPhotoSociete"] %}
+                                {% set attributs=[form.nom, form.prenom, form.dateNaissance, form.sexe, form.tel, form.idPhoto] %}
+                                {% set labels =["Nom candidat", "Prenom candidat", "Date naissance", "Sexe", "Numero de telephone", "idPhotoCandidat"] %}
                                 {% for i in 0..attributs|length-1 %}
                                     {{ form_label(attributs[i], labels[i]) }}
                                     {{ form_widget(attributs[i]) }}

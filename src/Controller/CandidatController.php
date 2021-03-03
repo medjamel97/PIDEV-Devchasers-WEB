@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Candidat;
-use App\Entity\Societe;
 use App\Entity\Utilisateur;
 use App\Form\CandidatType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +19,7 @@ class CandidatController extends AbstractController
     public function afficherCandidat()
     {
         return $this->render('frontEnd/candidat/afficher.html.twig', [
-            'candidats' => $this->getDoctrine()->getRepository(Societe::class)->findAll(),
+            'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
         ]);
     }
 

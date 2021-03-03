@@ -20,7 +20,7 @@
     <div class="col-md-10 p-5">
         <table border="2" class="table">
             <tr>
-                {% set labels =["ID", "Nom de la candidat", "Date creation", "Numero de telephone", "idPhotoCandidat"] %}
+                {% set labels =["ID", "Nom candidat", "Prenom candidat", "Date naissance", "Sexe", "Numero de telephone", "idPhotoCandidat"] %}
                 {% for i in 0..labels|length-1 %}
                     <td><b>{{ labels[i] }}</b></td>
                 {% endfor %}
@@ -33,7 +33,7 @@
                 <td>{{ candidat.dateNaissance|date("d/m/Y") }}</td>
                 <td>{{ candidat.sexe }}</td>
                 <td>{{ candidat.tel }}</td>
-                <td>{{ candidat.idPhotoCandidat }}</td>
+                <td>{{ candidat.idPhoto }}</td>
                 <td>
                     <a href="{{ asset('/candidat/modifier/id='~candidat.id) }}">Modifier</a>
                     <a href="/candidat/supprimer/id={{ candidat.id }}">Supprimer</a>

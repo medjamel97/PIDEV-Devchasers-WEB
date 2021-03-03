@@ -46,7 +46,7 @@ class UtilisateurController extends AbstractController
             }elseif($utilisateur->getTypeUtilisateur() == 1){
                 return $this->redirectToRoute("ajouterCandidat", [
                     'email'  => $utilisateur->getEmail(),
-                    'motDePasse'  => $utilisateur->getPassword(),
+                    'motDePasse'  => $utilisateur->getMotDePasse(),
                 ]);
             }else{
                 $this->redirectToRoute("acceuil");
