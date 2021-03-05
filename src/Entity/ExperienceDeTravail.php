@@ -35,7 +35,7 @@ class ExperienceDeTravail
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Ville;
+    private $ville;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -90,12 +90,12 @@ class ExperienceDeTravail
 
     public function getVille(): ?string
     {
-        return $this->Ville;
+        return $this->ville;
     }
 
-    public function setVille(string $Ville): self
+    public function setVille(string $ville): self
     {
-        $this->Ville = $Ville;
+        $this->Ville = $ville;
 
         return $this;
     }

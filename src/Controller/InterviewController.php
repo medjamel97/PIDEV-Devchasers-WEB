@@ -10,5 +10,4 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class InterviewController extends AbstractController
 {
-
 }

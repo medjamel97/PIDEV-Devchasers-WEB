@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\CandidatureOffre;
 use App\Entity\Interview;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +16,10 @@ class InterviewType extends AbstractType
         $builder
             ->add('objet')
             ->add('description')
-            ->add('candidatureOffre')
+            ->add('candidatureOffre', EntityType::class, [
+                'class' => CandidatureOffre::class,
+                'choice_label' => 'id',
+                'multiple' => false]);
         ;
     }
 

@@ -18,7 +18,7 @@ class CandidatController extends AbstractController
      */
     public function afficherCandidat()
     {
-        return $this->render('frontEnd/candidat/afficher.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/afficherCandidat.html.twig', [
             'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
         ]);
     }
@@ -55,8 +55,9 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
-        return $this->render('frontEnd/candidat/ajouter.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/manipulerCandidat.html.twig', [
             'form' => $form->createView(),
+            'manipulation' => "Ajouter",
         ]);
     }
 

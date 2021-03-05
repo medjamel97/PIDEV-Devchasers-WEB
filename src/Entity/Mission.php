@@ -44,6 +44,16 @@ class Mission
      */
     private $societe;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $mission_name;
+
+    /**
+     * @ORM\Column(type="string", length=10383, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->candidatureMission = new ArrayCollection();
@@ -128,6 +138,30 @@ class Mission
     public function setSociete(?Societe $societe): self
     {
         $this->societe = $societe;
+
+        return $this;
+    }
+
+    public function getMissionName(): ?string
+    {
+        return $this->mission_name;
+    }
+
+    public function setMissionName(string $mission_name): self
+    {
+        $this->mission_name = $mission_name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

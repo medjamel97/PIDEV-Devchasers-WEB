@@ -51,7 +51,7 @@ class RevueController extends AbstractController
             $nbPages++;
         }
 
-        return $this->render('/frontEnd/societe/offreDeTravail/revue/afficher.html.twig', [
+        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/revue/afficherCompetence.html.twig', [
             'Debug' => $debug,
             'Revue' => $revues,
             'CandidatureOffre' => $candidatureOffres,
@@ -103,7 +103,7 @@ class RevueController extends AbstractController
             return $this->redirectToRoute('afficherRevue', ['societe' => 0,'offreDeTravail' => 0,'pageIndex' => $pageIndex]);
         }
 
-        return $this->render('/frontEnd/societe/offreDeTravail/revue/ajouter.html.twig', [
+        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/revue/manipulerCompetence.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -125,7 +125,7 @@ class RevueController extends AbstractController
             return $this->redirectToRoute('afficherRevue', ['societe' => 0,'offreDeTravail' => 0,'pageIndex' => $pageIndex]);
         }
 
-        return $this->render('/frontEnd/societe/offreDeTravail/revue/modifier.html.twig', [
+        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/revue/manipulerQuestionnaire.html.twig', [
             'form' => $form->createView(),
         ]);
     }

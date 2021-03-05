@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Candidat;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +17,7 @@ class UtilisateurController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('/frontEnd/utilisateurAfficher.html.twig', [
+        return $this->render('/frontEnd/utilisateur/afficherUtilisateur.html.twig', [
             'utilisateurs' => $this->getDoctrine()->getRepository(Utilisateur ::class)->findAll(),
         ]);
     }
@@ -53,7 +52,7 @@ class UtilisateurController extends AbstractController
             }
         }
 
-        return $this->render('frontEnd/utilisateurAjouter.html.twig', [
+        return $this->render('frontEnd/utilisateur/manipulerUtilisateur.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -75,7 +74,7 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
-        return $this->render('frontEnd/utilisateurModifier.html.twig', [
+        return $this->render('frontEnd/utilisateur/modifierUtilisateur.html.twig', [
             'form' => $form->createView(),
         ]);
     }
