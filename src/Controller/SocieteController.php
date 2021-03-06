@@ -57,6 +57,7 @@ class SocieteController extends AbstractController
 
         return $this->render('frontEnd/utilisateur/societe/manipulerSociete.html.twig', [
             'form' => $form->createView(),
+            'manipulation' => "Ajouter"
         ]);
     }
 
@@ -79,6 +80,7 @@ class SocieteController extends AbstractController
 
         return $this->render('/frontEnd/utilisateur/societe/manipulerQuestionnaire.html.twig', [
             'form' => $form->createView(),
+            'manipulation' => "Modifier"
         ]);
     }
 }

@@ -1,0 +1,37 @@
+{% extends '/frontEnd/base.html.twig' %}
+{% block topImage %}
+    <section class="bg-home"
+             style="background: url('https://via.placeholder.com/2000X1333//88929f/5a6270C/O https://placeholder.com/') center center;">
+        <div class="bg-overlay"></div>
+        <div class="home-center">
+            <div class="home-desc-center">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="title-heading text-center text-white">
+                                <h1 class="heading font-weight-bold mb-4">{{ manipulation }} revue sur l'offre de
+                                    travail</h1>
+                                {{ form_start(form) }}
+
+                                <!--<input id="revue_nbEtoiles_0" name="revue[nbEtoiles]" required="required" value="1"
+                                       type="radio"> -->
+
+                                {{ form_label(form.objet, "Objet : ") }}
+                                {{ form_widget(form.objet) }}
+                                {{ form_errors(form.objet) }}<br>
+
+                                {{ form_label(form.description, "Description : ") }}
+                                {{ form_widget(form.description) }}
+                                {{ form_errors(form.description) }}<br>
+
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block content %}
+{% endblock %}

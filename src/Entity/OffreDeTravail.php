@@ -32,7 +32,7 @@ class OffreDeTravail
     /**
      * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail")
      */
-    private $candidatureOffres;
+    private $candidatureOffre;
 
     /**
      * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="offreDeTravail")
@@ -41,7 +41,7 @@ class OffreDeTravail
 
     public function __construct()
     {
-        $this->candidatureOffres = new ArrayCollection();
+        $this->candidatureOffre = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,15 +86,15 @@ class OffreDeTravail
     /**
      * @return Collection|CandidatureOffre[]
      */
-    public function getCandidatureOffres(): Collection
+    public function getCandidatureOffre(): Collection
     {
-        return $this->candidatureOffres;
+        return $this->candidatureOffre;
     }
 
     public function addCandidatureOffre(CandidatureOffre $candidatureOffre): self
     {
-        if (!$this->candidatureOffres->contains($candidatureOffre)) {
-            $this->candidatureOffres[] = $candidatureOffre;
+        if (!$this->candidatureOffre->contains($candidatureOffre)) {
+            $this->candidatureOffre[] = $candidatureOffre;
             $candidatureOffre->setOffreDeTravail($this);
         }
 
@@ -103,7 +103,7 @@ class OffreDeTravail
 
     public function removeCandidatureOffre(CandidatureOffre $candidatureOffre): self
     {
-        if ($this->candidatureOffres->removeElement($candidatureOffre)) {
+        if ($this->candidatureOffre->removeElement($candidatureOffre)) {
             // set the owning side to null (unless already changed)
             if ($candidatureOffre->getOffreDeTravail() === $this) {
                 $candidatureOffre->setOffreDeTravail(null);

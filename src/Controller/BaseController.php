@@ -13,7 +13,7 @@ class BaseController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('/frontEnd/acceuil.html.twig', [
+        return $this->render('/frontEnd/accueil.html.twig', [
             'controller_name' => 'BaseController',
         ]);
     }
@@ -23,7 +23,7 @@ class BaseController extends AbstractController
      */
     public function indexBackEnd(): Response
     {
-        return $this->render('/backEnd/acceuil.html.twig', [
+        return $this->render('/backEnd/accueil.html.twig', [
             'controller_name' => 'BaseController',
         ]);
     }

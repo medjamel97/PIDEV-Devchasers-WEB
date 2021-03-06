@@ -30,7 +30,7 @@ class CandidatureOffre
     private $revue;
 
     /**
-     * @ORM\ManyToOne(targetEntity=OffreDeTravail::class, inversedBy="candidatureOffres")
+     * @ORM\ManyToOne(targetEntity=OffreDeTravail::class, inversedBy="candidatureOffre")
      */
     private $offreDeTravail;
 

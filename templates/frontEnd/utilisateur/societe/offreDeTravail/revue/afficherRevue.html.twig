@@ -89,7 +89,7 @@
                     <div class="col-md-10">
                         <div class="candidates-listing-item">
                             <!-- Single review Start-->
-                            {% for revue in Revue %}
+                            {% for revue in revues %}
                                 <div class="border mt-3 rounded p-3">
                                     <div class="row">
                                         <div class="col-md-2">
@@ -97,11 +97,12 @@
                                                 <a href="#">
                                                     <div class="candidates-listing-btn overflow-hidden">
                                                         <div class="text-dark mb-2">
-                                                            {{ Debug }}
-                                                            {# if CandidatureOffre.id == 999999 #}
-                                                            {# endif #}
-                                                            <h6>nom{# candidat.nom #}</h6>
-                                                            <h6>prenom{# candidat.prenom #}</h6>
+                                                            {% if revue.candidatureOffre %}
+                                                                {% if revue.candidatureOffre.candidat %}
+                                                                    <h6>{{ revue.candidatureOffre.candidat.nom }}</h6>
+                                                                    <h6>{{ revue.candidatureOffre.candidat.prenom }}</h6>
+                                                                {% endif %}
+                                                            {% endif %}
                                                         </div>
                                                         <img src="https://via.placeholder.com/400X400//88929f/5a6270C/O https://placeholder.com/"
                                                              alt="" class="d-block rounded" height="90">

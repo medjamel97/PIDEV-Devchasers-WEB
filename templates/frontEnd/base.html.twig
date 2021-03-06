@@ -113,15 +113,9 @@
                 <!-- Navigation Menu-->
                 <ul class="navigation-menu">
                     <li class="has-submenu">
-                        <a href="{{ asset('utilisateur') }}">Utilisateurs</a><span
-                                class="menu-arrow"></span>
-                        <ul class="submenu">
-                            <li><a href="{{ asset('societe') }}">Societes</a></li>
-                            <li><a href="{{ asset('candidat') }}">Candidats</a></li>
-                        </ul>
+                        <a href="{{ asset('societe') }}">societes</a>
                     </li>
                     <li><a href="{{ asset('formation') }}">Formations</a></li>
-                    <li><a href="{{ asset('publication') }}">Publication</a></li>
                     <li><a href="{{ asset('mission') }}">Missions</a></li>
                     <li><a href="{{ asset('offreDeTravail') }}">Offres de travail</a></li>
                     <li class="has-submenu">
@@ -139,10 +133,6 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
-
-                    <li>
-                        <a href="{{ asset('/societe=0/offreDeTravail=0/revue/pageIndex=1') }}">Revues</a>
                     </li>
                 </ul><!--end navigation menu-->
                 {% endblock %}
