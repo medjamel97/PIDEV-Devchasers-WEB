@@ -20,19 +20,20 @@ class Revue
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="is required")
+     * @Assert\NotBlank(message="Veuillez choisir le nombre d'etoiles")
      */
     private $nbEtoiles;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="is required")
+     * @Assert\NotBlank(message="Veuillez saisir un objet")
      */
     private $objet;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="is required")
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\Length(min=10, max=200, minMessage="Taille minimale (10)", maxMessage="Taille maximale (100) depassé")
      */
     private $description;
 

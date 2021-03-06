@@ -59,37 +59,53 @@ class UtilisateurController extends AbstractController
     }
 
     /**
-     * @Route("/utilisateur/modifier/id={id}", name="modifierUtilisateur")
+     * @Route("/utilisateur={idUtilisateur}/modifier", name="modifierUtilisateur")
      */
-    public function modifierUtilisateur(Request $request,$id)
+    public function modifierUtilisateur(Request $request,$idUtilisateur)
     {
         $utilisateurRepository = $this->getDoctrine()->getManager();
-        $utilisateur = $utilisateurRepository->getRepository(Utilisateur::class)->find($id);
+        $utilisateur = $utilisateurRepository->getRepository(Utilisateur::class)->find($idUtilisateur);
 
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateurRepository->flush();
-            return $this->redirectToRoute('afficherUtilisateur');
+
+            $utilisateur = $form->getData();
+
+            if ($utilisateur->getTypeUtilisateur() == 0){
+                return $this->redirectToRoute("ajouterSociete", [
+                    'id' => $utilisateur->getId(),
+                    'email'  => $utilisateur->getEmail(),
+                    'motDePasse'  => $utilisateur->getMotDePasse(),
+                ]);
+            }elseif($utilisateur->getTypeUtilisateur() == 1){
+                return $this->redirectToRoute("ajouterCandidat", [
+                    'id' => $utilisateur->getId(),
+                    'email'  => $utilisateur->getEmail(),
+                    'motDePasse'  => $utilisateur->getMotDePasse(),
+                ]);
+            }else{
+                $this->redirectToRoute("acceuil");
+            }
         }
 
-        return $this->render('frontEnd/utilisateur/modifierUtilisateur.html.twig', [
+        return $this->render('frontEnd/utilisateur/manipulerUtilisateur.html.twig', [
             'form' => $form->createView(),
             'manipulation' => "Modifier"
         ]);
     }
 
     /**
-     * @Route("/utilisateur/supprimer/id={id}", name="supprimerUtilisateur")
+     * @Route("/utilisateur={idUtilisateur}/supprimer", name="supprimerUtilisateur")
      */
-    public function supprimerUtilisateur($id): Response
+    public function supprimerUtilisateur($idUtilisateur): Response
     {
-        $utilisateurManager = $this->getDoctrine()->getManager();
-        $utilisateur = $utilisateurManager->getRepository(Utilisateur::class)->find($id);
-        $utilisateurManager->remove($utilisateur);
-        $utilisateurManager->flush();
+        $manager = $this->getDoctrine()->getManager();
+        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
+        $manager->remove($utilisateur);
+        $manager->flush();
         return $this->redirectToRoute('afficherUtilisateur');
     }
 }

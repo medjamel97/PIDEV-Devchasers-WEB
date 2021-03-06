@@ -23,7 +23,7 @@
     <div class="col-md-10 p-5">
         <table border="2" class="table">
             <tr>
-                {% set labels =["ID","Email", "Mot De Passe"] %}
+                {% set labels =["ID","Email", "Mot De Passe", "User type"] %}
                 {% for i in 0..labels|length-1 %}
                     <td><b>{{ labels[i] }}</b></td>
                 {% endfor %}
@@ -33,6 +33,7 @@
                 <td>{{ utilisateur.id }}</td>
                 <td>{{ utilisateur.email }}</td>
                 <td>{{ utilisateur.motDePasse }}</td>
+                <td>{{ utilisateur.typeUtilisateur }}</td>
                 <td>
                     <a href="{{ asset('utilisateur='~utilisateur.id~'/modifier/') }}">Modifier</a>
                     <a href="{{ asset('utilisateur='~utilisateur.id~'/supprimer/') }}">Supprimer</a>

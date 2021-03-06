@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\CandidatureOffre;
 use App\Entity\OffreDeTravail;
 use App\Entity\Revue;
+use App\Entity\Societe;
 use App\Form\RevueType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -15,9 +16,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class RevueController extends AbstractController
 {
     /**
-     * @Route("/societe={societeID}/revue/activePage={activePage}", name="afficherToutRevue")
+     * @Route("/societe={idSociete}/revue/activePage={activePage}", name="afficherToutRevue")
      */
-    public function afficherToutRevue($societeID, $activePage): Response
+    public function afficherToutRevue($idSociete, $activePage): Response
     {
         $revueRepository = $this->getDoctrine()->getRepository(Revue::class);
         $countItems = $revueRepository->countItemNumber();
@@ -27,9 +28,9 @@ class RevueController extends AbstractController
             $nbPages = intdiv($countItems, $itemPerPage);
             if (($countItems % 6) != 0) $nbPages++;
             $firstItem = ($activePage - 1) * ($itemPerPage);
-            if ($activePage > $nbPages || $activePage < 1 ) return $this->redirect('/societe='.$societeID.'/revue/activePage=1');
+            if ($activePage > $nbPages || $activePage < 1 ) return $this->redirect('/societe='.$idSociete.'/revue/activePage=1');
         } else {
-            if ($activePage != 0) return $this->redirect('/societe='.$societeID.'/revue/activePage=0');
+            if ($activePage != 0) return $this->redirect('/societe='.$idSociete.'/revue/activePage=0');
             $firstItem = 0;
             $itemPerPage = 0;
             $nbPages = 0;
@@ -42,90 +43,92 @@ class RevueController extends AbstractController
             'itemPerPage' => $itemPerPage,
             'activePage' => $activePage,
             'firstItem' => $firstItem,
-            'societe' => $societeID,
+            'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
         ]);
     }
 
     /**
-     * @Route("/societe={societeID}/offreDeTravail={offreDeTravailID}/revue/activePage={activePage}", name="afficherRevue")
+     * @Route("/offreDeTravail={idOffreDeTravail}/revue/activePage={activePage}", name="afficherRevue")
      */
-    public function afficherRevue($societeID, $offreDeTravailID, $activePage): Response
+    public function afficherRevue($idSociete, $idOffreDeTravail, $activePage): Response
     {
         return null;
     }
 
     /**
-     * @Route("/societe={societeID}/offreDeTravail={offreDeTravailID}/candidatureOffre={candidatureOffreID}/revue/ajouter", name="ajouterRevue")
+     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/candidatureOffre={idCandidatureOffre}/revue/ajouter", name="ajouterRevue")
      */
-    public function ajouterRevue(Request $request, $societeID, $offreDeTravailID, $candidatureOffreID)
+    public function ajouterRevue(Request $request, $idSociete, $idOffreDeTravail, $idCandidatureOffre)
     {
         $revue = new Revue();
 
         $form = $this->createForm(RevueType::class, $revue)
-            ->add('Ajouter', SubmitType::class)
+            ->add('submit', SubmitType::class)
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $manager = $this->getDoctrine()->getManager();
             $revue = $form->getData();
-            $candidatureOffre = $manager->getRepository(CandidatureOffre::class)->find($candidatureOffreID);
+            $candidatureOffre = $manager->getRepository(CandidatureOffre::class)->find($idCandidatureOffre);
             $revue->setCandidatureOffre($candidatureOffre);
             $manager->persist($revue);
             $manager->flush();
 
             return $this->redirectToRoute('afficherToutRevue', [
-                'societeID' => $societeID,
-                'offreDeTravailID' => $offreDeTravailID,
+                'idSociete' => $idSociete,
+                'idOffreDeTravail' => $idOffreDeTravail,
                 'activePage' => 1,
             ]);
         }
 
         return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/revue/manipulerRevue.html.twig', [
-            'manipulation' => "ajouter",
+            'manipulation' => "Ajouter",
             'form' => $form->createView(),
+            'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
         ]);
     }
 
     /**
-     * @Route("/societe={societeID}/offreDeTravail={offreDeTravailID}/revue{revueID}/modifier", name="modifierRevue")
+     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/revue{idRevue}/modifier", name="modifierRevue")
      */
-    public function modifierRevue(Request $request, $societeID, $offreDeTravailID, $revueID)
+    public function modifierRevue(Request $request, $idSociete, $idOffreDeTravail, $idRevue)
     {
         $revueRepository = $this->getDoctrine()->getManager();
-        $revue = $revueRepository->getRepository(Revue::class)->find($revueID);
+        $revue = $revueRepository->getRepository(Revue::class)->find($idRevue);
 
         $form = $this->createForm(RevueType::class, $revue);
-        $form->add('Modifier', SubmitType::class);
+        $form->add('submit', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $revueRepository->flush();
             return $this->redirectToRoute('afficherToutRevue', [
-                'societeID' => $societeID,
-                'offreDeTravailID' => $offreDeTravailID,
+                'idSociete' => $idSociete,
+                'idOffreDeTravail' => $idOffreDeTravail,
                 'activePage' => 1,
             ]);
         }
 
         return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/revue/manipulerRevue.html.twig', [
-            'manipulation' => "modifier",
+            'manipulation' => "Modifier",
             'form' => $form->createView(),
+            'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
         ]);
     }
 
     /**
-     * @Route("/societe={societeID}/offreDeTravail={offreDeTravailID}/revue={revueID}/supprimer", name="supprimerRevue")
+     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/revue={idRevue}/supprimer", name="supprimerRevue")
      */
-    public function supprimerRevue($societeID, $offreDeTravailID, $revueID)
+    public function supprimerRevue($idSociete, $idOffreDeTravail, $idRevue)
     {
         $revueManager = $this->getDoctrine()->getManager();
-        $revue = $revueManager->getRepository(Revue::class)->find($revueID);
+        $revue = $revueManager->getRepository(Revue::class)->find($idRevue);
         $revueManager->remove($revue);
         $revueManager->flush();
         return $this->redirectToRoute('afficherToutRevue', [
-            'societeID' => $societeID,
-            'offreDeTravailID' => $offreDeTravailID,
+            'idSociete' => $idSociete,
+            'idOffreDeTravail' => $idOffreDeTravail,
             'activePage' => 1,
         ]);
     }

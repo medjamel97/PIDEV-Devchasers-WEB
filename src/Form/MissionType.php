@@ -17,6 +17,8 @@ class MissionType extends AbstractType
             ->add('date')
             ->add('nbheure')
             ->add('prixH')
+            ->add('mission_name')
+            ->add('description')
             ->add('societe', EntityType::class, [
                 'class' => Societe::class,
                 'choice_label' => 'id',

@@ -1,71 +1,25 @@
 {% extends '/frontEnd/base.html.twig' %}
 {% block content %}
-    <section class="bg-home"
-             style="background: url('https://via.placeholder.com/2000X1333//88929f/5a6270C/O https://placeholder.com/') center center;">
+    <section class="bg-half page-next-level">
         <div class="bg-overlay"></div>
-        <div class="home-center">
-            <div class="home-desc-center">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div class="title-heading text-center text-white">
-                                <h1 class="heading font-weight-bold mb-4">Candidats</h1>
-                            </div>
-                        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <h1>{{ candidat.nomSociete }}</h1>
+                        ID : {{ candidat.id }} ||
+                        Nom : {{ candidat.nom }} ||
+                        Prenom : {{ candidat.prenom }} ||
+                        Date naissance : {{ candidat.dateNaissance|date("d/m/Y") }} ||
+                        Sexe : {{ candidat.sexe }} ||
+                        Tel : {{ candidat.tel }} ||
+                        ID photo : {{ candidat.idPhotoCandidat }}
+                        <br>----------------<br>
+                        <a href="{{ asset('candidat/modifier/id='~candidat.utilisateur.id~'/email='~candidat.utilisateur.email~'/password='~candidat.utilisateur.motDePasse) }}">Modifier</a> |
+                        <a href="{{ asset('utilisateur='~candidat.utilisateur.id~'/supprimer/') }}">Supprimer utilisateur</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div class="col-md-10 p-5">
-        <table border="2" class="table">
-            <tr>
-                {% set labels =["ID", "Nom", "Prenom", "Date naissance", "Sexe", "Numero de telephone", "idPhoto"] %}
-                {% for i in 0..labels|length-1 %}
-                    <td><b>{{ labels[i] }}</b></td>
-                {% endfor %}
-                <td>
-                    <b>Competences</b>
-                </td>
-                <td>
-                    <b>Education</b>
-                </td>
-                <td>
-                    <b>Experience de travail</b>
-                </td>
-                <td>
-                    <b>Operations</b>
-                </td>
-                {% for candidat in candidats %}
-            <tr>
-                <td>{{ candidat.id }}</td>
-                <td>{{ candidat.nom }}</td>
-                <td>{{ candidat.prenom }}</td>
-                <td>{{ candidat.dateNaissance|date("d/m/Y") }}</td>
-                <td>{{ candidat.sexe }}</td>
-                <td>{{ candidat.tel }}</td>
-                <td>{{ candidat.idPhoto }}</td>
-                <td>
-                    <a href="{{ asset('candidat/competence/afficher') }}">Afficher</a><br>
-                    <a href="{{ asset('candidat/competence/ajouter') }}">Ajouter</a><br>
-                </td>
-                <td>
-                    <a href="{{ asset('candidat/education/afficher') }}">Afficher</a><br>
-                    <a href="{{ asset('candidat/education/ajouter') }}">Ajouter</a><br>
-                </td>
-                <td>
-                    <a href="{{ asset('candidat/experienceDeTravail/afficher') }}">Afficher</a><br>
-                    <a href="{{ asset('candidat/experienceDeTravail/ajouter') }}">Ajouter</a><br>
-                </td>
-                <td>
-                    <a href="{{ asset('candidat/publication/afficher') }}">Afficher</a><br>
-                    <a href="{{ asset('candidat/publication/ajouter') }}">Ajouter</a><br>
-                </td>
-                <td>
-
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
 {% endblock %}

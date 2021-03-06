@@ -13,17 +13,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class FormationController extends AbstractController
 {
     /**
-     * @Route("/societe/formation", name="afficherFormation")
+     * @Route("/societe={idSociete}/formation={idFormation}", name="afficherFormation")
      */
-    public function afficherFormation(): Response
+    public function afficherFormation($idSociete, $idFormation): Response
     {
-        return $this->render('/frontEnd/utilisateur/societe/formation/afficherFormation.html.twig', [
-            'formations' => $this->getDoctrine()->getManager()->getRepository(Formation::class)->findAll(),
-        ]);
+        return null;
     }
 
     /**
-     * @Route("/societe={}/formation={}", name="afficherToutFormation")
+     * @Route("/formation", name="afficherToutFormation")
      */
     public function afficherToutFormation(): Response
     {
@@ -33,9 +31,9 @@ class FormationController extends AbstractController
     }
 
     /**
-     * @Route("/societe/formation/ajouter", name="ajouterFormation")
+     * @Route("/societe={idSociete}/formation/ajouter", name="ajouterFormation")
      */
-    public function ajouterFormation(Request $request)
+    public function ajouterFormation(Request $request, $idSociete)
     {
         $formation = new Formation();
 
@@ -51,7 +49,7 @@ class FormationController extends AbstractController
             $formationRepository->persist($formation);
             $formationRepository->flush();
 
-            return $this->redirectToRoute('afficherFormation');
+            return $this->redirectToRoute('afficherToutFormation');
         }
 
         return $this->render('/frontEnd/utilisateur/societe/formation/manipulerFormation.html.twig', [
@@ -74,7 +72,7 @@ class FormationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $formationRepository->flush();
-            return $this->redirectToRoute('afficherFormation');
+            return $this->redirectToRoute('afficherToutFormation');
         }
 
         return $this->render('/frontEnd/utilisateur/societe/formation/manipulerFormation.html.twig', [
@@ -92,6 +90,6 @@ class FormationController extends AbstractController
         $formation = $formationManager->getRepository(Formation::class)->find($idFormation);
         $formationManager->remove($formation);
         $formationManager->flush();
-        return $this->redirectToRoute('afficherFormation');
+        return $this->redirectToRoute('afficherToutFormation');
     }
 }

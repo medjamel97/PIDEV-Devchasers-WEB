@@ -14,11 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class CandidatController extends AbstractController
 {
     /**
-     * @Route("/candidat", name="afficherCandidat")
+     * @Route("/candidat={idCandidat}", name="afficherCandidat")
      */
-    public function afficherCandidat()
+    public function afficherCandidat($idCandidat)
     {
-        return $this->render('frontEnd/utilisateur/candidat/afficherCandidat.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/afficherToutCandidat.html.twig', [
+            'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
+        ]);
+    }
+
+    /**
+     * @Route("/candidat", name="afficherToutCandidat")
+     */
+    public function afficherToutCandidat()
+    {
+        return $this->render('frontEnd/utilisateur/candidat/afficherToutCandidat.html.twig', [
             'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
         ]);
     }
@@ -26,7 +36,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("/candidat/ajouter/email={email}/password={motDePasse}", name="ajouterCandidat")
      */
-    public function ajouterCandidat(Request $request,$email,$motDePasse)
+    public function ajouterCandidat(Request $request, $email, $motDePasse)
     {
         $utilisateur = new Utilisateur();
         $candidat = new Candidat();
@@ -61,4 +71,38 @@ class CandidatController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/candidat/modifier/id={id}/email={email}/password={motDePasse}", name="modifierCandidat")
+     */
+    public function modifierCandidat(Request $request, $id, $email, $motDePasse)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $utilisateur = $manager->getRepository(Utilisateur::class)->find($id);
+        $candidat = $manager->getRepository(Candidat::class)->find($utilisateur->getCandidat()->getID());
+
+        $form = $this->createForm(CandidatType::class, $candidat);
+        $form->add('Modifier', SubmitType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $utilisateur->setEmail($email)
+                ->setMotDePasse($motDePasse)
+                ->setTypeUtilisateur(0);
+
+            $candidat = $form->getData()
+                ->setUtilisateur($utilisateur);
+
+            $manager->persist($utilisateur);
+            $manager->persist($candidat);
+            $manager->flush();
+
+            return $this->redirectToRoute('afficherToutCandidat');
+        }
+
+        return $this->render('frontEnd/utilisateur/candidat/manipulerCandidat.html.twig', [
+            'form' => $form->createView(),
+            'manipulation' => "Modifier",
+        ]);
+    }
 }

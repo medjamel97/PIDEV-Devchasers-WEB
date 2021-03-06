@@ -10,6 +10,7 @@
                         <div class="col-lg-12">
                             <div class="title-heading text-center text-white">
                                 <h1 class="heading font-weight-bold mb-4">Formations</h1>
+                                <a href="{{ asset('/societe='~0~'/formation/ajouter') }}">Ajouter formation</a>
                             </div>
                         </div>
                     </div>
@@ -30,7 +31,11 @@
                 <td>{{ formation.id }}</td>
                 <td>{{ formation.nom }}</td>
                 <td>{{ formation.description }}</td>
-                <td>{{ formation.societe }}</td>
+                <td>
+                    {% if formation.societe %}
+                        {{ formation.societe.nomSociete }}
+                    {% endif %}
+                </td>
                 <td>
                     <a href="{{ asset('societe/formation='~formation.id~'/modifier/') }}">Modifier</a>
                     <a href="{{ asset('societe/formation='~formation.id~'/supprimer/') }}">Supprimer</a>

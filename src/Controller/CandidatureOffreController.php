@@ -20,38 +20,38 @@ class CandidatureOffreController extends AbstractController
     }
 
     /**
-     * @Route("/societe={societeID}/offreDeTravail={offreID}/candidatureOffre/ajouter", name="ajouterCandidatureOffre")
+     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/candidatureOffre/ajouter", name="ajouterCandidatureOffre")
      */
-    public function ajouterCandidatureOffre($societeID,$offreID)
+    public function ajouterCandidatureOffre($idSociete,$idOffreDeTravail)
     {
         $manager = $this->getDoctrine()->getManager();
 
         $candidatureOffre = new CandidatureOffre();
         $candidat = $manager->getRepository(Candidat::class)->find(1);
-        $offreDeTravail = $manager ->getRepository(OffreDeTravail::class)->find($offreID);
+        $offreDeTravail = $manager ->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
         $candidatureOffre->setCandidat($candidat)->setOffreDeTravail($offreDeTravail);
 
         $manager->persist($candidatureOffre);
         $manager->flush();
 
         return $this->redirectToRoute("afficherToutOffreDeTravail",[
-            'societeID' => $societeID,
-            'categorieID' => 0,
+            'idSociete' => $idSociete,
+            'idCategorie' => 0,
         ]);
     }
 
     /**
-     * @Route("/societe={societeID}/offreDeTravail={offreID}/candidatureOffre={candidatureOffreID}/supprimer", name="supprimerCandidatureOffre")
+     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/candidatureOffre={idCandidatureOffre}/supprimer", name="supprimerCandidatureOffre")
      */
-    public function supprimerCandidatureOffre($societeID,$candidatureOffreID)
+    public function supprimerCandidatureOffre($idSociete,$idCandidatureOffre)
     {
         $candidatureOffreManager = $this->getDoctrine()->getManager();
-        $candidatureOffre = $candidatureOffreManager->getRepository(CandidatureOffre::class)->find($candidatureOffreID);
+        $candidatureOffre = $candidatureOffreManager->getRepository(CandidatureOffre::class)->find($idCandidatureOffre);
         $candidatureOffreManager->remove($candidatureOffre);
         $candidatureOffreManager->flush();
         return $this->redirectToRoute("afficherToutOffreDeTravail",[
-            'societeID' => $societeID,
-            'categorieID' => 0,
+            'idSociete' => $idSociete,
+            'idCategorie' => 0,
         ]);
     }
 }
