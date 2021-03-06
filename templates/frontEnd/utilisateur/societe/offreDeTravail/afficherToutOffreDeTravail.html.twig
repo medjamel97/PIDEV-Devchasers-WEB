@@ -42,7 +42,7 @@
                     <br>------------<br>
                     {% if offreDeTravail.candidatureOffre %}
                         {% for candidature in offreDeTravail.candidatureOffre %}
-                            {% if candidature.candidat.id == 1 %}
+                            {% if candidature.candidat.id == 3  %}
                                 Vous avez candidaté pour cette offre |
                                 <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~candidature.id~'/supprimer') }}">Supprimer
                                     candidature</a>

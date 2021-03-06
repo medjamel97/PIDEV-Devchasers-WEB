@@ -27,7 +27,7 @@ class CandidatureOffreController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
 
         $candidatureOffre = new CandidatureOffre();
-        $candidat = $manager->getRepository(Candidat::class)->find(1);
+        $candidat = $manager->getRepository(Candidat::class)->find(3);
         $offreDeTravail = $manager ->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
         $candidatureOffre->setCandidat($candidat)->setOffreDeTravail($offreDeTravail);
 

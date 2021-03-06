@@ -86,10 +86,10 @@ class CategorieController extends AbstractController
      */
     public function supprimerCategorie($idCategorie)
     {
-        $categorieManager = $this->getDoctrine()->getManager();
-        $categorie = $categorieManager->getRepository(Categorie::class)->find($idCategorie);
-        $categorieManager->remove($categorie);
-        $categorieManager->flush();
+        $manager = $this->getDoctrine()->getManager();
+        $categorie = $manager->getRepository(Categorie::class)->find($idCategorie);
+        $manager->remove($categorie);
+        $manager->flush();
         return $this->redirectToRoute('afficherCategorie');
     }
 }
