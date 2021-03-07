@@ -30,7 +30,7 @@ class Evenement
     private $societe;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureEvenement::class, mappedBy="evenement")
+     * @ORM\OneToMany(targetEntity=CandidatureEvenement::class, mappedBy="evenement", cascade={"remove"})
      */
     private $candidatureEvenement;
 

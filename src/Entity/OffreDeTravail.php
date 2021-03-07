@@ -25,12 +25,12 @@ class OffreDeTravail
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity=Categorie::class, mappedBy="offreDeTravail", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Categorie::class, mappedBy="offreDeTravail")
      */
     private $categorie;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail")
+     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail", cascade={"remove"})
      */
     private $candidatureOffre;
 

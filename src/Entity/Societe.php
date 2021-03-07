@@ -40,25 +40,23 @@ class Societe
     private $idPhotoSociete;
 
     /**
-     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="societe")
-     * @ORM\JoinColumn(name="mission_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="societe", cascade={"remove"})
      */
     private $mission;
 
     /**
-     * @ORM\OneToMany(targetEntity=OffreDeTravail::class, mappedBy="societe")
-     * @ORM\JoinColumn(name="offreDeTravail_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity=OffreDeTravail::class, mappedBy="societe", cascade={"remove"})
      */
     private $offreDeTravail;
 
     /**
-     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="societe", cascade={"remove"})
      * @ORM\JoinColumn(name="evenement_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $evenement;
 
     /**
-     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="societe", cascade={"remove"})
      * @ORM\JoinColumn(name="formation_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $formation;

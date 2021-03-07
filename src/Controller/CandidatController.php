@@ -49,7 +49,7 @@ class CandidatController extends AbstractController
 
             $utilisateur->setEmail($email)
                 ->setMotDePasse($motDePasse)
-                ->setTypeUtilisateur(0);
+                ->setTypeUtilisateur(1);
 
             $candidat = $form->getData()
                 ->setUtilisateur($utilisateur);
@@ -85,15 +85,16 @@ class CandidatController extends AbstractController
         $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur->setEmail($email)
-                ->setMotDePasse($motDePasse)
-                ->setTypeUtilisateur(1);
+        $utilisateur->setEmail($email)
+            ->setMotDePasse($motDePasse)
+            ->setTypeUtilisateur(1);
 
-            $candidat = $form->getData()
-                ->setUtilisateur($utilisateur);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $candidat = $form->getData()->setUtilisateur($utilisateur);
 
             $manager->persist($utilisateur);
+            $manager->flush();
             $manager->persist($candidat);
             $manager->flush();
 

@@ -46,6 +46,7 @@ class CandidatureOffreController extends AbstractController
 
             return $this->redirectToRoute("afficherToutOffreDeTravail",[
                 'idSociete' => $idSociete,
+                'idCategorie' => "0",
             ]);
         }
         return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/ajouterCandidatureOffre.html.twig', [
@@ -65,6 +66,7 @@ class CandidatureOffreController extends AbstractController
         $candidatureOffreManager->flush();
         return $this->redirectToRoute("afficherToutOffreDeTravail",[
             'idSociete' => $idSociete,
+            'idCategorie' => "0",
         ]);
     }
 }

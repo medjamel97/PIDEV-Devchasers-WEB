@@ -35,7 +35,7 @@ class Formation
     private $societe;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureFormation::class, mappedBy="formation")
+     * @ORM\OneToMany(targetEntity=CandidatureFormation::class, mappedBy="formation", cascade={"remove"})
      */
     private $candidatureFormation;
     /**

@@ -29,13 +29,11 @@ class Utilisateur
 
     /**
      * @ORM\OneToOne(targetEntity=Societe::class, inversedBy="utilisateur", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="societe_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $societe;
 
     /**
      * @ORM\OneToOne(targetEntity=Candidat::class, inversedBy="utilisateur", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="candidat_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $candidat;
 

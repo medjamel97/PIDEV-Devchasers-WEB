@@ -30,7 +30,7 @@ class Publication
     private $candidat;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="publication")
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="publication", cascade={"remove"})
      */
     private $commentaire;
 

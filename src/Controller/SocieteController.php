@@ -84,15 +84,18 @@ class SocieteController extends AbstractController
         $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
+        $utilisateur->setEmail($email)
+            ->setMotDePasse($motDePasse)
+            ->setTypeUtilisateur(0);
+
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur->setEmail($email)
-                ->setMotDePasse($motDePasse)
-                ->setTypeUtilisateur(0);
 
             $societe = $form->getData()
                 ->setUtilisateur($utilisateur);
 
             $manager->persist($utilisateur);
+            $manager->flush();
             $manager->persist($societe);
             $manager->flush();
 

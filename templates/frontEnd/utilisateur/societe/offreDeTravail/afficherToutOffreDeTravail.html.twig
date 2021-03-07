@@ -30,11 +30,25 @@
                 <td>{{ offreDeTravail.id }}</td>
                 <td>{{ offreDeTravail.description }}</td>
                 <td>{{ offreDeTravail.societe.id }}</td>
-                <td>{{ offreDeTravail.societe.id }}</td>
                 {% if offreDeTravail.categorie %}
                     <td>{{ offreDeTravail.categorie.description }}</td>
                 {% else %}
-                    <td></td>
+                    <td>
+                        Aucune categorie
+                    </td>
+                {% endif %}
+                {% if offreDeTravail.candidatureOffre %}
+                    <td>
+                        {% for candidature in offreDeTravail.candidatureOffre %}
+                            Candidature {{ candidature.id }} : {{ candidature.candidat.prenom }}
+                            {{ candidature.offreDeTravail.description }} a {{ candidature.offreDeTravail.societe.nomSociete }}
+                            <br>
+                        {% endfor %}
+                    </td>
+                {% else %}
+                    <td>
+                        Aucune candidature
+                    </td>
                 {% endif %}
                 <td>
                     {% set candidBool = false %}
@@ -43,7 +57,7 @@
                     <br>------------<br>
                     {% if offreDeTravail.candidatureOffre %}
                         {% for candidature in offreDeTravail.candidatureOffre %}
-                            {% if candidature.candidat  %}
+                            {% if candidature.candidat %}
                                 Vous avez candidaté pour cette offre |
                                 <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~candidature.id~'/supprimer') }}">Supprimer
                                     candidature</a>

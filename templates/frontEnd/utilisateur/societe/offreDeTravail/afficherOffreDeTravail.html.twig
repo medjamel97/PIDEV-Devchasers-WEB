@@ -24,7 +24,7 @@
     <div class="col-md-10 p-5">
         <table border="2" class="table">
             <tr>
-                {% set labels =["ID", "Description", "Societe", "Candidatures", "Categorie"] %}
+                {% set labels =["ID", "Description", "Societe", "Categorie", "Candidatures"] %}
                 {% for i in 0..labels|length-1 %}
                     <td><b>{{ labels[i] }}</b></td>
                 {% endfor %}
@@ -34,19 +34,23 @@
                 <td>{{ offreDeTravail.id }}</td>
                 <td>{{ offreDeTravail.description }}</td>
                 <td>{{ offreDeTravail.societe.id }}</td>
-                <td>
-                    {% if offreDeTravail.candidatureOffreDeTravail %}
-                        {% for candidature in offreDeTravail.candidatureOffreDeTravail %}
-                            Candidature {{ candidature.id }} : {{ candidature.description }}
-                            <a href="{{ asset('societe='~offreDeTravail.societe.id~'/offreDeTravail='~
-                                offreDeTravail.id~'/candidatureOffreDeTravail='~candidature.id~'/supprimer') }}">Supprimer Candidature</a> <br>
-                        {% endfor %}
-                    {% endif %}
-                </td>
                 {% if offreDeTravail.categorie %}
                     <td>{{ offreDeTravail.categorie.description }}</td>
                 {% else %}
                     <td></td>
+                {% endif %}
+                {% if offreDeTravail.candidatureOffre %}
+                    <td>
+                        {% for candidature in offreDeTravail.candidatureOffre %}
+                            Candidature {{ candidature.id }} : {{ candidature.candidat.prenom }}
+                            {{ candidature.offreDeTravail.description }} a {{ candidature.offreDeTravail.societe.nomSociete }}
+                            <br>
+                        {% endfor %}
+                    </td>
+                {% else %}
+                    <td>
+                        Aucune candidature
+                    </td>
                 {% endif %}
                 <td>
                     {% set candidBool = false %}
@@ -72,10 +76,10 @@
                     <a href="{{ asset('societe='~offreDeTravail.societe.id) }}">
                         Consulter societe
                     </a> |
-                    <a href="{{ asset('societe='~offreDeTravail.societe.id~'/categorie/offreDeTravail='~offreDeTravail.id~'/modifier/') }}">
+                    <a href="{{ asset('societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/modifier/') }}">
                         Modifier
                     </a> |
-                    <a href="{{ asset('societe='~offreDeTravail.societe.id~'/categorie/offreDeTravail='~offreDeTravail.id~'/supprimer/') }}">
+                    <a href="{{ asset('societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/supprimer/') }}">
                         Supprimer
                     </a>
                 </td>

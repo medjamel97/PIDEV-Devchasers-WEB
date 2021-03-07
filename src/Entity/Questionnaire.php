@@ -20,7 +20,7 @@ class Questionnaire
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="questionnaire")
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="questionnaire", cascade={"remove"})
      */
     private $question;
 

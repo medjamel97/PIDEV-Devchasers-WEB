@@ -35,7 +35,7 @@ class Mission
     private $prixH;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="mission")
+     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="mission", cascade={"remove"})
      */
     private $candidatureMission;
 
