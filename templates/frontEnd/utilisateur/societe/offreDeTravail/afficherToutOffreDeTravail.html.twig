@@ -20,7 +20,7 @@
     <div class="col-md-10 p-5">
         <table border="2" class="table">
             <tr>
-                {% set labels =["ID", "Description", "Societe", "Categorie"] %}
+                {% set labels =["ID", "Description", "Societe", "Categorie","Candidatures"] %}
                 {% for i in 0..labels|length-1 %}
                     <td><b>{{ labels[i] }}</b></td>
                 {% endfor %}
@@ -29,6 +29,7 @@
             <tr>
                 <td>{{ offreDeTravail.id }}</td>
                 <td>{{ offreDeTravail.description }}</td>
+                <td>{{ offreDeTravail.societe.id }}</td>
                 <td>{{ offreDeTravail.societe.id }}</td>
                 {% if offreDeTravail.categorie %}
                     <td>{{ offreDeTravail.categorie.description }}</td>
@@ -42,7 +43,7 @@
                     <br>------------<br>
                     {% if offreDeTravail.candidatureOffre %}
                         {% for candidature in offreDeTravail.candidatureOffre %}
-                            {% if candidature.candidat.id == 3  %}
+                            {% if candidature.candidat  %}
                                 Vous avez candidaté pour cette offre |
                                 <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~candidature.id~'/supprimer') }}">Supprimer
                                     candidature</a>
@@ -55,7 +56,7 @@
                         {% endfor %}
                     {% endif %}
                     {% if not candidBool %}
-                        <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre/ajouter') }}">
+                        <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidat=0/ajouter') }}">
                             Candidater pour cette offre
                         </a><br>------------<br>
                     {% endif %}

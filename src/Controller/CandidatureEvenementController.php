@@ -48,7 +48,7 @@ class CandidatureEvenementController extends AbstractController
                 'idSociete' => $idSociete,
             ]);
         }
-        return $this->render('/frontEnd/utilisateur/societe/evenement/ajouterCandidatureEvenement.html.twig', [
+        return $this->render('/frontEnd/utilisateur/societe/evenement/ajouterCandidatureOffre.html.twig', [
             'form' => $form->createView(),
             'manipulation' => "Modifier",
         ]);

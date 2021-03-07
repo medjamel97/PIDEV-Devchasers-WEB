@@ -88,7 +88,7 @@ class CandidatController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $utilisateur->setEmail($email)
                 ->setMotDePasse($motDePasse)
-                ->setTypeUtilisateur(0);
+                ->setTypeUtilisateur(1);
 
             $candidat = $form->getData()
                 ->setUtilisateur($utilisateur);

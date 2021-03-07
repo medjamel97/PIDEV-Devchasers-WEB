@@ -83,6 +83,7 @@
                     <div class="candidates-listing-item">
                         <!-- Single review Start-->
                         {% for publication in publications %}
+
                             <div class="border mt-3 rounded p-3">
                                 <div class="row">
                                     <div class="col-md-2">
@@ -108,19 +109,25 @@
                                             <div style="font-size: 20px;">
 
                                             </div>
-                                            <ul class="list-unstyled">
-                                                <li class="text-muted"><i class="mdi mdi-account mr-1"></i>Web
-                                                    Developer
-                                                </li>
-                                                <li class="text-muted"><i class="mdi mdi-currency-usd mr-1"></i>$700
-                                                    - $900/month
-                                                </li>
-                                            </ul>
+                                            <!--   <ul class="list-unstyled">
+                                                   <li class="text-muted"><i class="mdi mdi-account mr-1"></i>Web
+                                                       Developer
+                                                   </li>
+                                                   <li class="text-muted"><i class="mdi mdi-currency-usd mr-1"></i>$700
+                                                       - $900/month
+                                                   </li>
+                                               </ul> -->
                                             <p class="mt-1 mb-0 overflow-auto">{{ publication.description }}</p>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="candidates-list-fav-btn text-right">
+                                            <div class="icon">
+                                                <i class="mdi mdi-trash-can"></i>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="mdi mdi-pencil"></i>
+                                            </div>
                                             <div class="fav-icon">
                                                 <i class="mdi mdi-heart"></i>
                                             </div>
@@ -132,11 +139,47 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-8">
+                                        <div class="candidates-list-desc overflow-hidden job-single-meta  pt-2">
+
+                                            <div style="font-size: 20px;">
+
+                                            </div>
+                                            <!--   <ul class="list-unstyled">
+                                                   <li class="text-muted"><i class="mdi mdi-account mr-1"></i>Web
+                                                       Developer
+                                                   </li>
+                                                   <li class="text-muted"><i class="mdi mdi-currency-usd mr-1"></i>$700
+                                                       - $900/month
+                                                   </li>
+                                               </ul> -->
+
+                                        </div>
+                                    </div>
+                                    {% for comment in publication.commentaire %}
+                                        <p class="mt-1 mb-0 overflow-auto">{{ comment.description }}</p>
+                                        <form action="/ajoutercommentaire" method="post">
+                                            <div class="input-group mb-0">
+                                                <input type="hide" name="id_publication" value="{{ publication.id }}">
+                                                <input name="description" id="description" type="text"
+                                                       class="form-control"
+                                                       placeholder="Ecrire un commentaire" required=""
+                                                       aria-describedby="Publier">
+                                                <div class="input-group-append mdi mdi ">
+                                                    <button class="mdi-trash-can"></button>
+                                                    <button class="btn btn-primary submitBnt" type="submit"
+                                                            id="publier">
+                                                        Publier
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- Single review END-->
+                                    {% endfor %}
                                 </div>
                             </div>
                         {% endfor %}
-                        <!-- Single review END-->
-
                         <!-- Pagination START-->
                         <nav aria-label="Page navigation example">
                             <ul class="pagination job-pagination justify-content-center mb-0 mt-4 pt-2">
@@ -154,11 +197,8 @@
                             </ul>
                         </nav>
                         <!-- Pagination END -->
-
                     </div>
                 </div>
-            </div>
-        </div>
     </section>
     <!-- REVIEWS LISTING END -->
 

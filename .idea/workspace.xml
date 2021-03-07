@@ -2,17 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="126c6e24-da75-4d47-86ea-9b882b98ccd4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/CandidatureEvenementController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/EvenementController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/EvenementType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/evenement/afficherEvenement.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/evenement/ajouterCandidatureEvenement.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/evenement/manipulerEvenement.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/CandidatureOffreType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/ajouterCandidatureOffre.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210306194807.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatureEvenementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatureEvenementController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/CandidatureOffreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatureOffreController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CategorieController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CategorieController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Utilisateur.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Utilisateur.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Candidat.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Candidat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Societe.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Societe.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -160,7 +160,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/evenement" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Form" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/templates/frontEnd/revue/afficherRevueSociete.html.twig" />
@@ -174,11 +174,11 @@
       <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\categorie" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\PIDEV-Devchasers\src\Form" />
+      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\offreDeTravail" />
       <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\evenement" />
       <recent name="D:\Projects\PIDEV-Devchasers\src\Controller" />
-      <recent name="D:\Projects\PIDEV-Devchasers\src\Form" />
       <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\candidat" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\offreDeTravail" />
     </key>
   </component>
   <component name="RunDashboard">

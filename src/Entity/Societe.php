@@ -41,21 +41,25 @@ class Societe
 
     /**
      * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="societe")
+     * @ORM\JoinColumn(name="mission_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $mission;
 
     /**
      * @ORM\OneToMany(targetEntity=OffreDeTravail::class, mappedBy="societe")
+     * @ORM\JoinColumn(name="offreDeTravail_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $offreDeTravail;
 
     /**
      * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="societe")
+     * @ORM\JoinColumn(name="evenement_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $evenement;
 
     /**
      * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="societe")
+     * @ORM\JoinColumn(name="formation_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $formation;
 

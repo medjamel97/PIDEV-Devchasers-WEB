@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210306194807 extends AbstractMigration
+final class Version20210307001948 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -63,8 +63,8 @@ final class Version20210306194807 extends AbstractMigration
         $this->addSql('ALTER TABLE publication ADD CONSTRAINT FK_AF3C67798D0EB82 FOREIGN KEY (candidat_id) REFERENCES candidat (id)');
         $this->addSql('ALTER TABLE question ADD CONSTRAINT FK_B6F7494ECE07E8FF FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (id)');
         $this->addSql('ALTER TABLE revue ADD CONSTRAINT FK_76244F0523929EC4 FOREIGN KEY (candidature_offre_id) REFERENCES candidature_offre (id)');
-        $this->addSql('ALTER TABLE utilisateur ADD CONSTRAINT FK_1D1C63B3FCF77503 FOREIGN KEY (societe_id) REFERENCES societe (id)');
-        $this->addSql('ALTER TABLE utilisateur ADD CONSTRAINT FK_1D1C63B38D0EB82 FOREIGN KEY (candidat_id) REFERENCES candidat (id)');
+        $this->addSql('ALTER TABLE utilisateur ADD CONSTRAINT FK_1D1C63B3FCF77503 FOREIGN KEY (societe_id) REFERENCES societe (id) ON DELETE SET NULL');
+        $this->addSql('ALTER TABLE utilisateur ADD CONSTRAINT FK_1D1C63B38D0EB82 FOREIGN KEY (candidat_id) REFERENCES candidat (id) ON DELETE SET NULL');
     }
 
     public function down(Schema $schema) : void
