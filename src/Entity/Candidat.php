@@ -94,6 +94,16 @@ class Candidat
      */
     private $utilisateur;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="candidatExpediteur", cascade={"remove"})
+     */
+    private $messageEnvoye;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="candidatDestinataire", cascade={"remove"})
+     */
+    private $messageRecu;
+
     public function __construct()
     {
         $this->candidatureFormation = new ArrayCollection();
@@ -104,6 +114,8 @@ class Candidat
         $this->experienceDeTravail = new ArrayCollection();
         $this->education = new ArrayCollection();
         $this->competence = new ArrayCollection();
+        $this->messageEnvoye = new ArrayCollection();
+        $this->messageRecu = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -441,6 +453,66 @@ class Candidat
         }
 
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessageEnvoye(): Collection
+    {
+        return $this->messageEnvoye;
+    }
+
+    public function addMessageEnvoye(Message $messageEnvoye): self
+    {
+        if (!$this->messageEnvoye->contains($messageEnvoye)) {
+            $this->messageEnvoye[] = $messageEnvoye;
+            $messageEnvoye->setCandidatDestinataire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessageEnvoye(Message $messageEnvoye): self
+    {
+        if ($this->messageEnvoye->removeElement($messageEnvoye)) {
+            // set the owning side to null (unless already changed)
+            if ($messageEnvoye->getCandidatDestinataire() === $this) {
+                $messageEnvoye->setCandidatDestinataire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessageRecu(): Collection
+    {
+        return $this->messageRecu;
+    }
+
+    public function addMessageRecu(Message $messageRecu): self
+    {
+        if (!$this->messageRecu->contains($messageRecu)) {
+            $this->$messageRecu[] = $messageRecu;
+            $messageRecu->setCandidatExpediteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessageRecu(Message $messageRecu): self
+    {
+        if ($this->$messageRecu->removeElement($messageRecu)) {
+            // set the owning side to null (unless already changed)
+            if ($messageRecu->getCandidatExpediteur() === $this) {
+                $messageRecu->setCandidatExpediteur(null);
+            }
+        }
 
         return $this;
     }

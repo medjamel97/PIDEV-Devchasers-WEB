@@ -48,11 +48,21 @@ class RevueController extends AbstractController
     }
 
     /**
-     * @Route("/offreDeTravail={idOffreDeTravail}/revue/activePage={activePage}", name="afficherRevue")
+     * @Route("addRevuesDebug/{candidatureOffreId}/", name="addRevuesDebug")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               /offreDeTravail={idOffreDeTravail}/candidatureOffre={idCandidatureOffre}/revue/ajouter", name="ajouterMultipleRevue")
      */
-    public function afficherRevue($idSociete, $idOffreDeTravail, $activePage): Response
+    public function ajouterMultipleRevue($candidatureOffreId)
     {
-        return null;
+        $manager = $this->getDoctrine()->getManager();
+        for ($i = 0; $i < 20; $i++) {
+            $revue = new Revue();
+            $revue->setNbEtoiles(random_int(1, 5))
+                ->setObjet("Objet " . $i)
+                ->setDescription("Description " . $i)
+                ->setCandidatureOffre($manager->getRepository(CandidatureOffre::class)->find($candidatureOffreId));
+            $manager->persist($revue);
+            $manager->flush();
+        }
+        return $this->redirectToRoute('accueil');
     }
 
     /**
@@ -86,11 +96,13 @@ class RevueController extends AbstractController
             'manipulation' => "Ajouter",
             'form' => $form->createView(),
             'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
+            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
+            'revue' => null,
         ]);
     }
 
     /**
-     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/revue{idRevue}/modifier", name="modifierRevue")
+     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/revue={idRevue}/modifier", name="modifierRevue")
      */
     public function modifierRevue(Request $request, $idSociete, $idOffreDeTravail, $idRevue)
     {
@@ -114,6 +126,8 @@ class RevueController extends AbstractController
             'manipulation' => "Modifier",
             'form' => $form->createView(),
             'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
+            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
+            'revue' => $revue,
         ]);
     }
 

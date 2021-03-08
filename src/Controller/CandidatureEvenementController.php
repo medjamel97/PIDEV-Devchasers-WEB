@@ -15,14 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class CandidatureEvenementController extends AbstractController
 {
     /**
-     * @Route("", name="")
-     */
-    public function afficherToutCandidatureEvenement(): Response
-    {
-        return null;
-    }
-
-    /**
      * @Route("/societe={idSociete}/evenement={idEvenement}/candidat={idCandidat}/ajouter", name="ajouterCandidatureEvenement")
      */
     public function ajouterCandidatureEvenement(Request $request,$idSociete,$idEvenement,$idCandidat)

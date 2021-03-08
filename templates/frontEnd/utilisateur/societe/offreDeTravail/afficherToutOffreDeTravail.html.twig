@@ -51,29 +51,40 @@
                     </td>
                 {% endif %}
                 <td>
-                    {% set candidBool = false %}
+                    {% set utilisateur = app.session.get('utilisateur') %}
+                    {% if utilisateur is not null %}
+                        {% set idUtilisateur = utilisateur['idUtilisateur'] %}
+                        {% set email = utilisateur['emailUtilisateur'] %}
+                        {% set CandidatureBool = false %}
+                        {% set activeSessionCondidature = null %}
+                        {% if offreDeTravail.candidatureOffre|length > 0 %}
+                            {% for candidature in offreDeTravail.candidatureOffre %}
+                                {% if candidature.candidat.utilisateur.id == idUtilisateur %}
+                                    {% set activeSessionCondidature = candidature %}
+                                    {% set CandidatureBool = true %}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% set CandidatureBool = false %}
+                        {% endif %}
+                        {% if CandidatureBool %}
+                            Vous avez candidaté pour cette offre |
+                            <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/supprimer') }}">
+                                Supprimer candidature</a>
+                            <br>------------<br>
+                            <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/revue/ajouter') }}">
+                                Ajouter une revue pour cette offre</a><br>
+                        {% else %}
+                            <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/utilisateur='~idUtilisateur~'/ajouter') }}">
+                                Candidater pour cette offre
+                            </a><br>------------<br>
+                        {% endif %}
+                    {% else %}
+                        Veuillez vous connecter pour candidater
+                    {% endif %}
                     <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/revue/activePage=0') }}">
                         Voir les revues pour cette offre</a>
                     <br>------------<br>
-                    {% if offreDeTravail.candidatureOffre %}
-                        {% for candidature in offreDeTravail.candidatureOffre %}
-                            {% if candidature.candidat %}
-                                Vous avez candidaté pour cette offre |
-                                <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~candidature.id~'/supprimer') }}">Supprimer
-                                    candidature</a>
-                                <br>------------<br>
-                                <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~candidature.id~'/revue/ajouter') }}">
-                                    Ajouter une revue pour cette offre</a>
-                                <br>------------<br>
-                                {% set candidBool = true %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if not candidBool %}
-                        <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidat=0/ajouter') }}">
-                            Candidater pour cette offre
-                        </a><br>------------<br>
-                    {% endif %}
                     <a href="{{ asset('societe='~offreDeTravail.societe.id) }}">
                         Consulter societe
                     </a> |

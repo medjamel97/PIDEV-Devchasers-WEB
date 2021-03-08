@@ -18,7 +18,8 @@
 {% endblock %}
 {% block content %}
     <!-- Start home -->
-    <section class="bg-half page-next-level" style="background-image: url({{ asset('/frontEnd/images/backgrounds/revue-background.png') }});">
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('/frontEnd/images/backgrounds/revue-background.png') }});">
         <div class="bg-overlay"></div>
         <div class="container">
             <div class="row justify-content-center">
@@ -26,7 +27,8 @@
                     <div class="text-center text-white">
                         <h4 class="text-uppercase title mb-4">revues sur la societe {{ societe.nomSociete }}</h4>
                         <ul class="page-next d-inline-block mb-0">
-                            <li><a href="{{ asset('/societe') }}" class="text-uppercase font-weight-bold">Societes</a></li>
+                            <li><a href="{{ asset('/societe') }}" class="text-uppercase font-weight-bold">Societes</a>
+                            </li>
                             <li><a href="{{ asset('/societe='~societe.id) }}"
                                    class="text-uppercase font-weight-bold">{{ societe.nomSociete }}</a>
                             </li>
@@ -93,8 +95,8 @@
                                                         <div class="text-dark mb-2">
                                                             {% if revue.candidatureOffre %}
                                                                 {% if revue.candidatureOffre.candidat %}
-                                                                    <h6>{{ revue.candidatureOffre.candidat.nom }}</h6>
                                                                     <h6>{{ revue.candidatureOffre.candidat.prenom }}</h6>
+                                                                    <h6>{{ revue.candidatureOffre.candidat.nom }}</h6>
                                                                 {% endif %}
                                                             {% endif %}
                                                         </div>
@@ -111,10 +113,10 @@
                                                     {% for i in 0..4 %}
                                                         {% if revue.nbetoiles > i %}
                                                             <a class="mdi mdi-star"
-                                                               style=" -webkit-text-stroke: 1px #DEC900; -webkit-text-fill-color: #DEC900 ;"></a>
+                                                               style=" -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #ffc700 ;"></a>
                                                         {% else %}
                                                             <a class="mdi mdi-star"
-                                                               style=" -webkit-text-stroke: 1px #DEC900; -webkit-text-fill-color: #FFFFFF ;"></a>
+                                                               style=" -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #FFFFFF ;"></a>
                                                         {% endif %}
                                                     {% endfor %}
                                                 </div>
@@ -126,10 +128,10 @@
                                                             {{ revue.candidatureOffre.offreDeTravail.societe.nomSociete }}</a>
                                                     </li>
                                                     <li class="text-dark">
-                                                        <i class="mdi mdi-office-building mr-1"></i>
+                                                        <i class="mdi mdi-briefcase mr-1"></i>
                                                         Offre :
                                                         <a href="{{ asset('/societe='~revue.candidatureOffre.offreDeTravail.societe.id~'/offreDeTravail') }}">
-                                                            {{ revue.candidatureOffre.offreDeTravail.id }}</a>
+                                                            {{ revue.candidatureOffre.offreDeTravail.description }}</a>
                                                     </li>
                                                     <li class="text-muted">
                                                         <i class="mdi mdi-currency-usd mr-1"></i>
@@ -146,13 +148,20 @@
                                                 <div class="fav-icon">
                                                     <i class="mdi mdi-heart"></i>
                                                 </div>
-                                                {% if revue.candidatureOffre.candidat.id != -1 %}
-                                                <div class="candidates-listing-btn mt-2">
-                                                    <a href="{{ asset('/societe='~revue.candidatureOffre.offreDeTravail.societe.id~'/offreDeTravail='~revue.candidatureOffre.offreDeTravail.id~'/revue='~revue.id~'/modifier') }}  "
-                                                       class="btn btn-primary-outline btn-sm mt-1">Modifier revue</a>
-                                                    <a href="{{ asset('/societe='~revue.candidatureOffre.offreDeTravail.societe.id~'/offreDeTravail='~revue.candidatureOffre.offreDeTravail.id~'/revue='~revue.id~'/supprimer') }}  "
-                                                       class="btn btn-primary-outline btn-sm mt-1">Supprimer revue</a>
-                                                </div>
+                                                {% set utilisateur = app.session.get('utilisateur') %}
+                                                {% if utilisateur is not null %}
+                                                    {% set idUtilisateur = utilisateur['idUtilisateur'] %}
+                                                    {% set email = utilisateur['emailUtilisateur'] %}
+                                                    {% if revue.candidatureOffre.candidat.utilisateur.id == idUtilisateur %}
+                                                        <div class="candidates-listing-btn mt-2">
+                                                            <a href="{{ asset('/societe='~revue.candidatureOffre.offreDeTravail.societe.id~'/offreDeTravail='~revue.candidatureOffre.offreDeTravail.id~'/revue='~revue.id~'/modifier') }}  "
+                                                               class="btn btn-primary-outline btn-sm mt-1">Modifier
+                                                                revue</a>
+                                                            <a href="{{ asset('/societe='~revue.candidatureOffre.offreDeTravail.societe.id~'/offreDeTravail='~revue.candidatureOffre.offreDeTravail.id~'/revue='~revue.id~'/supprimer') }}  "
+                                                               class="btn btn-primary-outline btn-sm mt-1">Supprimer
+                                                                revue</a>
+                                                        </div>
+                                                    {% endif %}
                                                 {% endif %}
                                             </div>
                                         </div>

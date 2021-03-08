@@ -23,14 +23,6 @@ class ExperienceDeTravailController extends AbstractController
     }
 
     /**
-     * @Route("", name="afficherToutExperienceDeTravail")
-     */
-    public function afficherToutExperienceDeTravail(): Response
-    {
-        return null;
-    }
-
-    /**
      * @Route("/candidat/experienceDeTravail/ajouter", name="ajouterExperienceDeTravail")
      */
     public function ajouterExperienceDeTravail(Request $request)

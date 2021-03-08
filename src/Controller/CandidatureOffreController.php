@@ -5,66 +5,56 @@ namespace App\Controller;
 use App\Entity\Candidat;
 use App\Entity\CandidatureOffre;
 use App\Entity\OffreDeTravail;
+use App\Entity\Utilisateur;
 use App\Form\CandidatureOffreType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CandidatureOffreController extends AbstractController
 {
-    /**
-     * @Route("", name="")
-     */
-    public function afficherToutCandidatureOffre(): Response
+    private $session;
+
+    public function __construct(SessionInterface $session)
     {
-        return null;
+        $this->session = $session;
     }
 
     /**
-     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/candidat={idCandidat}/ajouter", name="ajouterCandidatureOffre")
+     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/utilisateur={idUtilisateur}/ajouter", name="ajouterCandidatureOffre")
      */
-    public function ajouterCandidatureOffre(Request $request,$idSociete,$idOffreDeTravail,$idCandidat)
+    public function ajouterCandidatureOffre($idSociete, $idOffreDeTravail, $idUtilisateur)
     {
+        $manager = $this->getDoctrine()->getManager();
+        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
+        $candidat = $manager->getRepository(Candidat::class)->find($utilisateur->getCandidat()->getID());
+        $offreDeTravail = $manager->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
+
         $candidatureOffre = new CandidatureOffre();
+        $candidatureOffre->setCandidat($candidat);
+        $candidatureOffre->setOffreDeTravail($offreDeTravail);
 
-        $form = $this->createForm(CandidatureOffreType::class, $candidatureOffre);
-        $form->add('Ajouter', SubmitType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            $candidat = $manager->getRepository(Candidat::class)->find($idCandidat);
-            $offreDeTravail = $manager ->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
-
-            //$candidatureOffre->setCandidat($candidat);
-            $candidatureOffre->setOffreDeTravail($offreDeTravail);
-
-            $manager->persist($candidatureOffre);
-            $manager->flush();
-
-            return $this->redirectToRoute("afficherToutOffreDeTravail",[
-                'idSociete' => $idSociete,
-                'idCategorie' => "0",
-            ]);
-        }
-        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/ajouterCandidatureOffre.html.twig', [
-            'form' => $form->createView(),
-            'manipulation' => "Modifier",
+        $manager->persist($candidatureOffre);
+        $manager->flush();
+        
+        return $this->redirectToRoute("afficherOffreDeTravail", [
+            'idSociete' => $idSociete,
         ]);
     }
 
     /**
      * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/candidatureOffre={idCandidatureOffre}/supprimer", name="supprimerCandidatureOffre")
      */
-    public function supprimerCandidatureOffre($idSociete,$idOffreDeTravail,$idCandidatureOffre)
+    public function supprimerCandidatureOffre($idSociete, $idOffreDeTravail, $idCandidatureOffre)
     {
         $candidatureOffreManager = $this->getDoctrine()->getManager();
         $candidatureOffre = $candidatureOffreManager->getRepository(CandidatureOffre::class)->find($idCandidatureOffre);
         $candidatureOffreManager->remove($candidatureOffre);
         $candidatureOffreManager->flush();
-        return $this->redirectToRoute("afficherToutOffreDeTravail",[
+        return $this->redirectToRoute("afficherToutOffreDeTravail", [
             'idSociete' => $idSociete,
             'idCategorie' => "0",
         ]);

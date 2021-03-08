@@ -8,10 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OffreDeTravailController extends AbstractController
 {
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     /**
      * @Route("/societe={idSociete}/offreDeTravail", name="afficherOffreDeTravail")
      */
@@ -50,7 +58,6 @@ class OffreDeTravailController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $offreDeTravail = $form->getData();
-
 
             $offreDeTravailRepository = $this->getDoctrine()->getManager();
             $offreDeTravailRepository->persist($offreDeTravail);

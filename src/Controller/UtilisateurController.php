@@ -37,17 +37,17 @@ class UtilisateurController extends AbstractController
 
             $utilisateur = $form->getData();
 
-            if ($utilisateur->getTypeUtilisateur() == 0){
+            if ($utilisateur->getTypeUtilisateur() == 0) {
                 return $this->redirectToRoute("ajouterSociete", [
-                    'email'  => $utilisateur->getEmail(),
-                    'motDePasse'  => $utilisateur->getMotDePasse(),
+                    'email' => $utilisateur->getEmail(),
+                    'motDePasse' => $utilisateur->getMotDePasse(),
                 ]);
-            }elseif($utilisateur->getTypeUtilisateur() == 1){
+            } elseif ($utilisateur->getTypeUtilisateur() == 1) {
                 return $this->redirectToRoute("ajouterCandidat", [
-                    'email'  => $utilisateur->getEmail(),
-                    'motDePasse'  => $utilisateur->getMotDePasse(),
+                    'email' => $utilisateur->getEmail(),
+                    'motDePasse' => $utilisateur->getMotDePasse(),
                 ]);
-            }else{
+            } else {
                 $this->redirectToRoute("acceuil");
             }
         }
