@@ -4,84 +4,93 @@ namespace App\Controller;
 
 use App\Entity\ExperienceDeTravail;
 use App\Form\ExperienceDeTravailType;
+use App\Repository\ExperienceDeTravailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/experience/de/travail")
+ */
 class ExperienceDeTravailController extends AbstractController
 {
     /**
-     * @Route("/experienceDeTravail", name="afficherExperienceDeTravail")
+     * @Route("/", name="experience_de_travail_index", methods={"GET"})
      */
-    public function afficherExperienceDeTravail(): Response
+    public function index(ExperienceDeTravailRepository $experienceDeTravailRepository): Response
     {
-        return $this->render('/frontEnd/utilisateur/societe/experienceDeTravail/afficherExperienceDeTravail.html.twig', [
-            'experienceDeTravails' => $this->getDoctrine()->getManager()->getRepository(ExperienceDeTravail::class)->findAll(),
+        return $this->render('experience_de_travail/index.html.twig', [
+            'experience_de_travails' => $experienceDeTravailRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/candidat/experienceDeTravail/ajouter", name="ajouterExperienceDeTravail")
+     * @Route("/new", name="experience_de_travail_new", methods={"GET","POST"})
      */
-    public function ajouterExperienceDeTravail(Request $request)
+    public function new(Request $request): Response
     {
         $experienceDeTravail = new ExperienceDeTravail();
-
         $form = $this->createForm(ExperienceDeTravailType::class, $experienceDeTravail)
-            ->add('Ajouter', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $experienceDeTravail = $form->getData();
-
-            $experienceDeTravailRepository = $this->getDoctrine()->getManager();
-            $experienceDeTravailRepository->persist($experienceDeTravail);
-            $experienceDeTravailRepository->flush();
-
-            return $this->redirectToRoute('afficherExperienceDeTravail');
-        }
-
-        return $this->render('/frontEnd/utilisateur/societe/experienceDeTravail/manipulerExperienceDeTravail.html.twig', [
-            'form' => $form->createView(),
-            'manipulation' => "Modifier",
-        ]);
-    }
-
-    /**
-     * @Route("/candidat/experienceDeTravail={idExperienceDeTravail}/modifier", name="modifierExperienceDeTravail")
-     */
-    public function modifierExperienceDeTravail(Request $request, $idExperienceDeTravail)
-    {
-        $experienceDeTravailRepository = $this->getDoctrine()->getManager();
-        $experienceDeTravail = $experienceDeTravailRepository->getRepository(ExperienceDeTravail::class)->find($idExperienceDeTravail);
-
-        $form = $this->createForm(ExperienceDeTravailType::class, $experienceDeTravail);
-        $form->add('Modifier', SubmitType::class);
+            ->add('Ajouter', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $experienceDeTravailRepository->flush();
-            return $this->redirectToRoute('afficherExperienceDeTravail');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($experienceDeTravail);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('experience_de_travail_index');
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/experienceDeTravail/manipulerExperienceDeTravail.html.twig', [
+        return $this->render('experience_de_travail/new.html.twig', [
+            'experience_de_travail' => $experienceDeTravail,
             'form' => $form->createView(),
-            'manipulation' => "Modifier",
         ]);
     }
 
     /**
-     * @Route("/candidat/experienceDeTravail={idExperienceDeTravail}/supprimer", name="supprimerExperienceDeTravail")
+     * @Route("/{id}", name="experience_de_travail_show", methods={"GET"})
      */
-    public function supprimerExperienceDeTravail($idExperienceDeTravail)
+    public function show(ExperienceDeTravail $experienceDeTravail): Response
     {
-        $experienceDeTravailManager = $this->getDoctrine()->getManager();
-        $experienceDeTravail = $experienceDeTravailManager->getRepository(ExperienceDeTravail::class)->find($idExperienceDeTravail);
-        $experienceDeTravailManager->remove($experienceDeTravail);
-        $experienceDeTravailManager->flush();
-        return $this->redirectToRoute('afficherExperienceDeTravail');
+        return $this->render('experience_de_travail/show.html.twig', [
+            'experience_de_travail' => $experienceDeTravail,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="experience_de_travail_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, ExperienceDeTravail $experienceDeTravail): Response
+    {
+        $form = $this->createForm(ExperienceDeTravailType::class, $experienceDeTravail);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('experience_de_travail_index');
+        }
+
+        return $this->render('experience_de_travail/edit.html.twig', [
+            'experience_de_travail' => $experienceDeTravail,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="experience_de_travail_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, ExperienceDeTravail $experienceDeTravail): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$experienceDeTravail->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($experienceDeTravail);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('experience_de_travail_index');
     }
 }

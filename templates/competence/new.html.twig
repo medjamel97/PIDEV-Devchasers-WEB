@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New Competence</title>
+
+{% block body %}
+    <h1>Create new Competence</h1>
+
+    {{ include('competence/_form.html.twig') }}
+
+    <a href="{{ path('competence_index') }}">back to list</a>
+{% endblock %}

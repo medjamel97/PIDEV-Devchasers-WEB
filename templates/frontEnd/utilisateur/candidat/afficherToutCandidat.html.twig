@@ -59,7 +59,7 @@
                     <a href="{{ asset('candidat/experienceDeTravail/ajouter') }}">Ajouter</a><br>
                 </td>
                 <td>
-                    <a href="{{ asset('candidat/modifier/id='~candidat.utilisateur.id~'/email='~candidat.utilisateur.email~'/password='~candidat.utilisateur.motDePasse) }}">Modifier</a> |
+                    <a href="{{ asset('candidat='~candidat.id~'/modifier')      }}">Modifier</a> |
                     <a href="{{ asset('utilisateur='~candidat.utilisateur.id~'/supprimer/') }}">Supprimer utilisateur</a>
                 </td>
             </tr>

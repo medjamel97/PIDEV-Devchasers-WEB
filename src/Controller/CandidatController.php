@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Candidat;
+use App\Entity\Competence;
+use App\Entity\Education;
+use App\Entity\ExperienceDeTravail;
 use App\Entity\Utilisateur;
 use App\Form\CandidatType;
+use App\Repository\ExperienceDeTravailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,8 +22,13 @@ class CandidatController extends AbstractController
      */
     public function afficherCandidat($idCandidat)
     {
-        return $this->render('frontEnd/utilisateur/candidat/afficherToutCandidat.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/afficherCandidat.html.twig', [
             'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
+            'educations'=>$this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat),
+            'workexps'=>$this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat),
+        'competences'=>$this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat)
+
+
         ]);
     }
 
@@ -45,7 +54,7 @@ class CandidatController extends AbstractController
             ->add('Ajouter', SubmitType::class)
             ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
             $utilisateur->setEmail($email)
                 ->setMotDePasse($motDePasse)
@@ -73,37 +82,28 @@ class CandidatController extends AbstractController
 
 
     /**
-     * @Route("/candidat/modifier/id={id}/email={email}/password={motDePasse}", name="modifierCandidat")
+     * @Route("/candidat={idCandidat}/modifier", name="modifierCandidat")
      */
-    public function modifierCandidat(Request $request, $id, $email, $motDePasse)
+    public function modifierCandidat(Request $request, $idCandidat)
     {
         $manager = $this->getDoctrine()->getManager();
-        $utilisateur = $manager->getRepository(Utilisateur::class)->find($id);
-        $candidat = $manager->getRepository(Candidat::class)->find($utilisateur->getCandidat()->getID());
+        $candidat = $manager->getRepository(Candidat::class)->find($idCandidat);
 
         $form = $this->createForm(CandidatType::class, $candidat);
         $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
-        $utilisateur->setEmail($email)
-            ->setMotDePasse($motDePasse)
-            ->setTypeUtilisateur(1);
+        if ($form->isSubmitted()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $candidat = $form->getData()->setUtilisateur($utilisateur);
-
-            $manager->persist($utilisateur);
-            $manager->flush();
+            $candidat = $form->getData();
             $manager->persist($candidat);
             $manager->flush();
 
             return $this->redirectToRoute('afficherToutCandidat');
         }
 
-        return $this->render('frontEnd/utilisateur/candidat/manipulerCandidat.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/modifierprofil.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Modifier",
         ]);
     }
 }
