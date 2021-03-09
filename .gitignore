@@ -19,3 +19,4 @@
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 /.idea
+.idea/workspace.xml

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<title>ExperienceDeTravail index</title>
+
+{% block body %}
+    <h1>ExperienceDeTravail index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>TitreEmploi</th>
+                <th>NomEntreprise</th>
+                <th>Ville</th>
+                <th>Duree</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for experience_de_travail in experience_de_travails %}
+            <tr>
+                <td>{{ experience_de_travail.id }}</td>
+                <td>{{ experience_de_travail.description }}</td>
+                <td>{{ experience_de_travail.titreEmploi }}</td>
+                <td>{{ experience_de_travail.nomEntreprise }}</td>
+                <td>{{ experience_de_travail.ville }}</td>
+                <td>{{ experience_de_travail.duree }}</td>
+                <td>
+                    <a href="{{ path('experience_de_travail_show', {'id': experience_de_travail.id}) }}">show</a>
+                    <a href="{{ path('experience_de_travail_edit', {'id': experience_de_travail.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('experience_de_travail_new') }}">Create new</a>
+{% endblock %}

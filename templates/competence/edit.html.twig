@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit Competence</title>
+
+{% block body %}
+    <h1>Edit Competence</h1>
+
+    {{ include('competence/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('competence_index') }}">back to list</a>
+
+    {{ include('competence/_delete_form.html.twig') }}
+{% endblock %}

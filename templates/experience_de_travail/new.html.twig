@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New ExperienceDeTravail</title>
+
+{% block body %}
+    <h1>Create new ExperienceDeTravail</h1>
+
+    {{ include('experience_de_travail/_form.html.twig') }}
+
+    <a href="{{ path('experience_de_travail_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit Education</title>
+
+{% block body %}
+    <h1>Edit Education</h1>
+
+    {{ include('education/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('education_index') }}">back to list</a>
+
+    {{ include('education/_delete_form.html.twig') }}
+{% endblock %}
