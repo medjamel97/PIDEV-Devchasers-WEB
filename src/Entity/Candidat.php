@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-use Symfony\Component\Validator\Constraints as Assert;
+
 use App\Repository\CandidatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CandidatRepository::class)
- * use Symfony\Component\Validator\Constraints as Assert;
  */
 class Candidat
 {
@@ -22,8 +21,6 @@ class Candidat
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez saisir un nom")
-     * @Assert\Length(min=1, max=20, minMessage="Taille minimale (1)", maxMessage="Taille maximale (20) depassé")
      */
     private $nom;
 

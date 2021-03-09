@@ -4,91 +4,92 @@ namespace App\Controller;
 
 use App\Entity\Education;
 use App\Form\EducationType;
-use App\Repository\EducationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/education")
- */
 class EducationController extends AbstractController
 {
     /**
-     * @Route("/", name="education_index", methods={"GET"})
+     * @Route("/candidat={}/education={}", name="afficherEducation")
      */
-    public function index(EducationRepository $educationRepository): Response
+    public function afficherEducation(): Response
     {
-        return $this->render('education/index.html.twig', [
-            'education' => $educationRepository->findAll(),
+        return $this->render('/frontEnd/utilisateur/societe/education/afficherEducation.html.twig', [
+            'educations' => $this->getDoctrine()->getManager()->getRepository(Education::class)->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="education_new", methods={"GET","POST"})
+     * @Route("/education", name="afficherToutEducation")
      */
-    public function new(Request $request): Response
+    public function afficherToutEducation(): Response
+    {
+        return null;
+    }
+
+    /**
+     * @Route("/candidat/education/ajouter", name="ajouterEducation")
+     */
+    public function ajouterEducation(Request $request)
     {
         $education = new Education();
+
+        $form = $this->createForm(EducationType::class, $education)
+            ->add('Ajouter', SubmitType::class)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $education = $form->getData();
+
+            $educationRepository = $this->getDoctrine()->getManager();
+            $educationRepository->persist($education);
+            $educationRepository->flush();
+
+            return $this->redirectToRoute('afficherEducation');
+        }
+
+        return $this->render('/frontEnd/utilisateur/societe/education/manipulerEducation.html.twig', [
+            'form' => $form->createView(),
+            'manipulation' => "Modifier",
+        ]);
+    }
+
+    /**
+     * @Route("/candidat/education={idEducation}/modifier", name="modifierEducation")
+     */
+    public function modifierEducation(Request $request, $idEducation)
+    {
+        $educationRepository = $this->getDoctrine()->getManager();
+        $education = $educationRepository->getRepository(Education::class)->find($idEducation);
+
         $form = $this->createForm(EducationType::class, $education);
+        $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($education);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('education_index');
+            $educationRepository->flush();
+            return $this->redirectToRoute('afficherEducation');
         }
 
-        return $this->render('education/new.html.twig', [
-            'education' => $education,
+        return $this->render('/frontEnd/utilisateur/societe/education/manipulerEducation.html.twig', [
             'form' => $form->createView(),
+            'manipulation' => "Modifier",
         ]);
     }
 
     /**
-     * @Route("/{id}", name="education_show", methods={"GET"})
+     * @Route("/candidat/education={idEducation}/supprimer", name="supprimerEducation")
      */
-    public function show(Education $education): Response
+    public function supprimerEducation($idEducation)
     {
-        return $this->render('education/show.html.twig', [
-            'education' => $education,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="education_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Education $education): Response
-    {
-        $form = $this->createForm(EducationType::class, $education);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('education_index');
-        }
-
-        return $this->render('education/edit.html.twig', [
-            'education' => $education,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="education_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Education $education): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$education->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($education);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('education_index');
+        $educationManager = $this->getDoctrine()->getManager();
+        $education = $educationManager->getRepository(Education::class)->find($idEducation);
+        $educationManager->remove($education);
+        $educationManager->flush();
+        return $this->redirectToRoute('afficherEducation');
     }
 }

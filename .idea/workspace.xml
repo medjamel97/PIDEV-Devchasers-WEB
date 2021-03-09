@@ -2,30 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="126c6e24-da75-4d47-86ea-9b882b98ccd4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/modifierprofil.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/MessageController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/backEnd/accueil.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/frontEnd/connexion/connexion.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/messagerie/afficherMessage.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/messagerie/afficherMessagerie.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20210308120900.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CompetenceController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/EducationController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ExperienceDeTravailController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210307001948.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BaseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatureEvenementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatureEvenementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatureOffreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatureOffreController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ExperienceDeTravailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ExperienceDeTravailController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/OffreDeTravailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/OffreDeTravailController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/RevueController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RevueController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UtilisateurController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UtilisateurController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Candidat.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Candidat.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CompetenceType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/EducationType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ExperienceDeTravailType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/CompetenceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/CompetenceRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/EducationRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/EducationRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/ExperienceDeTravailRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ExperienceDeTravailRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/afficherCandidat.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/afficherCandidat.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/afficherToutCandidat.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/afficherToutCandidat.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/competence/afficherCompetence.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/competence/manipulerCompetence.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/education/afficherEducation.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/education/manipulerEducation.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/experienceDeTravail/afficherExperienceDeTravail.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/experienceDeTravail/manipulerExperienceDeTravail.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/manipulerCandidat.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/manipulerCandidat.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/CandidatRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/CandidatRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UtilisateurRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UtilisateurRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/backEnd/acceuil.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/backEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backEnd/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/ajouterCandidatureOffre.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/afficherToutRevue.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/afficherToutRevue.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/manipulerRevue.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/manipulerRevue.html.twig" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,7 +37,9 @@
   </component>
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
-    <execution />
+    <execution>
+      <executable />
+    </execution>
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -189,6 +195,18 @@
       <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\categorie" />
     </key>
   </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
   <component name="RunManager">
     <configuration name="RevueController.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/src/Controller/RevueController.php">
       <method v="2" />
@@ -230,21 +248,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Entity/Candidat.php</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

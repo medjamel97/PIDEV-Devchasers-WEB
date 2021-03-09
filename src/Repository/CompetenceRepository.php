@@ -36,14 +36,15 @@ class CompetenceRepository extends ServiceEntityRepository
     }
     */
 
-    public function findOneBySomeField($idCandidat)
+    /*
+    public function findOneBySomeField($value): ?Competence
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.candidat = :val')
-            ->setParameter('val', $idCandidat)
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $value)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getOneOrNullResult()
+        ;
     }
-
+    */
 }

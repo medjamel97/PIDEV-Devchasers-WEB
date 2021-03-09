@@ -36,15 +36,15 @@ class ExperienceDeTravailRepository extends ServiceEntityRepository
     }
     */
 
-
-    public function findOneBySomeField($idCandidat)
+    /*
+    public function findOneBySomeField($value): ?ExperienceDeTravail
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.candidat = :val')
-            ->setParameter('val', $idCandidat)
+            ->andWhere('e.exampleField = :val')
+            ->setParameter('val', $value)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
-
+    */
 }

@@ -23,7 +23,6 @@ class ExperienceDeTravailType extends AbstractType
                 'class' => Candidat::class,
                 'choice_label' => 'id',
                 'multiple' => false]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
