@@ -1,33 +1,466 @@
 {% extends '/frontEnd/base.html.twig' %}
+{% set utilisateur = app.session.get('utilisateur') %}
+{% if utilisateur is not null %}
+    {% set idUtilisateur = utilisateur['idUtilisateur'] %}
+    {% set idCandidatExpediteur = utilisateur['idCandidat'] %}
+{% else %}
+    {% set idUtilisateur = null %}
+    {% set idCandidatExpediteur = null %}
+{% endif %}
+{% set idCandidatDestinataire = null %}
+{% block css %}
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ asset('/frontEnd/css/bootstrap.min.css') }}" type="text/css">
+
+    <!--Material Icon -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/materialdesignicons.min.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/fontawesome.css') }}"/>
+
+    <!-- selectize css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/selectize.css') }}"/>
+
+    <!--Slider-->
+    <link rel="stylesheet" href="{{ asset('/frontEnd/css/owl.carousel.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/frontEnd/css/owl.theme.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('/frontEnd/css/owl.transitions.css') }}"/>
+
+    <!-- Custom  Css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/style.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/modal.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/chat.css') }}">
+{% endblock %}
 {% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <section class="page-next-level">
-        <div class="p-5 bg-dark"></div>
         <div class="p-4 bg-dark"></div>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="row p-3 col-md-12">
-                    <table border="2" class="table">
-                        <tr>
-                            <td>Destinataire</td>
-                        </tr>
-                        {% set utilisateur = app.session.get('utilisateur') %}
-                        {% if utilisateur is not null %}
-                            {% set idUtilisateur = utilisateur['idUtilisateur'] %}
-                            {% set email = utilisateur['emailUtilisateur'] %}
-                            {% for candidat in candidats %}
-                                {% if  %}
-                                    <tr>
-                                        <td><a href="{{ asset('/messagerie/candidat='~candidat.id) }}">
-                                                {{ candidat.nom }}{{ candidat.prenom }}</a></td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            Veuillez vous connecter
-                        {% endif %}
-                    </table>
+        <!-- Main div start -->
+        <div class="content">
+            <div id="whole-container" class="row justify-content-center pt-5">
+                <div id="conversations-container" class="col-lg-3">
+                    <p class="display-4 mb-3 text-center">Messagerie</p>
+                    <div class="component-wrapper rounded" style="box-shadow: 0 0 0.5rem 1px rgba(54,54,54,0.14);">
+                        <div class="border-bottom rounded-top bg-light p-3">
+                            <div class="form-group m-0">
+                                <div class="input-group">
+                                    <input id="recherche-message" class="form-control pt-1" type="text"
+                                           placeholder="Rechercher dans mes conversations"
+                                           aria-describedby="buttonRechercheCandidat">
+                                    <div class="input-group-append">
+                                        <button id="buttonRechercheCandidat" class="btn btn-primary submitBnt pt-1"
+                                                type="submit">
+                                            <i class="mdi mdi-magnify"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="destinataire-label-conversation" class="conversation-container border-bottom">
+                            {% if conversations|length > 0 %}
+                                <div class="conversation-list">
+                                    {% for conversation in conversations %}
+                                        <div class="conversation border hover-anim">
+                                            <a id="ajax-afficher-conversation-main{{ conversation.candidatDestinataire.id }}"
+                                               href="#" class="conversation-infos col-lg-10">
+                                                <img src="{{ asset('/frontEnd/images/clients/no-profile-pic.png') }}"
+                                                     alt=""
+                                                     class="conversation-image-padding shadow border rounded-circle"
+                                                     height="65">
+                                                <div id="infos" class="conversation-infos-inside">
+                                                    <h5 class="text-dark">
+                                                        {{ conversation.candidatDestinataire.prenom }}
+                                                        {{ conversation.candidatDestinataire.nom }}
+                                                    </h5>
+                                                    <div class="text-dark overflow-hidden">
+                                                        Last message here
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a id="supprimer-conversation{{ conversation.id }}" href="#" class="m-auto">
+                                                <i class="mdi mdi-trash-can p-2"></i>
+                                            </a>
+                                            <script>
+
+                                                $("#supprimer-conversation{{ conversation.id }}").click(function () {
+                                                    openSuppModal(
+                                                        "{{ conversation.candidatDestinataire.prenom }} {{ conversation.candidatDestinataire.nom }}",
+                                                        "{{ conversation.id }}",
+                                                    );
+                                                })
+                                            </script>
+                                        </div>
+                                        <script>
+                                            $("#ajax-afficher-conversation-main{{ conversation.candidatDestinataire.id }}").click(function () {
+                                                $("#id-candidat-destinataire").val({{ conversation.candidatDestinataire.id }});
+                                                emptyConversation("{{ conversation.candidatDestinataire.prenom }}",
+                                                    "{{ conversation.candidatDestinataire.nom }}");
+                                                refreshConversation({{ idCandidatExpediteur }},{{ conversation.candidatDestinataire.id }});
+                                            });
+                                        </script>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="text-center">
+                                    <p>Aucune conversation</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="p-3">
+                            <div class="pl-4 align-items-center">
+                                <a id="nouvelle-conversation" href="#" class="btn btn-primary-outline"> + Nouvelle
+                                    conversation </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="chat-container" class="col-lg-6 animation-chat-container">
+                    <div class="component-wrapper rounded" style="box-shadow: 0 0 0.5rem 1px rgba(54,54,54,0.14);">
+                        <div class="border-bottom rounded-top bg-light p-3">
+                            <div class="contact bar bg-light">
+                                <div id="chat-container-destinataire-pic" class="mt-auto mb-auto mr-2 ml-2">
+                                    <img src="{{ asset('/frontEnd/images/clients/no-profile-pic.png') }}"
+                                         alt=""
+                                         class="shadow border rounded-circle"
+                                         height="65">
+                                </div>
+                                <div id="topbar-infos" class=""
+                                     style="display: flex;justify-content: center;align-items: center;">
+                                    <div>
+                                        <div id="chat-container-destinataire" class="name">
+                                            NaN
+                                        </div>
+                                        <div id="chat-container-destinataire-dernier-message" class="seen">
+                                            NaN
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="chat" class="messages">
+                            <div class="insideShadow"></div>
+                            <div class="time"></div>
+                            <div class="message destinataire">
+                                NaN
+                            </div>
+                            <div class="message expediteur">
+                                NaN
+                            </div>
+                            {% if "person" == "is typing" %}
+                                <div class="message">
+                                    <div class="typing typing-1"></div>
+                                    <div class="typing typing-2"></div>
+                                    <div class="typing typing-3"></div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div id="outsideShadow" class="outsideShadow"></div>
+                        <div class="p-4 rounded-bottom"
+                             style=" position : relative; z-index: 100; background-color: white">
+                            <form>
+                                <div class="form-group m-0">
+                                    <div class="input-group">
+                                        <input id="message-contenu" class="form-control pt-1" type="text"
+                                               placeholder="Nouveau message" aria-describedby="message_Envoyer">
+                                        <div class="input-group-append">
+                                            <button id="message-envoyer" class="btn btn-primary submitBnt pt-1"
+                                                    type="submit">
+                                                <i class="mdi mdi-send"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- Main div end -->
     </section>
+    <input id="id-candidat-destinataire" type="hidden">
+    <!-- Modal nouvelle conversation -->
+    <div id="nouvmodal" class="modal">
+        <div id="nouvmodal-content" class="modal-content component-wrapper rounded shadow">
+            <div class="border-bottom rounded-top bg-light p-3">
+                <div class="form-group m-0">
+                    <div class="input-group">
+                        <input id="recherche-message" class="form-control pt-1" type="text"
+                               placeholder="Rechercher des candidats"
+                               aria-describedby="buttonRechercheCandidat">
+                        <div class="input-group-append">
+                            <button id="button-recherche-candidat"
+                                    class="btn btn-primary submitBnt pt-1"
+                                    type="submit">
+                                <i class="mdi mdi-magnify"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-modal-body custom-scroll rounded-bottom">
+                {% for candidat in candidats %}
+                    {% if candidat.id != idCandidatExpediteur %}
+                        <a id="ajax-afficher-conversation{{ candidat.id }}" href="#">
+                            <div class="modal-contact-list position-relative border rounded p-2 mb-2">
+                                <img src="{{ asset('/frontEnd/images/clients/no-profile-pic.png') }}"
+                                     alt=""
+                                     class="shadow border rounded-circle"
+                                     height="90">
+                                <div class="ml-3">
+                                    <h5 class="text-dark m-0">
+                                        {{ candidat.prenom }} {{ candidat.nom }}
+                                    </h5>
+                                    <p class="text-muted m-0">
+                                        <i class="mdi mdi-briefcase"></i> Web Delveloper</p>
+                                    <p class="text-muted m-0">
+                                        <i class="mdi mdi-map-marker"></i> location
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <script>
+                            $("#ajax-afficher-conversation{{ candidat.id }}").click(function () {
+                                closeNouvModal();
+                                $("#id-candidat-destinataire").val({{ candidat.id }});
+                                emptyConversation("{{ candidat.prenom }}",
+                                    "{{ candidat.nom }}");
+                                refreshConversation({{ idCandidatExpediteur }},{{ candidat.id }});
+                            });
+                        </script>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Modal nouvelle conversation end -->
+    <!-- Modal supprimer conversation -->
+    <div id="suppmodal" class="modal">
+        <div id="suppmodal-content" class="modal-content-supp rounded">
+            <div id="suppmodal-body" class="modal-body custom-scroll border-bottom">
+            </div>
+            <div id="suppmodal-footer" class="my-modal-footer">
+                <a id="suppmodal-confirmer" href="#" class="m-auto">Confirmer</a>
+                <a id="suppmodal-annuler" href="#" class="m-auto">Annuler</a>
+            </div>
+        </div>
+    </div>
+    <!-- Modal supprimer conversation end -->
+    <script id="general">
+        $('#chat-container').hide();
+        var shadow = document.getElementById("outsideShadow");
+        shadow.style.visibility = "hidden";
+        shadow.scrollTop = shadow.scrollHeight;
+        $('#chat').scroll(function () {
+            var div = $(this);
+            if (div.scrollTop() > div.height() + 50) {
+                shadow.hide();
+            } else {
+                shadow.show();
+            }
+        });
+        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
+    </script>
+    <script id="modal-nouvelle-conversation">
+        var nouvModal = document.getElementById("nouvmodal");
+        var nouvModalContent = document.getElementById("nouvmodal-content");
+
+        $(window).keyup(function (e) {
+            if (e.keyCode === 27) {
+                closeNouvModal()
+            }
+        });
+
+        $(window).click(function () {
+            if (event.target === nouvModal) {
+                closeNouvModal();
+            }
+        });
+
+        $("#nouvelle-conversation").click(function () {
+
+            nouvModal.style.display = "block";
+
+            offset = nouvModalContent.offset();
+            nouvModalContent.style.position = 'fixed';
+            nouvModalContent.style.top = offset.top;
+            nouvModalContent.style.left = offset.left;
+
+            document.body.style.height = "100vh";
+            document.body.style.overflowY = "hidden";
+            document.body.style.paddingRight = "15px";
+        });
+
+        function closeNouvModal() {
+            nouvModal.style.display = "none";
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.height = "";
+            document.body.style.overflowY = "";
+            document.body.style.paddingRight = "";
+            const scrollY = document.body.style.top;
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
+    </script>
+    <script id="modal-supprimer-conversation">
+        suppModal = document.getElementById("suppmodal");
+        suppModalContent = document.getElementById("suppmodal-content");
+        idConv = null;
+
+        $(window).keyup(function (e) {
+            if (e.keyCode === 27) {
+                closeSuppModal();
+            }
+        });
+
+        $(window).click(function () {
+            if (event.target === suppModal) {
+                closeSuppModal();
+            }
+        });
+
+        $('#suppmodal-confirmer').click(function () {
+            supprimerConversation(idConv);
+            closeSuppModal();
+        });
+        $('#suppmodal-annuler').click(function () {
+            closeSuppModal();
+        });
+
+        function openSuppModal(nomPrenom, idConversation) {
+            idConv = idConversation;
+            suppModal.style.display = "block";
+
+            suppModalBody = $('#suppmodal-body');
+            suppModalBody.empty();
+            suppModalBody.append('Supprimer la conversation avec ' + nomPrenom + ' ?');
+
+            offset = suppModalContent.offset();
+            suppModalContent.style.position = 'fixed';
+            suppModalContent.style.top = offset.top;
+            suppModalContent.style.left = offset.left;
+            document.body.style.height = "100vh";
+            document.body.style.overflowY = "hidden";
+            document.body.style.paddingRight = "15px";
+        }
+
+        function closeSuppModal() {
+            supModalIsOpen = false;
+
+            suppModal.style.display = "none";
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.height = "";
+            document.body.style.overflowY = "";
+            document.body.style.paddingRight = "";
+            const scrollY = document.body.style.top;
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
+    </script>
+    <script id="ajax-supprimer-conversation">
+        function supprimerConversation(idConversation) {
+            $.ajax({
+                type: 'GET',
+                url: 'supprimerConversation',
+                data: {
+                    'idConversation': idConversation
+                },
+                success: function (retour) {
+                    if (retour) {
+                        alert(retour);
+                    }
+                },
+                error: function () {
+                    alert('Ajax error suppression conversation');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-refresh-conversation">
+        function emptyConversation(nomDestinataire, prenomDestinataire) {
+            $('#chat-container').show();
+
+            document.body.style.overflow = "hidden";
+            document.getElementById("conversations-container").className = "col-lg-3 animation-conversations-container";
+
+            var chatWindow = $('#chat');
+            var chatDestinataire = $('#chat-container-destinataire');
+            var chatDestinataireDernierMessage = $('#chat-container-destinataire-dernier-message');
+            var chatDestinatairePic = $('#chat-container-destinataire-pic');
+            //chatDestinatairePic.empty()
+            chatDestinataireDernierMessage.empty();
+            chatWindow.empty();
+            chatWindow.append("<div class='insideShadow'></div>");
+            chatDestinataire.empty();
+            chatDestinataire.append(nomDestinataire + " " + prenomDestinataire);
+        }
+
+        function refreshConversation(idCandidatExpediteur, idCandidatDestinataire) {
+            $.ajax({
+                type: 'GET',
+                url: 'afficherConversation',
+                data: {
+                    'idCandidatExpediteur': idCandidatExpediteur,
+                    'idCandidatDestinataire': idCandidatDestinataire,
+                },
+                success: function (retour) {
+                    if (retour) {
+                        var destinataireLastMessage = $('#chat-container-destinataire-dernier-message');
+                        var chatWindow = $('#chat');
+                        var parse = JSON.parse(retour);
+                        var time = new Date(Date.parse(parse[parse.length - 1].dateCreation));
+                        var datestring = time.getDate() + "/" + (time.getMonth() + 1) + "/" + time.getFullYear() + " " +
+                            time.getHours() + ":" + time.getMinutes();
+                        destinataireLastMessage.empty();
+                        destinataireLastMessage.append("Dernier message : " + datestring);
+                        chatWindow.empty();
+                        chatWindow.append("<div class='insideShadow'></div><div class='time'>time here</div>");
+                        $.each(JSON.parse(retour), function (i, obj) {
+                            if (obj.estProprietaire) {
+                                chatWindow.append("<div class='message expediteur'>" + obj.contenu + "</div>");
+                            } else {
+                                chatWindow.append("<div class='message destinataire'>" + obj.contenu + "</div>");
+                            }
+                        });
+                        var chatWindowScrollBottom = document.getElementById("chat");
+                        chatWindowScrollBottom.scrollTop = chatWindowScrollBottom.scrollHeight;
+                    }
+                },
+                error: function () {
+                    alert('Ajax error choisir conversation');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-nouveau-message">
+        $("#message-envoyer").click(function () {
+            var idCandidatExpediteur = {{ idCandidatExpediteur }};
+            var idCandidatDestinataire = $("#id-candidat-destinataire").val();
+            var contenu = $('#message-contenu');
+            $.ajax({
+                type: 'GET',
+                url: 'nouveauMessage',
+                data: {
+                    'idCandidatExpediteur': idCandidatExpediteur,
+                    'idCandidatDestinataire': idCandidatDestinataire,
+                    'contenu': contenu.val(),
+                },
+                success: function () {
+                    contenu.val("");
+                    refreshConversation(idCandidatExpediteur, idCandidatDestinataire);
+                },
+                error: function () {
+                    alert('ajax error envoyer message');
+                }
+            });
+            return false;
+        });
+    </script>
+    <script id="refresh-conversation-every-interval">
+        setInterval(refreshConversation("", ""), 1000000);
+    </script>
+{% endblock %}
+{% block footer %}
 {% endblock %}

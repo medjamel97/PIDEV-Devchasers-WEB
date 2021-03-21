@@ -95,14 +95,14 @@ class Candidat
     private $utilisateur;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="candidatExpediteur", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="candidatExpediteur", cascade={"remove"})
      */
-    private $messageEnvoye;
+    private $conversation;
 
     /**
-     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="candidatDestinataire", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="candidatDestinataire")
      */
-    private $messageRecu;
+    private $conversationCandidatDestinataire;
 
     public function __construct()
     {
@@ -114,8 +114,9 @@ class Candidat
         $this->experienceDeTravail = new ArrayCollection();
         $this->education = new ArrayCollection();
         $this->competence = new ArrayCollection();
-        $this->messageEnvoye = new ArrayCollection();
-        $this->messageRecu = new ArrayCollection();
+        $this->participantConversation = new ArrayCollection();
+        $this->conversation = new ArrayCollection();
+        $this->conversationCandidatDestinataire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -458,29 +459,29 @@ class Candidat
     }
 
     /**
-     * @return Collection|Message[]
+     * @return Collection|Conversation[]
      */
-    public function getMessageEnvoye(): Collection
+    public function getConversation(): Collection
     {
-        return $this->messageEnvoye;
+        return $this->conversation;
     }
 
-    public function addMessageEnvoye(Message $messageEnvoye): self
+    public function addConversation(Conversation $conversation): self
     {
-        if (!$this->messageEnvoye->contains($messageEnvoye)) {
-            $this->messageEnvoye[] = $messageEnvoye;
-            $messageEnvoye->setCandidatDestinataire($this);
+        if (!$this->conversation->contains($conversation)) {
+            $this->conversation[] = $conversation;
+            $conversation->setCandidatExpediteur($this);
         }
 
         return $this;
     }
 
-    public function removeMessageEnvoye(Message $messageEnvoye): self
+    public function removeConversation(Conversation $conversation): self
     {
-        if ($this->messageEnvoye->removeElement($messageEnvoye)) {
+        if ($this->conversation->removeElement($conversation)) {
             // set the owning side to null (unless already changed)
-            if ($messageEnvoye->getCandidatDestinataire() === $this) {
-                $messageEnvoye->setCandidatDestinataire(null);
+            if ($conversation->getCandidatExpediteur() === $this) {
+                $conversation->setCandidatExpediteur(null);
             }
         }
 
@@ -488,29 +489,29 @@ class Candidat
     }
 
     /**
-     * @return Collection|Message[]
+     * @return Collection|Conversation[]
      */
-    public function getMessageRecu(): Collection
+    public function getConversationCandidatDestinataire(): Collection
     {
-        return $this->messageRecu;
+        return $this->conversationCandidatDestinataire;
     }
 
-    public function addMessageRecu(Message $messageRecu): self
+    public function addConversationCandidatDestinataire(Conversation $conversationCandidatDestinataire): self
     {
-        if (!$this->messageRecu->contains($messageRecu)) {
-            $this->$messageRecu[] = $messageRecu;
-            $messageRecu->setCandidatExpediteur($this);
+        if (!$this->conversationCandidatDestinataire->contains($conversationCandidatDestinataire)) {
+            $this->conversationCandidatDestinataire[] = $conversationCandidatDestinataire;
+            $conversationCandidatDestinataire->setCandidatDestinataire($this);
         }
 
         return $this;
     }
 
-    public function removeMessageRecu(Message $messageRecu): self
+    public function removeConversationCandidatDestinataire(Conversation $conversationCandidatDestinataire): self
     {
-        if ($this->$messageRecu->removeElement($messageRecu)) {
+        if ($this->conversationCandidatDestinataire->removeElement($conversationCandidatDestinataire)) {
             // set the owning side to null (unless already changed)
-            if ($messageRecu->getCandidatExpediteur() === $this) {
-                $messageRecu->setCandidatExpediteur(null);
+            if ($conversationCandidatDestinataire->getCandidatDestinataire() === $this) {
+                $conversationCandidatDestinataire->setCandidatDestinataire(null);
             }
         }
 

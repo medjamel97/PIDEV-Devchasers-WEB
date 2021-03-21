@@ -44,4 +44,12 @@ class RevueRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleResult();
     }
+
+    public function findRevueByNbEtoiles($nbEtoiles){
+        return $this->createQueryBuilder('r')
+            ->where('r.nbEtoiles LIKE :nbEtoiles')
+            ->setParameter('nbEtoiles',$nbEtoiles)
+            ->getQuery()
+            ->getResult();
+    }
 }

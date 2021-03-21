@@ -67,6 +67,7 @@ class BaseController extends AbstractController
                         $this->session->set("utilisateur", [
                             'idUtilisateur' => $utilisateurConnexion->getId() ,
                             'emailUtilisateur' => $utilisateurConnexion->getEmail() ,
+                            'idCandidat' => $utilisateurConnexion->getCandidat()->getId() ,
                         ]);
                         return $this->redirectToRoute("accueil");
                     }

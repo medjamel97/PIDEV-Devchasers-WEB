@@ -1,0 +1,162 @@
+{% extends '/frontEnd/base.html.twig' %}
+{% block css %}
+    <link rel="shortcut icon" href="{{ asset('frontEnd/images/favicon.ico') }}">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ asset('frontEnd/css/bootstrap.min.css') }}" type="text/css">
+
+    <!--Material Icon -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/fontawesome.css') }}">
+
+    <!-- selectize css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/selectize.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/nice-select.css') }}">
+
+    <!-- Custom  Css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/style.css') }}">
+
+    <!-- Review rating css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/rating.css') }}"/>
+{% endblock %}
+{% block topImage %}{% endblock %}
+{% block content %}
+    <!-- Start home -->
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('/frontEnd/images/backgrounds/interview-background.png') }});">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <h4 class="text-uppercase title mb-4">{{ manipulation }} une interview</h4>
+                        <ul class="page-next d-inline-block mb-0">
+                            <li>
+                                <a href="{{ asset('frontEnd/index.html') }}" class="text-uppercase font-weight-bold">Societes</a>
+                            </li>
+                            <li>
+                                <a class="text-uppercase font-weight-bold">{{ societe.nomSociete }}</a>
+                            </li>
+                            <li>
+                                <a class="text-uppercase font-weight-bold">{{ offreDeTravail.description }}</a>
+                            </li>
+                            <li>
+                                <span class="text-uppercase text-white font-weight-bold">interviews</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end home -->
+    <!-- POST A JOB START -->
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="rounded shadow bg-white p-4">
+                        <div class="custom-form">
+                            <div id="message3"></div>
+                            <h4 class="text-dark mb-3">{{ manipulation }} une interview sur l'offre {{ offreDeTravail.description }} de {{ societe.nomSociete }} :</h4>
+                            {{ form_start(form) }}
+                            {% do form.nbEtoiles.setRendered() %}
+                            {% do form.objet.setRendered() %}
+                            {% do form.description.setRendered() %}
+                            {% do form.submit.setRendered() %}
+                            {% if interview is not null %}
+                                {% set objet = interview.objet %}
+                                {% set description = interview.description %}
+                                {% if interview.nbEtoiles == 1 %}
+                                    {% set checked1 = "checked" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
+                                {% elseif interview.nbEtoiles == 2 %}
+                                    {% set checked1 = "" %} {% set checked2 = "checked" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
+                                {% elseif interview.nbEtoiles == 3 %}
+                                    {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "checked" %} {% set checked4 = "" %} {% set checked5 = "" %}
+                                {% elseif interview.nbEtoiles == 4 %}
+                                    {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "checked" %} {% set checked5 = "" %}
+                                {% elseif interview.nbEtoiles == 5 %}
+                                    {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "checked" %}
+                                {% endif %}
+                            {% else %}
+                                {% set objet = "" %}
+                                {% set description = "" %}
+                                {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
+                            {% endif %}
+
+                            <div class="row">
+                                <!-- <label for="interview_nbEtoiles">Note :</label> -->
+                                <div id="interview_nbEtoiles" class="rate">
+                                    <input type="radio" id="interview_nbEtoiles_0" name="interview[nbEtoiles]"
+                                           value="5" {{ checked5 }}/>
+                                    <label for="interview_nbEtoiles_0" title="text">1 stars</label>
+                                    <input type="radio" id="interview_nbEtoiles_1" name="interview[nbEtoiles]"
+                                           value="4" {{ checked4 }}/>
+                                    <label for="interview_nbEtoiles_1" title="text">2 stars</label>
+                                    <input type="radio" id="interview_nbEtoiles_2" name="interview[nbEtoiles]"
+                                           value="3" {{ checked3 }}/>
+                                    <label for="interview_nbEtoiles_2" title="text">3 stars</label>
+                                    <input type="radio" id="interview_nbEtoiles_3" name="interview[nbEtoiles]"
+                                           value="2" {{ checked2 }}/>
+                                    <label for="interview_nbEtoiles_3" title="text">4 stars</label>
+                                    <input type="radio" id="interview_nbEtoiles_4" name="interview[nbEtoiles]"
+                                           value="1" {{ checked1 }}/>
+                                    <label for="interview_nbEtoiles_4" title="text">5 star</label>
+                                </div>
+                            </div>
+                            {{ form_errors(form.nbEtoiles) }}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group app-label mt-2">
+                                        <label class="text-muted">Objet</label>
+                                        <input class="form-control resume" type="text" id="interview_objet"
+                                               name="interview[objet]" maxlength="255" value="{{ objet }}">
+                                        {{ form_errors(form.objet) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group app-label mt-2">
+                                        <label class="text-muted">Description</label>
+                                        <textarea class="form-control resume" id="interview_description"
+                                                  name="interview[description]" maxlength="255">{{ description }}</textarea>
+                                        {{ form_errors(form.description) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 mt-2">
+                                    <button class="btn btn-primary" type="submit" id="interview_submit"
+                                            name="interview[submit]">{{ manipulation }}</button>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- POST A JOB END -->
+    {% block js %}
+        <!-- javascript -->
+        <script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('frontEnd/js/jquery.easing.min.js') }}"></script>
+        <script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
+
+        <!-- selectize js -->
+        <script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
+
+        <script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
+
+        <script src="{{ asset('frontEnd/js/app.js') }}"></script>
+        <div class="selectize-dropdown single demo-default"
+             style="display: none; width: 106px; top: 40.6px; left: 1208.6px;">
+            <div class="selectize-dropdown-content"></div>
+        </div>
+        <span
+                style="position: absolute; top: -99999px; left: -99999px; width: auto; padding: 0px; white-space: pre; letter-spacing: 0px; font-size: 13px; font-family: Nunito, sans-serif; font-weight: 400; text-transform: none;">Language</span>
+    {% endblock %}
+{% endblock %}

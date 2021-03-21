@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class RevueController extends AbstractController
 {
@@ -28,9 +30,9 @@ class RevueController extends AbstractController
             $nbPages = intdiv($countItems, $itemPerPage);
             if (($countItems % 6) != 0) $nbPages++;
             $firstItem = ($activePage - 1) * ($itemPerPage);
-            if ($activePage > $nbPages || $activePage < 1 ) return $this->redirect('/societe='.$idSociete.'/revue/activePage=1');
+            if ($activePage > $nbPages || $activePage < 1) return $this->redirect('/societe=' . $idSociete . '/revue/activePage=1');
         } else {
-            if ($activePage != 0) return $this->redirect('/societe='.$idSociete.'/revue/activePage=0');
+            if ($activePage != 0) return $this->redirect('/societe=' . $idSociete . '/revue/activePage=0');
             $firstItem = 0;
             $itemPerPage = 0;
             $nbPages = 0;
@@ -145,5 +147,23 @@ class RevueController extends AbstractController
             'idOffreDeTravail' => $idOffreDeTravail,
             'activePage' => 1,
         ]);
+    }
+
+    /**
+     * @Route("/revue/recherche", name="recherche")
+     * @throws ExceptionInterface
+     */
+    public
+    function recherche(Request $request, NormalizerInterface $normalizer)
+    {
+        $searchValue = $request->get('searchValue');
+        if ($searchValue != null) {
+            $revues = $this->getDoctrine()->getRepository(Revue::class)->findRevueByNbEtoiles($searchValue);
+            $jsonContent = $normalizer->normalize($revues, 'json', ['groups' => 'post:read']);
+            $retour = json_encode($jsonContent);
+            return new Response($retour);
+        } else {
+            return new Response(null);
+        }
     }
 }

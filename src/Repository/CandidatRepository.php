@@ -20,17 +20,4 @@ class CandidatRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Candidat::class);
     }
-
-    // /**
-    //  * @return Candidat[] Returns an array of Candidat objects
-    //  */
-
-    public function hasMessages(): bool
-    {
-        return ($this->createQueryBuilder('c')
-            ->select('count(c.id)')
-            ->getQuery()
-            ->getResult());
-    }
-
 }
