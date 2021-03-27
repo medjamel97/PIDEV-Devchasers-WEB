@@ -33,4 +33,11 @@ class CandidatRepository extends ServiceEntityRepository
             ->getResult());
     }
 
+    public function findCandidatAvecCandidatureOffre(): bool
+    {
+        return ($this->createQueryBuilder('c')
+            ->join('c.')
+            ->getQuery()
+            ->getResult());
+    }
 }

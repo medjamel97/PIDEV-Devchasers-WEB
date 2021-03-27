@@ -17,8 +17,12 @@
     <link rel="stylesheet" type="text/css" href="frontEnd/css/style.css"/>
 {% endblock %}
 
-{% block content %}
+{% set utilisateur = app.session.get('utilisateur') %}
+{% if utilisateur is not null %}
+    {% set idCandidat = utilisateur['idCandidat'] %}
+{% endif %}
 
+{% block content %}
     <!-- Start home -->
     <section class="bg-half page-next-level">
         <div class="bg-overlay"></div>
@@ -55,6 +59,7 @@
                             </li>
                         </ul>
                     </div>
+                    <i class="mdi mdi-pencil"></i><a href="{{ asset('candidat='~candidat.id~'/modifier') }}">Modifier profil</a>
                 </div>
             </div>
         </div>
@@ -70,9 +75,8 @@
                     <h4 class="text-dark">Education :</h4>
                 </div>
             </div>
-            <a href="{{ asset('candidat='~candidat.id~'/modifier') }}">Modifier profil</a>
-            <div class="row">
-                {% for education in educations %}
+            {% for education in educations %}
+                <div class="row">
                     <div class="col-lg-4 col-md-6 mt-4 pt-5">
                         <div class="border rounded candidates-profile-education text-center text-muted">
                             <div class="profile-education-icon border rounded-pill bg-white text-primary">
@@ -87,8 +91,12 @@
                             <p class="pt-3 border-top mb-0">{{ education.description }}</p>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+                <a href="{{ path("education_edit",{'id': education.id } ) }}">Modifier education</a>
+            {% endfor %}
+            <br>
+            <a href="{{ path("education_new") }}">Ajouter education</a>
+
 
             <div class="row">
                 <div class="col-lg-12 mt-4 pt-2">
@@ -125,7 +133,10 @@
                         </div>
                     </div>
                 </div>
+                <a href="{{ path("experienceDeTravail_edit",{'id': ExperienceDeTravail.id } ) }}">Modifier experience de travail</a>
             {% endfor %}
+            <br>
+            <a href="{{ path("experienceDeTravail_new") }}">Ajouter experience de travail</a>
 
             <div class="row">
                 <div class="col-lg-12 mt-4 pt-2">
@@ -134,20 +145,23 @@
             </div>
 
             {% for competence in competences %}
-            <div class="row">
-                <div class="col-md-6 mt-4 pt-2">
-                    <div class="progress-box mt-4">
-                        <h6 class="title text-muted">{{ competence.name }}</h6>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped position-relative bg-primary"
-                                 style="width:{{ competence.level }}%;">
-                                <div class="progress-value d-block text-muted h6">1%</div>
+                <div class="row">
+                    <div class="col-md-6 mt-4 pt-2">
+                        <div class="progress-box mt-4">
+                            <h6 class="title text-muted">{{ competence.name }}</h6>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped position-relative bg-primary"
+                                     style="width:{{ competence.level }}%;">
+                                    <div class="progress-value d-block text-muted h6">1%</div>
+                                </div>
                             </div>
-                        </div>
-                    </div><!--end process box-->
+                        </div><!--end process box-->
+                    </div>
                 </div>
-            </div>
+                <a href="{{ path("competence_edit",{'id': competence.id } ) }}">Modifier competence</a>
             {% endfor %}
+            <br>
+            <a href="{{ path("competence_new") }}">Ajouter competence</a>
         </div>
     </section>
     <!-- CANDIDATES PROFILE END -->

@@ -13,22 +13,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CandidatController extends AbstractController
 {
-    /**
-     * @Route("/candidat={idCandidat}", name="afficherCandidat")
-     */
-    public function afficherCandidat($idCandidat)
+    private $session;
+
+    public function __construct(SessionInterface $session)
     {
-        return $this->render('frontEnd/utilisateur/candidat/afficherCandidat.html.twig', [
+        $this->session = $session;
+    }
+
+    /**
+     * @Route("/afficherProfil", name="afficherProfil")
+     */
+    public function afficherProfil()
+    {
+        $idCandidat = $this->session->get("utilisateur")["idCandidat"];
+        return $this->render('frontEnd/utilisateur/candidat/afficherProfil.html.twig', [
             'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
-            'educations'=>$this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat),
-            'workexps'=>$this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat),
-        'competences'=>$this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat)
-
-
+            'educations' => $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat),
+            'workexps' => $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat),
+            'competences' => $this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat)
         ]);
     }
 
@@ -37,7 +44,7 @@ class CandidatController extends AbstractController
      */
     public function afficherToutCandidat()
     {
-        return $this->render('frontEnd/utilisateur/candidat/afficherToutCandidat.html.twig', [
+        return $this->render('backEnd/candidat/afficherToutCandidat.html.twig', [
             'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
         ]);
     }
@@ -104,6 +111,7 @@ class CandidatController extends AbstractController
 
         return $this->render('frontEnd/utilisateur/candidat/modifierprofil.html.twig', [
             'form' => $form->createView(),
+            'manipulation' => "Modifier"
         ]);
     }
 }

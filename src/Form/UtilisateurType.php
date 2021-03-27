@@ -17,12 +17,7 @@ class UtilisateurType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('motDePasse')
-            ->add('typeUtilisateur', ChoiceType::class, [
-                'choices' => [
-                    'Societe' => 0,
-                    'Candidat' => 1,],
-            ]);
+            ->add('motDePasse');
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -49,7 +49,9 @@ class UtilisateurRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getSingleResult();
         } catch (NoResultException $e) {
+            return null;
         } catch (NonUniqueResultException $e) {
+            return null;
         }
     }
 }

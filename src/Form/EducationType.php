@@ -20,10 +20,6 @@ class EducationType extends AbstractType
             ->add('etablissement')
             ->add('ville')
             ->add('duree')
-            ->add('candidat', EntityType::class, [
-                'class' => Candidat::class,
-                'choice_label' => 'id',
-                'multiple' => false]);
         ;
     }
 

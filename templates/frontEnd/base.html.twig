@@ -34,7 +34,6 @@
 </head>
 
 <body>
-{% block body %}
     <!-- Loader -->
     <div id="preloader">
         <div id="status">
@@ -139,7 +138,7 @@
                 {% block links %}
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
-                        <li class="has-submenu"><a href="{{ asset('candidat') }}">Profil</a></li>
+                        <li class="has-submenu"><a href="{{ asset('afficherProfil') }}">Profil</a></li>
                         <li class="has-submenu"><a href="{{ asset('societe') }}">Societe</a></li>
                         <li class="has-submenu">
                             <a href="{{ asset('offreDeTravail/categorie=0') }}">Offres de travail</a><span
@@ -283,7 +282,6 @@
 
     <script src="{{ asset('/frontEnd/js/app.js') }}"></script>
     <script src="{{ asset('/frontEnd/js/home.js') }}"></script>
-{% endblock %}
 {% endblock %}
 </body>
 </html>

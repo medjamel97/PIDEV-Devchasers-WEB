@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,11 @@ class UtilisateurController extends AbstractController
         $utilisateur = new Utilisateur();
 
         $form = $this->createForm(UtilisateurType::class, $utilisateur)
+            ->add('typeUtilisateur', ChoiceType::class, [
+                'choices' => [
+                    'Societe' => 0,
+                    'Candidat' => 1,],
+            ])
             ->add('Suivant', SubmitType::class)
             ->handleRequest($request);
 
@@ -61,7 +67,7 @@ class UtilisateurController extends AbstractController
     /**
      * @Route("/utilisateur={idUtilisateur}/modifier", name="modifierUtilisateur")
      */
-    public function modifierUtilisateur(Request $request,$idUtilisateur)
+    public function modifierUtilisateur(Request $request, $idUtilisateur)
     {
         $utilisateurRepository = $this->getDoctrine()->getManager();
         $utilisateur = $utilisateurRepository->getRepository(Utilisateur::class)->find($idUtilisateur);
@@ -74,19 +80,19 @@ class UtilisateurController extends AbstractController
 
             $utilisateur = $form->getData();
 
-            if ($utilisateur->getTypeUtilisateur() == 0){
+            if ($utilisateur->getTypeUtilisateur() == 0) {
                 return $this->redirectToRoute("ajouterSociete", [
                     'id' => $utilisateur->getId(),
-                    'email'  => $utilisateur->getEmail(),
-                    'motDePasse'  => $utilisateur->getMotDePasse(),
+                    'email' => $utilisateur->getEmail(),
+                    'motDePasse' => $utilisateur->getMotDePasse(),
                 ]);
-            }elseif($utilisateur->getTypeUtilisateur() == 1){
+            } elseif ($utilisateur->getTypeUtilisateur() == 1) {
                 return $this->redirectToRoute("ajouterCandidat", [
                     'id' => $utilisateur->getId(),
-                    'email'  => $utilisateur->getEmail(),
-                    'motDePasse'  => $utilisateur->getMotDePasse(),
+                    'email' => $utilisateur->getEmail(),
+                    'motDePasse' => $utilisateur->getMotDePasse(),
                 ]);
-            }else{
+            } else {
                 $this->redirectToRoute("acceuil");
             }
         }

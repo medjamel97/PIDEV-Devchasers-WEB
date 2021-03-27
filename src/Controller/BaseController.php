@@ -60,15 +60,24 @@ class BaseController extends AbstractController
             foreach ($utilisateurs as $utilisateur) {
                 $email = $utilisateur->getEmail();
                 if ($utilisateurConnexion->getEmail() == $email) {
-                    $motDePasse =  $utilisateur->getMotDePasse();
-                    if ($utilisateurConnexion->getMotDePasse() == $motDePasse)
-                    {
-                        $utilisateurConnexion = $manager->getRepository(Utilisateur::class)->connexion($email,$motDePasse);
-                        $this->session->set("utilisateur", [
-                            'idUtilisateur' => $utilisateurConnexion->getId() ,
-                            'emailUtilisateur' => $utilisateurConnexion->getEmail() ,
-                        ]);
-                        return $this->redirectToRoute("accueil");
+                    $motDePasse = $utilisateur->getMotDePasse();
+                    if ($utilisateurConnexion->getMotDePasse() == $motDePasse) {
+                        $utilisateurConnexion = $manager->getRepository(Utilisateur::class)->connexion($email, $motDePasse);
+                        if ($utilisateurConnexion->getTypeUtilisateur()==1) {
+                            $this->session->set("utilisateur", [
+                                'idUtilisateur' => $utilisateurConnexion->getId(),
+                                'emailUtilisateur' => $utilisateurConnexion->getEmail(),
+                                'idCandidat' => $utilisateurConnexion->getCandidat()->getId(),
+                            ]);
+                            return $this->redirectToRoute("accueil");
+                        } else {
+                            $this->session->set("utilisateur", [
+                                'idUtilisateur' => $utilisateurConnexion->getId(),
+                                'emailUtilisateur' => $utilisateurConnexion->getEmail(),
+                                'idSociete' => $utilisateurConnexion->getSociete()->getId(),
+                            ]);
+                            return $this->redirectToRoute("accueilBackEnd");
+                        }
                     }
                 }
             }
@@ -84,7 +93,7 @@ class BaseController extends AbstractController
      */
     public function deconnexion()
     {
-        $this->session->set("utilisateur",null);
+        $this->session->set("utilisateur", null);
         return $this->redirectToRoute("accueil");
     }
 }
