@@ -946,7 +946,7 @@
         console.groupEnd();
       });
     }
-  } // Allow clients to access, and in some cases, override some properties
+  } // Allow candidats to access, and in some cases, override some properties
 
   var initialConfig = WINDOW.FontAwesomeDetection || {}; // These can be overridden
 

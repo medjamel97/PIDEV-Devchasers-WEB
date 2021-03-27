@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+/.idea
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -18,6 +19,3 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
-/.idea
-.idea
-.idea/workspace.xml

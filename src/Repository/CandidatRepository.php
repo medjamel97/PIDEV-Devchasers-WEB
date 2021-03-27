@@ -20,4 +20,14 @@ class CandidatRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Candidat::class);
     }
+
+    public function findStartingWith($recherche)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.nom LIKE :val')
+            ->orWhere('c.prenom LIKE :val')
+            ->setParameter("val", $recherche . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

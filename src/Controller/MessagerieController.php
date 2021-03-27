@@ -5,14 +5,12 @@ namespace App\Controller;
 use App\Entity\Candidat;
 use App\Entity\Conversation;
 use App\Entity\Message;
-use Cassandra\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class MessagerieController extends AbstractController
 {
@@ -24,100 +22,219 @@ class MessagerieController extends AbstractController
     }
 
     /**
-     * @Route("afficherMessagerie", name="afficherMessagerie")
+     * @Route("messagerie", name="messagerie")
      */
-    public function afficherMessagerie(Request $request)
+    public function messagerie(Request $request)
     {
-        $idCandidatExpediteur = $this->session->get("utilisateur")['idCandidat'];
-
-        $conversations = $this->getDoctrine()->getRepository(Conversation::class)
-            ->findMyConversations($idCandidatExpediteur);
-
-        return $this->render('/frontEnd/utilisateur/candidat/messagerie/afficherMessagerie.html.twig', [
-            'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
-            'conversations' => $conversations,
-        ]);
+        return $this->render('/frontEnd/utilisateur/candidat/messagerie/afficherMessagerie.html.twig');
     }
 
     /**
-     * @Route("afficherConversation", name="afficherConversation")
+     * @Route("recupererCandidats", name="recupererCandidats")
+     */
+    public function recupererCandidats(Request $request)
+    {
+        $idCandidatExpediteur = $this->session->get("utilisateur")['idCandidat'];
+
+        $recherche = $request->get('recherche');
+
+        $candidats = $this->getDoctrine()->getRepository(Candidat::class)->findStartingWith($recherche);
+
+        $i = 0;
+        $jsonContent = null;
+        if ($candidats != null) {
+            foreach ($candidats as $candidatDestinataire) {
+                if ($candidatDestinataire->getId() != $idCandidatExpediteur) {
+                    $jsonContent[$i]["idCandidatExpediteur"] = $idCandidatExpediteur;
+                    $jsonContent[$i]["idCandidatDestinataire"] = $candidatDestinataire->getId();
+                    $jsonContent[$i]["idPhoto"] = $candidatDestinataire->getIdPhoto();
+                    $jsonContent[$i]["nomPrenom"] =
+                        $candidatDestinataire->getPrenom() . " " .
+                        $candidatDestinataire->getNom();
+                    $i++;
+                }
+            }
+            return new Response(json_encode($jsonContent));
+        } else {
+            return new Response(null);
+        }
+    }
+
+    /**
+     * @Route("recupererConversations", name="recupererConversations")
+     */
+    public function recupererConversations(Request $request)
+    {
+        $idCandidatExpediteur = $this->session->get("utilisateur")['idCandidat'];
+        $recherche = $request->get('recherche');
+
+        $conversationsRepository = $this->getDoctrine()->getRepository(Conversation::class);
+        $conversations = $conversationsRepository->findMyConversationSortedStartingWith($recherche, $idCandidatExpediteur);
+
+        $i = 0;
+        $jsonContent = null;
+        if ($conversations != null) {
+            foreach ($conversations as $conversation) {
+                if ($conversation->getDateDernierMessage() != null) {
+                    $jsonContent[$i]["idConversation"] = $conversation->getId();
+                    $jsonContent[$i]["idPhoto"] = $conversation->getCandidatDestinataire()->getIdPhoto();
+                    $jsonContent[$i]["nomConversation"] =
+                        $conversation->getCandidatDestinataire()->getPrenom() . " " .
+                        $conversation->getCandidatDestinataire()->getNom();
+                    $jsonContent[$i]["dernierMessage"] = $conversationsRepository->findDernierMessage($conversation->getId());
+                    $jsonContent[$i]["dernierMessageEstVu"] = $conversationsRepository->findDernierMessageEstVu($conversation->getId());
+                    $jsonContent[$i]["nombreNotifications"] = $conversationsRepository->getNombreMessageNonLues($conversation->getId());
+                    $i++;
+                }
+
+            }
+            if ($jsonContent == null) {
+                return new Response(null);
+            } else {
+                return new Response(json_encode($jsonContent));
+            }
+
+        } else {
+            return new Response(null);
+        }
+    }
+
+    /**
+     * @Route("ajouterConversation", name="ajouterConversation")
      * @throws ExceptionInterface
      */
-    public function afficherConversation(Request $request, NormalizerInterface $normalizer)
+    public
+    function ajouterConversation(Request $request)
     {
         $param1 = (integer)$request->get('idCandidatExpediteur');
         $param2 = (integer)$request->get('idCandidatDestinataire');
 
-        $conversation = $this->getDoctrine()->getRepository(Conversation::class)
-            ->findOneBy([
-                'candidatExpediteur' => $param1,
-                'candidatDestinataire' => $param2
-            ]);
-        $messages = $this->getDoctrine()->getRepository(Message::class)
-            ->findLastMessages($conversation, 7);
+        if (($param1 == null) || ($param2 == null)) {
+            return null;
+        }
 
-        $jsonContent = $normalizer->normalize($messages, 'json', ['groups' => 'post:read',]);
-        $retour = json_encode($jsonContent);
-        return new Response($retour);
+        $candidatExpediteur = $this->getDoctrine()->getRepository(Candidat::class)->find($param1);
+        $candidatDestinataire = $this->getDoctrine()->getRepository(Candidat::class)->find($param2);
+
+        $conversation = $this->getDoctrine()->getRepository(Conversation::class)->findOneBy([
+            'candidatExpediteur' => $candidatExpediteur,
+            'candidatDestinataire' => $candidatDestinataire
+        ]);
+
+        if ($conversation == null) {
+            $conversation = new Conversation();
+            $conversationManager = $this->getDoctrine()->getManager();
+            $conversation
+                ->setCandidatExpediteur($candidatExpediteur)
+                ->setCandidatDestinataire($candidatDestinataire);
+            $conversationManager->persist($conversation);
+            $conversationManager->flush();
+        }
+
+        $jsonContent['idConversation'] = $conversation->getId();
+        $jsonContent['nomConversation'] = $candidatDestinataire->getNom() . " " . $candidatDestinataire->getPrenom();
+        $jsonContent['idPhoto'] = $candidatDestinataire->getIdPhoto();
+        return new Response(json_encode($jsonContent));
     }
 
     /**
      * @Route("supprimerConversation", name="supprimerConversation")
-     * @throws ExceptionInterface
      */
-    public function supprimerConversation(Request $request)
+    public
+    function supprimerConversation(Request $request)
     {
         $idConversation = (integer)$request->get('idConversation');
-        /*
-                $conversationManager = $this->getDoctrine()->getManager();
-                $conversationManager->remove($conversationManager->getRepository(Conversation::class)->find($idConversation));
-                $conversationManager->flush();
-        */
 
-        return new Response("id = " . $idConversation . " Supprimé avec succes (controller not working)");
+        $conversationManager = $this->getDoctrine()->getManager();
+        $conversationManager->remove($conversationManager->getRepository(Conversation::class)->find($idConversation));
+        $conversationManager->flush();
+
+        return new Response("id = " . $idConversation . " Supprimé avec succes");
+    }
+
+    /**
+     * @Route("recupererMessages", name="recupererMessages")
+     * @throws ExceptionInterface
+     */
+    public
+    function recupererMessages(Request $request)
+    {
+        $idConversation = (integer)$request->get('idConversation');
+        $page = $request->get('page');
+
+        $conversation = $this->getDoctrine()->getRepository(Conversation::class)->find($idConversation);
+        $messages = $this->getDoctrine()->getRepository(Message::class)
+            ->findLastMessages($idConversation, 5, $page);
+
+        // ---- FAIRE VU ----------------------------------------------------------------------------
+        $manager = $this->getDoctrine()->getManager();
+        $unseenMessages = $manager->getRepository(Message::class)
+            ->findUnseenMessages($conversation);
+        if ($unseenMessages != null) {
+            foreach ($unseenMessages as $unseenMessage) {
+                $unseenMessage->setEstVu(true);
+                $manager->flush();
+            }
+        }
+        // ------------------------------------------------------------------------------------------
+
+        $jsonContent = null;
+        $i = 0;
+        foreach ($messages as $message) {
+            $jsonContent[$i]['id'] = $message->getId();
+            $jsonContent[$i]['contenu'] = $message->getContenu();
+            $jsonContent[$i]['dateCreation'] = $message->getDateCreation()->format('d-m-Y h:i');
+            $jsonContent[$i]['estProprietaire'] = $message->getEstProprietaire();
+            $jsonContent[$i]['estVu'] = $message->getEstVu();
+            $i++;
+        }
+
+
+        if ($jsonContent != null) {
+            return new Response(json_encode($jsonContent));
+        } else {
+            return new Response(null);
+        }
     }
 
     /**
      * @Route("nouveauMessage", name="nouveauMessage")
-     * @throws ExceptionInterface
      * @throws \Exception
      */
-    public function nouveauMessage(Request $request)
+    public
+    function nouveauMessage(Request $request)
     {
-        $manager = $this->getDoctrine()->getManager();
-        $param1 = (integer)$request->get('idCandidatExpediteur');
-        $candidatExpediteur = $this->getDoctrine()->getRepository(Candidat::class)->find($param1);
-        $param2 = (integer)$request->get('idCandidatDestinataire');
-        $candidatDestinataire = $this->getDoctrine()->getRepository(Candidat::class)->find($param2);
+        $idConversation = (integer)$request->get('idConversation');
         $contenu = $request->get('contenu');
+        $manager = $this->getDoctrine()->getManager();
         $date = new \DateTime('now', new \DateTimeZone('Africa/Tunis'));
 
-        $conversation1 = $this->getConversation($manager, $candidatExpediteur, $candidatDestinataire);
-        $conversation2 = $this->getConversation($manager, $candidatDestinataire, $candidatExpediteur);
+        if (($idConversation == null) || ($contenu == null)) {
+            return null;
+        }
 
-        $this->createMessage($manager, $contenu, $date, $conversation1, true);
-        $this->createMessage($manager, $contenu, $date, $conversation2, false);
+        $conversationExpediteur = $this->getDoctrine()->getRepository(Conversation::class)->find($idConversation);
+
+        $conversationDestinataire = $manager->getRepository(Conversation::class)
+            ->findOneBy([
+                'candidatExpediteur' => $conversationExpediteur->getCandidatDestinataire(),
+                'candidatDestinataire' => $conversationExpediteur->getCandidatExpediteur()
+            ]);
+
+        if ($conversationDestinataire == null) {
+            $conversationDestinataire = new Conversation();
+            $conversationDestinataire
+                ->setCandidatExpediteur($conversationExpediteur->getCandidatDestinataire())
+                ->setCandidatDestinataire($conversationExpediteur->getCandidatExpediteur());
+            $manager->persist($conversationDestinataire);
+        }
+
+        $this->createMessage($manager, $contenu, $date, $conversationExpediteur, true);
+        $this->createMessage($manager, $contenu, $date, $conversationDestinataire, false);
 
         $manager->flush();
 
         return new Response(null);
-    }
-
-    public function getConversation($manager, $candidatExpediteur, $candidatDestinataire)
-    {
-        $conversationExpediteur = $manager->getRepository(Conversation::class)
-            ->findOneBy([
-                'candidatExpediteur' => $candidatExpediteur,
-                'candidatDestinataire' => $candidatDestinataire
-            ]);
-
-        if ($conversationExpediteur == null) {
-            $conversationExpediteur = new Conversation();
-            $conversationExpediteur->setCandidatExpediteur($candidatExpediteur)->setCandidatDestinataire($candidatDestinataire);
-            $manager->persist($conversationExpediteur);
-        }
-
-        return $conversationExpediteur;
     }
 
     function createMessage($manager, $contenu, $date, $conversation, $proprietaire)
@@ -129,6 +246,10 @@ class MessagerieController extends AbstractController
             ->setDateCreation($date)
             ->setEstProprietaire($proprietaire)
             ->setEstVu(false);
+
+        if ($proprietaire) {
+            $message->setEstVu(true);
+        }
 
         $manager->persist($message);
 

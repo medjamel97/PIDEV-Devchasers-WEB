@@ -2,93 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="126c6e24-da75-4d47-86ea-9b882b98ccd4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/frontEnd/css/modal.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/frontEnd/images/clients/no-profile-pic.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/MessagerieController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/interview/afficherInterview.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/interview/afficherToutInterview.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/interview/manipulerInterview.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/frontEnd/images/loading-icon.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/public/frontEnd/css/chat.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatureEvenementController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CategorieController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CommentaireController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CompetenceController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/EducationController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/EvenementController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ExperienceDeTravailController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/FormationController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210308120900.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210313131931.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210313200745.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210313211628.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210313214711.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210313215122.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210317003542.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210317010407.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/backEnd/vendor/fontawesome-free/js/conflict-detection.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/backEnd/vendor/fontawesome-free/js/conflict-detection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/css/chat.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/frontEnd/css/chat.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/css/modal.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/frontEnd/css/modal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/clients/1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/clients/2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/clients/3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/clients/4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/clients/5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/clients/6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/clients/no-profile-pic.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/InterviewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InterviewController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/MessageController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/MissionController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PublicationController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/QuestionController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/QuestionnaireController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/MessagerieController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/MessagerieController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/RevueController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RevueController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SocieteController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UtilisateurController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Candidat.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Candidat.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Message.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Revue.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Revue.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CandidatType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CandidatureEvenementType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CategorieType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CommentaireType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CompetenceType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/EducationType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/EvenementType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ExperienceDeTravailType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/FormationType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/MissionType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/PublicationType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/QuestionType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/QuestionnaireType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/SocieteType.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/CandidatRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/CandidatRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/MessagesRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/RevueRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/RevueRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/ConversationRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ConversationRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/MessageRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/MessageRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/accueil.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/accueil.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/afficherUtilisateur.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/afficherCandidat.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/afficherToutCandidat.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/competence/afficherCompetence.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/competence/manipulerCompetence.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/education/afficherEducation.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/education/manipulerEducation.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/experienceDeTravail/afficherExperienceDeTravail.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/experienceDeTravail/manipulerExperienceDeTravail.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/manipulerCandidat.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/messagerie/afficherMessage.html.twig" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/messagerie/afficherMessagerie.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/messagerie/afficherMessagerie.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/publication/commentaire/afficherCommentaire.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/publication/commentaire/manipulerCommentaire.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/publication/manipulerPublication.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/manipulerUtilisateur.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/afficherSociete.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/afficherToutSociete.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/categorie/afficherCategorie.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/categorie/manipulerCategorie.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/evenement/afficherEvenement.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/evenement/ajouterCandidatureEvenement.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/evenement/manipulerEvenement.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/formation/afficherFormation.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/formation/manipulerFormation.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/manipulerSociete.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/mission/afficherMission.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/mission/manipulerMission.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/mission/questionnaire/afficherQuestionnaire.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/mission/questionnaire/manipulerQuestionnaire.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/mission/questionnaire/question/afficherQuestion.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/mission/questionnaire/question/manipulerQuestion.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/manipulerOffreDeTravail.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/afficherToutRevue.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/afficherToutRevue.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -236,26 +184,26 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/frontEnd/css" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/frontEnd/images/clients" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/templates/frontEnd/revue/afficherRevueSociete.html.twig" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\css" />
-      <recent name="D:\Projects\PIDEV-Devchasers\src\Controller" />
-      <recent name="D:\Projects\PIDEV-Devchasers\src\Entity" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\offreDeTravail\interview" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\candidat\messagerie" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images\candidats" />
       <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images\clients" />
       <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images" />
       <recent name="D:\Projects\PIDEV-Devchasers\src\Entity" />
       <recent name="D:\Projects\PIDEV-Devchasers\src\Entity\Messagerie" />
-      <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images\backgrounds" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images\clients" />
+      <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images" />
+      <recent name="D:\Projects\PIDEV-Devchasers\src\Controller" />
+      <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\css" />
+      <recent name="D:\Projects\PIDEV-Devchasers\src\Entity" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -317,7 +265,17 @@
       <workItem from="1616146500052" duration="12644000" />
       <workItem from="1616168717393" duration="618000" />
       <workItem from="1616224736509" duration="9605000" />
-      <workItem from="1616321750390" duration="13527000" />
+      <workItem from="1616321750390" duration="15136000" />
+      <workItem from="1616347781799" duration="7814000" />
+      <workItem from="1616446289351" duration="1591000" />
+      <workItem from="1616502943353" duration="1243000" />
+      <workItem from="1616507100179" duration="7596000" />
+      <workItem from="1616532331903" duration="18388000" />
+      <workItem from="1616589141248" duration="46577000" />
+      <workItem from="1616687858562" duration="37171000" />
+      <workItem from="1616754170421" duration="40620000" />
+      <workItem from="1616832690756" duration="594000" />
+      <workItem from="1616887864182" duration="39000" />
     </task>
     <servers />
   </component>

@@ -108,15 +108,15 @@ class RevueController extends AbstractController
      */
     public function modifierRevue(Request $request, $idSociete, $idOffreDeTravail, $idRevue)
     {
-        $revueRepository = $this->getDoctrine()->getManager();
-        $revue = $revueRepository->getRepository(Revue::class)->find($idRevue);
+        $manager = $this->getDoctrine()->getManager();
+        $revue = $manager->getRepository(Revue::class)->find($idRevue);
 
         $form = $this->createForm(RevueType::class, $revue);
         $form->add('submit', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $revueRepository->flush();
+            $manager->flush();
             return $this->redirectToRoute('afficherToutRevue', [
                 'idSociete' => $idSociete,
                 'idOffreDeTravail' => $idOffreDeTravail,
@@ -138,10 +138,10 @@ class RevueController extends AbstractController
      */
     public function supprimerRevue($idSociete, $idOffreDeTravail, $idRevue)
     {
-        $revueManager = $this->getDoctrine()->getManager();
-        $revue = $revueManager->getRepository(Revue::class)->find($idRevue);
-        $revueManager->remove($revue);
-        $revueManager->flush();
+        $manager = $this->getDoctrine()->getManager();
+        $revue = $manager->getRepository(Revue::class)->find($idRevue);
+        $manager->remove($revue);
+        $manager->flush();
         return $this->redirectToRoute('afficherToutRevue', [
             'idSociete' => $idSociete,
             'idOffreDeTravail' => $idOffreDeTravail,

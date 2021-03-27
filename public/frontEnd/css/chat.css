@@ -1,10 +1,11 @@
 
-.conversation-container{
+.conversation-container {
     flex-direction: column;
     flex-shrink: 2;
     z-index: 75;
     height: 45.9vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .conversation-list {
@@ -18,20 +19,20 @@
     height: 5rem;
 }
 
-.conversation-image-padding{
+.conversation-image-padding {
     margin: auto;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 }
 
-.conversation-infos{
+.conversation-infos {
     display: flex;
     flex-direction: row;
     margin: 0;
     padding: 0;
 }
 
-.conversation-infos-inside{
+.conversation-infos-inside {
     margin: auto;
     margin-left: 0.5rem;
     margin-right: 0;
@@ -54,7 +55,7 @@
     margin: auto;
 }
 
-.contact .pic-container{
+.contact .pic-container {
     position: relative;
     height: 100%;
     width: 25%;
@@ -79,14 +80,16 @@
     color: #999;
 }
 
-.contact .notification-badge {
+.notification-badge {
     position: absolute;
     z-index: 20;
     box-sizing: border-box;
-    padding-top: 4px;
-    width: 1.1rem;
-    height: 1.1rem;
-    font-size: 8px;
+    margin-top: -66px;
+    margin-left: -5px;
+    padding-top: 2px;
+    width: 1.3rem;
+    height: 1.3rem;
+    font-size: 12px;
     text-align: center;
     border-radius: 1rem;
     background: #ff1200;
@@ -100,10 +103,9 @@
     flex-shrink: 2;
     flex-basis: 3.5rem;
     z-index: 75;
-    justify-content: space-between;
     height: 50vh;
     box-sizing: border-box;
-    background: #F7F7F7;
+    background: white;
     padding: 1rem;
     overflow-y: auto;
 }
@@ -113,15 +115,68 @@
     box-shadow: 0 -1.5rem 3rem 0.5rem rgba(35, 0, 1, 0.32);
 }
 
-.outsideShadow {
+.outside-shadow-top {
     position: relative;
     z-index: 100;
-    width: 92%;
+    width: 90%;
+    box-shadow: 1.5rem -0.5rem 1rem 1rem rgba(171, 171, 171, 0.32);
+    animation: shadow-top-fade-in 0.3s linear forwards;
+}
+
+.outside-shadow-bot {
+    position: relative;
+    z-index: 100;
+    width: 90%;
     box-shadow: 1.5rem 0.5rem 1rem 1rem rgba(171, 171, 171, 0.32);
+    animation: shadow-bot-fade-in 0.3s linear forwards;
+}
+
+@keyframes shadow-top-fade-in {
+    from {
+        box-shadow: 1.5rem -0.5rem 1rem 1rem rgba(171, 171, 171, 0);
+    }
+
+    to {
+        box-shadow: 1.5rem -0.5rem 1rem 1rem rgba(171, 171, 171, 0.32);
+    }
+}
+
+@keyframes shadow-bot-fade-in {
+    from {
+        box-shadow: 1.5rem 0.5rem 1rem 1rem rgba(171, 171, 171, 0);
+    }
+
+    to {
+        box-shadow: 1.5rem 0.5rem 1rem 1rem rgba(171, 171, 171, 0.32);
+    }
 }
 
 .hover-anim:hover {
     background: #f0f0f0;
+}
+
+.text-label {
+    height: 2rem;
+    overflow: hidden;
+    color: #434343;
+}
+
+.text-read {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 1.5rem;
+    max-width: 11rem;
+    color: #434343;
+}
+
+.text-unread {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 1.5rem;
+    max-width: 11rem;
+    color: #2F55D4;
 }
 
 .messages .time {
@@ -145,19 +200,19 @@
 .messages .message.destinataire {
     margin: 1rem 1rem 1rem auto;
     border-radius: 1.125rem 1.125rem 0 1.125rem;
-    background: #333;
+    background: #2F55D4;
     word-wrap: break-word;
     color: white;
-    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.3), 0 1rem 1rem -1rem rgb(0, 0, 0);
+    box-shadow: 0 0 2rem rgba(47, 85, 212, 0.31), 0 1rem 1rem -1rem rgb(47, 85, 212);
 }
 
 .messages .message.expediteur {
     margin: 1rem auto 0 0;
     border-radius: 1.125rem 1.125rem 1.125rem 0;
-    background: #2F55D4;
+    background: #333;
     word-wrap: break-word;
     color: white;
-    box-shadow: 0 0 2rem rgba(47, 85, 212, 0.31), 0 1rem 1rem -1rem rgb(47, 85, 212);
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.3), 0 1rem 1rem -1rem rgb(0, 0, 0);
 }
 
 .messages .message .typing {
@@ -195,17 +250,41 @@
 }
 
 .pic.candidat {
-    background-image: url("../images/clients/no-profile-pic.png");
+    background-image: url("../images/candidats/candidat.jpg");
 }
 
-.animation-chat-container {
+.loading {
+    position: absolute;
+    z-index: 100;
+    width: 89.7vh;
+    height: inherit;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.loading-img {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.animation-contenaire-chat {
     animation-name: slideIn;
     animation-duration: 0.8s;
 }
 
-.animation-conversations-container {
+.animation-contenaire-conversations {
     animation-name: slideLeft;
     animation-duration: 0.5s;
+}
+
+@media (min-width: 992px) {
+    #body {
+        overflow-y: hidden !important;
+    }
 }
 
 @keyframes slideIn {
