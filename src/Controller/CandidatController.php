@@ -69,6 +69,8 @@ class CandidatController extends AbstractController
 
             $candidat = $form->getData()
                 ->setUtilisateur($utilisateur);
+            echo"<pre>";
+            var_dump($request);
 
             $utilisateurManager = $this->getDoctrine()->getManager();
             $utilisateurManager->persist($utilisateur);
