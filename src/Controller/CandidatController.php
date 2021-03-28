@@ -58,7 +58,7 @@ class CandidatController extends AbstractController
         $candidat = new Candidat();
 
         $form = $this->createForm(CandidatType::class, $candidat)
-            ->add('Ajouter', SubmitType::class)
+            ->add('submit', SubmitType::class)
             ->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -97,7 +97,7 @@ class CandidatController extends AbstractController
         $candidat = $manager->getRepository(Candidat::class)->find($idCandidat);
 
         $form = $this->createForm(CandidatType::class, $candidat);
-        $form->add('Modifier', SubmitType::class);
+        $form->add('submit', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -106,10 +106,11 @@ class CandidatController extends AbstractController
             $manager->persist($candidat);
             $manager->flush();
 
-            return $this->redirectToRoute('afficherToutCandidat');
+            return $this->redirectToRoute('afficherProfil');
         }
 
         return $this->render('frontEnd/utilisateur/candidat/modifierprofil.html.twig', [
+            'candidat' => $candidat,
             'form' => $form->createView(),
             'manipulation' => "Modifier"
         ]);

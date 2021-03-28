@@ -43,7 +43,7 @@ class Candidat
     private $sexe;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=8)
      */
     private $tel;
 

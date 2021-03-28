@@ -27,32 +27,23 @@ class EducationController extends AbstractController
     }
 
     /**
-     * @Route("/", name="education_index", methods={"GET"})
-     */
-    public function index(EducationRepository $educationRepository): Response
-    {
-        return $this->render('education/index.html.twig', [
-            'educations' => $educationRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/new", name="education_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $education = new Education();
-        $form = $this->createForm(EducationType::class, $education);
-        $form->add('Ajouter', SubmitType::class);
-        $form->handleRequest($request);
+        $form = $this->createForm(EducationType::class, $education)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
-            $utilisateur = $form->getData();
+            $education = $form->getData();
+
             $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
                 $this->session->get("utilisateur")["idCandidat"]
             );
-            $utilisateur->setCandidat($candidat);
+            $education->setCandidat($candidat);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($education);
@@ -61,9 +52,10 @@ class EducationController extends AbstractController
             return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('education/new.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/education/manipulationEducation.html.twig', [
             'education' => $education,
             'form' => $form->createView(),
+            'manipulation' => 'Ajouter'
         ]);
     }
 
@@ -72,25 +64,30 @@ class EducationController extends AbstractController
      */
     public function edit(Request $request, Education $education): Response
     {
-        $form = $this->createForm(EducationType::class, $education);
-        $form->add('Modifier', SubmitType::class);
-        $form->handleRequest($request);
+        $form = $this->createForm(EducationType::class, $education)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
-            $utilisateur = $form->getData();
+            $education = $form->getData();
+
             $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
                 $this->session->get("utilisateur")["idCandidat"]
             );
-            $utilisateur->setCandidat($candidat);
-            $this->getDoctrine()->getManager()->flush();
+            $education->setCandidat($candidat);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($education);
+            $entityManager->flush();
 
             return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('education/edit.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/education/manipulationEducation.html.twig', [
             'education' => $education,
             'form' => $form->createView(),
+            'manipulation' => 'Modifier',
         ]);
     }
 
