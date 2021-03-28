@@ -83,7 +83,7 @@ class BaseController extends AbstractController
             }
         }
 
-        return $this->render('/frontEnd/_connexion/_connexion.html.twig', [
+        return $this->render('_connexion/connexion.html.twig', [
             'form' => $form->createView(),
         ]);
     }

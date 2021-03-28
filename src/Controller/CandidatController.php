@@ -131,9 +131,8 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
-        return $this->render('frontEnd/utilisateur/candidat/manipulerCandidat.html.twig', [
+        return $this->render('_inscription/inscrireCandidat.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Ajouter",
         ]);
     }
 
