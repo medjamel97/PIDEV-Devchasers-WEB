@@ -20,7 +20,15 @@ class UtilisateurType extends AbstractType
         $builder
             ->add('email')
             ->add('motDePasse')
+<<<<<<< Updated upstream
             ->add('captcha', CaptchaType::class);
+=======
+            ->add('typeUtilisateur', ChoiceType::class, [
+                'choices' => [
+                    'Societe' => 0,
+                    'Candidat' => 1]
+            ]);
+>>>>>>> Stashed changes
     }
 
     public function configureOptions(OptionsResolver $resolver)

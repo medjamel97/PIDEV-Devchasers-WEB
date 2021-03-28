@@ -42,6 +42,7 @@
 
                                 <form name="candidat" method="post">
 
+                                    {{ form_errors(form.idPhoto) }}
                                     <input type="file" id="candidat_idPhoto" name="candidat[idPhoto]">
 
                                     <div class="row">
@@ -143,18 +144,6 @@
                                                        name="candidat[tel]"
                                                        maxlength="8"
                                                        value="{{ candidat.tel }}"
-                                                       class="form-control"
-                                                       placeholder="">
-                                            </div>
-                                        </div>
-                                        {{ form_errors(form.idPhoto) }}
-                                        <div class="col-md-12">
-                                            <div class="form-group position-relative">
-                                                <label for="candidat_idPhoto" class="required">idPhoto</label>
-                                                <input type="text" id="candidat_idPhoto"
-                                                       name="candidat[idPhoto]"
-                                                       maxlength="255"
-                                                       value="{{ candidat.idPhoto }}"
                                                        class="form-control"
                                                        placeholder="">
                                             </div>

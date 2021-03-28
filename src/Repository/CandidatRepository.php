@@ -21,23 +21,13 @@ class CandidatRepository extends ServiceEntityRepository
         parent::__construct($registry, Candidat::class);
     }
 
-    // /**
-    //  * @return Candidat[] Returns an array of Candidat objects
-    //  */
-
-    public function hasMessages(): bool
+    public function findStartingWith($recherche)
     {
-        return ($this->createQueryBuilder('c')
-            ->select('count(c.id)')
+        return $this->createQueryBuilder('c')
+            ->where('c.nom LIKE :val')
+            ->orWhere('c.prenom LIKE :val')
+            ->setParameter("val", $recherche . '%')
             ->getQuery()
-            ->getResult());
-    }
-
-    public function findCandidatAvecCandidatureOffre(): bool
-    {
-        return ($this->createQueryBuilder('c')
-            ->join('c.')
-            ->getQuery()
-            ->getResult());
+            ->getResult();
     }
 }

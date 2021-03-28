@@ -40,6 +40,19 @@ class CandidatController extends AbstractController
     }
 
     /**
+     * @Route("/afficherCandidatBackEnd/{idCandidat}", name="afficherCandidatBackEnd")
+     */
+    public function afficherCandidatBackEnd($idCandidat)
+    {
+        return $this->render('backend/candidat/afficherCandidat.html.twig', [
+            'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
+            'educations' => $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat),
+            'workexps' => $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat),
+            'competences' => $this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat)
+        ]);
+    }
+
+    /**
      * @Route("/candidat", name="afficherToutCandidat")
      */
     public function afficherToutCandidat()
@@ -47,6 +60,34 @@ class CandidatController extends AbstractController
         return $this->render('backEnd/candidat/afficherToutCandidat.html.twig', [
             'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/afficherCandidatsRecherche", name="afficherCandidatsRecherche")
+     * @throws \Exception
+     */
+    public function afficherCandidatsRecherche(Request $request)
+    {
+        $recherche = $request->get('recherche');
+
+        $candidats = $this->getDoctrine()->getRepository(Candidat::class)->findStartingWith($recherche);
+
+        $i = 0;
+        $jsonContent = null;
+        if ($candidats != null) {
+            foreach ($candidats as $candidat) {
+                $jsonContent[$i]["id"] = $candidat->getId();
+                $jsonContent[$i]["nom"] = $candidat->getNom();
+                $jsonContent[$i]["prenom"] = $candidat->getPrenom();
+                $jsonContent[$i]["dateNaiss"] = $candidat->getDateNaissance()->format('d-m-Y');
+                $jsonContent[$i]["sexe"] = $candidat->getSexe();
+                $jsonContent[$i]["tel"] = $candidat->getTel();
+                $i++;
+            }
+            return new Response(json_encode($jsonContent));
+        } else {
+            return new Response(null);
+        }
     }
 
     /**
@@ -72,12 +113,12 @@ class CandidatController extends AbstractController
 
             $file = $request->files->get('candidat')['idPhoto'];
             $uploads_directory = $this->getParameter('uploads_directory');
-            $filename= md5(uniqid()) . '.' . $file->guessExtension();
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move(
                 $uploads_directory,
                 $filename
             );
-            $candidat->setIdPhoto($uploads_directory."/".$filename);
+            $candidat->setIdPhoto($uploads_directory . "/" . $filename);
 
             $utilisateurManager = $this->getDoctrine()->getManager();
             $utilisateurManager->persist($utilisateur);
@@ -113,12 +154,12 @@ class CandidatController extends AbstractController
 
             $file = $request->files->get('candidat')['idPhoto'];
             $uploads_directory = $this->getParameter('uploads_directory');
-            $filename= md5(uniqid()) . '.' . $file->guessExtension();
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move(
                 $uploads_directory,
                 $filename
             );
-            $candidat->setIdPhoto($uploads_directory."/".$filename);
+            $candidat->setIdPhoto($uploads_directory . "/" . $filename);
 
             $candidat = $form->getData();
             $manager->persist($candidat);

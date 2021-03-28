@@ -24,22 +24,17 @@ class UtilisateurController extends AbstractController
     }
 
     /**
-     * @Route("/utilisateur/ajouter", name="ajouterUtilisateur")
+     * @Route("inscription", name="inscription")
      */
-    public function ajouterUtilisateur(Request $request)
+    public function inscription(Request $request)
     {
         $utilisateur = new Utilisateur();
 
         $form = $this->createForm(UtilisateurType::class, $utilisateur)
-            ->add('typeUtilisateur', ChoiceType::class, [
-                'choices' => [
-                    'Societe' => 0,
-                    'Candidat' => 1,],
-            ])
-            ->add('Suivant', SubmitType::class)
+            ->add('submit', SubmitType::class)
             ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
             $utilisateur = $form->getData();
 
@@ -58,7 +53,7 @@ class UtilisateurController extends AbstractController
             }
         }
 
-        return $this->render('frontEnd/utilisateur/manipulerUtilisateur.html.twig', [
+        return $this->render('_inscription/inscription.html.twig', [
             'form' => $form->createView(),
             'manipulation' => "Ajouter"
         ]);
@@ -97,7 +92,7 @@ class UtilisateurController extends AbstractController
             }
         }
 
-        return $this->render('frontEnd/utilisateur/manipulerUtilisateur.html.twig', [
+        return $this->render('frontEnd/utilisateur/_inscription.html.twig', [
             'form' => $form->createView(),
             'manipulation' => "Modifier"
         ]);
