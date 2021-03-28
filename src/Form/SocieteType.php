@@ -19,7 +19,6 @@ class SocieteType extends AbstractType
             ->add('dateCreationSociete')
             ->add('numTelSociete')
             ->add('idPhotoSociete', FileType::class,[
-
                 'label'=> false,
                 'mapped'=>false,
                 'required'=>false

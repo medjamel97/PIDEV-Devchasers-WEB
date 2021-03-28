@@ -53,6 +53,7 @@ class SocieteController extends AbstractController
 
             $societe = $form->getData()
                 ->setUtilisateur($utilisateur);
+
             $file = $request->files->get('societe')['idPhotoSociete'];
             $uploads_directory = $this->getParameter('uploads_directory');
             $filename= md5(uniqid()) . '.' . $file->guessExtension();
@@ -60,10 +61,7 @@ class SocieteController extends AbstractController
                 $uploads_directory,
                 $filename
             );
-            $societe->setIdPhotoSociete($uploads_directory.$filename);
-
-            echo"<pre>";
-            var_dump($file);
+            $societe->setIdPhotoSociete($uploads_directory."/".$filename);
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($utilisateur);
@@ -99,11 +97,19 @@ class SocieteController extends AbstractController
             ->setMotDePasse($motDePasse)
             ->setTypeUtilisateur(0);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $societe = $form->getData()
                 ->setUtilisateur($utilisateur);
+
+            $file = $request->files->get('societe')['idPhotoSociete'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename= md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $societe->setIdPhotoSociete($uploads_directory."/".$filename);
 
             $manager->persist($utilisateur);
             $manager->flush();

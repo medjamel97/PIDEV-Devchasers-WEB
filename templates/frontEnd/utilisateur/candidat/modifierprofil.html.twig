@@ -41,6 +41,9 @@
                                 {% do form.submit.setRendered() %}
 
                                 <form name="candidat" method="post">
+
+                                    <input type="file" id="candidat_idPhoto" name="candidat[idPhoto]">
+
                                     <div class="row">
                                         {{ form_errors(form.nom) }}
                                         <div class="col-md-6">

@@ -69,8 +69,15 @@ class CandidatController extends AbstractController
 
             $candidat = $form->getData()
                 ->setUtilisateur($utilisateur);
-            echo"<pre>";
-            var_dump($request);
+
+            $file = $request->files->get('candidat')['idPhoto'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename= md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $candidat->setIdPhoto($uploads_directory."/".$filename);
 
             $utilisateurManager = $this->getDoctrine()->getManager();
             $utilisateurManager->persist($utilisateur);
@@ -103,6 +110,15 @@ class CandidatController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+
+            $file = $request->files->get('candidat')['idPhoto'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename= md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $candidat->setIdPhoto($uploads_directory."/".$filename);
 
             $candidat = $form->getData();
             $manager->persist($candidat);
