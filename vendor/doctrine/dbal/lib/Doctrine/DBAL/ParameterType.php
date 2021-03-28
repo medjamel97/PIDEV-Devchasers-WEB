@@ -50,11 +50,6 @@ final class ParameterType
     public const BINARY = 16;
 
     /**
-     * Represents an ASCII string data type
-     */
-    public const ASCII = 17;
-
-    /**
      * This class cannot be instantiated.
      *
      * @codeCoverageIgnore

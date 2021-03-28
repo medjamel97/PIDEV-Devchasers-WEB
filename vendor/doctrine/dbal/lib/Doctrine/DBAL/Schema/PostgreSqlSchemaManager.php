@@ -60,11 +60,7 @@ class PostgreSqlSchemaManager extends AbstractSchemaManager
     public function getSchemaSearchPaths()
     {
         $params = $this->_conn->getParams();
-
-        $searchPaths = $this->_conn->fetchColumn('SHOW search_path');
-        assert($searchPaths !== false);
-
-        $schema = explode(',', $searchPaths);
+        $schema = explode(',', $this->_conn->fetchColumn('SHOW search_path'));
 
         if (isset($params['user'])) {
             $schema = str_replace('"$user"', $params['user'], $schema);
@@ -154,14 +150,13 @@ class PostgreSqlSchemaManager extends AbstractSchemaManager
             $onDelete = $match[1];
         }
 
-        $result = preg_match('/FOREIGN KEY \((.+)\) REFERENCES (.+)\((.+)\)/', $tableForeignKey['condef'], $values);
-        assert($result === 1);
-
-        // PostgreSQL returns identifiers that are keywords with quotes, we need them later, don't get
-        // the idea to trim them here.
-        $localColumns   = array_map('trim', explode(',', $values[1]));
-        $foreignColumns = array_map('trim', explode(',', $values[3]));
-        $foreignTable   = $values[2];
+        if (preg_match('/FOREIGN KEY \((.+)\) REFERENCES (.+)\((.+)\)/', $tableForeignKey['condef'], $values)) {
+            // PostgreSQL returns identifiers that are keywords with quotes, we need them later, don't get
+            // the idea to trim them here.
+            $localColumns   = array_map('trim', explode(',', $values[1]));
+            $foreignColumns = array_map('trim', explode(',', $values[3]));
+            $foreignTable   = $values[2];
+        }
 
         return new ForeignKeyConstraint(
             $localColumns,
@@ -230,7 +225,8 @@ class PostgreSqlSchemaManager extends AbstractSchemaManager
                 implode(' ,', $colNumbers)
             );
 
-            $indexColumns = $this->_conn->fetchAllAssociative($columnNameSql);
+            $stmt         = $this->_conn->executeQuery($columnNameSql);
+            $indexColumns = $stmt->fetchAll();
 
             // required for getting the order of the columns right.
             foreach ($colNumbers as $colNum) {

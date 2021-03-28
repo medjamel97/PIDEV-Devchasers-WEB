@@ -2,7 +2,7 @@
 
 namespace Doctrine\DBAL\Types;
 
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
@@ -99,7 +99,6 @@ abstract class Type
      */
     private const BUILTIN_TYPES_MAP = [
         Types::ARRAY                => ArrayType::class,
-        Types::ASCII_STRING         => AsciiStringType::class,
         Types::BIGINT               => BigIntType::class,
         Types::BINARY               => BinaryType::class,
         Types::BLOB                 => BlobType::class,
@@ -209,13 +208,13 @@ abstract class Type
 
     private static function createTypeRegistry(): TypeRegistry
     {
-        $instances = [];
+        $registry = new TypeRegistry();
 
         foreach (self::BUILTIN_TYPES_MAP as $name => $class) {
-            $instances[$name] = new $class();
+            $registry->register($name, new $class());
         }
 
-        return new TypeRegistry($instances);
+        return $registry;
     }
 
     /**
@@ -226,7 +225,7 @@ abstract class Type
      *
      * @return Type
      *
-     * @throws Exception
+     * @throws DBALException
      */
     public static function getType($name)
     {
@@ -236,12 +235,12 @@ abstract class Type
     /**
      * Adds a custom type to the type map.
      *
-     * @param string             $name      The name of the type. This should correspond to what getName() returns.
-     * @param class-string<Type> $className The class name of the custom type.
+     * @param string $name      The name of the type. This should correspond to what getName() returns.
+     * @param string $className The class name of the custom type.
      *
      * @return void
      *
-     * @throws Exception
+     * @throws DBALException
      */
     public static function addType($name, $className)
     {
@@ -263,12 +262,12 @@ abstract class Type
     /**
      * Overrides an already defined type to use a different implementation.
      *
-     * @param string             $name
-     * @param class-string<Type> $className
+     * @param string $name
+     * @param string $className
      *
      * @return void
      *
-     * @throws Exception
+     * @throws DBALException
      */
     public static function overrideType($name, $className)
     {

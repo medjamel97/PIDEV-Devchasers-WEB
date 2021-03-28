@@ -7,8 +7,6 @@ use Throwable;
 
 /**
  * Abstract schema synchronizer with methods for executing batches of SQL.
- *
- * @deprecated
  */
 abstract class AbstractSchemaSynchronizer implements SchemaSynchronizer
 {

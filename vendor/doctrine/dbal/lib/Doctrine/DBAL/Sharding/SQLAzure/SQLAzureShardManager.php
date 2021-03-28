@@ -12,8 +12,6 @@ use function sprintf;
 
 /**
  * Sharding using the SQL Azure Federations support.
- *
- * @deprecated
  */
 class SQLAzureShardManager implements ShardManager
 {
@@ -160,7 +158,7 @@ class SQLAzureShardManager implements ShardManager
                       INNER JOIN sys.federations f ON f.federation_id = d.federation_id
                       WHERE f.name = ' . $this->conn->quote($this->federationName);
 
-        return $this->conn->fetchAllAssociative($sql);
+        return $this->conn->fetchAll($sql);
     }
 
      /**
@@ -178,7 +176,7 @@ class SQLAzureShardManager implements ShardManager
 
         foreach ($shards as $shard) {
             $this->selectShard($shard['rangeLow']);
-            foreach ($this->conn->fetchAllAssociative($sql, $params, $types) as $row) {
+            foreach ($this->conn->fetchAll($sql, $params, $types) as $row) {
                 $result[] = $row;
             }
         }

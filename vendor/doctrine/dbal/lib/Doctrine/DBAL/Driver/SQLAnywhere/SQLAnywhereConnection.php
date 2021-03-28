@@ -3,7 +3,6 @@
 namespace Doctrine\DBAL\Driver\SQLAnywhere;
 
 use Doctrine\DBAL\Driver\Connection;
-use Doctrine\DBAL\Driver\Result;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\ParameterType;
 
@@ -35,8 +34,6 @@ class SQLAnywhereConnection implements Connection, ServerInfoAwareConnection
 
     /**
      * Connects to database with given connection string.
-     *
-     * @internal The connection can be only instantiated by its driver.
      *
      * @param string $dsn        The connection string.
      * @param bool   $persistent Whether or not to establish a persistent connection.
@@ -94,8 +91,6 @@ class SQLAnywhereConnection implements Connection, ServerInfoAwareConnection
 
     /**
      * {@inheritdoc}
-     *
-     * @deprecated The error information is available via exceptions.
      */
     public function errorCode()
     {
@@ -104,8 +99,6 @@ class SQLAnywhereConnection implements Connection, ServerInfoAwareConnection
 
     /**
      * {@inheritdoc}
-     *
-     * @deprecated The error information is available via exceptions.
      */
     public function errorInfo()
     {
@@ -129,13 +122,7 @@ class SQLAnywhereConnection implements Connection, ServerInfoAwareConnection
      */
     public function getServerVersion()
     {
-        $stmt = $this->query("SELECT PROPERTY('ProductVersion')");
-
-        if ($stmt instanceof Result) {
-            $version = $stmt->fetchOne();
-        } else {
-            $version = $stmt->fetchColumn();
-        }
+        $version = $this->query("SELECT PROPERTY('ProductVersion')")->fetchColumn();
 
         assert(is_string($version));
 
@@ -151,13 +138,7 @@ class SQLAnywhereConnection implements Connection, ServerInfoAwareConnection
             return sasql_insert_id($this->connection);
         }
 
-        $stmt = $this->query('SELECT ' . $name . '.CURRVAL');
-
-        if ($stmt instanceof Result) {
-            return $stmt->fetchOne();
-        }
-
-        return $stmt->fetchColumn();
+        return $this->query('SELECT ' . $name . '.CURRVAL')->fetchColumn();
     }
 
     /**

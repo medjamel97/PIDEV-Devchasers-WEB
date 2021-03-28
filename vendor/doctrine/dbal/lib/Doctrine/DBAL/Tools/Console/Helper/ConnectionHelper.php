@@ -7,8 +7,6 @@ use Symfony\Component\Console\Helper\Helper;
 
 /**
  * Doctrine CLI Connection Helper.
- *
- * @deprecated use a ConnectionProvider instead.
  */
 class ConnectionHelper extends Helper
 {

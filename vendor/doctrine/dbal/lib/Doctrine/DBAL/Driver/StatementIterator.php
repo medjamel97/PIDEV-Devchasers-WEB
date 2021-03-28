@@ -4,9 +4,6 @@ namespace Doctrine\DBAL\Driver;
 
 use IteratorAggregate;
 
-/**
- * @deprecated Use iterateNumeric(), iterateAssociative() or iterateColumn().
- */
 class StatementIterator implements IteratorAggregate
 {
     /** @var ResultStatement */

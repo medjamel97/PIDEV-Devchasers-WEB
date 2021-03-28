@@ -24,8 +24,6 @@ use function trim;
 
 /**
  * Drizzle platform
- *
- * @deprecated
  */
 class DrizzlePlatform extends AbstractPlatform
 {

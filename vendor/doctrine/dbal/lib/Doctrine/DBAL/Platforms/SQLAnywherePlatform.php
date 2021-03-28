@@ -2,7 +2,7 @@
 
 namespace Doctrine\DBAL\Platforms;
 
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\LockMode;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
@@ -35,8 +35,6 @@ use function substr;
 /**
  * The SQLAnywherePlatform provides the behavior, features and SQL dialect of the
  * SAP Sybase SQL Anywhere 10 database platform.
- *
- * @deprecated Use SQLAnywhere 16 or newer
  */
 class SQLAnywherePlatform extends AbstractPlatform
 {
@@ -52,7 +50,7 @@ class SQLAnywherePlatform extends AbstractPlatform
     {
         switch (true) {
             case $lockMode === LockMode::NONE:
-                return $fromClause;
+                return $fromClause . ' WITH (NOLOCK)';
 
             case $lockMode === LockMode::PESSIMISTIC_READ:
                 return $fromClause . ' WITH (UPDLOCK)';
@@ -691,7 +689,7 @@ class SQLAnywherePlatform extends AbstractPlatform
     public function getIndexDeclarationSQL($name, Index $index)
     {
         // Index declaration in statements like CREATE TABLE is not supported.
-        throw Exception::notSupported(__METHOD__);
+        throw DBALException::notSupported(__METHOD__);
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Doctrine\DBAL\Driver\SQLSrv;
 
 use Doctrine\DBAL\Driver\AbstractSQLServerDriver;
-use Doctrine\DBAL\Driver\AbstractSQLServerDriver\Exception\PortWithoutHost;
+use Doctrine\DBAL\Driver\AbstractSQLServerDriver\PortWithoutHost;
 
 /**
  * Driver for ext/sqlsrv.
@@ -47,7 +47,7 @@ class Driver extends AbstractSQLServerDriver
             $driverOptions['ReturnDatesAsStrings'] = 1;
         }
 
-        return new Connection($serverName, $driverOptions);
+        return new SQLSrvConnection($serverName, $driverOptions);
     }
 
     /**

@@ -7,8 +7,6 @@ use Doctrine\DBAL\Sharding\PoolingShardConnection;
 /**
  * The MultiTenant Shard choser assumes that the distribution value directly
  * maps to the shard id.
- *
- * @deprecated
  */
 class MultiTenantShardChoser implements ShardChoser
 {

@@ -10,7 +10,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 class TableDiff
 {
     /** @var string */
-    public $name;
+    public $name = null;
 
     /** @var string|false */
     public $newName = false;

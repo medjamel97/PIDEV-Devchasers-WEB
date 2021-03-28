@@ -10,12 +10,6 @@ namespace Laminas\EventManager;
 
 use Interop\Container\ContainerInterface;
 
-use function get_class;
-use function gettype;
-use function is_array;
-use function is_object;
-use function sprintf;
-
 /**
  * Aggregate listener for attaching lazy listeners.
  *
@@ -26,11 +20,10 @@ use function sprintf;
  * Usage is:
  *
  * <code>
- * $aggregate = new LazyListenerAggregate(
+ * $events->attachAggregate(new LazyListenerAggregate(
  *     $lazyEventListenersOrDefinitions,
  *     $container
- * );
- * $aggregate->attach($events);
+ * ));
  * </code>
  */
 class LazyListenerAggregate implements ListenerAggregateInterface

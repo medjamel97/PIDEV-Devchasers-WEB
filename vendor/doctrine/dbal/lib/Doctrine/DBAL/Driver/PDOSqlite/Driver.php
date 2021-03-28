@@ -2,9 +2,9 @@
 
 namespace Doctrine\DBAL\Driver\PDOSqlite;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\AbstractSQLiteDriver;
-use Doctrine\DBAL\Driver\PDO;
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Driver\PDOConnection;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use PDOException;
 
@@ -12,8 +12,6 @@ use function array_merge;
 
 /**
  * The PDO Sqlite driver.
- *
- * @deprecated Use {@link PDO\SQLite\Driver} instead.
  */
 class Driver extends AbstractSQLiteDriver
 {
@@ -38,14 +36,14 @@ class Driver extends AbstractSQLiteDriver
         }
 
         try {
-            $pdo = new PDO\Connection(
+            $pdo = new PDOConnection(
                 $this->_constructPdoDsn($params),
                 $username,
                 $password,
                 $driverOptions
             );
         } catch (PDOException $ex) {
-            throw Exception::driverException($this, $ex);
+            throw DBALException::driverException($this, $ex);
         }
 
         foreach ($this->_userDefinedFunctions as $fn => $data) {

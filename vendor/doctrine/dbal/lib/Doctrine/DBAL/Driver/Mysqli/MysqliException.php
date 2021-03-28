@@ -5,7 +5,7 @@ namespace Doctrine\DBAL\Driver\Mysqli;
 use Doctrine\DBAL\Driver\AbstractDriverException;
 
 /**
- * @deprecated Use {@link Exception} instead
+ * Exception thrown in case the mysqli driver errors.
  *
  * @psalm-immutable
  */

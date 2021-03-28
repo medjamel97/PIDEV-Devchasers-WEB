@@ -13,8 +13,6 @@ interface ResultStatement extends Traversable
     /**
      * Closes the cursor, enabling the statement to be executed again.
      *
-     * @deprecated Use Result::free() instead.
-     *
      * @return bool TRUE on success or FALSE on failure.
      */
     public function closeCursor();
@@ -31,8 +29,6 @@ interface ResultStatement extends Traversable
     /**
      * Sets the fetch mode to use while iterating this statement.
      *
-     * @deprecated Use one of the fetch- or iterate-related methods.
-     *
      * @param int   $fetchMode The fetch mode must be one of the {@link FetchMode} constants.
      * @param mixed $arg2
      * @param mixed $arg3
@@ -43,8 +39,6 @@ interface ResultStatement extends Traversable
 
     /**
      * Returns the next row of a result set.
-     *
-     * @deprecated Use fetchNumeric(), fetchAssociative() or fetchOne() instead.
      *
      * @param int|null $fetchMode         Controls how the next row will be returned to the caller.
      *                                    The value must be one of the {@link FetchMode} constants,
@@ -73,24 +67,22 @@ interface ResultStatement extends Traversable
     /**
      * Returns an array containing all of the result set rows.
      *
-     * @deprecated Use fetchAllNumeric(), fetchAllAssociative() or fetchFirstColumn() instead.
-     *
-     * @param int|null        $fetchMode     Controls how the next row will be returned to the caller.
-     *                                       The value must be one of the {@link FetchMode} constants,
-     *                                       defaulting to {@link FetchMode::MIXED}.
-     * @param int|string|null $fetchArgument This argument has a different meaning depending on the value
-     *                                       of the $fetchMode parameter:
-     *                                       * {@link FetchMode::COLUMN}:
-     *                                         Returns the indicated 0-indexed column.
-     *                                       * {@link FetchMode::CUSTOM_OBJECT}:
-     *                                         Returns instances of the specified class, mapping the columns of each row
-     *                                         to named properties in the class.
-     *                                       * {@link PDO::FETCH_FUNC}: Returns the results of calling
-     *                                         the specified function, using each row's
-     *                                         columns as parameters in the call.
-     * @param mixed[]|null    $ctorArgs      Controls how the next row will be returned to the caller.
-     *                                       The value must be one of the {@link FetchMode} constants,
-     *                                       defaulting to {@link FetchMode::MIXED}.
+     * @param int|null     $fetchMode     Controls how the next row will be returned to the caller.
+     *                                    The value must be one of the {@link FetchMode} constants,
+     *                                    defaulting to {@link FetchMode::MIXED}.
+     * @param int|null     $fetchArgument This argument has a different meaning depending on the value
+     *                                    of the $fetchMode parameter:
+     *                                    * {@link FetchMode::COLUMN}:
+     *                                      Returns the indicated 0-indexed column.
+     *                                    * {@link FetchMode::CUSTOM_OBJECT}:
+     *                                      Returns instances of the specified class, mapping the columns of each row
+     *                                      to named properties in the class.
+     *                                    * {@link PDO::FETCH_FUNC}: Returns the results of calling
+     *                                      the specified function, using each row's
+     *                                      columns as parameters in the call.
+     * @param mixed[]|null $ctorArgs      Controls how the next row will be returned to the caller.
+     *                                    The value must be one of the {@link FetchMode} constants,
+     *                                    defaulting to {@link FetchMode::MIXED}.
      *
      * @return mixed[]
      */
@@ -98,8 +90,6 @@ interface ResultStatement extends Traversable
 
     /**
      * Returns a single column from the next row of a result set or FALSE if there are no more rows.
-     *
-     * @deprecated Use fetchOne() instead.
      *
      * @param int $columnIndex 0-indexed number of the column you wish to retrieve from the row.
      *                         If no value is supplied, fetches the first column.

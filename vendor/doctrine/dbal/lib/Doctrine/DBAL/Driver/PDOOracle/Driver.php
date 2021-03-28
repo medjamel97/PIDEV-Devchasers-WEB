@@ -2,15 +2,18 @@
 
 namespace Doctrine\DBAL\Driver\PDOOracle;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\AbstractOracleDriver;
-use Doctrine\DBAL\Driver\PDO;
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Driver\PDOConnection;
 use PDOException;
 
 /**
  * PDO Oracle driver.
  *
- * @deprecated Use {@link PDO\OCI\Driver} instead.
+ * WARNING: This driver gives us segfaults in our testsuites on CLOB and other
+ * stuff. PDO Oracle is not maintained by Oracle or anyone in the PHP community,
+ * which leads us to the recommendation to use the "oci8" driver to connect
+ * to Oracle instead.
  */
 class Driver extends AbstractOracleDriver
 {
@@ -20,14 +23,14 @@ class Driver extends AbstractOracleDriver
     public function connect(array $params, $username = null, $password = null, array $driverOptions = [])
     {
         try {
-            return new PDO\Connection(
+            return new PDOConnection(
                 $this->constructPdoDsn($params),
                 $username,
                 $password,
                 $driverOptions
             );
         } catch (PDOException $e) {
-            throw Exception::driverException($this, $e);
+            throw DBALException::driverException($this, $e);
         }
     }
 

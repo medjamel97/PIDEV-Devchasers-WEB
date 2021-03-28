@@ -2,7 +2,7 @@
 
 namespace Doctrine\DBAL\Platforms;
 
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Constraint;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
@@ -697,7 +697,7 @@ class SqlitePlatform extends AbstractPlatform
     protected function getPreAlterTableIndexForeignKeySQL(TableDiff $diff)
     {
         if (! $diff->fromTable instanceof Table) {
-            throw new Exception(
+            throw new DBALException(
                 'Sqlite platform requires for alter table the table diff with reference to original table schema'
             );
         }
@@ -719,10 +719,8 @@ class SqlitePlatform extends AbstractPlatform
      */
     protected function getPostAlterTableIndexForeignKeySQL(TableDiff $diff)
     {
-        $fromTable = $diff->fromTable;
-
-        if (! $fromTable instanceof Table) {
-            throw new Exception(
+        if (! $diff->fromTable instanceof Table) {
+            throw new DBALException(
                 'Sqlite platform requires for alter table the table diff with reference to original table schema'
             );
         }
@@ -734,7 +732,7 @@ class SqlitePlatform extends AbstractPlatform
             $tableName = $diff->getName($this);
         }
 
-        foreach ($this->getIndexesInAlteredTable($diff, $fromTable) as $index) {
+        foreach ($this->getIndexesInAlteredTable($diff) as $index) {
             if ($index->isPrimary()) {
                 continue;
             }
@@ -802,7 +800,7 @@ class SqlitePlatform extends AbstractPlatform
      */
     public function getCreatePrimaryKeySQL(Index $index, $table)
     {
-        throw new Exception('Sqlite platform does not support alter primary key.');
+        throw new DBALException('Sqlite platform does not support alter primary key.');
     }
 
     /**
@@ -810,7 +808,7 @@ class SqlitePlatform extends AbstractPlatform
      */
     public function getCreateForeignKeySQL(ForeignKeyConstraint $foreignKey, $table)
     {
-        throw new Exception('Sqlite platform does not support alter foreign key.');
+        throw new DBALException('Sqlite platform does not support alter foreign key.');
     }
 
     /**
@@ -818,7 +816,7 @@ class SqlitePlatform extends AbstractPlatform
      */
     public function getDropForeignKeySQL($foreignKey, $table)
     {
-        throw new Exception('Sqlite platform does not support alter foreign key.');
+        throw new DBALException('Sqlite platform does not support alter foreign key.');
     }
 
     /**
@@ -826,7 +824,7 @@ class SqlitePlatform extends AbstractPlatform
      */
     public function getCreateConstraintSQL(Constraint $constraint, $table)
     {
-        throw new Exception('Sqlite platform does not support alter constraint.');
+        throw new DBALException('Sqlite platform does not support alter constraint.');
     }
 
     /**
@@ -866,7 +864,7 @@ class SqlitePlatform extends AbstractPlatform
 
         $fromTable = $diff->fromTable;
         if (! $fromTable instanceof Table) {
-            throw new Exception(
+            throw new DBALException(
                 'Sqlite platform requires for alter table the table diff with reference to original table schema'
             );
         }
@@ -954,8 +952,8 @@ class SqlitePlatform extends AbstractPlatform
             $newTable = new Table(
                 $table->getQuotedName($this),
                 $columns,
-                $this->getPrimaryIndexInAlteredTable($diff, $fromTable),
-                $this->getForeignKeysInAlteredTable($diff, $fromTable),
+                $this->getPrimaryIndexInAlteredTable($diff),
+                $this->getForeignKeysInAlteredTable($diff),
                 0,
                 $table->getOptions()
             );
@@ -1094,11 +1092,11 @@ class SqlitePlatform extends AbstractPlatform
     /**
      * @return string[]
      */
-    private function getColumnNamesInAlteredTable(TableDiff $diff, Table $fromTable)
+    private function getColumnNamesInAlteredTable(TableDiff $diff)
     {
         $columns = [];
 
-        foreach ($fromTable->getColumns() as $columnName => $column) {
+        foreach ($diff->fromTable->getColumns() as $columnName => $column) {
             $columns[strtolower($columnName)] = $column->getName();
         }
 
@@ -1134,10 +1132,10 @@ class SqlitePlatform extends AbstractPlatform
     /**
      * @return Index[]
      */
-    private function getIndexesInAlteredTable(TableDiff $diff, Table $fromTable)
+    private function getIndexesInAlteredTable(TableDiff $diff)
     {
-        $indexes     = $fromTable->getIndexes();
-        $columnNames = $this->getColumnNamesInAlteredTable($diff, $fromTable);
+        $indexes     = $diff->fromTable->getIndexes();
+        $columnNames = $this->getColumnNamesInAlteredTable($diff);
 
         foreach ($indexes as $key => $index) {
             foreach ($diff->renamedIndexes as $oldIndexName => $renamedIndex) {
@@ -1202,10 +1200,10 @@ class SqlitePlatform extends AbstractPlatform
     /**
      * @return ForeignKeyConstraint[]
      */
-    private function getForeignKeysInAlteredTable(TableDiff $diff, Table $fromTable)
+    private function getForeignKeysInAlteredTable(TableDiff $diff)
     {
-        $foreignKeys = $fromTable->getForeignKeys();
-        $columnNames = $this->getColumnNamesInAlteredTable($diff, $fromTable);
+        $foreignKeys = $diff->fromTable->getForeignKeys();
+        $columnNames = $this->getColumnNamesInAlteredTable($diff);
 
         foreach ($foreignKeys as $key => $constraint) {
             $changed      = false;
@@ -1266,11 +1264,11 @@ class SqlitePlatform extends AbstractPlatform
     /**
      * @return Index[]
      */
-    private function getPrimaryIndexInAlteredTable(TableDiff $diff, Table $fromTable)
+    private function getPrimaryIndexInAlteredTable(TableDiff $diff)
     {
         $primaryIndex = [];
 
-        foreach ($this->getIndexesInAlteredTable($diff, $fromTable) as $index) {
+        foreach ($this->getIndexesInAlteredTable($diff) as $index) {
             if (! $index->isPrimary()) {
                 continue;
             }

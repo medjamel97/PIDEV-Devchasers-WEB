@@ -10,8 +10,6 @@ use Doctrine\DBAL\Schema\Table;
  * On top of SQL Server 2008 the following functionality is added:
  *
  * - Create tables with the FEDERATED ON syntax.
- *
- * @deprecated
  */
 class SQLAzurePlatform extends SQLServer2008Platform
 {

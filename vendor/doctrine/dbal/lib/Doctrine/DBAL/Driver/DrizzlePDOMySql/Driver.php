@@ -7,8 +7,6 @@ use Doctrine\DBAL\Schema\DrizzleSchemaManager;
 
 /**
  * Drizzle driver using PDO MySql.
- *
- * @deprecated
  */
 class Driver extends \Doctrine\DBAL\Driver\PDOMySql\Driver
 {

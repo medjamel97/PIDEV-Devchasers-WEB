@@ -8,14 +8,6 @@
 
 namespace Laminas\EventManager;
 
-use function array_keys;
-use function array_merge;
-use function get_class;
-use function gettype;
-use function is_object;
-use function is_string;
-use function sprintf;
-
 /**
  * Shared/contextual EventManager
  *
@@ -34,8 +26,9 @@ class SharedEventManager implements SharedEventManagerInterface
     /**
      * Attach a listener to an event emitted by components with specific identifiers.
      *
-     * As an example, the following connects to the "getAll" event of both an
-     * AbstractResource and EntityResource:
+     * Allows attaching a listener to an event offered by an identifying
+     * components. As an example, the following connects to the "getAll" event
+     * of both an AbstractResource and EntityResource:
      *
      * <code>
      * $sharedEventManager = new SharedEventManager();

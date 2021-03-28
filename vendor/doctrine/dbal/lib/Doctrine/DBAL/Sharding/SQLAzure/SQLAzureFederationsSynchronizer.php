@@ -21,8 +21,6 @@ use function array_merge;
  * by partitioning the passed schema into subschemas for the federation and the
  * global database and then applying the operations step by step using the
  * {@see \Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer}.
- *
- * @deprecated
  */
 class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
 {
@@ -124,8 +122,6 @@ class SQLAzureFederationsSynchronizer extends AbstractSchemaSynchronizer
     {
         $this->shardManager->selectGlobal();
         $globalSql = $this->synchronizer->getDropAllSchema();
-
-        $sql = [];
 
         if ($globalSql) {
             $sql[] = "-- Work on Root Federation\nUSE FEDERATION ROOT WITH RESET;";
