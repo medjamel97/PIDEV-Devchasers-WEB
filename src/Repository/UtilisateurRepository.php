@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,18 +36,15 @@ class UtilisateurRepository extends ServiceEntityRepository
     }
     */
 
-    public function connexion($email, $motDePasse): ?utilisateur
+    /*
+    public function findOneBySomeField($value): ?utilisateur
     {
-        try {
-            return $this->createQueryBuilder('u')
-                ->andWhere('u.email LIKE :email')
-                ->setParameter('email', $email)
-                ->andWhere('u.motDePasse LIKE :mdp')
-                ->setParameter('mdp', $motDePasse)
-                ->getQuery()
-                ->getSingleResult();
-        } catch (NoResultException $e) {
-        } catch (NonUniqueResultException $e) {
-        }
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
+    */
 }

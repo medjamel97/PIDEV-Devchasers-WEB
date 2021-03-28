@@ -24,13 +24,11 @@ class CandidatureEvenement
 
     /**
      * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="candidatureEvenement")
-     * @ORM\JoinColumn(name="evenemenet_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $evenement;
 
     /**
      * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="candidatureEvenement")
-     * @ORM\JoinColumn(name="candidat_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $candidat;
 

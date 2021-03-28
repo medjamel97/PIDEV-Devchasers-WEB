@@ -8,46 +8,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OffreDeTravailController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
-     * @Route("/societe={idSociete}/offreDeTravail", name="afficherOffreDeTravail")
+     * @Route("/societe/categorie/offreDeTravail", name="afficherOffreDeTravail")
      */
-    public function afficherOffreDeTravail($idSociete): Response
+    public function afficherOffreDeTravail(): Response
     {
         return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig', [
-            'offreDeTravails' => $this->getDoctrine()->getManager()->getRepository(OffreDeTravail::class)->findBy([
-                'societe' => $idSociete,
-            ]),
-            'societe' => $idSociete,
-        ]);
-    }
-
-    /**
-     * @Route("/offreDeTravail/categorie={idCategorie}", name="afficherToutOffreDeTravail")
-     */
-    public function afficherToutOffreDeTravail($idCategorie): Response
-    {
-        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig', [
             'offreDeTravails' => $this->getDoctrine()->getManager()->getRepository(OffreDeTravail::class)->findAll(),
-            'categorie' => $idCategorie,
         ]);
     }
 
     /**
-     * @Route("/societe={idSociete}/offreDeTravail/ajouter", name="ajouterOffreDeTravail")
+     * @Route("/societe={}/categorie={}/offreDeTravail={}", name="afficherToutOffreDeTravail")
      */
-    public function ajouterOffreDeTravail(Request $request, $idSociete)
+    public function afficherToutOffreDeTravail(): Response
+    {
+        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig', [
+            'offreDeTravails' => $this->getDoctrine()->getManager()->getRepository(OffreDeTravail::class)->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/societe/categorie/offreDeTravail/ajouter", name="ajouterOffreDeTravail")
+     */
+    public function ajouterOffreDeTravail(Request $request)
     {
         $offreDeTravail = new OffreDeTravail();
 
@@ -63,22 +51,19 @@ class OffreDeTravailController extends AbstractController
             $offreDeTravailRepository->persist($offreDeTravail);
             $offreDeTravailRepository->flush();
 
-            return $this->redirectToRoute('afficherToutOffreDeTravail', [
-                'idSociete' => $idSociete,
-                'idCategorie' => "0",
-            ]);
+            return $this->redirectToRoute('afficherOffreDeTravail');
         }
 
         return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/manipulerOffreDeTravail.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Ajouter",
+            'manipulation' => "Modifier",
         ]);
     }
 
     /**
-     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/modifier", name="modifierOffreDeTravail")
+     * @Route("/societe/categorie/offreDeTravail={idOffreDeTravail}/modifier", name="modifierOffreDeTravail")
      */
-    public function modifierOffreDeTravail(Request $request, $idSociete, $idOffreDeTravail)
+    public function modifierOffreDeTravail(Request $request, $idOffreDeTravail)
     {
         $offreDeTravailRepository = $this->getDoctrine()->getManager();
         $offreDeTravail = $offreDeTravailRepository->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
@@ -89,10 +74,7 @@ class OffreDeTravailController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $offreDeTravailRepository->flush();
-            return $this->redirectToRoute('afficherToutOffreDeTravail', [
-                'idSociete' => $idSociete,
-                'idCategorie' => "0",
-            ]);
+            return $this->redirectToRoute('afficherOffreDeTravail');
         }
 
         return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/manipulerOffreDeTravail.html.twig', [
@@ -102,17 +84,14 @@ class OffreDeTravailController extends AbstractController
     }
 
     /**
-     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/supprimer", name="supprimerOffreDeTravail")
+     * @Route("/societe/categorie/offreDeTravail={idOffreDeTravail}/supprimer", name="supprimerOffreDeTravail")
      */
-    public function supprimerOffreDeTravail($idSociete,$idOffreDeTravail)
+    public function supprimerOffreDeTravail($idOffreDeTravail)
     {
         $offreDeTravailManager = $this->getDoctrine()->getManager();
         $offreDeTravail = $offreDeTravailManager->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
         $offreDeTravailManager->remove($offreDeTravail);
         $offreDeTravailManager->flush();
-        return $this->redirectToRoute('afficherToutOffreDeTravail', [
-            'idSociete' => $idSociete,
-            'idCategorie' => "0",
-        ]);
+        return $this->redirectToRoute('afficherOffreDeTravail');
     }
 }

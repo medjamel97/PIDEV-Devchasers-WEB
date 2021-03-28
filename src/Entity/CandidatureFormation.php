@@ -24,13 +24,11 @@ class CandidatureFormation
 
     /**
      * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="candidatureFormation")
-     * @ORM\JoinColumn(name="candidat_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $candidat;
 
     /**
      * @ORM\ManyToOne(targetEntity=Formation::class, inversedBy="candidatureFormation")
-     * @ORM\JoinColumn(name="formation_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $formation;
 

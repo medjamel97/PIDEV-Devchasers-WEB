@@ -50,42 +50,42 @@ class Candidat
     private $idPhoto;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureFormation::class, mappedBy="candidat", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=CandidatureFormation::class, mappedBy="candidat")
      */
     private $candidatureFormation;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureEvenement::class, mappedBy="candidat", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=CandidatureEvenement::class, mappedBy="candidat")
      */
     private $candidatureEvenement;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="candidat", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="candidat")
      */
     private $candidatureOffre;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="candidat", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="candidat")
      */
     private $candidatureMission;
 
     /**
-     * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="candidat", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="candidat")
      */
     private $publication;
 
     /**
-     * @ORM\OneToMany(targetEntity=ExperienceDeTravail::class, mappedBy="candidat", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=ExperienceDeTravail::class, mappedBy="candidat")
      */
     private $experienceDeTravail;
 
     /**
-     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="candidat", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="candidat")
      */
     private $education;
 
     /**
-     * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="candidat", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="candidat")
      */
     private $competence;
 
@@ -93,16 +93,6 @@ class Candidat
      * @ORM\OneToOne(targetEntity=Utilisateur::class, mappedBy="candidat", cascade={"persist", "remove"})
      */
     private $utilisateur;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="candidatExpediteur", cascade={"remove"})
-     */
-    private $conversation;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="candidatDestinataire")
-     */
-    private $conversationCandidatDestinataire;
 
     public function __construct()
     {
@@ -114,9 +104,6 @@ class Candidat
         $this->experienceDeTravail = new ArrayCollection();
         $this->education = new ArrayCollection();
         $this->competence = new ArrayCollection();
-        $this->participantConversation = new ArrayCollection();
-        $this->conversation = new ArrayCollection();
-        $this->conversationCandidatDestinataire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -454,66 +441,6 @@ class Candidat
         }
 
         $this->utilisateur = $utilisateur;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Conversation[]
-     */
-    public function getConversation(): Collection
-    {
-        return $this->conversation;
-    }
-
-    public function addConversation(Conversation $conversation): self
-    {
-        if (!$this->conversation->contains($conversation)) {
-            $this->conversation[] = $conversation;
-            $conversation->setCandidatExpediteur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeConversation(Conversation $conversation): self
-    {
-        if ($this->conversation->removeElement($conversation)) {
-            // set the owning side to null (unless already changed)
-            if ($conversation->getCandidatExpediteur() === $this) {
-                $conversation->setCandidatExpediteur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Conversation[]
-     */
-    public function getConversationCandidatDestinataire(): Collection
-    {
-        return $this->conversationCandidatDestinataire;
-    }
-
-    public function addConversationCandidatDestinataire(Conversation $conversationCandidatDestinataire): self
-    {
-        if (!$this->conversationCandidatDestinataire->contains($conversationCandidatDestinataire)) {
-            $this->conversationCandidatDestinataire[] = $conversationCandidatDestinataire;
-            $conversationCandidatDestinataire->setCandidatDestinataire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeConversationCandidatDestinataire(Conversation $conversationCandidatDestinataire): self
-    {
-        if ($this->conversationCandidatDestinataire->removeElement($conversationCandidatDestinataire)) {
-            // set the owning side to null (unless already changed)
-            if ($conversationCandidatDestinataire->getCandidatDestinataire() === $this) {
-                $conversationCandidatDestinataire->setCandidatDestinataire(null);
-            }
-        }
 
         return $this;
     }

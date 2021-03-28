@@ -23,7 +23,7 @@ class Categorie
     private $nomCategorie;
 
     /**
-     * @ORM\OneToOne(targetEntity=OffreDeTravail::class, inversedBy="categorie")
+     * @ORM\OneToOne(targetEntity=OffreDeTravail::class, inversedBy="categorie", cascade={"persist", "remove"})
      */
     private $offreDeTravail;
 
