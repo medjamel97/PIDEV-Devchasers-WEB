@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '00ec308475912c8982301ce4bcc694b967346a90',
+    'reference' => '3ba69ed356e0b18a2a8235f4a14a96eb0d3d252c',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '00ec308475912c8982301ce4bcc694b967346a90',
+      'reference' => '3ba69ed356e0b18a2a8235f4a14a96eb0d3d252c',
     ),
     'composer/package-versions-deprecated' => 
     array (
@@ -205,6 +205,24 @@ private static $installed = array (
       array (
       ),
       'reference' => '121af47c9aee9c03031bdeca3fac0540f59aa5c3',
+    ),
+    'gregwar/captcha' => 
+    array (
+      'pretty_version' => 'v1.1.9',
+      'version' => '1.1.9.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4bb668e6b40e3205a020ca5ee4ca8cff8b8780c5',
+    ),
+    'gregwar/captcha-bundle' => 
+    array (
+      'pretty_version' => 'v2.1.4',
+      'version' => '2.1.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5e434e185951a1ab38875affca4c036cc172a20a',
     ),
     'laminas/laminas-code' => 
     array (
@@ -407,6 +425,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '430d14c01836b77c28092883d195a43ce413ee32',
+    ),
+    'swiftmailer/swiftmailer' => 
+    array (
+      'pretty_version' => 'v6.2.7',
+      'version' => '6.2.7.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '15f7faf8508e04471f666633addacf54c0ab5933',
     ),
     'symfony/asset' => 
     array (
@@ -974,6 +1001,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'c5572f6494fc20668a73b77684d8dc77e534d8cf',
+    ),
+    'symfony/swiftmailer-bundle' => 
+    array (
+      'pretty_version' => 'v3.5.2',
+      'version' => '3.5.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6b72355549f02823a2209180f9c035e46ca3f178',
     ),
     'symfony/translation' => 
     array (

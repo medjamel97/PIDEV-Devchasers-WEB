@@ -2,25 +2,34 @@
 
 namespace App\Form;
 
-use App\Entity\Message;
+use App\Entity\Candidat;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MessageType extends AbstractType
+class CandidatType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('contenu')
-            ->add('dateCreation')
-        ;
+            ->add('nom')
+            ->add('prenom')
+            ->add('dateNaissance', DateType::class)
+            ->add('sexe')
+            ->add('tel')
+            ->add('idPhoto', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Message::class,
+            'data_class' => Candidat::class,
         ]);
     }
 }

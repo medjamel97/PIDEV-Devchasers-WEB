@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
+
 
 class UtilisateurType extends AbstractType
 {
@@ -18,10 +20,11 @@ class UtilisateurType extends AbstractType
         $builder
             ->add('email')
             ->add('motDePasse')
+            ->add('captcha', CaptchaType::class)
             ->add('typeUtilisateur', ChoiceType::class, [
                 'choices' => [
                     'Societe' => 0,
-                    'Candidat' => 1,],
+                    'Candidat' => 1]
             ]);
     }
 
