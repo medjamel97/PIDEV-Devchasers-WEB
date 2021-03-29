@@ -27,6 +27,11 @@ class Question
      */
     private $questionnaire;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $num_reponse;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Question
     public function setQuestionnaire(?Questionnaire $questionnaire): self
     {
         $this->questionnaire = $questionnaire;
+
+        return $this;
+    }
+
+    public function getNumReponse(): ?int
+    {
+        return $this->num_reponse;
+    }
+
+    public function setNumReponse(?int $num_reponse): self
+    {
+        $this->num_reponse = $num_reponse;
 
         return $this;
     }

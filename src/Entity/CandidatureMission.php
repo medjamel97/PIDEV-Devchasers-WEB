@@ -44,6 +44,11 @@ class CandidatureMission
      */
     private $candidat;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numreponse;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +110,18 @@ class CandidatureMission
     public function setCandidat(?Candidat $candidat): self
     {
         $this->candidat = $candidat;
+
+        return $this;
+    }
+
+    public function getNumreponse(): ?int
+    {
+        return $this->numreponse;
+    }
+
+    public function setNumreponse(?int $numreponse): self
+    {
+        $this->numreponse = $numreponse;
 
         return $this;
     }
