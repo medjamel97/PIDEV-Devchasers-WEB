@@ -1,1 +1,152 @@
-{{ form(form) }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inscription - Khedemti</title>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="author" content="Themesdesign"/>
+
+    <link rel="shortcut icon" href="frontEnd/images/favicon.ico">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="frontEnd/css/bootstrap.min.css" type="text/css">
+
+    <!--Material Icon -->
+    <link rel="stylesheet" type="text/css" href="frontEnd/css/materialdesignicons.min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="frontEnd/css/selectize.css"/>
+
+    <link rel="stylesheet" type="text/css" href="frontEnd/css/nice-select.css"/>
+
+    <!-- Custom  Css -->
+    <link rel="stylesheet" type="text/css" href="frontEnd/css/style.css"/>
+
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<div class="back-to-home rounded d-none d-sm-block">
+    <a href="frontEnd/index.html" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
+</div>
+
+<!-- Hero Start -->
+<section class="vh-100"
+         style="background: url('https://via.placeholder.com/2000X1333//88929f/5a6270C/O https://placeholder.com/') center center;">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="login_page bg-white shadow rounded p-4">
+                            <div class="text-center">
+                                <h4 class="mb-4">Signup</h4>
+                            </div>
+                            {{ form_start(form) }}
+                            {% do form.email.setRendered() %}
+                            {% do form.motDePasse.setRendered() %}
+                            {% do form.typeUtilisateur.setRendered() %}
+                            {% do form.submit.setRendered() %}
+
+                            <form name="utilisateur" method="post">
+                                {{ form_errors(form.email) }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative">
+                                            <label for="utilisateur_email">Email<span
+                                                        class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="utilisateur_email"
+                                                   placeholder="exemple@email.com"
+                                                   name="utilisateur[email]" maxlength="255">
+                                        </div>
+                                    </div>
+                                    {{ form_errors(form.motDePasse) }}
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative">
+                                            <label for="utilisateur_motDePasse">Mot de passe<span
+                                                        class="text-danger">*</span></label>
+                                            <input type="password" class="form-control" id="utilisateur_motDePasse"
+                                                   placeholder="Entrer votre mot de passe"
+                                                   name="utilisateur[motDePasse]" maxlength="255">
+                                        </div>
+                                    </div>
+                                    {{ form_errors(form.typeUtilisateur) }}
+                                    <div class="col-md-12">
+                                        <label for="utilisateur_typeUtilisateur">Type utilisateur<span
+                                                    class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-md-6 pb-3">
+                                        <div class="form-group position-relative">
+                                            <select id="utilisateur_typeUtilisateur"
+                                                    name="utilisateur[typeUtilisateur]"
+                                                    class="nice-select">
+                                                <option value="0">Societe</option>
+                                                <option value="1">Candidat</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="submit" id="utilisateur_submit" name="utilisateur[submit]"
+                                                class="btn btn-primary w-100">Suivant
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            {{ form_end(form) }}
+                            <div class="col-lg-12 mt-4 text-center">
+                                <h6>Or Signup With</h6>
+                                <ul class="list-unstyled social-icon mb-0 mt-3">
+                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                                                    class="rounded"><i
+                                                    class="mdi mdi-facebook" title="Facebook"></i></a></li>
+                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                                                    class="rounded"><i
+                                                    class="mdi mdi-google-plus" title="Google"></i></a></li>
+                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                                                    class="rounded"><i
+                                                    class="mdi mdi-github-circle" title="Github"></i></a>
+                                    </li>
+                                </ul><!--end icon-->
+                            </div>
+                            <div class="mx-auto">
+                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Vous avez deja un compte
+                                        ?</small>
+                                    <a href="connexion" class="text-dark font-weight-bold">Se connecter</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!--end col-->
+            </div><!--end row-->
+        </div> <!--end container-->
+    </div>
+    </div>
+</section><!--end section-->
+<!-- Hero End -->
+
+<!-- javascript -->
+<script src="frontEnd/js/jquery.min.js"></script>
+<script src="frontEnd/js/bootstrap.bundle.min.js"></script>
+<script src="frontEnd/js/jquery.easing.min.js"></script>
+<script src="frontEnd/js/plugins.js"></script>
+
+<!-- selectize js -->
+<script src="frontEnd/js/selectize.min.js"></script>
+
+<script src="frontEnd/js/jquery.nice-select.min.js"></script>
+
+<script src="frontEnd/js/app.js"></script>
+</body>
+</html>
