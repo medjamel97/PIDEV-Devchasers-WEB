@@ -7,9 +7,11 @@ use App\Entity\Competence;
 use App\Entity\Education;
 use App\Entity\ExperienceDeTravail;
 use App\Entity\Utilisateur;
+use App\Event\UserRegisterEvent;
 use App\Form\CandidatType;
 use App\Repository\ExperienceDeTravailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,7 +95,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("/candidat/ajouter/email={email}/password={motDePasse}", name="ajouterCandidat")
      */
-    public function ajouterCandidat(Request $request, $email, $motDePasse)
+    public function ajouterCandidat(Request $request, $email, $motDePasse, EventDispatcherInterface $eventDispatcher)
     {
         $utilisateur = new Utilisateur();
         $candidat = new Candidat();
@@ -127,7 +129,8 @@ class CandidatController extends AbstractController
             $candidatManager = $this->getDoctrine()->getManager();
             $candidatManager->persist($candidat);
             $candidatManager->flush();
-
+            $userRegisterEvent = new UserRegisterEvent($utilisateur);
+            $eventDispatcher->dispatch(UserRegisterEvent::NAME,$userRegisterEvent);
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
