@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "31ce0550f19f5bf1816cf1480441b972",
+=======
+    "content-hash": "410a32126eb1346876cc5273852cb094",
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1546,6 +1550,7 @@
         },
         {
             "name": "knplabs/knp-components",
+<<<<<<< HEAD
             "version": "v3.0.1",
             "source": {
                 "type": "git",
@@ -1556,6 +1561,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/b235cf756c6a72d1d378453c58ebd7fc2e8d911d",
                 "reference": "b235cf756c6a72d1d378453c58ebd7fc2e8d911d",
+=======
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/knp-components.git",
+                "reference": "7db2eb032591ded5809455af8a4dfdfda079041c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/7db2eb032591ded5809455af8a4dfdfda079041c",
+                "reference": "7db2eb032591ded5809455af8a4dfdfda079041c",
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
                 "shasum": ""
             },
             "require": {
@@ -1618,7 +1635,11 @@
                 "pager",
                 "paginator"
             ],
+<<<<<<< HEAD
             "time": "2021-03-05T08:30:55+00:00"
+=======
+            "time": "2021-03-16T13:52:01+00:00"
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
         },
         {
             "name": "knplabs/knp-paginator-bundle",

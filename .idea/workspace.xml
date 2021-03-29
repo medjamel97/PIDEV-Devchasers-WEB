@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="126c6e24-da75-4d47-86ea-9b882b98ccd4" name="Default Changelist" comment="" />
+=======
+    <list default="true" id="126c6e24-da75-4d47-86ea-9b882b98ccd4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Controller/MessageController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/backEnd/accueil.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/frontEnd/connexion/connexion.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/messagerie/afficherMessage.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/messagerie/afficherMessagerie.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20210307001948.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BaseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatureEvenementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatureEvenementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatureOffreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatureOffreController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ExperienceDeTravailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ExperienceDeTravailController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/OffreDeTravailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/OffreDeTravailController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/RevueController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RevueController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UtilisateurController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UtilisateurController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Candidat.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Candidat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/CandidatRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/CandidatRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UtilisateurRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UtilisateurRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/backEnd/acceuil.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/backEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backEnd/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherOffreDeTravail.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/ajouterCandidatureOffre.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/afficherToutRevue.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/afficherToutRevue.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/manipulerRevue.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/societe/offreDeTravail/revue/manipulerRevue.html.twig" afterDir="false" />
+    </list>
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,6 +44,23 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+<<<<<<< HEAD
+=======
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -124,12 +175,26 @@
       <path value="$PROJECT_DIR$/vendor/symfony/inflector" />
       <path value="$PROJECT_DIR$/vendor/symfony/security-csrf" />
       <path value="$PROJECT_DIR$/vendor/symfony/web-server-bundle" />
+<<<<<<< HEAD
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
+      <path value="$PROJECT_DIR$/vendor/gregwar/captcha-bundle" />
+      <path value="$PROJECT_DIR$/vendor/gregwar/captcha" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="1p1TMoaw0Mpm1xS0N7HBv8WOIVK" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+=======
+      <path value="$PROJECT_DIR$/vendor/gregwar/captcha-bundle" />
+      <path value="$PROJECT_DIR$/vendor/gregwar/captcha" />
+      <path value="$PROJECT_DIR$/vendor/symfony/swiftmailer-bundle" />
+      <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
     </include_path>
   </component>
   <component name="ProjectId" id="1p1TMoaw0Mpm1xS0N7HBv8WOIVK" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -140,10 +205,17 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/backEnd" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="consents" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Anis\Desktop\PIDEV\PIDEV-Devchasers\templates\backEnd" />
+      <recent name="C:\Users\Anis\Downloads\PIDEV-Devchasers-main\templates\backEnd" />
+      <recent name="D:\Projects\PIDEV-Devchasers\templates\backEnd" />
+      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur" />
+      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\revue" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Anis\Downloads\PIDEV-Devchasers-main\templates\backEnd\offreDeTravail" />
       <recent name="C:\Users\Anis\Downloads\PIDEV-Devchasers-main\templates\backEnd" />
@@ -151,14 +223,20 @@
       <recent name="D:\Projects\PIDEV-Devchasers\public\BackEnd" />
       <recent name="D:\Projects\PIDEV-Devchasers\public\FrontEnd" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Anis\Downloads\PIDEV-Devchasers-main\templates\backEnd" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\backEnd" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\revue" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\mission" />
-    </key>
   </component>
+<<<<<<< HEAD
+=======
+  <component name="RunManager">
+    <configuration name="RevueController.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/src/Controller/RevueController.php">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHP Script.RevueController.php" />
+      </list>
+    </recent_temporary>
+  </component>
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
@@ -180,6 +258,8 @@
       <workItem from="1616924192141" duration="126000" />
       <workItem from="1616924449543" duration="25119000" />
       <workItem from="1617013245464" duration="12182000" />
+      <workItem from="1617048103741" duration="1600000" />
+      <workItem from="1617054637237" duration="1725000" />
     </task>
     <servers />
   </component>
@@ -197,6 +277,7 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+<<<<<<< HEAD
   </component>
   <component name="WindowStateProjectService">
     <state x="395" y="91" key="#Inspections" timestamp="1617019762407">
@@ -207,21 +288,27 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1616943553842" />
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1617055383944">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1617055383944" />
     <state x="513" y="135" key="NewPhpClassDialog" timestamp="1617014243456">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="513" y="135" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1617014243456" />
-    <state x="277" y="57" key="SettingsEditor" timestamp="1616871089664">
+    <state x="277" y="57" key="SettingsEditor" timestamp="1617050582323">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1616871089664" />
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1617050582323" />
     <state x="490" y="154" width="540" height="524" key="StructurePopup" timestamp="1617020916437">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="490" y="154" width="540" height="524" key="StructurePopup/0.0.1536.824@0.0.1536.824" timestamp="1617020916437" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1617019399950">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1617051268886">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1617019399950" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1617051268886" />
+=======
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
   </component>
 </project>

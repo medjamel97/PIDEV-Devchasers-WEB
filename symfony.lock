@@ -85,7 +85,11 @@
         "version": "v1.0.3"
     },
     "knplabs/knp-components": {
+<<<<<<< HEAD
         "version": "v3.0.1"
+=======
+        "version": "v3.0.2"
+>>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v5.4.2"

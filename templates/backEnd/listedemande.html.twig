@@ -1,0 +1,133 @@
+{% extends "::back/home.html.twig" %}
+{% block body %}
+    <div class="container-fluid mt--4">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+
+                    <div class="card">
+                        <!-- Card header -->
+                        <div class="card-header border-0">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h3 class="mb-0">Liste des demandes de stage</h3>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <a href="{{ path('listestage') }}" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip" data-original-title="liste des stages">
+                                        <span class="btn-inner--icon"><i class="ni ni-book-bookmark"></i></span>
+                                        <span class="btn-inner--text">Liste des stages</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Light table -->
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>Sujet</th>
+                                    <th>Description</th>
+                                    <th>Branche</th>
+
+                                    <th>Adresse</th>
+                                    <th></th>
+                                </tr>
+
+                                </thead>
+                                <tbody>
+                                {% for elt in listestages     %}
+                                    <tr>
+                                        <td class="table-user">
+                                            <span class="text-muted">{{ elt.sujet}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">{{ elt.description}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">{{ elt.branche}}</span>
+                                        </td>
+                                        {#
+                                        <td>
+                                            <span class="text-muted">{{ elt.LettreMotivation}}</span>
+                                        </td>
+                                        <td>
+                                            {% for img in elt.CV %}
+
+                                                <img src="{{ asset('upload/' ~ img.CV) }}" height="500px" width="500px">
+
+                                            {% endfor %}
+                                        </td>
+                                        #}
+                                        <td>
+                                            <span class="text-muted">{{ elt.adresse}}</span>
+                                        </td>
+                                        <td class="table-actions">
+                                            <a href="{{ path('traiterdemande',{'id':elt.IdListestage})}}" class="table-action" data-toggle="tooltip" data-original-title="Traiter Demande">
+                                                <i class="fas fa-user-edit"></i>
+                                            </a>
+                                            {# <a href="{{ path('deletelistestage',{'id':elt.IdListestage})}}" class="table-action table-action-delete" data-toggle="tooltip" data-original-title="Supprimer Demande">
+                            <i class="fas fa-trash"></i>
+                        </a>#}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#
+    <div class="col-lg-2 col-2 ">
+    <table border="1">
+        <tr>
+
+            <th>Sujet</th>
+            <th>Description</th>
+            <th>Branche</th>
+            <th>Lettre de motivation</th>
+            <th>CV</th>
+            <th>Adresse</th>
+            <th>Action</th>
+
+
+        </tr>
+
+
+        {% for elt in listestages     %}
+
+            <td>{{ elt.sujet}}</td>
+            <td>{{ elt.description }}</td>
+            <td>{{ elt.branche}}</td>
+            <td>{{ elt.LettreMotivation }}</td>
+            <td>
+                {% for img in elt.CV %}
+
+                    <img src="{{ asset('upload/' ~ img.CV) }}" height="100px" width="100px">
+
+                {% endfor %}
+            </td>
+            <td>{{ elt.adresse }}</td>
+
+            <td><a href="{{ path('traiterdemande',{'id':elt.IdListestage})}}">
+                    <button>Traiter</button></a></td>
+            <td>
+           {#
+            <td><a href="{{ path('club8_edit',{'id':elt.id})}}">
+                    <button>modifier</button></a></td>
+    #}
+    {#  <td>
+                    <button>Supprimer</button></td>
+
+            </tr>
+
+        {% endfor %}
+
+
+    </table>
+    </div>
+    #}
+{% endblock %}

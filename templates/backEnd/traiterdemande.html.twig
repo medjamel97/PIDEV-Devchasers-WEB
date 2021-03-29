@@ -1,0 +1,151 @@
+{% extends "::back/home.html.twig" %}
+    {% block body %}
+        {% for user in users %}
+            {% if user.email != demande.adresse %}
+
+
+                <div class="card-body" style="margin-bottom: 200px;margin-top: 200px ;margin-left: 600px">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-block btn-primary mb-3" data-toggle="modal" data-target="#modal-default">Echec</button>
+                            <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+                                <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="modal-title-default">Adresse n'est pas valide</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Cette adresse n'existe pas</p>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{{ path('listedemandestage')}}" ><button type="button" class="btn btn-primary">Retourner à la liste </button> </a>
+                                            <a href="{{ path('deletelistestage',{'id':demande.IdListestage})}}" ><button type="button" class="btn btn-primary" >Supprimer Demande</button> </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% else  %}
+
+
+                <div class="container-fluid mt--4">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <!-- Image-Text card -->
+                            <div class="card">
+                                <!-- Card image -->
+                                <!-- Card body -->
+                                <div class="card-body">
+                                    <span class="text-muted"><b>Sujet</b> </span><br/>
+                                    <span class="text-muted">{{ demande.sujet }}</span></br>
+
+
+                                </div>
+                            </div>
+                            <div class="card">
+                                <!-- Card image -->
+                                <!-- Card body -->
+                                <div class="card-body">
+                                    <span class="text-muted"><b>Description</b> </span><br/>
+                                    <span class="text-muted"> {{ demande.description}}</span></br>
+
+
+                                </div>
+                            </div>
+                            <div class="card">
+                                <!-- Card image -->
+                                <!-- Card body -->
+                                <div class="card-body">
+                                    <span class="text-muted"><b>Branche</b> </span><br/>
+
+                                    <span class="text-muted">{{ demande.branche }}</span></br>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <div class="card widget-calendar">
+                                <!-- Card header -->
+                                <div class="card-header">
+                                    <div class="h5 text-muted mb-1 widget-calendar-year"></div>
+                                    <div class="h3 mb-0 widget-calendar-day"></div>
+                                    <span class="text-muted"><b>Lettre de Motivation</b> </span>
+                                </div>
+                                <!-- Card body -->
+                                <div class="card-body">
+                                    <div data-toggle="widget-calendar"> <span class="text-muted">{{ demande.LettreMotivation }} </span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4" >
+                            <!-- Vector map -->
+                            <!--* Card header *-->
+                            <!--* Card body *-->
+                            <!--* Card init *-->
+                            <div class="card widget-calendar">
+                                <!-- Card header -->
+                                <div class="card-header">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            <!-- Title -->
+                                            <span class="text-muted"><b>CV</b> </span><br/>
+                                            <img src="{{ asset('upload/' ~ demande.CV) }}" height="500px" width="350px"><br/>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Page content -->
+
+
+                <!-- Card header -->
+                <div class="card-header">
+                    <h3 class="mb-0">Répondre</h3>
+                </div>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" >A :    {{ demande.adresse }}</textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" >Objet :   Demande de stage</textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">
+        Votre demande   au sujet  {{ demande.sujet }} a été   acceptée /refusée
+        </textarea>
+                <a href="{{ path('listedemandestage')}}" ><button type="button" class="btn btn-primary" style="margin-left: 675px">Envoyer </button> </a>
+
+                </div>
+                <!-- Card body -->
+
+
+
+                {#
+                Sujet : <input style="border:0px" type ="text"name="sujet"value={{ demande.sujet }}><br/>
+                 Description : <input style="border:0px" type ="text"name="description"value={{ demande.description }}><br/>
+                 Branche : <input style="border:0px" type ="text"name="branche"value={{ demande.branche  }}><br/>
+
+
+
+                <img src="{{ asset('upload/' ~ demande.CV) }}" height="100px" width="100px"><br/>
+
+
+
+                 lettre de motivation :<br/>
+                 <textarea class="form-control" rows="3" name="LettreMotivation" style="border:0px" >{{ demande.LettreMotivation  }}</textarea><br/>
+                  adresse  : <input style="border:0px" type ="text"name="adresse" value={{ demande.adresse  }}><br/>
+             <button> Enregistrer </button></form>
+
+
+                #}
+
+            {% endif %}
+        {% endfor %}
+    {% endblock %}
