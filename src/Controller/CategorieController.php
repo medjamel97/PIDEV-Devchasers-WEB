@@ -5,91 +5,91 @@ namespace App\Controller;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
-use Symfony\Component\HttpFoundation\Request;
-use Knp\Component\Pager\PaginatorInterface;
 
 class CategorieController extends AbstractController
 {
     /**
-     * @Route("/ajouCategorie", name="ac")
+     * @Route("/societe={idSociete}/categorie={idCategorie}", name="afficherCategorie")
      */
-    public function addCat(Request $request)
+    public function afficherCategorie($idSociete,$idCategorie): Response
     {
-        $cat = new Categorie();
+        return null;
+    }
 
-        $form = $this->createForm(CategorieType::class, $cat)
+    /**
+     * @Route("/categorie", name="afficherToutCategorie")
+     */
+    public function afficherToutCategorie(): Response
+    {
+        return $this->render('/frontEnd/utilisateur/societe/categorie/afficherCategorie.html.twig', [
+            'categories' => $this->getDoctrine()->getManager()->getRepository(Categorie::class)->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/societe/categorie/ajouter", name="ajouterCategorie")
+     */
+    public function ajouterCategorie(Request $request)
+    {
+        $categorie = new Categorie();
+
+        $form = $this->createForm(CategorieType::class, $categorie)
             ->add('Ajouter', SubmitType::class)
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($cat);
-            $em->flush();
 
+            $categorie = $form->getData();
 
-            return $this->redirectToRoute('listc');
+            $categorieRepository = $this->getDoctrine()->getManager();
+            $categorieRepository->persist($categorie);
+            $categorieRepository->flush();
+
+            return $this->redirectToRoute('afficherCategorie');
         }
-        return $this->render('/backEnd/ajouCategorie.html.twig', [
+
+        return $this->render('/frontEnd/utilisateur/societe/categorie/manipulerCategorie.html.twig', [
             'form' => $form->createView(),
-            'Cat' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
-
+            'manipulation' => "Modifier",
         ]);
     }
 
     /**
-     * @Route("/deletecat/{id}", name="dele")
+     * @Route("/societe/categorie={idCategorie}/modifier", name="modifierCategorie")
      */
-    public function delCat(Request $request, $id)
+    public function modifierCategorie(Request $request, $idCategorie)
     {
-        $em = $this->getDoctrine()->getManager();
-        $e = $em->getRepository(Categorie::class)->find($id);
-        $em->remove($e);
-        $em->flush();
+        $categorieRepository = $this->getDoctrine()->getManager();
+        $categorie = $categorieRepository->getRepository(Categorie::class)->find($idCategorie);
 
-        return $this->redirectToRoute('listc');
-    }
+        $form = $this->createForm(CategorieType::class, $categorie);
+        $form->add('Modifier', SubmitType::class);
+        $form->handleRequest($request);
 
-    /**
-     * @Route("/modif/{id}", name="modcat")
-     */
-    public function ModifierCat(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $cat = $em->getRepository(Categorie::class)->find($id);
-
-        $form = $this->createForm(CategorieType::class, $cat)
-            ->add('Modifier', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            return $this->redirectToRoute('listc');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $categorieRepository->flush();
+            return $this->redirectToRoute('afficherCategorie');
         }
 
-        return $this->render('/backEnd/ajouCategorie.html.twig', ['form' => $form->createView(),
-            'Cat' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
+        return $this->render('/frontEnd/utilisateur/societe/categorie/manipulerCategorie.html.twig', [
+            'form' => $form->createView(),
+            'manipulation' => "Modifier",
         ]);
     }
 
     /**
-     * @Route("/listcat", name="listc")
+     * @Route("/societe/categorie={idCategorie}/supprimer", name="supprimerCategorie")
      */
-    public function LireCat(Request $request)
+    public function supprimerCategorie($idCategorie)
     {
-        $em = $this->getDoctrine()->getManager();
-        $cat = $em->getRepository(Categorie::class)->findAll();
-
-
-        return $this->render('/backEnd/listcat.html.twig', [
-            'Cat' => $cat
-        ]);
+        $manager = $this->getDoctrine()->getManager();
+        $categorie = $manager->getRepository(Categorie::class)->find($idCategorie);
+        $manager->remove($categorie);
+        $manager->flush();
+        return $this->redirectToRoute('afficherCategorie');
     }
-
-
 }

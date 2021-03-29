@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Categorie;
 use App\Entity\OffreDeTravail;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -48,25 +47,4 @@ class OffreDeTravailRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function finder($categorie_id): ?Categorie
-    {
-
-        $em = $this->getEntityManager();
-
-        $query = $this->getEntityManager($categorie_id)
-            ->createQuery('
-            SELECT a, v FROM OffreDeTravail:Categorie a
-            JOIN v.Categorie v
-            WHERE a.id = :id'
-            )->setParameter('id', $categorie_id);
-
-        return $query->getOneOrNullResult();
-    }
-    public function findOffreByNsc($job){
-        return $this->createQueryBuilder('OffreDeTravail')
-        ->where('OffreDeTravail.job LIKE :job')
-        ->setParameter('job', '%'.$job.'%')
-        ->getQuery()
-        ->getResult();
-        }
 }
