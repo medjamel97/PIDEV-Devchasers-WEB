@@ -90,6 +90,12 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v5.3.0"
     },
+    "gregwar/captcha": {
+        "version": "v1.1.9"
+    },
+    "gregwar/captcha-bundle": {
+        "version": "v2.1.4"
+    },
     "laminas/laminas-code": {
         "version": "4.0.0"
     },

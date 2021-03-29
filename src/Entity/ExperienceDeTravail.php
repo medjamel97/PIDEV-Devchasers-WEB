@@ -95,7 +95,7 @@ class ExperienceDeTravail
 
     public function setVille(string $ville): self
     {
-        $this->Ville = $ville;
+        $this->ville = $ville;
 
         return $this;
     }

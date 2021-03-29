@@ -18,11 +18,7 @@ class ExperienceDeTravailType extends AbstractType
             ->add('titreEmploi')
             ->add('nomEntreprise')
             ->add('ville')
-            ->add('duree')
-            ->add('candidat', EntityType::class, [
-                'class' => Candidat::class,
-                'choice_label' => 'id',
-                'multiple' => false]);
+            ->add('duree');
     }
 
     public function configureOptions(OptionsResolver $resolver)

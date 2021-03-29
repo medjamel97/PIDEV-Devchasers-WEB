@@ -35,7 +35,6 @@
 </head>
 
 <body>
-{% block body %}
     <!-- Loader -->
     <div id="preloader">
         <div id="status">
@@ -67,13 +66,40 @@
                         <li class="list-inline-item"><a href="{{ asset('utilisateur') }}"><i
                                         class="mdi mdi-account mr-2"></i>Utilisateur</a></li>
                         <li class="list-inline-item">
-                            <select id="select-lang" class="demo-default">
-                                <option value="">Language</option>
-                                <option value="4">English</option>
-                                <option value="1">Spanish</option>
-                                <option value="3">French</option>
-                                <option value="5">Hindi</option>
-                            </select>
+                            {% set utilisateur = app.session.get('utilisateur') %}
+                            {% if utilisateur is not null %}
+                                {% set idUtilisateur = utilisateur['idUtilisateur'] %}
+                                {% set email = utilisateur['emailUtilisateur'] %}
+                            {% endif %}
+
+                            {% if utilisateur is null %}
+                            <a>
+                                <i class="mdi mdi-account mr-2"></i>
+                                Déconnecté
+                            </a>
+                            {% else %}
+                            <a href="{{ asset('utilisateur') }}">
+                                <i class="mdi mdi-account mr-2"></i>Connecté avec id : {{ idUtilisateur }}
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="{{ asset('messagerie') }}">
+                                <i class="mdi mdi-message mr-2"></i>Messagerie
+                            </a>
+                            {% endif %}
+                        </li>
+                        <li class="list-inline-item">
+                            {% if utilisateur is null %}
+                                <a href="{{ asset('_connexion') }}">
+                                    <button class="btn btn-success p-1"><i class="mdi mdi-logout"></i> Connexion
+                                    </button>
+                                </a>
+                            {% else %}
+                                <a href="{{ asset('deconnexion') }}">
+                                    <button class="btn btn-danger p-1"><i class="mdi mdi-logout"></i> Deconnexion
+                                    </button>
+                                </a>
+                            {% endif %}
                         </li>
                     </ul>
                 </div>
@@ -110,41 +136,27 @@
 
             <div id="navigation">
                 {% block links %}
-                <!-- Navigation Menu-->
-                <ul class="navigation-menu">
-                    <li class="has-submenu">
-                        <a href="{{ asset('utilisateur') }}">Utilisateurs</a><span
-                                class="menu-arrow"></span>
-                        <ul class="submenu">
-                            <li><a href="{{ asset('societe') }}">Societes</a></li>
-                            <li><a href="{{ asset('candidat') }}">Candidats</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{ asset('formation') }}">Formations</a></li>
-                    <li><a href="{{ asset('publication') }}">Publication</a></li>
-                    <li><a href="{{ asset('mission') }}">Missions</a></li>
-                    <li><a href="{{ asset('offreDeTravail') }}">Offres de travail</a></li>
-                    <li class="has-submenu">
-                        <a href="{{ asset('categorie') }}">Categories</a><span
-                                class="menu-arrow"></span>
-                        <ul class="submenu">
-                            <li><a href="{{ asset('#') }}">categorie1</a></li>
-                            <li><a href="{{ asset('#') }}">categorie2</a></li>
-                            <li class="has-submenu">
-                                <a href="{{ asset('/frontEnd/javascript:void(0)') }}">categorie3</a><span
-                                        class="submenu-arrow"></span>
-                                <ul class="submenu">
-                                    <li><a href="{{ asset('#') }}">sousCategorie1</a></li>
-                                    <li><a href="{{ asset('#') }}">sousCategorie2</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="{{ asset('/societe=0/offreDeTravail=0/revue/pageIndex=1') }}">Revues</a>
-                    </li>
-                </ul><!--end navigation menu-->
+                    <!-- Navigation Menu-->
+                    <ul class="navigation-menu">
+                        <li class="has-submenu"><a href="{{ asset('afficherProfil') }}">Profil</a></li>
+                        <li class="has-submenu"><a href="{{ asset('societe') }}">Societe</a></li>
+                        <li class="has-submenu">
+                            <a href="{{ asset('offreDeTravail/categorie=0') }}">Offres de travail</a><span
+                                    class="menu-arrow"></span>
+                            <ul class="submenu">
+                                <li class="has-submenu">
+                                    <a href="{{ asset('categorie') }}">Categories</a><span class="submenu-arrow"></span>
+                                    <ul class="submenu">
+                                        <li><a href="{{ asset('#') }}">categorie 1</a></li>
+                                        <li><a href="{{ asset('#') }}">categorie 2</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ asset('formation') }}">Formations</a></li>
+                        <li><a href="{{ asset('mission') }}">Missions</a></li>
+                        <li><a href="{{ asset('evenement') }}">Evenements</a></li>
+                    </ul><!--end navigation menu-->
                 {% endblock %}
             </div><!--end navigation-->
 
@@ -250,7 +262,6 @@
 
     <script src="{{ asset('/frontEnd/js/app.js') }}"></script>
     <script src="{{ asset('/frontEnd/js/home.js') }}"></script>
-{% endblock %}
 {% endblock %}
 </body>
 </html>

@@ -30,7 +30,7 @@ class Societe
     private $dateCreationSociete;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=8)
      */
     private $numTelSociete;
 

@@ -2,94 +2,106 @@
 
 namespace App\Controller;
 
+use App\Entity\Candidat;
 use App\Entity\Competence;
 use App\Form\CompetenceType;
+use App\Repository\CompetenceRepository;
+use MongoDB\Driver\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/competence")
+ */
 class CompetenceController extends AbstractController
 {
-    /**
-     * @Route("/candidat={}/competence={}", name="afficherCompetence")
-     */
-    public function afficherCompetence(): Response
+    private $session;
+
+    public function __construct(SessionInterface $session)
     {
-        return $this->render('/frontEnd/utilisateur/societe/competence/afficherCompetence.html.twig', [
-            'competences' => $this->getDoctrine()->getManager()->getRepository(Competence::class)->findAll(),
-        ]);
+        $this->session = $session;
     }
 
     /**
-     * @Route("competence", name="afficherToutCompetence")
+     * @Route("/new", name="competence_new", methods={"GET","POST"})
      */
-    public function afficherToutCompetence(): Response
-    {
-        return null;
-    }
-
-    /**
-     * @Route("/candidat/competence/ajouter", name="ajouterCompetence")
-     */
-    public function ajouterCompetence(Request $request)
+    public function new(Request $request): Response
     {
         $competence = new Competence();
-
         $form = $this->createForm(CompetenceType::class, $competence)
-            ->add('Ajouter', SubmitType::class)
+            ->add('submit', SubmitType::class)
             ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
             $competence = $form->getData();
 
-            $competenceRepository = $this->getDoctrine()->getManager();
-            $competenceRepository->persist($competence);
-            $competenceRepository->flush();
+            $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
+                $this->session->get("utilisateur")["idCandidat"]
+            );
+            $competence->setCandidat($candidat);
 
-            return $this->redirectToRoute('afficherCompetence');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($competence);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/competence/manipulerCompetence.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/competence/manipulationCompetence.html.twig', [
+            'competence' => $competence,
             'form' => $form->createView(),
-            'manipulation' => "Modifier",
+            'manipulation' => 'Ajouter'
         ]);
     }
 
     /**
-     * @Route("/candidat/competence={idCompetence}/modifier", name="modifierCompetence")
+     * @Route("/{id}/edit", name="competence_edit", methods={"GET","POST"})
      */
-    public function modifierCompetence(Request $request, $idCompetence)
+    public function edit(Request $request, Competence $competence): Response
     {
-        $competenceRepository = $this->getDoctrine()->getManager();
-        $competence = $competenceRepository->getRepository(Competence::class)->find($idCompetence);
+        $form = $this->createForm(CompetenceType::class, $competence)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
 
-        $form = $this->createForm(CompetenceType::class, $competence);
-        $form->add('Modifier', SubmitType::class);
-        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $competenceRepository->flush();
-            return $this->redirectToRoute('afficherCompetence');
+            $education = $form->getData();
+
+            $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
+                $this->session->get("utilisateur")["idCandidat"]
+            );
+            $education->setCandidat($candidat);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($education);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/competence/manipulerCompetence.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/competence/manipulationCompetence.html.twig', [
+            'competence' => $competence,
             'form' => $form->createView(),
-            'manipulation' => "Modifier",
+            'manipulation' => 'Modifier',
         ]);
     }
 
     /**
-     * @Route("/candidat/competence={idCompetence}/supprimer", name="supprimerCompetence")
+     * @Route("/{id}", name="competence_delete", methods={"DELETE"})
      */
-    public function supprimerCompetence($idCompetence)
+    public function delete(Request $request, Competence $competence): Response
     {
-        $competenceManager = $this->getDoctrine()->getManager();
-        $competence = $competenceManager->getRepository(Competence::class)->find($idCompetence);
-        $competenceManager->remove($competence);
-        $competenceManager->flush();
-        return $this->redirectToRoute('afficherCompetence');
+        if ($this->isCsrfTokenValid('delete' . $competence->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($competence);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('competence_index');
     }
 }

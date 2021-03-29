@@ -44,9 +44,18 @@ class SocieteController extends AbstractController
             $societe = $form->getData()
                 ->setUtilisateur($utilisateur);
 
-            $utilisateurManager = $this->getDoctrine()->getManager();
-            $utilisateurManager->persist($utilisateur);
-            $utilisateurManager->flush();
+            $file = $request->files->get('societe')['idPhotoSociete'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $societe->setIdPhotoSociete($uploads_directory . "/" . $filename);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($utilisateur);
+            $manager->flush();
 
             $societeManager = $this->getDoctrine()->getManager();
             $societeManager->persist($societe);
@@ -55,7 +64,7 @@ class SocieteController extends AbstractController
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
-        return $this->render('frontEnd/utilisateur/societe/manipulerSociete.html.twig', [
+        return $this->render('_inscription/inscrireSociete.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -72,9 +81,30 @@ class SocieteController extends AbstractController
         $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
+        $utilisateur->setEmail($email)
+            ->setMotDePasse($motDePasse)
+            ->setTypeUtilisateur(0);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $SocieteRepository->flush();
-            return $this->redirectToRoute('afficherSociete');
+
+            $societe = $form->getData()
+                ->setUtilisateur($utilisateur);
+
+            $file = $request->files->get('societe')['idPhotoSociete'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $societe->setIdPhotoSociete($uploads_directory . "/" . $filename);
+
+            $manager->persist($utilisateur);
+            $manager->flush();
+            $manager->persist($societe);
+            $manager->flush();
+
+            return $this->redirectToRoute('afficherToutSociete');
         }
 
         return $this->render('/frontEnd/utilisateur/societe/manipulerQuestionnaire.html.twig', [

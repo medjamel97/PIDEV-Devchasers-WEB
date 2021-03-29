@@ -39,12 +39,18 @@ class UtilisateurRepository extends ServiceEntityRepository
     /*
     public function findOneBySomeField($value): ?utilisateur
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+        try {
+            return $this->createQueryBuilder('u')
+                ->andWhere('u.email LIKE :email')
+                ->setParameter('email', $email)
+                ->andWhere('u.motDePasse LIKE :mdp')
+                ->setParameter('mdp', $motDePasse)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+            return null;
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }*/
 }

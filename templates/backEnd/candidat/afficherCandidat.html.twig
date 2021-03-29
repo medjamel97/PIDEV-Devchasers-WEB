@@ -1,0 +1,136 @@
+{% extends '/frontEnd/base.html.twig' %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+    <!-- Start home -->
+    <section class="bg-half page-next-level">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="candidates-profile-details text-center">
+                        <img src="https://via.placeholder.com/400X400//88929f/5a6270C/O https://placeholder.com/"
+                             height="150" alt="" class="d-block mx-auto shadow rounded-pill mb-4">
+                        <h5 class="text-white mb-2">{{ candidat.nom }} {{ candidat.prenom }}  </h5>
+                        <p class="text-white-50 h6 mb-2"><i class="mdi mdi-bank mr-2"></i>Web Themes.pvt.Ltd</p>
+                        <p class="text-white-50 h6 mb-2">PHP Developer</p>
+                        <ul class="candidates-profile-icons list-inline mb-3">
+                            <li class="list-inline-item"><a href="#" class="text-warning"><i
+                                            class="mdi mdi-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="text-warning"><i
+                                            class="mdi mdi-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="text-warning"><i
+                                            class="mdi mdi-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="text-warning"><i
+                                            class="mdi mdi-star"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="text-warning"><i
+                                            class="mdi mdi-star"></i></a></li>
+                        </ul>
+
+                        <ul class="list-unstyled social-icon social mb-0">
+                            <li class="list-inline-item"><a href="#" class="rounded"><i
+                                            class="mdi mdi-facebook"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="rounded"><i class="mdi mdi-twitter"></i></a>
+                            </li>
+                            <li class="list-inline-item"><a href="#" class="rounded"><i
+                                            class="mdi mdi-instagram"></i></a></li>
+                            <li class="list-inline-item"><a href="#" class="rounded"><i class="mdi mdi-google-plus"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end home -->
+
+    <!-- CANDIDATES PROFILE START -->
+    <section class="section">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12 mt-4 pt-2">
+                    <h4 class="text-dark">Education :</h4>
+                </div>
+            </div>
+            <a href="{{ asset('candidat='~candidat.id~'/modifier') }}">Modifier profil</a>
+            <div class="row">
+                {% for education in educations %}
+                    <div class="col-lg-4 col-md-6 mt-4 pt-5">
+                        <div class="border rounded candidates-profile-education text-center text-muted">
+                            <div class="profile-education-icon border rounded-pill bg-white text-primary">
+                                <i class="mdi mdi-36px mdi-school"></i>
+                            </div>
+                            <h6 class="text-uppercase f-17"><a href="#"
+                                                               class="text-muted">{{ education.niveauEducation }}</a>
+                            </h6>
+                            <p class="f-14 mb-1"><i class="mdi mdi-briefcase"> </i>{{ education.etablissement }}</p>
+                            <p class="pb-3 mb-0">{{ education.filiere }}</p>
+
+                            <p class="pt-3 border-top mb-0">{{ education.description }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 mt-4 pt-2">
+                    <h4 class="text-dark">Experience :</h4>
+                </div>
+            </div>
+            {% for ExperienceDeTravail in workexps %}
+                <div class="row">
+                    <div class="col-md-6 mt-3 mt-md-0 pt-3">
+                        <div class="border rounded job-list-box p-4">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="company-brand-logo text-center mb-4">
+                                        <img src="images/featured-job/img-2.png" alt=""
+                                             class="img-fluid mx-auto d-block">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-9">
+                                    <div class="job-list-desc candidates-profile-exp-desc">
+                                        <h5 class="f-19 mb-2"><a href="#"
+                                                                 class="text-dark">{{ ExperienceDeTravail.description }}</a>
+                                        </h5>
+                                        <p class="text-muted mb-0 f-16">PHP Developer</p>
+                                        <p class="text-muted mb-0 f-16">Jan 2016 - Dec 2017</p>
+                                        <p class="text-muted mb-0 f-16">Salary : $950</p>
+                                        <p class="text-muted mb-0 f-16"><i class="mdi mdi-bank mr-2"></i>www.webthemesltd.co.in
+                                        </p>
+                                        <p class="text-muted mb-0 f-16"><i class="mdi mdi-map-marker mr-2"></i>1919 Ward
+                                            Road West Nyack, NY 10994</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="row">
+                <div class="col-lg-12 mt-4 pt-2">
+                    <h4 class="text-dark">Skills :</h4>
+                </div>
+            </div>
+            {% for competence in competences %}
+            <div class="row">
+                <div class="col-md-6 mt-4 pt-2">
+                    <div class="progress-box mt-4">
+                        <h6 class="title text-muted">{{ competence.name }}</h6>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped position-relative bg-primary"
+                                 style="width:{{ competence.level }}%;">
+                                <div class="progress-value d-block text-muted h6">1%</div>
+                            </div>
+                        </div>
+                    </div><!--end process box-->
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- CANDIDATES PROFILE END -->
+
+{% endblock %}

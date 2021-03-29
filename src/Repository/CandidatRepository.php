@@ -19,32 +19,13 @@ class CandidatRepository extends ServiceEntityRepository
         parent::__construct($registry, Candidat::class);
     }
 
-    // /**
-    //  * @return Candidat[] Returns an array of Candidat objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findStartingWith($recherche)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('c.nom LIKE :val')
+            ->orWhere('c.prenom LIKE :val')
+            ->setParameter("val", $recherche . '%')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Candidat
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

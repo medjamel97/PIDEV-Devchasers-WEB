@@ -6,6 +6,7 @@ use App\Entity\Societe;
 use App\Entity\Utilisateur;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,11 @@ class SocieteType extends AbstractType
             ->add('nomSociete')
             ->add('dateCreationSociete')
             ->add('numTelSociete')
-            ->add('idPhotoSociete')
+            ->add('idPhotoSociete', FileType::class,[
+                'label'=> false,
+                'mapped'=>false,
+                'required'=>false
+            ])
         ;
     }
 

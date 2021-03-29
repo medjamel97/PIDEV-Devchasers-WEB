@@ -25,7 +25,7 @@ class CommentaireController extends AbstractController
     /**
      * @Route("/commentaire", name="afficherToutCommentaire")
      */
-    public function afficherToutCommentaire(): Response
+    public function afficherToutCommentaire(): ?Response
     {
         return null;
     }

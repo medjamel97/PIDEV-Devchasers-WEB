@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Candidat;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,11 +16,14 @@ class CandidatType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
-            ->add('dateNaissance')
+            ->add('dateNaissance', DateType::class)
             ->add('sexe')
             ->add('tel')
-            ->add('idPhoto')
-        ;
+            ->add('idPhoto', FileType::class, [
+                'label' => false,
+                'mapped' => false,
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

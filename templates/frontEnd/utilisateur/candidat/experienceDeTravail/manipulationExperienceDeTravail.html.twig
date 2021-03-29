@@ -1,0 +1,110 @@
+{% extends '/frontEnd/base.html.twig' %}
+
+{% block content %}
+    <script>
+        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
+    </script>
+    <section>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 mt-4 pt-2">
+                        <div class="component-wrapper rounded shadow">
+                            <div class="p-4 border-bottom bg-light">
+                                <h4 class="title mb-0"> {{ manipulation }} education : {{ education.description }}</h4>
+                            </div>
+                            <div class="p-4">
+                                {{ form_start(form) }}
+                                {% do form.description.setRendered() %}
+                                {% do form.titreEmploi.setRendered() %}
+                                {% do form.nomEntreprise.setRendered() %}
+                                {% do form.ville.setRendered() %}
+                                {% do form.duree.setRendered() %}
+                                {% do form.submit.setRendered() %}
+
+                                <form name="education" method="post">
+                                    <div class="row">
+                                        {{ form_errors(form.description) }}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="education_description" class="required">Description</label>
+                                                <input type="text"
+                                                       id="education_description"
+                                                       name="education[description]"
+                                                       maxlength="255"
+                                                       value="{{ education.description }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.titreEmploi) }}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="education_niveauEducation" class="required">Niveau
+                                                    education</label>
+                                                <input type="text"
+                                                       id="education_niveauEducation"
+                                                       name="education[niveauEducation]"
+                                                       maxlength="255"
+                                                       value="{{ education.titreEmploi }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.nomEntreprise) }}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="education_filiere" class="required">Filiere</label>
+                                                <input type="text"
+                                                       id="education_filiere"
+                                                       name="education[filiere]"
+                                                       maxlength="255"
+                                                       value="{{ education.nomEntreprise }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.ville) }}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="education_etablissement"
+                                                       class="required">Etablissement</label>
+                                                <input type="text"
+                                                       id="education_etablissement"
+                                                       name="education[etablissement]"
+                                                       maxlength="255"
+                                                       value="{{ education.ville }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.duree) }}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="education_ville" class="required">Ville</label>
+                                                <input type="text" id="education_ville"
+                                                       name="education[ville]"
+                                                       maxlength="255"
+                                                       value="{{ education.duree }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                    </div><!--end row-->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <button type="submit" id="education_submit"
+                                                    class="btn btn-primary"
+                                                    name="education[submit]">{{ manipulation }}</button>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form><!--end form-->
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
