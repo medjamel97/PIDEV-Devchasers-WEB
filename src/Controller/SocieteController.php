@@ -54,6 +54,15 @@ class SocieteController extends AbstractController
             $societe = $form->getData()
                 ->setUtilisateur($utilisateur);
 
+            $file = $request->files->get('societe')['idPhotoSociete'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $societe->setIdPhotoSociete($uploads_directory . "/" . $filename);
+
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($utilisateur);
             $manager->flush();
@@ -65,9 +74,8 @@ class SocieteController extends AbstractController
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
-        return $this->render('frontEnd/utilisateur/societe/manipulerSociete.html.twig', [
+        return $this->render('_inscription/inscrireSociete.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Ajouter"
         ]);
     }
 
@@ -88,11 +96,19 @@ class SocieteController extends AbstractController
             ->setMotDePasse($motDePasse)
             ->setTypeUtilisateur(0);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $societe = $form->getData()
                 ->setUtilisateur($utilisateur);
+
+            $file = $request->files->get('societe')['idPhotoSociete'];
+            $uploads_directory = $this->getParameter('uploads_directory');
+            $filename = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $societe->setIdPhotoSociete($uploads_directory . "/" . $filename);
 
             $manager->persist($utilisateur);
             $manager->flush();

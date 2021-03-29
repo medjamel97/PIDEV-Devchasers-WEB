@@ -1,403 +1,163 @@
 {% extends '/frontEnd/base.html.twig' %}
+
 {% block css %}
-    <link rel="stylesheet" href="/frontEnd/css/bootstrap.min.css" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ asset('/frontEnd/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="/frontEnd/css/materialdesignicons.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/materialdesignicons.min.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="/frontEnd/css/fontawesome.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/fontawesome.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/nice-select.css') }}"/>
 
     <!-- selectize css -->
-    <link rel="stylesheet" type="text/css" href="/frontEnd/css/selectize.css"/>
-
-    <link rel="stylesheet" type="text/css" href="/frontEnd/css/nice-select.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/selectize.css') }}"/>
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="/frontEnd/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/style.css') }}"/>
 {% endblock %}
 {% block content %}
-    <!-- Start home -->
-    <section class="bg-half page-next-level">
-        <div class="bg-overlay"></div>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="text-center text-white">
-                        <h4 class="text-uppercase title mb-4">Create Resume</h4>
-                        <ul class="page-next d-inline-block mb-0">
-                            <li><a href="index.html" class="text-uppercase font-weight-bold">Home</a></li>
-                            <li><a href="#" class="text-uppercase font-weight-bold">Pages</a></li>
-                            <li><a href="#" class="text-uppercase font-weight-bold">Candidates</a></li>
-                            <li>
-                                <span class="text-uppercase text-white font-weight-bold">Creat Resume</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- end home -->
-
-    <!-- CREATE RESUME START -->
-    <section class="section">
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col-lg-12">
-                    <h5 class="text-dark">General Information :</h5>
-                </div>
-
-
-                <div class="col-12 mt-3">
-                    <div class="custom-form p-4 border rounded">
-                        <img src="https://via.placeholder.com/400X400//88929f/5a6270C/O https://placeholder.com/"
-                             class="img-fluid avatar avatar-medium d-block mx-auto rounded-pill" alt="">
-                        <form>
-                            {{ form_start(form) }}
-
-                            {{ form_errors(form.nom) }}
-
-                            <div><label for="candidat_nom" class="required">Nom</label>
-                                <input class="form-control resume" type="text" id="candidat_nom" name="candidat[nom]"
-                                       required="required"
-                                       maxlength="255"
-                                       value="d&quot;"></div>
-                            <div>
-                                <button class="btn btn-danger" type="submit" id="candidat_Modifier"
-                                        name="candidat[Modifier]">Modifier
-                                </button>
+    <script>
+        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
+    </script>
+    <section>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 mt-4 pt-2">
+                        <div class="component-wrapper rounded shadow">
+                            <div class="p-4 border-bottom bg-light">
+                                <h4 class="title mb-0"> Modifier votre profil</h4>
                             </div>
+                            <div class="p-4">
+                                {{ form_start(form) }}
+                                {% do form.nom.setRendered() %}
+                                {% do form.prenom.setRendered() %}
+                                {% do form.dateNaissance.setRendered() %}
+                                {% do form.sexe.setRendered() %}
+                                {% do form.tel.setRendered() %}
+                                {% do form.idPhoto.setRendered() %}
+                                {% do form.submit.setRendered() %}
 
-                            <div class="row mt-4">
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">First Name<span class="text-danger">*</span> :</label>
-                                        <input id="first-name" type="text" name="name" class="form-control resume"
-                                               placeholder="First Name :">
-                                    </div>
-                                </div>
+                                <form name="candidat" method="post">
 
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Middle Name<span class="text-danger">*</span>
-                                            :</label>
-                                        <input id="middle-name" type="text" class="form-control resume"
-                                               placeholder="Middle Name :">
-                                    </div>
-                                </div>
+                                    {{ form_errors(form.idPhoto) }}
+                                    <input type="file" id="candidat_idPhoto" name="candidat[idPhoto]">
 
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Surname<span class="text-danger">*</span> :</label>
-                                        <input id="surname-name" type="text" class="form-control resume"
-                                               placeholder="Surname :">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Date Of Birth<span class="text-danger">*</span>
-                                            :</label>
-                                        <input id="date-of-birth" type="text" class="form-control resume"
-                                               placeholder="13-02-1999">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Sex<span class="text-danger">*</span> :</label>
-                                        <div class="form-button">
-                                            <select class="nice-select rounded">
-                                                <option data-display="sex">Sex</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                <option value="3">Other</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Marital Status</label>
-                                        <div class="form-button">
-                                            <select class="nice-select rounded">
-                                                <option data-display="Status">Status</option>
-                                                <option value="1">Unmarried</option>
-                                                <option value="2">Married</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{ form_end(form) }}
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-5">
-                <div class="col-12">
-                    <h5 class="text-dark">Contact Information :</h5>
-                </div>
-
-                <div class="col-12 mt-3">
-                    <div class="custom-form p-4 border rounded">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">City</label>
-                                        <div class="form-button">
-                                            <select class="nice-select rounded">
-                                                <option data-display="City">City</option>
-                                                <option value="1">Abilene</option>
-                                                <option value="2">Babbitt</option>
-                                                <option value="3">Cape Coral</option>
-                                                <option value="4">Dallas</option>
-                                                <option value="5">Eloy</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">State</label>
-                                        <div class="form-button">
-                                            <select class="nice-select rounded">
-                                                <option data-display="State">State</option>
-                                                <option value="1">Alabama</option>
-                                                <option value="3">Hawaii</option>
-                                                <option value="4">Maine</option>
-                                                <option value="5">Oregon</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Country</label>
-                                        <div class="form-button">
-                                            <select class="nice-select rounded">
-                                                <option data-display="Country">Country</option>
-                                                <option value="1">Alabama</option>
-                                                <option value="2">Delaware</option>
-                                                <option value="3">Iowa</option>
-                                                <option value="4">Missouri</option>
-                                                <option value="5">New York</option>
-                                                <option value="6">Utah</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Phone</label>
-                                        <input id="phone" type="number" class="form-control resume"
-                                               placeholder="Phone No. :">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">E-mail</label>
-                                        <input id="e-mail" type="email" name="email" class="form-control resume"
-                                               placeholder="Email ID :">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Website</label>
-                                        <input id="website" type="url" name="url" class="form-control resume"
-                                               placeholder="www.example.com">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="form-group app-label">
-                                        <label>Address :</label>
-                                        <textarea id="address" rows="4" class="form-control resume"
-                                                  placeholder=""></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <h5 class="text-dark mt-5">Education Details :</h5>
-                </div>
-
-                <div class="col-12 mt-3">
-                    <div class="custom-form p-4 border rounded">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Graduation</label>
-                                        <input id="graduation" type="text" class="form-control resume" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">University/College</label>
-                                        <input id="university/college" type="text" class="form-control resume"
-                                               placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Degree/Certification</label>
-                                        <input id="degree/certification" type="text" class="form-control resume"
-                                               placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
                                     <div class="row">
+                                        {{ form_errors(form.nom) }}
                                         <div class="col-md-6">
-                                            <div class="form-group app-label">
-                                                <label class="text-muted">Level</label>
-                                                <div class="form-button">
-                                                    <select class="nice-select rounded">
-                                                        <option data-display="Select">Select</option>
-                                                        <option value="1">Level-1</option>
-                                                        <option value="2">Level-2</option>
-                                                        <option value="3">Level-3</option>
-                                                        <option value="4">Level-4</option>
+                                            <div class="form-group position-relative">
+                                                <label for="candidat_nom" class="required">Nom</label>
+                                                <input type="text"
+                                                       id="candidat_nom"
+                                                       name="candidat[nom]"
+                                                       maxlength="255"
+                                                       value="{{ candidat.nom }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.prenom) }}
+                                        <div class="col-md-6">
+                                            <div class="form-group position-relative">
+                                                <label for="candidat_prenom" class="required">Prenom</label>
+                                                <input type="text"
+                                                       id="candidat_prenom"
+                                                       name="candidat[prenom]"
+                                                       maxlength="255"
+                                                       value="{{ candidat.prenom }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.dateNaissance) }}
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-0">
+                                                <label for="date-de-naissance" class="required">Date de naissance
+                                                    :</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group position-relative">
+                                                <label for="candidat_dateNaissance_day" class="required ml-2"
+                                                       style="color: grey; font-size : 12px">Jour</label>
+                                                <input type="text" id="candidat_dateNaissance_day"
+                                                       name="candidat[dateNaissance][day]"
+                                                       maxlength="255"
+                                                       value="{{ candidat.dateNaissance|date('d') }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group position-relative">
+                                                <label for="candidat_dateNaissance_month" class="required ml-2"
+                                                       style="color: grey; font-size : 12px">Mois</label>
+                                                <div class="form-group">
+                                                    <select id="candidat_dateNaissance_month"
+                                                            name="candidat[dateNaissance][month]"
+                                                            class="nice-select rounded w-100">
+                                                        {% set mois=["Janvier","Fevrier","Mars","Avril","May","Juin",
+                                                            "Juillet","Aout","Septembre","Octobre","Novembre","Decembre"] %}
+                                                        {% for i in 1..12 %}
+                                                            <option value="{{ i }}"
+                                                                    {% if i == candidat.dateNaissance|date('m') %}
+                                                                        selected="selected"
+                                                                    {% endif %}
+                                                            >{{ mois[i-1] }}</option>
+                                                        {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group app-label">
-                                                <label class="text-muted">Course Title</label>
-                                                <input id="course-title" type="text" class="form-control resume"
+                                        <div class="col-md-2">
+                                            <div class="form-group position-relative">
+                                                <label for="candidat_dateNaissance_year" class="required ml-2"
+                                                       style="color: grey; font-size : 12px">Année</label>
+                                                <input type="text" id="candidat_dateNaissance_year"
+                                                       name="candidat[dateNaissance][year]"
+                                                       maxlength="255"
+                                                       value="{{ candidat.dateNaissance|date('Y') }}"
+                                                       class="form-control"
                                                        placeholder="">
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="form-group app-label">
-                                        <label>Additional Information :</label>
-                                        <textarea id="addition-information" rows="4" class="form-control resume"
-                                                  placeholder=""></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12 mt-5">
-                    <h5 class="text-dark">Work Experience :</h5>
-                </div>
-
-                <div class="col-12 mt-3">
-                    <div class="custom-form p-4 border rounded">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Company Name</label>
-                                        <input id="company-name" type="text" class="form-control resume" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Job Position</label>
-                                        <input id="job-position" type="text" class="form-control resume" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="form-group app-label">
-                                        <label class="text-muted">Location</label>
-                                        <div class="form-button">
-                                            <select class="nice-select rounded">
-                                                <option data-display="Search">Search</option>
-                                                <option value="1">New York</option>
-                                                <option value="2">Los Angeles</option>
-                                                <option value="3">Chicago</option>
-                                                <option value="4">Houston</option>
-                                                <option value="5">Indiana</option>
-                                            </select>
+                                        {{ form_errors(form.sexe) }}
+                                        <div class="col-md-3">
+                                            <div class="form-group position-relative">
+                                                <label for="candidat_sexe" class="required">Sexe</label>
+                                                <input type="text" id="candidat_sexe"
+                                                       name="candidat[sexe]"
+                                                       maxlength="255"
+                                                       value="{{ candidat.sexe }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
+                                        {{ form_errors(form.tel) }}
+                                        <div class="col-md-3">
+                                            <div class="form-group position-relative">
+                                                <label for="candidat_tel" class="required">Numero tel</label>
+                                                <input type="text" id="candidat_tel"
+                                                       name="candidat[tel]"
+                                                       maxlength="8"
+                                                       value="{{ candidat.tel }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                    </div><!--end row-->
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group app-label">
-                                                <label class="text-muted">Date From</label>
-                                                <input id="date-from" type="text" class="form-control resume"
-                                                       placeholder="01-Jan-2018">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group app-label">
-                                                <label class="text-muted">Date To</label>
-                                                <input id="date-to" type="text" class="form-control resume"
-                                                       placeholder="31-March-2019">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="form-group app-label">
-                                        <label>Additional Information :</label>
-                                        <textarea id="addition-information-1" rows="4" class="form-control resume"
-                                                  placeholder=""></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-    <!-- CREATE RESUME END -->
-
-    <section class="bg-home"
-             style="background: url('https://via.placeholder.com/2000X1333//88929f/5a6270C/O https://placeholder.com/') center center;">
-        <div class="bg-overlay"></div>
-        <div class="home-center">
-            <div class="home-desc-center">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div class="title-heading text-center text-white align-content-center">
-                                {{ form_start(form, {'nom':{'novalidate':'novalidate'}}) }}
-                                <h1 class="heading font-weight-bold mb-4"> {{ manipulation }} un candidat </h1>
-                                {% set attributs=[form.nom, form.prenom, form.dateNaissance, form.sexe, form.tel, form.idPhoto] %}
-                                {% set labels =["Nom", "Prenom", "Date naissance", "Sexe", "Numero de telephone", "idPhoto"] %}
-                                {% for i in 0..attributs|length-1 %}
-                                    {{ form_label(attributs[i], labels[i]) }}
-                                    {{ form_widget(attributs[i]) }}
-                                    {{ form_errors(attributs[i]) }}<br>
-                                {% endfor %}
+                                        <div class="col-sm-12">
+                                            <button type="submit" id="candidat_submit"
+                                                    class="btn btn-primary"
+                                                    name="candidat[submit]">Modifier
+                                            </button>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form><!--end form-->
                                 {{ form_end(form) }}
                             </div>
                         </div>
@@ -407,18 +167,12 @@
         </div>
     </section>
 
-{% endblock %}
-{% block js %}
-    <!-- javascript -->
-    <script src="/frontEnd/js/jquery.min.js"></script>
-    <script src="/frontEnd/js/bootstrap.bundle.min.js"></script>
-    <script src="/frontEnd/js/jquery.easing.min.js"></script>
-    <script src="/frontEnd/js/plugins.js"></script>
+    <a href="#" class="back-to-top rounded text-center" id="back-to-top" style="display: inline;">
+        <i class="mdi mdi-chevron-up d-block"> </i>
+    </a>
 
     <!-- selectize js -->
-    <script src="/frontEnd/js/selectize.min.js"></script>
-
-    <script src="/frontEnd/js/jquery.nice-select.min.js"></script>
-
-    <script src="/frontEnd/js/app.js"></script>
+    <script src="frontEnd/js/selectize.min.js"></script>
+    <script src="frontEnd/js/jquery.nice-select.min.js"></script>
+    <script src="frontEnd/js/app.js"></script>
 {% endblock %}

@@ -1,10 +1,8 @@
 {% extends '/backEnd/base.html.twig' %}
 {% block cssNouveau %}
-
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
     <!-- Custom styles for this template -->
@@ -14,67 +12,72 @@
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 {% endblock %}
 {% block content %}
-    <!-- Main Content -->
-    <div id="content">
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-            <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-            <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                For more information about DataTables, please visit the <a target="_blank"
-                                                                           href="https://datatables.net">official
-                    DataTables documentation</a>.</p>
-
-            <!-- DataTales Example -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-                            {% for candidat in candidats %}
-                            <tr>
-                                <td><a href="candidat={{ candidat.id }}"> {{ candidat.nom }}</a></td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                            </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Vos candidats</h1>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered bg-white" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Candidat</th>
+                        <th>Date de naissance</th>
+                        <th>Sexe</th>
+                        <th>Num tel</th>
+                    </tr>
+                    </thead>
+                    <tbody id="affichage-recherche-candidat">
+                    {% for candidat in candidats %}
+                        <tr>
+                            <td><a href="afficherCandidatBackEnd/{{ candidat.id }}"> {{ candidat.prenom }} {{ candidat.nom }}</a>
+                            </td>
+                            <td>{{ candidat.dateNaissance|date("d/m/Y") }}</td>
+                            <td>{{ candidat.sexe }}</td>
+                            <td>{{ candidat.tel }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
-
         </div>
-        <!-- /.container-fluid -->
-
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        release = null;
+        $("#recherche").keyup(function () {
+            clearInterval(release);
+            release = setInterval(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'afficherCandidatsRecherche',
+                    data: {'recherche': $("#recherche").val()},
+                    success: function (retour) {
+                        if (retour) {
+                            $("#affichage-recherche-candidat").empty();
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                $("#affichage-recherche-candidat").append(
+                                    "<tr>" +
+                                    "<td><a href='afficherCandidatBackEnd/" + obj.id + "'>" + obj.prenom + " " + obj.nom + "</td>" +
+                                    "<td>" + obj.dateNaiss + "</td>" +
+                                    "<td>" + obj.sexe + "</td>" +
+                                    "<td>" + obj.tel + "</td>" +
+                                    "</tr>"
+                                );
+                            });
+                        } else {
+                            $("#affichage-recherche-candidat").empty().append("<p class='text-center p-5'>Aucun candidat</p>")
+                        }
+                    },
+                    error: function () {
+                        alert('Erreur ajax rafraichir candidats');
+                    }
+                });
+                clearInterval(release)
+            }, 500);
+        });
+    </script>
+    <!-- /.container-fluid -->
+
     <!-- End of Main Content -->
 {% endblock %}
 {% block jsNouveau %}

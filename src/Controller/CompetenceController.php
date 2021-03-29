@@ -27,32 +27,23 @@ class CompetenceController extends AbstractController
     }
 
     /**
-     * @Route("/", name="competence_index", methods={"GET"})
-     */
-    public function index(CompetenceRepository $competenceRepository): Response
-    {
-        return $this->render('competence/index.html.twig', [
-            'competences' => $competenceRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/new", name="competence_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $competence = new Competence();
-        $form = $this->createForm(CompetenceType::class, $competence);
-        $form->add('Ajouter', SubmitType::class);
-        $form->handleRequest($request);
+        $form = $this->createForm(CompetenceType::class, $competence)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
-            $utilisateur = $form->getData();
+            $competence = $form->getData();
+
             $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
                 $this->session->get("utilisateur")["idCandidat"]
             );
-            $utilisateur->setCandidat($candidat);
+            $competence->setCandidat($candidat);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($competence);
@@ -61,9 +52,10 @@ class CompetenceController extends AbstractController
             return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('competence/new.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/competence/manipulationCompetence.html.twig', [
             'competence' => $competence,
             'form' => $form->createView(),
+            'manipulation' => 'Ajouter'
         ]);
     }
 
@@ -72,26 +64,30 @@ class CompetenceController extends AbstractController
      */
     public function edit(Request $request, Competence $competence): Response
     {
-        $form = $this->createForm(CompetenceType::class, $competence);
-        $form->add('Modifier', SubmitType::class);
-        $form->handleRequest($request);
+        $form = $this->createForm(CompetenceType::class, $competence)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
-            $utilisateur = $form->getData();
+            $education = $form->getData();
+
             $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
                 $this->session->get("utilisateur")["idCandidat"]
             );
-            $utilisateur->setCandidat($candidat);
+            $education->setCandidat($candidat);
 
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($education);
+            $entityManager->flush();
 
             return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('competence/edit.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/competence/manipulationCompetence.html.twig', [
             'competence' => $competence,
             'form' => $form->createView(),
+            'manipulation' => 'Modifier',
         ]);
     }
 

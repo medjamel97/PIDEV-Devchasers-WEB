@@ -27,32 +27,23 @@ class ExperienceDeTravailController extends AbstractController
     }
 
     /**
-     * @Route("/", name="experienceDeTravail_index", methods={"GET"})
-     */
-    public function index(ExperienceDeTravailRepository $experienceDeTravailRepository): Response
-    {
-        return $this->render('experience_de_travail/index.html.twig', [
-            'experienceDeTravails' => $experienceDeTravailRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/new", name="experienceDeTravail_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $experienceDeTravail = new ExperienceDeTravail();
-        $form = $this->createForm(ExperienceDeTravailType::class, $experienceDeTravail);
-        $form->add('Ajouter', SubmitType::class);
-        $form->handleRequest($request);
+        $form = $this->createForm(ExperienceDeTravailType::class, $experienceDeTravail)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
-            $utilisateur = $form->getData();
+            $experienceDeTravail = $form->getData();
+
             $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
                 $this->session->get("utilisateur")["idCandidat"]
             );
-            $utilisateur->setCandidat($candidat);
+            $experienceDeTravail->setCandidat($candidat);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($experienceDeTravail);
@@ -61,9 +52,10 @@ class ExperienceDeTravailController extends AbstractController
             return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('experience_de_travail/new.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/experienceDeTravail/manipulationExperienceDeTravail.html.twig', [
             'experienceDeTravail' => $experienceDeTravail,
             'form' => $form->createView(),
+            'manipulation' => 'Ajouter'
         ]);
     }
 
@@ -72,26 +64,30 @@ class ExperienceDeTravailController extends AbstractController
      */
     public function edit(Request $request, ExperienceDeTravail $experienceDeTravail): Response
     {
-        $form = $this->createForm(ExperienceDeTravailType::class, $experienceDeTravail);
-        $form->add('Modifier', SubmitType::class);
-        $form->handleRequest($request);
+        $form = $this->createForm(ExperienceDeTravailType::class, $experienceDeTravail)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
-            $utilisateur = $form->getData();
+            $experienceDeTravail = $form->getData();
+
             $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
                 $this->session->get("utilisateur")["idCandidat"]
             );
-            $utilisateur->setCandidat($candidat);
+            $experienceDeTravail->setCandidat($candidat);
 
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($experienceDeTravail);
+            $entityManager->flush();
 
             return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('experience_de_travail/edit.html.twig', [
+        return $this->render('frontEnd/utilisateur/candidat/experienceDeTravail/manipulationExperienceDeTravail.html.twig', [
             'experienceDeTravail' => $experienceDeTravail,
             'form' => $form->createView(),
+            'manipulation' => 'Modifier',
         ]);
     }
 
