@@ -84,6 +84,12 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
+    "gregwar/captcha": {
+        "version": "v1.1.9"
+    },
+    "gregwar/captcha-bundle": {
+        "version": "v2.1.4"
+    },
     "knplabs/knp-components": {
         "version": "v3.0.2"
     },
