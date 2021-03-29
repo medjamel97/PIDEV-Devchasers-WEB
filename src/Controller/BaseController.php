@@ -23,7 +23,7 @@ class BaseController extends AbstractController
     /**
      * @Route("/accueil", name="accueil")
      */
-    public function accueil(): Response
+    public function index(): Response
     {
         return $this->render('/frontEnd/accueil.html.twig', [
             'session' => $this->session->get("utilisateur"),
