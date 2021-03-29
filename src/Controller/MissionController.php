@@ -94,7 +94,7 @@ class MissionController extends Controller
          $id=$mission->getId();
          return $this->redirectToRoute('addQuest', array('name' => $id));
       }
-        return $this->render('/frontEnd/mission/essai.html.twig', [
+        return $this->render('/backEnd/mission/essai.html.twig', [
           'form' => $form->createView(),
         ]);
     }
@@ -115,7 +115,7 @@ class MissionController extends Controller
       //    $em->flush();
       //   //  return $this->redirectToRoute('/questMission/',['id'=>$mission.id]);
       // }
-        return $this->render('/frontEnd/mission/addQuestMission.html.twig', [
+        return $this->render('/backEnd/mission/addQuestMission.html.twig', [
           'form' => $form->createView(),
           'id2'=>$name,
         ]);
@@ -235,7 +235,7 @@ class MissionController extends Controller
     public function societeMission(Request $request,$id): Response
     { $em=$this->getDoctrine()->getManager();
       $mission=$em->getRepository(Mission::class)->findBy(['societe'=>$id]);
-        return $this->render('/frontEnd/mission/societeMission.html.twig', [
+        return $this->render('/backEnd/mission/societeMission.html.twig', [
           'missions' =>$mission,
         ]);
     }
@@ -307,7 +307,7 @@ class MissionController extends Controller
             $em->flush();
             return $this->redirectToRoute('mission');
         }
-        return $this->render('/frontEnd/mission/updateMission.html.twig', [
+        return $this->render('/backEnd/mission/updateMission.html.twig', [
             "form-title" =>"Modifier une Mission",
             "form" => $form->createView(),
         ]);

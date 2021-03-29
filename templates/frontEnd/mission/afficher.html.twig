@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="mx-auto" style="width: 150px;">
                                                 <div class="registration-form-box">
-                                                    <input type="submit" id="submit" name="send"
+                                                    <input type="button" id="submit" name="send"
                                                            class="submitBnt btn btn-primary btn-block"
                                                            value="recherche">
                                                 </div>
@@ -42,7 +42,7 @@
                                    console.log(obj.mission_name);
                                    var soc = obj.societe;
                                    console.log(soc);
-                                  $('#body').hide();
+                                  $('#body1').hide();
                                    $('#body2').append(" <div class=\"col-lg-4 col-md-6 mt-4 pt-2\">"+
                     "<div class=\"blog position-relative overflow-hidden shadow rounded\">"+
                         "<div class=\"position-relative overflow-hidden\">"+
@@ -101,7 +101,7 @@
             </div>
             <div id="body2"  class="row">
             </div>
-            <div class="row" id="body">
+            <div class="row" id="body1">
                 {% for mission in missions %}
                 <div class="col-lg-4 col-md-6 mt-4 pt-2">
                     <div class="blog position-relative overflow-hidden shadow rounded">
