@@ -20,24 +20,22 @@ class CandidatureOffre
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=Interview::class, mappedBy="candidatureOffre", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Interview::class, mappedBy="candidatureOffre")
      */
     private $interview;
 
     /**
-     * @ORM\OneToMany(targetEntity=Revue::class, mappedBy="candidatureOffre", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Revue::class, mappedBy="candidatureOffre")
      */
     private $revue;
 
     /**
-     * @ORM\ManyToOne(targetEntity=OffreDeTravail::class, inversedBy="candidatureOffre")
-     * @ORM\JoinColumn(name="offre_de_travail_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity=OffreDeTravail::class, inversedBy="candidatureOffres")
      */
     private $offreDeTravail;
 
     /**
      * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="candidatureOffre")
-     * @ORM\JoinColumn(name="candidat_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $candidat;
 

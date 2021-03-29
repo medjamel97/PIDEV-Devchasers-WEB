@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Candidat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -24,13 +22,29 @@ class CandidatRepository extends ServiceEntityRepository
     // /**
     //  * @return Candidat[] Returns an array of Candidat objects
     //  */
-
-    public function hasMessages(): bool
+    /*
+    public function findByExampleField($value)
     {
-        return ($this->createQueryBuilder('c')
-            ->select('count(c.id)')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
-            ->getResult());
+            ->getResult()
+        ;
     }
+    */
 
+    /*
+    public function findOneBySomeField($value): ?Candidat
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
 }

@@ -10,10 +10,12 @@ namespace Laminas\Code\Generator;
 
 use Laminas\Code\DeclareStatement;
 use Laminas\Code\Exception\InvalidArgumentException;
-use Laminas\Code\Reflection\Exception as ReflectionException;
-use Laminas\Code\Reflection\FileReflection;
+use Laminas\Code\Generator\Exception\ClassNotFoundException;
+use Traversable;
 
 use function array_key_exists;
+use function array_keys;
+use function array_map;
 use function array_merge;
 use function count;
 use function current;
@@ -36,118 +38,51 @@ use function strtolower;
 use function substr;
 use function token_get_all;
 
+use const T_COMMENT;
+use const T_DOC_COMMENT;
+use const T_OPEN_TAG;
+use const T_WHITESPACE;
+
 class FileGenerator extends AbstractGenerator
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $filename;
 
-    /**
-     * @var DocBlockGenerator
-     */
+    /** @var DocBlockGenerator */
     protected $docBlock;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $requiredFiles = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $namespace;
-
     /**
      * @var array
+     * @psalm-var list<array{string, string|null}>
      */
     protected $uses = [];
-
     /**
-     * @var array
+     * @var ClassGenerator[]
+     * @psalm-var array<string, ClassGenerator>
      */
     protected $classes = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $body;
 
-    /**
-     * @var DeclareStatement[]
-     */
+    /** @var DeclareStatement[] */
     protected $declares = [];
 
     /**
      * Passes $options to {@link setOptions()}.
      *
-     * @param  array|\Traversable $options
+     * @param array|Traversable $options
      */
     public function __construct($options = null)
     {
         if (null !== $options) {
             $this->setOptions($options);
         }
-    }
-
-    /**
-     * Use this if you intend on generating code generation objects based on the same file.
-     * This will keep previous changes to the file in tact during the same PHP process
-     *
-     * @param  string $filePath
-     * @param  bool $includeIfNotAlreadyIncluded
-     * @throws ReflectionException\InvalidArgumentException If file does not exists
-     * @throws ReflectionException\RuntimeException If file exists but is not included or required
-     * @return FileGenerator
-     */
-    public static function fromReflectedFileName($filePath, $includeIfNotAlreadyIncluded = true)
-    {
-        $fileReflector = new FileReflection($filePath, $includeIfNotAlreadyIncluded);
-        $codeGenerator = static::fromReflection($fileReflector);
-
-        return $codeGenerator;
-    }
-
-    /**
-     * @param  FileReflection $fileReflection
-     * @return FileGenerator
-     */
-    public static function fromReflection(FileReflection $fileReflection)
-    {
-        $file = new static();
-
-        $file->setSourceContent($fileReflection->getContents());
-        $file->setSourceDirty(false);
-
-        $uses = $fileReflection->getUses();
-
-        foreach ($fileReflection->getClasses() as $class) {
-            $phpClass = ClassGenerator::fromReflection($class);
-            $phpClass->setContainingFileGenerator($file);
-
-            foreach ($uses as $fileUse) {
-                $phpClass->addUse($fileUse['use'], $fileUse['as']);
-            }
-
-            $file->setClass($phpClass);
-        }
-
-        $namespace = $fileReflection->getNamespace();
-
-        if ($namespace != '') {
-            $file->setNamespace($namespace);
-        }
-
-        if ($uses) {
-            $file->setUses($uses);
-        }
-
-        if ($fileReflection->getDocComment() != '') {
-            $docBlock = $fileReflection->getDocBlock();
-            $file->setDocBlock(DocBlockGenerator::fromReflection($docBlock));
-        }
-
-        return $file;
     }
 
     /**
@@ -265,6 +200,7 @@ class FileGenerator extends AbstractGenerator
      *
      * @param  bool $withResolvedAs
      * @return array
+     * @psalm-return array<int, array{string, null|string, false|null|string}>
      */
     public function getUses($withResolvedAs = false)
     {
@@ -298,7 +234,7 @@ class FileGenerator extends AbstractGenerator
                 $import = $use['use'];
                 $alias  = $use['as'];
             } elseif (count($use) == 2) {
-                list($import, $alias) = $use;
+                [$import, $alias] = $use;
             } else {
                 $import = current($use);
                 $alias  = null;
@@ -335,18 +271,27 @@ class FileGenerator extends AbstractGenerator
     }
 
     /**
-     * @param  string $name
+     * @param string|null $name
      * @return ClassGenerator
+     * @throws ClassNotFoundException
      */
     public function getClass($name = null)
     {
         if ($name === null) {
             reset($this->classes);
+            $class = current($this->classes);
+            if (false === $class) {
+                throw new ClassNotFoundException('No class is set');
+            }
 
-            return current($this->classes);
+            return $class;
         }
 
-        return $this->classes[(string) $name];
+        if (false === array_key_exists($name, $this->classes)) {
+            throw new ClassNotFoundException(sprintf('Class %s is not set', $name));
+        }
+
+        return $this->classes[$name];
     }
 
     /**
@@ -419,6 +364,7 @@ class FileGenerator extends AbstractGenerator
         return $this->body;
     }
 
+    /** @return static */
     public function setDeclares(array $declares)
     {
         foreach ($declares as $declare) {
@@ -505,22 +451,6 @@ class FileGenerator extends AbstractGenerator
         // newline
         $output .= self::LINE_FEED;
 
-        // namespace, if any
-        $namespace = $this->getNamespace();
-        if ($namespace) {
-            $namespace = sprintf('namespace %s;%s', $namespace, str_repeat(self::LINE_FEED, 2));
-            if (preg_match('#/\* Laminas_Code_Generator_FileGenerator-NamespaceMarker \*/#m', $output)) {
-                $output = preg_replace(
-                    '#/\* Laminas_Code_Generator_FileGenerator-NamespaceMarker \*/#m',
-                    $namespace,
-                    $output,
-                    1
-                );
-            } else {
-                $output .= $namespace;
-            }
-        }
-
         // declares, if any
         if ($this->declares) {
             $declareStatements = '';
@@ -543,6 +473,22 @@ class FileGenerator extends AbstractGenerator
             $output .= self::LINE_FEED;
         }
 
+        // namespace, if any
+        $namespace = $this->getNamespace();
+        if ($namespace) {
+            $namespace = sprintf('namespace %s;%s', $namespace, str_repeat(self::LINE_FEED, 2));
+            if (preg_match('#/\* Laminas_Code_Generator_FileGenerator-NamespaceMarker \*/#m', $output)) {
+                $output = preg_replace(
+                    '#/\* Laminas_Code_Generator_FileGenerator-NamespaceMarker \*/#m',
+                    $namespace,
+                    $output,
+                    1
+                );
+            } else {
+                $output .= $namespace;
+            }
+        }
+
         // process required files
         // @todo marker replacement for required files
         $requiredFiles = $this->getRequiredFiles();
@@ -554,7 +500,7 @@ class FileGenerator extends AbstractGenerator
             $output .= self::LINE_FEED;
         }
 
-        $classes = $this->getClasses();
+        $classes   = $this->getClasses();
         $classUses = [];
         //build uses array
         foreach ($classes as $class) {
@@ -571,7 +517,7 @@ class FileGenerator extends AbstractGenerator
             $useOutput = '';
 
             foreach ($uses as $use) {
-                list($import, $alias) = $use;
+                [$import, $alias] = $use;
                 if (null === $alias) {
                     $tempOutput = sprintf('%s', $import);
                 } else {
