@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
+use App\Form\OffreDeTravailType;
 use App\Repository\OffreDeTravailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,37 +20,60 @@ class OffreDeTravail
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("get:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     * pattern = "/^[a-zA-Z]+$/i",
+     * message = "vous ne devez saisir que des lettres"
+     * )
+     * @Groups("get:read")
+     */
+    private $job;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     * pattern = "/^[a-zA-Z]+$/i",
+     * message = "vous ne devez saisir que des lettres"
+     * )
+     * @Groups("get:read")
      */
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity=Categorie::class, mappedBy="offreDeTravail")
+     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail")
+     */
+    private $candidatureOffres;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="offreDeTravail")
      */
     private $categorie;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail", cascade={"remove"})
-     */
-    private $candidatureOffre;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="offreDeTravail")
-     */
-    private $societe;
-
     public function __construct()
     {
-        $this->candidatureOffre = new ArrayCollection();
+        $this->candidatureOffres = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getJob(): ?string
+    {
+        return $this->job;
+    }
+
+    public function setJob(string $job): self
+    {
+        $this->job = $job;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -61,40 +88,28 @@ class OffreDeTravail
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    function setId($id)
     {
-        return $this->categorie;
-    }
 
-    public function setCategorie(?Categorie $categorie): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($categorie === null && $this->categorie !== null) {
-            $this->categorie->setOffreDeTravail(null);
-        }
+        $this->id = $id;
 
-        // set the owning side of the relation if necessary
-        if ($categorie !== null && $categorie->getOffreDeTravail() !== $this) {
-            $categorie->setOffreDeTravail($this);
-        }
-
-        $this->categorie = $categorie;
 
         return $this;
     }
 
+
     /**
      * @return Collection|CandidatureOffre[]
      */
-    public function getCandidatureOffre(): Collection
+    public function getCandidatureOffres(): Collection
     {
-        return $this->candidatureOffre;
+        return $this->candidatureOffres;
     }
 
     public function addCandidatureOffre(CandidatureOffre $candidatureOffre): self
     {
-        if (!$this->candidatureOffre->contains($candidatureOffre)) {
-            $this->candidatureOffre[] = $candidatureOffre;
+        if (!$this->candidatureOffres->contains($candidatureOffre)) {
+            $this->candidatureOffres[] = $candidatureOffre;
             $candidatureOffre->setOffreDeTravail($this);
         }
 
@@ -103,7 +118,7 @@ class OffreDeTravail
 
     public function removeCandidatureOffre(CandidatureOffre $candidatureOffre): self
     {
-        if ($this->candidatureOffre->removeElement($candidatureOffre)) {
+        if ($this->candidatureOffres->removeElement($candidatureOffre)) {
             // set the owning side to null (unless already changed)
             if ($candidatureOffre->getOffreDeTravail() === $this) {
                 $candidatureOffre->setOffreDeTravail(null);
@@ -113,14 +128,14 @@ class OffreDeTravail
         return $this;
     }
 
-    public function getSociete(): ?Societe
+    public function getCategorie(): ?Categorie
     {
-        return $this->societe;
+        return $this->categorie;
     }
 
-    public function setSociete(?Societe $societe): self
+    public function setCategorie(?Categorie $categorie): self
     {
-        $this->societe = $societe;
+        $this->categorie = $categorie;
 
         return $this;
     }
