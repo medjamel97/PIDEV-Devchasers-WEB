@@ -128,7 +128,7 @@ class CandidatController extends AbstractController
             $candidatManager->persist($candidat);
             $candidatManager->flush();
 
-            return $this->redirectToRoute('afficherUtilisateur');
+            return $this->redirectToRoute('publication');
         }
 
         return $this->render('_inscription/inscrireCandidat.html.twig', [
