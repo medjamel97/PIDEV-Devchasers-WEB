@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Candidat;
 use App\Entity\Competence;
 use App\Entity\Education;
@@ -17,6 +16,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CandidatController extends AbstractController
+
 {
     private $session;
 
@@ -127,7 +127,6 @@ class CandidatController extends AbstractController
             $candidatManager = $this->getDoctrine()->getManager();
             $candidatManager->persist($candidat);
             $candidatManager->flush();
-
             return $this->redirectToRoute('afficherUtilisateur');
         }
 
