@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategorieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,17 +17,22 @@ class Categorie
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nomCategorie;
+    public $nomCategorie;
 
     /**
-     * @ORM\OneToOne(targetEntity=OffreDeTravail::class, inversedBy="categorie", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=OffreDeTravail::class, mappedBy="categorie")
      */
-    private $offreDeTravail;
+    public $offreDeTravail;
+
+    public function __construct()
+    {
+        $this->offreDeTravail = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,14 +51,43 @@ class Categorie
         return $this;
     }
 
-    public function getOffreDeTravail(): ?offreDeTravail
+    /**
+     * @return Collection|OffreDeTravail[]
+     */
+    public function getOffreDeTravail(): Collection
     {
         return $this->offreDeTravail;
     }
 
-    public function setOffreDeTravail(?offreDeTravail $offreDeTravail): self
+    public function addOffreDeTravail(OffreDeTravail $offreDeTravail): self
     {
-        $this->offreDeTravail = $offreDeTravail;
+        if (!$this->offreDeTravail->contains($offreDeTravail)) {
+            $this->offreDeTravail[] = $offreDeTravail;
+            $offreDeTravail->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffreDeTravail(OffreDeTravail $offreDeTravail): self
+    {
+        if ($this->offreDeTravail->removeElement($offreDeTravail)) {
+            // set the owning side to null (unless already changed)
+            if ($offreDeTravail->getCategorie() === $this) {
+                $offreDeTravail->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
