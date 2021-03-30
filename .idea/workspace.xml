@@ -2,56 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d323fb44-377a-498c-b2bd-41132104e339" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/backEnd/img/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/backEnd/img/logo-dark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/backEnd/img/logo-light.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PIDEV-Devchasers.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PIDEV-Devchasers.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20210330085559.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/candidats/candidat9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/frontEnd/images/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/logo-dark.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/frontEnd/images/logo-dark.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/logo-light.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/frontEnd/images/logo-light.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/0b66bf8c218c3ba9ae0314cba195022a.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/34d45606683d16f0da16323ab3dd452c.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/366905e4beb8aa808c76ea57a219f2d5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/375f7151978891d19e0860601ce0267d.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/484f2568b1211e1156ec4bd36ad8d4e3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/5c35990ae0457a5ca9e845d25d165b78.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/5eed08ed1b4938a343e1fd2fca488b6e.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/66a292044ad9142d40d3275f403de19e.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/82eb66433e6efe9d0c9e04d0b66ea5a2.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/bac53ce96d684567f234541fab49c8b1.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/bb490911733a9c4329f7f69802b098ef.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/c2ae1dd2586a8d7d788293d5fcdd70b6.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/e33cf0bfc8159836662d147f1fe87bf0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/fb54ecaaedf6eb384c47848170f6daeb.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/fbaffca39a040efa3101e043a344ccd6.ico" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CandidatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CandidatController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/PublicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PublicationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SocieteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SocieteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/MessageType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/MessageType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/backEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backEnd/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/pub/pub.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/afficherProfil.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/afficherProfil.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/experienceDeTravail/manipulationExperienceDeTravail.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/experienceDeTravail/manipulationExperienceDeTravail.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/like/index.html.twig" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

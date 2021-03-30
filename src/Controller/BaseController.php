@@ -50,7 +50,7 @@ class BaseController extends AbstractController
                                 'emailUtilisateur' => $utilisateurConnexion->getEmail(),
                                 'idCandidat' => $utilisateurConnexion->getCandidat()->getId(),
                             ]);
-                            return $this->redirectToRoute("afficherPublication");
+                            return $this->redirectToRoute("afficherToutPublication");
                         } else {
                             $this->session->set("utilisateur", [
                                 'idUtilisateur' => $utilisateurConnexion->getId(),
@@ -75,6 +75,6 @@ class BaseController extends AbstractController
     public function deconnexion()
     {
         $this->session->set("utilisateur", null);
-        return $this->redirectToRoute("afficherPublication");
+        return $this->redirectToRoute("afficherToutPublication");
     }
 }

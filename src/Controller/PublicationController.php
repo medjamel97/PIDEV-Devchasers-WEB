@@ -27,18 +27,6 @@ class PublicationController extends Controller
     }
 
     /**
-     * @Route("/candidat={}/publication={}", name="afficherPublication")
-     */
-    public function afficherPublication(): Response
-    {
-
-        return $this->render('/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig', [
-            'publications' => $this->getDoctrine()->getManager()->getRepository(Publication::class)->findAll(),
-
-        ]);
-    }
-
-    /**
      * @Route("/publication", name="afficherToutPublication")
      */
     public function afficherToutPublication(Request $request): Response
