@@ -100,7 +100,7 @@ class MissionController extends Controller
     }
 
      /**
-     * @Route("/addQuest/{name}", name="addQuest")
+     * @Route("/addQuest/name={name}", name="addQuest")
      */
     public function AddQuestMission(Request $request,$name): Response
     {  $Questionnaire= new Questionnaire();
@@ -119,6 +119,7 @@ class MissionController extends Controller
           'form' => $form->createView(),
           'id2'=>$name,
         ]);
+
     }
 
       /**
@@ -131,7 +132,7 @@ class MissionController extends Controller
     }
 
       /**
-     * @Route("addQuest/ajouterQuestionnaire/p", name="ajouterQuestionnaire")
+     * @Route("addQuest/ajoutationQuestionnaire", name="ajoutationQuestionnaire")
      */
     public function ajouterQuestionnaire(Request $request,NormalizerInterface $normalizer): Response
     { $id = $request->get("id"); 
@@ -147,7 +148,7 @@ class MissionController extends Controller
          $em->persist($Questionnaire);
          $em->flush();}
         }
-         return $this->redirectToRoute('mission');
+        return New Response(null);
         //
         // $jsonContent = $normalizer->normalize($tab, 'json',['groups' => 'post:read',]);
         // $retour = json_encode($jsonContent);
@@ -178,6 +179,7 @@ class MissionController extends Controller
       $question=$em->getRepository(Questionnaire::class)->findBy(['Mission' => $id]);
       $num=$em->getRepository(Question::class)->findAll();
       $i=0;
+        $idreponse="5";
       foreach($question as $reponse)
       {
         $i++;

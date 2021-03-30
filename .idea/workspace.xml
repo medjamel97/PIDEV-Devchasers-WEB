@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d323fb44-377a-498c-b2bd-41132104e339" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PublicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PublicationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/MissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/MissionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/backEnd/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backEnd/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/backEnd/mission/addQuestMission.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/backEnd/mission/addQuestMission.html.twig" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -166,19 +169,19 @@
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/templates/frontEnd/revue/afficherRevueSociete.html.twig" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images" />
-      <recent name="D:\Projects\PIDEV-Devchasers\public\backEnd\img" />
-      <recent name="D:\Projects\PIDEV-Devchasers\src\Controller" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\categorie\offreDeTravail" />
-      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\offreDeTravail\categorie" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Projects\PIDEV-Devchasers\public\backEnd\img" />
       <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images" />
       <recent name="D:\Projects\PIDEV-Devchasers" />
       <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur" />
       <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\PIDEV-Devchasers\public\frontEnd\images" />
+      <recent name="D:\Projects\PIDEV-Devchasers\public\backEnd\img" />
+      <recent name="D:\Projects\PIDEV-Devchasers\src\Controller" />
+      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\categorie\offreDeTravail" />
+      <recent name="D:\Projects\PIDEV-Devchasers\templates\frontEnd\utilisateur\societe\offreDeTravail\categorie" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -209,7 +212,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="126c6e24-da75-4d47-86ea-9b882b98ccd4" name="Default Changelist" comment="" />
+      <changelist id="d323fb44-377a-498c-b2bd-41132104e339" name="Default Changelist" comment="" />
       <created>1614349551130</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -220,6 +223,7 @@
       <workItem from="1614606844114" duration="32576000" />
       <workItem from="1614642328349" duration="58432000" />
       <workItem from="1614858269219" duration="24827000" />
+      <workItem from="1617104363274" duration="5102000" />
     </task>
     <servers />
   </component>
