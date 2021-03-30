@@ -134,7 +134,7 @@
                                     <div class="candidates-list-fav-btn text-right">
                                         <div class="fav-icon row">
                                             Like
-                                            <a id="like-publication" onclick="javascript:likeDislike(true,{{ publication.id }});return false;"
+                                            <a id="like-publication" onclick="javascript:likeDislike(1,{{ publication.id }});return false;"
                                                href="#" class="mdi mdi-heart"></a>
                                             <p id="nb-like{{ publication.id }}">{{ nbrlike }}</p>
                                         </div>
@@ -143,9 +143,9 @@
 
                                         Dislike
                                         <a id="dislike-publication" onclick="
-                                                javascript:likeDislike(false,{{ publication.id }});return false;"
+                                                javascript:likeDislike(0,{{ publication.id }});return false;"
                                            href="#" class="mdi mdi-heart-outline"></a>
-                                        <p id="nb-dislike">{{ (like-nbrlike) }}</p>
+                                        <p id="nb-dislike{{publication.id}}">{{ (like-nbrlike) }}</p>
 
                                         <div class="candidates-listing-btn mt-2">
                                             <a href="{{ asset('/candidat/publication='~publication.id~'/modifier') }}"
@@ -302,17 +302,11 @@
                                                         'idPub': idPub
                                                     },
                                                     success: function (retour) {
-                                                        if (typeLike) { // $("#like-publication{{ publication.id }}")
-														console.log('hi');
-                                                            $("#nb-like{{ publication.id }}").empty().append(retour);
+                                                        if (typeLike) {
+                                                            $("#nb-like"+idPub).empty().append(retour);
                                                         } else {
-															$("#nb-dislike{{ publication.id }}").empty().append(retour);
-                                                            $("#dislike-publication{{ publication.id }}").hide();
-                                                    
-                                                            $('#like-bar').attr("style", "width:75%");
-                                                            // $('#like-bar').attr(style="width:{{ pourcen }}%") ;
-
-                                                            // alert("Vous ne pouvez pas ajouter un dislike")
+															$("#nb-dislike"+idPub).empty().append(retour);
+                                                
                                                         }
                                                     },
                                                     error: function () {
