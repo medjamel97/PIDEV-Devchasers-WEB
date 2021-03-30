@@ -6,6 +6,8 @@ use App\Repository\PublicationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PublicationRepository::class)
@@ -16,27 +18,64 @@ class Publication
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\Length(min=10, max=200, minMessage="Taille minimale (10)", maxMessage="Taille maximale (100) depassé")
+     * @Groups("post:read")
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="publication")
+     * @Groups("post:read")
      */
     private $candidat;
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="publication", cascade={"remove"})
+     * @Groups("post:read")
      */
     private $commentaire;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="publication",cascade={"remove"})
+     * @Groups("post:read")
+     */
+    private $likeid;
+
+    /**
+     * @ORM\Column(type="integer",nullable=true)
+     * @Groups("post:read")
+     */
+    private $nbr_like;
+
+    /**
+     * @ORM\Column(type="integer",nullable=true)
+     * @Groups("post:read")
+     */
+    private $all_like;
+
+    /**
+     * @ORM\Column(type="date",nullable=true)
+     * @Groups("post:read")
+     */
+    private $date;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     * @Groups("post:read")
+     */
+    private $titre;
 
     public function __construct()
     {
         $this->commentaire = new ArrayCollection();
+        $this->likeid = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +133,84 @@ class Publication
                 $commentaire->setPublication(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Like[]
+     */
+    public function getLikeid(): Collection
+    {
+        return $this->likeid;
+    }
+
+    public function addLikeid(Like $likeid): self
+    {
+        if (!$this->likeid->contains($likeid)) {
+            $this->likeid[] = $likeid;
+            $likeid->setPublication($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikeid(Like $likeid): self
+    {
+        if ($this->likeid->removeElement($likeid)) {
+            // set the owning side to null (unless already changed)
+            if ($likeid->getPublication() === $this) {
+                $likeid->setPublication(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNbrLike(): ?int
+    {
+        return $this->nbr_like;
+    }
+
+    public function setNbrLike(int $nbr_like): self
+    {
+        $this->nbr_like = $nbr_like;
+
+        return $this;
+    }
+
+    public function getAllLike(): ?int
+    {
+        return $this->all_like;
+    }
+
+    public function setAllLike(int $all_like): self
+    {
+        $this->all_like = $all_like;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(string $titre): self
+    {
+        $this->titre = $titre;
 
         return $this;
     }

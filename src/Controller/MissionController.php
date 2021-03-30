@@ -13,15 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class MissionController extends AbstractController
 {
     /**
-     * @Route("/societe={idSociete}/mission={idMission}", name="afficherMission")
+     * @Route("/societe/mission", name="afficherMission")
      */
-    public function afficherMission($idSociete, $idMission): Response
+    public function afficherMission(): Response
     {
-        return null;
+        return $this->render('/frontEnd/utilisateur/societe/mission/afficherMission.html.twig', [
+            'missions' => $this->getDoctrine()->getManager()->getRepository(Mission::class)->findAll(),
+        ]);
     }
 
     /**
-     * @Route("/mission", name="afficherToutMission")
+     * @Route("/societe={}/mission={}", name="afficherToutMission")
      */
     public function afficherToutMission(): Response
     {
@@ -31,9 +33,9 @@ class MissionController extends AbstractController
     }
 
     /**
-     * @Route("/societe={idSociete}/mission/ajouter", name="ajouterMission")
+     * @Route("/societe/mission/ajouter", name="ajouterMission")
      */
-    public function ajouterMission(Request $request,$idSociete)
+    public function ajouterMission(Request $request)
     {
         $mission = new Mission();
 
@@ -49,7 +51,7 @@ class MissionController extends AbstractController
             $missionRepository->persist($mission);
             $missionRepository->flush();
 
-            return $this->redirectToRoute('afficherToutMission');
+            return $this->redirectToRoute('afficherMission');
         }
 
         return $this->render('/frontEnd/utilisateur/societe/mission/manipulerMission.html.twig', [
@@ -72,7 +74,7 @@ class MissionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $missionRepository->flush();
-            return $this->redirectToRoute('afficherToutMission');
+            return $this->redirectToRoute('afficherMission');
         }
 
         return $this->render('/frontEnd/utilisateur/societe/mission/manipulerMission.html.twig', [
@@ -90,6 +92,6 @@ class MissionController extends AbstractController
         $mission = $missionManager->getRepository(Mission::class)->find($idMission);
         $missionManager->remove($mission);
         $missionManager->flush();
-        return $this->redirectToRoute('afficherToutMission');
+        return $this->redirectToRoute('afficherMission');
     }
 }

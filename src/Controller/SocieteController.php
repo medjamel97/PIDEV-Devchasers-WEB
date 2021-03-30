@@ -14,21 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class SocieteController extends AbstractController
 {
     /**
-     * @Route("/societe={idSociete}", name="afficherSociete")
+     * @Route("/societe", name="afficher")
      */
-    public function afficherSociete($idSociete)
+    public function afficherSociete()
     {
         return $this->render('frontEnd/utilisateur/societe/afficherSociete.html.twig', [
-            'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
-        ]);
-    }
-
-    /**
-     * @Route("/societe", name="afficherToutSociete")
-     */
-    public function afficherToutSociete()
-    {
-        return $this->render('frontEnd/utilisateur/societe/afficherToutSociete.html.twig', [
             'societes' => $this->getDoctrine()->getRepository(Societe::class)->findAll(),
         ]);
     }
@@ -36,7 +26,7 @@ class SocieteController extends AbstractController
     /**
      * @Route("/societe/ajouter/email={email}/password={motDePasse}", name="ajouterSociete")
      */
-    public function ajouterSociete(Request $request, $email, $motDePasse)
+    public function ajouterSociete(Request $request,$email,$motDePasse)
     {
         $utilisateur = new Utilisateur();
         $societe = new Societe();
@@ -67,9 +57,9 @@ class SocieteController extends AbstractController
             $manager->persist($utilisateur);
             $manager->flush();
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($societe);
-            $manager->flush();
+            $societeManager = $this->getDoctrine()->getManager();
+            $societeManager->persist($societe);
+            $societeManager->flush();
 
             return $this->redirectToRoute('publication');
         }
@@ -80,13 +70,12 @@ class SocieteController extends AbstractController
     }
 
     /**
-     * @Route("/societe/modifier/id={id}/email={email}/password={motDePasse}", name="modifierSociete")
+     * @Route("/societe/modifier/id={id}", name="modifierSociete")
      */
-    public function modifierSociete(Request $request, $id, $email, $motDePasse)
+    public function modifierSociete(Request $request,$id)
     {
-        $manager = $this->getDoctrine()->getManager();
-        $utilisateur = $manager->getRepository(Utilisateur::class)->find($id);
-        $societe = $manager->getRepository(Societe::class)->find($utilisateur->getSociete()->getID());
+        $SocieteRepository = $this->getDoctrine()->getManager();
+        $societe = $SocieteRepository->getRepository(Societe::class)->find($id);
 
         $form = $this->createForm(SocieteType::class, $societe);
         $form->add('submit', SubmitType::class);
@@ -118,9 +107,8 @@ class SocieteController extends AbstractController
             return $this->redirectToRoute('afficherToutSociete');
         }
 
-        return $this->render('frontEnd/utilisateur/societe/manipulerSociete.html.twig', [
+        return $this->render('/frontEnd/utilisateur/societe/manipulerQuestionnaire.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Modifier"
         ]);
     }
 }

@@ -10,7 +10,6 @@
                         <div class="col-lg-12">
                             <div class="title-heading text-center text-white">
                                 <h1 class="heading font-weight-bold mb-4">Missions</h1>
-                                <a href="{{ asset('/societe='~0~'/mission/ajouter') }}">Ajouter mission</h4>
                             </div>
                         </div>
                     </div>
@@ -29,10 +28,10 @@
                 {% for mission in missions %}
             <tr>
                 <td>{{ mission.id }}</td>
-                <td>{{ mission.date|date("d/m/Y") }}</td>
+                <td>{{ mission.date }}</td>
                 <td>{{ mission.nbheure }}</td>
                 <td>{{ mission.prixH }}</td>
-                <td>{{ mission.societe.id }}</td>
+                <td>{{ mission.societe }}</td>
                 <td>
                     <a href="{{ asset('societe/mission='~mission.id~'/modifier/') }}">Modifier</a>
                     <a href="{{ asset('societe/mission='~mission.id~'/supprimer/') }}">Supprimer</a>

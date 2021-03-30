@@ -38,34 +38,33 @@ class UtilisateurController extends AbstractController
 
             $utilisateur = $form->getData();
 
-            if ($utilisateur->getTypeUtilisateur() == 0) {
+            if ($utilisateur->getTypeUtilisateur() == 0){
                 return $this->redirectToRoute("ajouterSociete", [
-                    'email' => $utilisateur->getEmail(),
-                    'motDePasse' => $utilisateur->getMotDePasse(),
+                    'email'  => $utilisateur->getEmail(),
+                    'motDePasse'  => $utilisateur->getMotDePasse(),
                 ]);
-            } elseif ($utilisateur->getTypeUtilisateur() == 1) {
+            }elseif($utilisateur->getTypeUtilisateur() == 1){
                 return $this->redirectToRoute("ajouterCandidat", [
-                    'email' => $utilisateur->getEmail(),
-                    'motDePasse' => $utilisateur->getMotDePasse(),
+                    'email'  => $utilisateur->getEmail(),
+                    'motDePasse'  => $utilisateur->getMotDePasse(),
                 ]);
-            } else {
+            }else{
                 $this->redirectToRoute("acceuil");
             }
         }
 
         return $this->render('_inscription/inscription.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Ajouter"
         ]);
     }
 
     /**
-     * @Route("/utilisateur={idUtilisateur}/modifier", name="modifierUtilisateur")
+     * @Route("/utilisateur/modifier/id={id}", name="modifierUtilisateur")
      */
     public function modifierUtilisateur(Request $request, $idUtilisateur)
     {
         $utilisateurRepository = $this->getDoctrine()->getManager();
-        $utilisateur = $utilisateurRepository->getRepository(Utilisateur::class)->find($idUtilisateur);
+        $utilisateur = $utilisateurRepository->getRepository(Utilisateur::class)->find($id);
 
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->add('Modifier', SubmitType::class);
@@ -94,19 +93,18 @@ class UtilisateurController extends AbstractController
 
         return $this->render('frontEnd/utilisateur/_inscription.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Modifier"
         ]);
     }
 
     /**
-     * @Route("/utilisateur={idUtilisateur}/supprimer", name="supprimerUtilisateur")
+     * @Route("/utilisateur/supprimer/id={id}", name="supprimerUtilisateur")
      */
-    public function supprimerUtilisateur($idUtilisateur): Response
+    public function supprimerUtilisateur($id): Response
     {
-        $manager = $this->getDoctrine()->getManager();
-        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
-        $manager->remove($utilisateur);
-        $manager->flush();
+        $utilisateurManager = $this->getDoctrine()->getManager();
+        $utilisateur = $utilisateurManager->getRepository(Utilisateur::class)->find($id);
+        $utilisateurManager->remove($utilisateur);
+        $utilisateurManager->flush();
         return $this->redirectToRoute('afficherUtilisateur');
     }
 }

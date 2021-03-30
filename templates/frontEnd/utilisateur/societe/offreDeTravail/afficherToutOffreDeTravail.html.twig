@@ -68,32 +68,28 @@
                             {% set CandidatureBool = false %}
                         {% endif %}
                         {% if CandidatureBool %}
-                            Vous avez candidaté pour cette offre |
+                            Vous avez candidaté pour cette offre <br>
                             <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/supprimer') }}">
                                 Supprimer candidature</a>
                             <br>------------<br>
                             <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/revue/ajouter') }}">
                                 Ajouter une revue pour cette offre</a><br>
+                            <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/interview/ajouter') }}">
+                                Ajouter une interview pour cette offre</a>
                         {% else %}
                             <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/utilisateur='~idUtilisateur~'/ajouter') }}">
                                 Candidater pour cette offre
-                            </a><br>------------<br>
+                            </a>
                         {% endif %}
                     {% else %}
                         Veuillez vous connecter pour candidater
+                        <br>------------<br>
                     {% endif %}
-                    <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/revue/activePage=0') }}">
-                        Voir les revues pour cette offre</a>
                     <br>------------<br>
-                    <a href="{{ asset('societe='~offreDeTravail.societe.id) }}">
-                        Consulter societe
-                    </a> |
-                    <a href="{{ asset('societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/modifier/') }}">
-                        Modifier
-                    </a> |
-                    <a href="{{ asset('societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/supprimer/') }}">
-                        Supprimer
-                    </a>
+                    <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/revue/activePage=0') }}">
+                        Voir les revues pour cette offre</a><br>
+                    <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/interview/activePage=0') }}">
+                        Voir les interviews pour cette offre</a>
                 </td>
             </tr>
             {% endfor %}

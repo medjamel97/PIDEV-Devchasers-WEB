@@ -47,4 +47,18 @@ class PublicationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findStudentByTitre($titre)
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.titre LIKE :val')
+            ->setParameter('val', $titre)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+ 
+
+    
 }

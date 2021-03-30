@@ -10,11 +10,12 @@
                             <div class="title-heading text-center text-white align-content-center">
                                 {{ form_start(form) }}
                                 <h1 class="heading font-weight-bold mb-4"> {{ manipulation }} une publication </h1>
-                                {% set attributs=[form.description, form.candidat] %}
-                                {% set labels =["Description", "candidat"] %}
+                                {% set attributs=[form.titre,form.description, form.candidat] %}
+                                {% set labels =["Titre","Description", "candidat"] %}
                                 {% for i in 0..attributs|length-1 %}
                                     {{ form_label(attributs[i], labels[i]) }}
-                                    {{ form_widget(attributs[i]) }}
+                                    {{ form_widget(attributs[i],  {'attr': {'placeholder': '...............','class': 'form-control'}}) }}
+                                    {{ form_widget(attributs[i],  {'attr': {'placeholder': '...............','class': 'form-control'}}) }}
                                     {{ form_errors(attributs[i]) }}<br>
                                 {% endfor %}
                                 {{ form_end(form) }}

@@ -94,7 +94,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("/candidat/ajouter/email={email}/password={motDePasse}", name="ajouterCandidat")
      */
-    public function ajouterCandidat(Request $request, $email, $motDePasse)
+    public function ajouterCandidat(Request $request,$email,$motDePasse)
     {
         $utilisateur = new Utilisateur();
         $candidat = new Candidat();
@@ -107,7 +107,7 @@ class CandidatController extends AbstractController
 
             $utilisateur->setEmail($email)
                 ->setMotDePasse($motDePasse)
-                ->setTypeUtilisateur(1);
+                ->setTypeUtilisateur(0);
 
             $candidat = $form->getData()
                 ->setUtilisateur($utilisateur);

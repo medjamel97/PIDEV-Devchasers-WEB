@@ -29,6 +29,7 @@ class Utilisateur
 
     /**
      * @ORM\OneToOne(targetEntity=Societe::class, inversedBy="utilisateur", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $societe;
 

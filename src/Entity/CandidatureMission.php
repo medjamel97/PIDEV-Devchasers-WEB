@@ -28,19 +28,17 @@ class CandidatureMission
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity=Questionnaire::class, inversedBy="candidatureMission", cascade={"remove"})
+     * @ORM\OneToOne(targetEntity=Questionnaire::class, inversedBy="candidatureMission", cascade={"persist", "remove"})
      */
     private $questionnaire;
 
     /**
      * @ORM\ManyToOne(targetEntity=Mission::class, inversedBy="candidatureMission")
-     * @ORM\JoinColumn(name="mission_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $mission;
 
     /**
      * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="candidatureMission")
-     * @ORM\JoinColumn(name="candidat_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $candidat;
 

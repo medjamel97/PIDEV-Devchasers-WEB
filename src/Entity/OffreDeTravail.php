@@ -25,14 +25,14 @@ class OffreDeTravail
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity=Categorie::class, mappedBy="offreDeTravail")
+     * @ORM\OneToOne(targetEntity=Categorie::class, mappedBy="offreDeTravail", cascade={"persist", "remove"})
      */
     private $categorie;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail")
      */
-    private $candidatureOffre;
+    private $candidatureOffres;
 
     /**
      * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="offreDeTravail")
@@ -41,7 +41,7 @@ class OffreDeTravail
 
     public function __construct()
     {
-        $this->candidatureOffre = new ArrayCollection();
+        $this->candidatureOffres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,15 +86,15 @@ class OffreDeTravail
     /**
      * @return Collection|CandidatureOffre[]
      */
-    public function getCandidatureOffre(): Collection
+    public function getCandidatureOffres(): Collection
     {
-        return $this->candidatureOffre;
+        return $this->candidatureOffres;
     }
 
     public function addCandidatureOffre(CandidatureOffre $candidatureOffre): self
     {
-        if (!$this->candidatureOffre->contains($candidatureOffre)) {
-            $this->candidatureOffre[] = $candidatureOffre;
+        if (!$this->candidatureOffres->contains($candidatureOffre)) {
+            $this->candidatureOffres[] = $candidatureOffre;
             $candidatureOffre->setOffreDeTravail($this);
         }
 
@@ -103,7 +103,7 @@ class OffreDeTravail
 
     public function removeCandidatureOffre(CandidatureOffre $candidatureOffre): self
     {
-        if ($this->candidatureOffre->removeElement($candidatureOffre)) {
+        if ($this->candidatureOffres->removeElement($candidatureOffre)) {
             // set the owning side to null (unless already changed)
             if ($candidatureOffre->getOffreDeTravail() === $this) {
                 $candidatureOffre->setOffreDeTravail(null);

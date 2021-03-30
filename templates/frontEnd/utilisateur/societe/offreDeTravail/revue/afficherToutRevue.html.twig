@@ -40,6 +40,84 @@
         </div>
     </section>
     <!-- end home -->
+    <br><br><br>
+    &nbsp&nbsp&nbsp&nbsp ICI RECHERCHE DEBUT
+    <br><br><br>
+
+    &nbsp&nbsp&nbsp&nbsp
+    <label for="search">RECHERCHE : </label><br>
+    &nbsp&nbsp&nbsp&nbsp
+    <input id="search" type="text" class="form-control" placeholder="Search"><br>
+    <table id="table" class="table table-hover table-dark">
+        <thead class="thead-dark">
+        <tr>
+            <td>ID</td>
+            <td>NB ETOILES</td>
+            <td>OBJET</td>
+            <td>DESCRIPTION</td>
+        </tr>
+        </thead>
+        <tbody id="all">
+        {% for revue in revues %}
+            <tr>
+                <td>
+                    {{ revue.id }}
+                </td>
+                <td>
+                    {{ revue.nbEtoiles }}
+                </td>
+                <td>
+                    {{ revue.objet }}
+                </td>
+                <td>
+                    {{ revue.description }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tbody id="search">
+        </tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search").keyup(function (e) {
+                var value = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: "/revue/recherche",
+                    data: {
+                        'searchValue': value
+                    },
+                    success: function (retour) {
+                        if (retour) {
+                            $('#table tbody#search').empty();
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                $('#table tbody#all').hide();
+                                $('#table tbody#search').append(
+                                    '<tr><td> ' + obj.id +
+                                    '</td><td>' + obj.nbEtoiles +
+                                    '</td><td>' + obj.objet +
+                                    '</td><td>' + obj.description +
+                                    '</td><td></td></tr>');
+                            })
+                        } else {
+                            $('#table tbody#all').show();
+                            $('#table tbody#search').empty();
+                            $('#table tbody#search').fadeIn('fast');
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+    <br><br><br>
+    &nbsp&nbsp&nbsp&nbsp ICI RECHERCHE FIN
+    <br><br><br>
+
     {% if nbResults > 0 %}
         <!-- CANDIDATES LISTING START -->
         <section class="section pt-4">
@@ -182,12 +260,13 @@
                                             {% if i == activePage %}
                                                 <li class="page-item active">
                                                     <a class="page-link"
-                                                       href="/societe=0/offreDeTravail=0/revue/pageIndex={{ i }}">{{ i }}</a>
+                                                       href="/societe={{ societe.id }}/revue/activePage={{ i }}">{{ i }}</a>
+                                                    </a>
                                                 </li>
                                             {% else %}
                                                 <li class="page-item">
                                                     <a class="page-link"
-                                                       href="/societe=0/offreDeTravail=0/revue/pageIndex={{ i }}">{{ i }}</a>
+                                                       href="/societe={{ societe.id }}/revue/activePage={{ i }}">{{ i }}</a>
                                                 </li>
                                             {% endif %}
                                         {% endfor %}

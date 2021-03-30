@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\MessagesRepository;
+use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=MessagesRepository::class)
+ * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
 class Message
 {
@@ -14,29 +15,38 @@ class Message
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Groups("post:read")
      */
     private $contenu;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
+     * @Groups("post:read")
      */
     private $dateCreation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="messageEnvoye")
+     * @ORM\Column(type="boolean")
+     * @Groups("post:read")
      */
-    private $candidatExpediteur;
+    private $estProprietaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="messageRecu")
+     * @ORM\Column(type="boolean")
+     * @Groups("post:read")
      */
-    private $candidatDestinataire;
+    private $estVu;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Conversation::class, inversedBy="message")
+     */
+    private $conversation;
 
     public function getId(): ?int
     {
@@ -48,7 +58,7 @@ class Message
         return $this->contenu;
     }
 
-    public function setContenu(?string $contenu): self
+    public function setContenu(string $contenu): self
     {
         $this->contenu = $contenu;
 
@@ -67,26 +77,38 @@ class Message
         return $this;
     }
 
-    public function getCandidatExpediteur(): ?Candidat
+    public function getEstProprietaire(): ?bool
     {
-        return $this->candidatExpediteur;
+        return $this->estProprietaire;
     }
 
-    public function setCandidatExpediteur(?Candidat $candidatExpediteur): self
+    public function setEstProprietaire(bool $estProprietaire): self
     {
-        $this->candidatExpediteur = $candidatExpediteur;
+        $this->estProprietaire = $estProprietaire;
 
         return $this;
     }
 
-    public function getCandidatDestinataire(): ?Candidat
+    public function getEstVu(): ?bool
     {
-        return $this->candidatDestinataire;
+        return $this->estVu;
     }
 
-    public function setCandidatDestinataire(?Candidat $candidatDestinataire): self
+    public function setEstVu(bool $estVu): self
     {
-        $this->candidatDestinataire = $candidatDestinataire;
+        $this->estVu = $estVu;
+
+        return $this;
+    }
+
+    public function getConversation(): ?Conversation
+    {
+        return $this->conversation;
+    }
+
+    public function setConversation(?Conversation $conversation): self
+    {
+        $this->conversation = $conversation;
 
         return $this;
     }

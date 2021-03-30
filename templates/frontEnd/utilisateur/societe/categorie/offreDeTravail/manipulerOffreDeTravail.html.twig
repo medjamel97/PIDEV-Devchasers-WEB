@@ -11,7 +11,7 @@
                                 {{ form_start(form) }}
                                 <h1 class="heading font-weight-bold mb-4"> {{ manipulation }} une offre de travail </h1>
                                 {% set attributs=[form.description, form.categorie, form.societe] %}
-                                {% set labels =["Description","Categorie" ,"Societe"] %}
+                                {% set labels =["ID", "Description","Categorie" ,"Societe"] %}
                                 {% for i in 0..attributs|length-1 %}
                                     {{ form_label(attributs[i], labels[i]) }}
                                     {{ form_widget(attributs[i]) }}
