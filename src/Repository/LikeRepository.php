@@ -62,7 +62,7 @@ class LikeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
         ->select('count(r.id)')
         ->andWhere('r.typelike = :val')
-        ->setParameter('val', false)
+        ->setParameter('val', true)
             ->getQuery()
             ->getSingleScalarResult();
     }

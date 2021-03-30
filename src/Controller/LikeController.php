@@ -41,19 +41,48 @@ class LikeController extends AbstractController
     public function ajoutLike(Request $request)
     {
         $idpub = $request->get('idPub');
-        $likeType = (Boolean)$request->get('likeType');
+        $likeType = (boolean)$request->get('typeLike');
         $idUtilisateur = $this->session->get("utilisateur")["idUtilisateur"];
 
-        $haveLike = $this->getDoctrine()->getRepository(Like::class)->findOneBy(['idUtilisateur' => $idUtilisateur]);
+        $haveLike = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
+            'idUtilisateur' => $idUtilisateur,
+            'typelike' => true,
+            ]);
+        $haveDislike = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
+            'idUtilisateur' => $idUtilisateur,
+            'typelike' => false,
+            ]);
         
+
         if ($likeType == true){
-            if ($haveLike != null){
+            if ($haveLike == null){
                 $like = new Like();
                 $like->setTypelike($likeType);
                 $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idpub);
                 $like->setPublication($publication);
        
-               $like->setIdUtilisateur($idUtilisateur);
+                $like->setIdUtilisateur($idUtilisateur);
+       
+                $likeRepository = $this->getDoctrine()->getManager();
+                $likeRepository->persist($like);
+                $likeRepository->flush();
+
+            }else{
+                $missionManager = $this->getDoctrine()->getManager();
+                $missionManager->remove($haveLike);
+                $missionManager->flush();
+            }
+
+            return new Response($this->getDoctrine()->getRepository(Like::class)->countlikeNumber());
+        }
+        else {
+            if ($haveDislike == null){
+                $like = new Like();
+                $like->setTypelike($likeType);
+                $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idpub);
+       
+                $like->setPublication($publication);
+                $like->setIdUtilisateur($idUtilisateur);
        
                  $likeRepository = $this->getDoctrine()->getManager();
                  $likeRepository->persist($like);
@@ -61,17 +90,13 @@ class LikeController extends AbstractController
 
             }else{
                 $missionManager = $this->getDoctrine()->getManager();
-                $mission = $missionManager->getRepository(Like::class)->findOneBy(['idUtilisateur'=>$idUtilisateur]);
-                $missionManager->remove($mission);
+                $missionManager->remove($haveDislike);
                 $missionManager->flush();
             }
 
-            $id = $this->getDoctrine()->getRepository(Like::class)->countlikeNumber();
-
-            return new Response(null);
-        }
-        else {
-            return false;
+            $nbrlike= $this->getDoctrine()->getRepository(Like::class)->countlikeNumber();
+            $like= $this->getDoctrine()->getRepository(Like::class)->countItemNumber();
+            return new Response($like-$nbrlike);
         }
     }
 }

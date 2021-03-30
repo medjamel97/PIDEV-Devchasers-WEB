@@ -134,8 +134,7 @@
                                     <div class="candidates-list-fav-btn text-right">
                                         <div class="fav-icon row">
                                             Like
-                                            <a id="like-publication"
-                                               onclick="javascript:likeDislike(true,{{ publication.id }});return false;"
+                                            <a id="like-publication" onclick="javascript:likeDislike(1,{{ publication.id }});return false;"
                                                href="#" class="mdi mdi-heart"></a>
                                             <p id="nb-like{{ publication.id }}">{{ nbrlike }}</p>
                                         </div>
@@ -144,9 +143,9 @@
 
                                         Dislike
                                         <a id="dislike-publication" onclick="
-                                                javascript:likeDislike(false,{{ publication.id }});return false;"
+                                                javascript:likeDislike(0,{{ publication.id }});return false;"
                                            href="#" class="mdi mdi-heart-outline"></a>
-                                        <p id="nb-dislike">{{ (like-nbrlike) }}</p>
+                                        <p id="nb-dislike{{publication.id}}">{{ (like-nbrlike) }}</p>
 
                                         <div class="candidates-listing-btn mt-2">
                                             <a href="{{ asset('/candidat/publication='~publication.id~'/modifier') }}"
@@ -293,29 +292,30 @@
         </div>
     </section><!-- subscribe end -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        function likeDislike(typeLike, idPub) {
-            $.ajax({
-                type: 'GET',
-                url: 'like',
-                data: {
-                    'typeLike': typeLike,
-                    'idPub': idPub
-                },
-                success: function (retour) {
-                    if (typeLike) {
-                        $("#nb-like").empty().append(retour);
-                    } else {
-                        $("#nb-dislike").empty().append(retour);
-                    }
-                },
-                error: function () {
-                    alert('Erreur ajax like');
-                }
-            });
+	 <script>
+                                            function likeDislike(typeLike, idPub) {
+                                                $.ajax({
+                                                    type: 'GET',
+                                                    url: 'like',
+                                                    data: {
+                                                        'typeLike': typeLike,
+                                                        'idPub': idPub
+                                                    },
+                                                    success: function (retour) {
+                                                        if (typeLike) {
+                                                            $("#nb-like"+idPub).empty().append(retour);
+                                                        } else {
+															$("#nb-dislike"+idPub).empty().append(retour);
+                                                
+                                                        }
+                                                    },
+                                                    error: function () {
+                                                        alert('Erreur ajax like');
+                                                    }
+                                                });
 
-        }
-    </script>
+                                            }
+                                        </script>
 
     <script>
         $(document).ready(function () {
