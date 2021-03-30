@@ -86,8 +86,8 @@ class PublicationController extends Controller
     public function ajouterPublication(Request $request)
     {
         $publication = new Publication();
-
-        $form = $this->createForm(PublicationType::class, $publication)
+        // $publication->setDate (new \Date());
+                $form = $this->createForm(PublicationType::class, $publication)
             ->add('Ajouter', SubmitType::class)
             ->handleRequest($request);
 

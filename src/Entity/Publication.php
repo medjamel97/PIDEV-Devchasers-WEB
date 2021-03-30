@@ -76,6 +76,7 @@ class Publication
     {
         $this->commentaire = new ArrayCollection();
         $this->likeid = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
