@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\MissionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MissionRepository::class)
@@ -16,21 +18,37 @@ class Mission
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("post:read")
      */
     private $date;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 10,
+     *      notInRangeMessage = "You must be between {{ min }}cm and {{ max }}cm tall to enter",
+     * )
+          * @Groups("post:read")
      */
     private $nbheure;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 1000,
+     *      notInRangeMessage = "You must be between {{ min }}cm and {{ max }}cm tall to enter",
+     * )
+     * @Groups("post:read")
      */
     private $prixH;
 
@@ -41,18 +59,29 @@ class Mission
 
     /**
      * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="mission")
+     * @Groups("post:read")
      */
     private $societe;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\Length(min=10, max=200, minMessage="Taille minimale (10)", maxMessage="Taille maximale (100) depassé")
+        * @Groups("post:read")
      */
     private $mission_name;
 
     /**
      * @ORM\Column(type="string", length=10383, nullable=true)
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+   * @Groups("post:read")
      */
     private $description;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Questionnaire::class, mappedBy="Mission", cascade={"persist", "remove"})
+     */
+    private $questionnaire;
 
     public function __construct()
     {
@@ -162,6 +191,23 @@ class Mission
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getQuestionnaire(): ?Questionnaire
+    {
+        return $this->questionnaire;
+    }
+
+    public function setQuestionnaire(Questionnaire $questionnaire): self
+    {
+        // set the owning side of the relation if necessary
+        if ($questionnaire->getMission() !== $this) {
+            $questionnaire->setMission($this);
+        }
+
+        $this->questionnaire = $questionnaire;
 
         return $this;
     }

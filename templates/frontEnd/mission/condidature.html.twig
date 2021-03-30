@@ -1,0 +1,87 @@
+{% extends '/frontEnd/base.html.twig' %}
+{% block topImage %}
+    <section class="bg-home"
+             style="background: url('https://via.placeholder.com/2000X1333//88929f/5a6270C/O https://placeholder.com/') center center;">
+        <div class="bg-overlay"></div>
+        <div class="home-center">
+            <div class="home-desc-center">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="title-heading text-center text-white">
+                                <h1 class="heading font-weight-bold mb-4">Offre de travail</h1>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="section-title text-center mb-4 pb-2">
+                 {% set pi = 0 %}
+                 {% for mission in condidature  %}
+                                    <div class="job-box bg-white overflow-hidden border rounded mt-4 position-relative overflow-hidden">
+                                        <div class="lable text-center pt-2 pb-2">
+                                            <ul class="list-unstyled best text-white mb-0 text-uppercase">
+                                                <li class="list-inline-item"><i class="mdi mdi-star"></i></li>
+                                            </ul>
+                                        </div>
+                                        <div class="p-4">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-2">
+                                                    <div class="mo-mb-2">
+                                                        <img src="{{ asset('/frontEnd/images/how-it-work/img-2.png') }}" alt="" class="img-fluid mx-auto d-block">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div>
+                                                        <h5 class="f-18"><a href="{{ asset('#') }}" class="text-dark">{{condidat[pi].prenom}} {{condidat[pi].nom}}</a></h5>
+                                                        {# <p class="text-muted mb-0">Web Technology pvt.Ltd</p> #}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div>
+                                                        <p class="text-muted mb-0 mo-mb-2"><span class="text-primary">sexe : </span>{{condidat[pi].sexe}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div>
+                                                        <p class="text-muted mb-0"><span class="text-dark">date de naissance: </span>{{condidat[pi].dateNaissance|date("d/m/Y")}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         </div>
+                                          <div class="p-3 bg-light">
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <div>
+                                                        <p class="text-muted mb-0 mo-mb-2"><span class="text-dark">num de téléphone :</span> {{condidat[pi].tel}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div>
+                                                        <a href="{{ path('reponse',{'id':mission.numreponse})}}" class="text-primary">Apply Now <i class="mdi mdi-chevron-double-right"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </div>
+                
+                            {# {{mission.id}} #}
+                            {% set pi = pi + 1 %}
+                           
+                
+                 {% endfor %} 
+                
+                 </div>
+        </div>
+        </div>
+        </div>
+         </section>
+{% endblock %}
+{% block content %}
+{% endblock %}

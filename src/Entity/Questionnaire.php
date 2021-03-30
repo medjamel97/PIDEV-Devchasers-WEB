@@ -6,6 +6,7 @@ use App\Repository\QuestionnaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=QuestionnaireRepository::class)
@@ -16,11 +17,12 @@ class Questionnaire
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *  @Groups("post:read")
      */
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="questionnaire")
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="questionnaire", cascade={"remove"})
      */
     private $question;
 
@@ -28,6 +30,18 @@ class Questionnaire
      * @ORM\OneToOne(targetEntity=CandidatureMission::class, mappedBy="questionnaire", cascade={"persist", "remove"})
      */
     private $candidatureMission;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Mission::class, inversedBy="questionnaire", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Mission;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("post:read")
+     */
+    private $description;
 
     public function __construct()
     {
@@ -87,6 +101,30 @@ class Questionnaire
         }
 
         $this->candidatureMission = $candidatureMission;
+
+        return $this;
+    }
+
+    public function getMission(): ?Mission
+    {
+        return $this->Mission;
+    }
+
+    public function setMission(Mission $Mission): self
+    {
+        $this->Mission = $Mission;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
