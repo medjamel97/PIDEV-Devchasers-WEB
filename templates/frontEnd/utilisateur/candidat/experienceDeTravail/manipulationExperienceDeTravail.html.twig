@@ -11,7 +11,7 @@
                     <div class="col-lg-12 mt-4 pt-2">
                         <div class="component-wrapper rounded shadow">
                             <div class="p-4 border-bottom bg-light">
-                                <h4 class="title mb-0"> {{ manipulation }} education : {{ education.description }}</h4>
+                                <h4 class="title mb-0"> {{ manipulation }} experience_de_travail : {{ experienceDeTravail.description }}</h4>
                             </div>
                             <div class="p-4">
                                 {{ form_start(form) }}
@@ -22,44 +22,43 @@
                                 {% do form.duree.setRendered() %}
                                 {% do form.submit.setRendered() %}
 
-                                <form name="education" method="post">
+                                <form name="experience_de_travail" method="post">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
-                                                <label for="education_description" class="required">Description</label>
+                                                <label for="experience_de_travail_description" class="required">Description</label>
                                                 {{ form_errors(form.description) }}
                                                 <input type="text"
-                                                       id="education_description"
-                                                       name="education[description]"
+                                                       id="experience_de_travail_description"
+                                                       name="experience_de_travail[description]"
                                                        maxlength="255"
-                                                       value="{{ education.description }}"
+                                                       value="{{ experienceDeTravail.description }}"
                                                        class="form-control"
                                                        placeholder="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
-                                                <label for="education_niveauEducation" class="required">Niveau
-                                                    education</label>
+                                                <label for="experience_de_travail_titreEmploi" class="required">Titre emploi</label>
                                                 {{ form_errors(form.titreEmploi) }}
                                                 <input type="text"
-                                                       id="education_niveauEducation"
-                                                       name="education[niveauEducation]"
+                                                       id="experience_de_travail_titreEmploi"
+                                                       name="experience_de_travail[titreEmploi]"
                                                        maxlength="255"
-                                                       value="{{ education.titreEmploi }}"
+                                                       value="{{ experienceDeTravail.titreEmploi }}"
                                                        class="form-control"
                                                        placeholder="">
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
-                                                <label for="education_filiere" class="required">Nom entreprise</label>
+                                                <label for="experience_de_travail_nomEntreprise" class="required">Nom entreprise</label>
                                                 {{ form_errors(form.nomEntreprise) }}
                                                 <input type="text"
-                                                       id="education_filiere"
-                                                       name="education[filiere]"
+                                                       id="experience_de_travail_nomEntreprise"
+                                                       name="experience_de_travail[nomEntreprise]"
                                                        maxlength="255"
-                                                       value="{{ education.nomEntreprise }}"
+                                                       value="{{ experienceDeTravail.nomEntreprise }}"
                                                        class="form-control"
                                                        placeholder="">
                                             </div>
@@ -67,13 +66,13 @@
                                         {{ form_errors(form.ville) }}
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
-                                                <label for="education_etablissement"
-                                                       class="required">Etablissement</label>
+                                                <label for="experience_de_travail_ville"
+                                                       class="required">Ville</label>
                                                 <input type="text"
-                                                       id="education_etablissement"
-                                                       name="education[etablissement]"
+                                                       id="experience_de_travail_ville"
+                                                       name="experience_de_travail[ville]"
                                                        maxlength="255"
-                                                       value="{{ education.ville }}"
+                                                       value="{{ experienceDeTravail.ville }}"
                                                        class="form-control"
                                                        placeholder="">
                                             </div>
@@ -81,11 +80,11 @@
                                         {{ form_errors(form.duree) }}
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
-                                                <label for="education_ville" class="required">Ville</label>
-                                                <input type="text" id="education_ville"
-                                                       name="education[ville]"
+                                                <label for="experience_de_travail_duree" class="required">Duree</label>
+                                                <input type="text" id="experience_de_travail_duree"
+                                                       name="experience_de_travail[duree]"
                                                        maxlength="255"
-                                                       value="{{ education.duree }}"
+                                                       value="{{ experienceDeTravail.duree }}"
                                                        class="form-control"
                                                        placeholder="">
                                             </div>
@@ -93,9 +92,9 @@
                                     </div><!--end row-->
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <button type="submit" id="education_submit"
+                                            <button type="submit" id="experience_de_travail_submit"
                                                     class="btn btn-primary"
-                                                    name="education[submit]">{{ manipulation }}</button>
+                                                    name="experience_de_travail[submit]">{{ manipulation }}</button>
                                         </div><!--end col-->
                                     </div><!--end row-->
                                 </form><!--end form-->

@@ -75,6 +75,6 @@ class BaseController extends AbstractController
     public function deconnexion()
     {
         $this->session->set("utilisateur", null);
-        return $this->redirectToRoute("publication");
+        return $this->redirectToRoute("afficherPublication");
     }
 }

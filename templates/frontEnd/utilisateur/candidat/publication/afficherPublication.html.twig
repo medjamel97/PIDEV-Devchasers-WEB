@@ -134,12 +134,13 @@
                                     <div class="candidates-list-fav-btn text-right">
                                         <div class="fav-icon row">
                                             Like
-                                            <a id="like-publication" onclick="javascript:likeDislike(true,{{ publication.id }});return false;"
+                                            <a id="like-publication"
+                                               onclick="javascript:likeDislike(true,{{ publication.id }});return false;"
                                                href="#" class="mdi mdi-heart"></a>
                                             <p id="nb-like{{ publication.id }}">{{ nbrlike }}</p>
                                         </div>
                                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                                       
+
 
                                         Dislike
                                         <a id="dislike-publication" onclick="
@@ -292,36 +293,29 @@
         </div>
     </section><!-- subscribe end -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	 <script>
-                                            function likeDislike(typeLike, idPub) {
-                                                $.ajax({
-                                                    type: 'GET',
-                                                    url: 'like',
-                                                    data: {
-                                                        'typeLike': typeLike,
-                                                        'idPub': idPub
-                                                    },
-                                                    success: function (retour) {
-                                                        if (typeLike) { // $("#like-publication{{ publication.id }}")
-														console.log('hi');
-                                                            $("#nb-like{{ publication.id }}").empty().append(retour);
-                                                        } else {
-															$("#nb-dislike{{ publication.id }}").empty().append(retour);
-                                                            $("#dislike-publication{{ publication.id }}").hide();
-                                                    
-                                                            $('#like-bar').attr("style", "width:75%");
-                                                            // $('#like-bar').attr(style="width:{{ pourcen }}%") ;
+    <script>
+        function likeDislike(typeLike, idPub) {
+            $.ajax({
+                type: 'GET',
+                url: 'like',
+                data: {
+                    'typeLike': typeLike,
+                    'idPub': idPub
+                },
+                success: function (retour) {
+                    if (typeLike) {
+                        $("#nb-like").empty().append(retour);
+                    } else {
+                        $("#nb-dislike").empty().append(retour);
+                    }
+                },
+                error: function () {
+                    alert('Erreur ajax like');
+                }
+            });
 
-                                                            // alert("Vous ne pouvez pas ajouter un dislike")
-                                                        }
-                                                    },
-                                                    error: function () {
-                                                        alert('Erreur ajax like');
-                                                    }
-                                                });
-
-                                            }
-                                        </script>
+        }
+    </script>
 
     <script>
         $(document).ready(function () {
@@ -341,17 +335,15 @@
                                 $('#tableau').empty().append("<tr><td>" + obj.id + "</td><td>" + obj.titre + "</td><td>" + obj.description + "</td></tr> ");
 
                                 console.log("ay hkeya" + obj.titre);
-
-
                             });
                         }
                     }
                 });
             })
         });
-		</script>
+    </script>
 
-		{% endblock %}{% block js %}<!-- javascript -->
+{% endblock %}{% block js %}<!-- javascript -->
     <script src="{{ asset('/frontEnd/js/jquery.min.js') }}"></script>
     <script src="{{ asset('/frontEnd/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/frontEnd/js/jquery.easing.min.js') }}"></script>
@@ -359,4 +351,4 @@
     <script src="{{ asset('/frontEnd/js/selectize.min.js') }}"></script>
     <script src="{{ asset('/frontEnd/js/jquery.nice-select.min.js') }}"></script>
     <script src="{{ asset('/frontEnd/js/app.js') }}"></script>
-	{% endblock %}
+{% endblock %}

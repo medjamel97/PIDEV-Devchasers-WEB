@@ -135,16 +135,13 @@
 
                                 <div class="col-lg-8">
                                     <div class="job-list-desc candidates-profile-exp-desc">
-                                        <h5 class="f-19 mb-2"><a href="{{ asset('#') }}"
-                                                                 class="text-dark">{{ ExperienceDeTravail.description }}</a>
+                                        <h5 class="f-19 mb-2"><a href="{{ asset('#') }}" class="text-dark">Desc : {{ ExperienceDeTravail.description }}</a>
                                         </h5>
-                                        <p class="text-muted mb-0 f-16">PHP Developer</p>
-                                        <p class="text-muted mb-0 f-16">Jan 2016 - Dec 2017</p>
-                                        <p class="text-muted mb-0 f-16">Salary : $950</p>
-                                        <p class="text-muted mb-0 f-16"><i class="mdi mdi-bank mr-2"></i>www.webthemesltd.co.in
+                                        <p class="text-muted mb-0 f-16">Titre emploi : {{ ExperienceDeTravail.titreEmploi }}</p>
+                                        <p class="text-muted mb-0 f-16">Nom entreprise : {{ ExperienceDeTravail.nomEntreprise }}</p>
+                                        <p class="text-muted mb-0 f-16">Duree : {{ ExperienceDeTravail.duree }}
+                                        <p class="text-muted mb-0 f-16"><i class="mdi mdi-map-marker"></i>{{ ExperienceDeTravail.ville }}</p>
                                         </p>
-                                        <p class="text-muted mb-0 f-16"><i class="mdi mdi-map-marker mr-2"></i>1919 Ward
-                                            Road West Nyack, NY 10994</p>
                                     </div>
                                 </div>
                             </div>

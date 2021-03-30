@@ -146,7 +146,7 @@
                         {% endif %}
                         <li class="has-submenu"><a href="{{ asset('societe') }}">Societes</a></li>
                         <li class="has-submenu">
-                            <a href="{{ asset('offreDeTravail/categorie=0') }}">
+                            <a href="{{ asset('listoffres') }}">
                                 Offres
                             </a>
                             <span class="menu-arrow"></span>
@@ -160,9 +160,9 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="{{ asset('formation') }}">Formations</a></li>
+                        <li><a href="{{ asset('formation/indexF') }}">Formations</a></li>
                         <li><a href="{{ asset('mission') }}">Missions</a></li>
-                        <li><a href="{{ asset('evenement') }}">Evenements</a></li>
+                        <li><a href="{{ asset('evenement/calendarA') }}">Evenements</a></li>
                     </ul><!--end navigation menu-->
                 {% endblock %}
             </div><!--end navigation-->

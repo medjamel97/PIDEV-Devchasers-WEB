@@ -94,7 +94,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("/candidat/ajouter/email={email}/password={motDePasse}", name="ajouterCandidat")
      */
-    public function ajouterCandidat(Request $request,$email,$motDePasse)
+    public function ajouterCandidat(Request $request, $email, $motDePasse)
     {
         $utilisateur = new Utilisateur();
         $candidat = new Candidat();
@@ -107,7 +107,7 @@ class CandidatController extends AbstractController
 
             $utilisateur->setEmail($email)
                 ->setMotDePasse($motDePasse)
-                ->setTypeUtilisateur(0);
+                ->setTypeUtilisateur(1);
 
             $candidat = $form->getData()
                 ->setUtilisateur($utilisateur);
@@ -119,7 +119,7 @@ class CandidatController extends AbstractController
                 $uploads_directory,
                 $filename
             );
-            $candidat->setIdPhoto($uploads_directory . "/" . $filename);
+            $candidat->setIdPhoto($filename);
 
             $utilisateurManager = $this->getDoctrine()->getManager();
             $utilisateurManager->persist($utilisateur);
@@ -129,7 +129,7 @@ class CandidatController extends AbstractController
             $candidatManager->persist($candidat);
             $candidatManager->flush();
 
-            return $this->redirectToRoute('publication');
+            return $this->redirectToRoute('afficherPublication');
         }
 
         return $this->render('_inscription/inscrireCandidat.html.twig', [
@@ -159,7 +159,7 @@ class CandidatController extends AbstractController
                 $uploads_directory,
                 $filename
             );
-            $candidat->setIdPhoto($uploads_directory . "/" . $filename);
+            $candidat->setIdPhoto($filename);
 
             $candidat = $form->getData();
             $manager->persist($candidat);

@@ -30,11 +30,11 @@ class PublicationController extends Controller
      * @Route("/candidat={}/publication={}", name="afficherPublication")
      */
     public function afficherPublication(): Response
-    {   
-        
+    {
+
         return $this->render('/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig', [
             'publications' => $this->getDoctrine()->getManager()->getRepository(Publication::class)->findAll(),
-           
+
         ]);
     }
 
@@ -42,42 +42,36 @@ class PublicationController extends Controller
      * @Route("/publication", name="afficherToutPublication")
      */
     public function afficherToutPublication(Request $request): Response
-    {   
-        $em= $this->getDoctrine()->getManager();
-        $pubs=$em->getRepository(Publication::class)->findAll();
-        
-      //  $idCandidat = $this->session->get("utilisateur")["idCandidat"];
-      //  $pubs=$em->getRepository(Publication::class)->find($idCandidat);
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pubs = $em->getRepository(Publication::class)->findAll();
+
+        //  $idCandidat = $this->session->get("utilisateur")["idCandidat"];
+        //  $pubs=$em->getRepository(Publication::class)->find($idCandidat);
 
 
-        
-        $nbrlike=$em->getRepository(Like::class)->countlikeNumber();
-        $like=$em->getRepository(Like::class)->countItemNumber();
+        $nbrlike = $em->getRepository(Like::class)->countlikeNumber();
+        $like = $em->getRepository(Like::class)->countItemNumber();
         if ($like != 0) {
-        $pourcentage = ((float)$nbrlike/(float)$like)*100 ; 
-    }
-    else {
-        $pourcentage = 0 ; 
-    }
-        $paginator= $this->get('knp_paginator');
-        $res= $paginator->paginate(
-           $pubs,
-             $request->query->getInt('page', 1),
+            $pourcentage = ((float)$nbrlike / (float)$like) * 100;
+        } else {
+            $pourcentage = 0;
+        }
+        $paginator = $this->get('knp_paginator');
+        $res = $paginator->paginate(
+            $pubs,
+            $request->query->getInt('page', 1),
             $request->query->getInt('limit', 5)
-    );
-    
-         
+        );
+
+
         return $this->render('/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig', [
-            'publications' =>$res,
+            'publications' => $res,
             'nbrlike' => $nbrlike,
             'like' => $like,
-            'pourcen'=> $pourcentage,
-            
+            'pourcen' => $pourcentage,
             'commentaires' => $this->getDoctrine()->getManager()->getRepository(Commentaire::class)->findAll(),
-           
-           
-        
-            ]);
+        ]);
     }
 
     /**
@@ -91,7 +85,7 @@ class PublicationController extends Controller
             ->add('Ajouter', SubmitType::class)
             ->handleRequest($request);
 
-        if ($form->isSubmitted() ) {
+        if ($form->isSubmitted()) {
 
             $publication = $form->getData();
 
@@ -155,7 +149,6 @@ class PublicationController extends Controller
     }
 
 
-
     /**
      * @Route("/candidat/publication={idPublication}/supprimer", name="supprimerPublication")
      */
@@ -177,7 +170,7 @@ class PublicationController extends Controller
         $commentaire = new Commentaire();
 
         $commentaire->setDescription($request->get('description'));
-        $publication=$this->getDoctrine()->getManager()->getRepository(Publication::class)->find($request->get('id_publication'));
+        $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($request->get('id_publication'));
         $commentaire->setPublication($publication);
 
         $CommentaireRepository = $this->getDoctrine()->getManager();
@@ -185,12 +178,11 @@ class PublicationController extends Controller
         $CommentaireRepository->flush();
 
         return $this->redirectToRoute('afficherToutPublication');
-        
 
 
     }
 
-     /**
+    /**
      * @Route("/supprimerCommentaire/{id}", name="supprimerCommentaire")
      */
     public function supprimerCommentaire($id)
@@ -206,59 +198,49 @@ class PublicationController extends Controller
      * @Route("/afficherpublication/{id}", name="afficherPublication")
      */
     public function afficherunePublication($id): Response
-    {   
-        $em= $this->getDoctrine()->getManager();
-        $pubs=$em->getRepository(Publication::class)->find($id);
-        $nbrlike=$em->getRepository(Like::class)->countlikeNumber();
-        $like=$em->getRepository(Like::class)->countItemNumber();
-      
-        
-    
-         
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pubs = $em->getRepository(Publication::class)->find($id);
+        $nbrlike = $em->getRepository(Like::class)->countlikeNumber();
+        $like = $em->getRepository(Like::class)->countItemNumber();
+
+
         return $this->render('/frontEnd/utilisateur/candidat/publication/unepublication.html.twig', [
-            'publication' =>$pubs,
+            'publication' => $pubs,
             'nbrlike' => $nbrlike,
             'like' => $like,
-            
+
             'commentaires' => $this->getDoctrine()->getManager()->getRepository(Commentaire::class)->findAll(),
-           
-           
-        
-            ]);
+
+
+        ]);
     }
-  
-/**
-* @Route("/searchPub ", name="searchPub")
-*/
-public function searchPub(Request $request,NormalizerInterface $normalizer)
-{ 
-    /*
-$repository = $this->getDoctrine()->getRepository(Publication::class);
-$requestString=$request->get('searchValue');
-$publications = $repository->findStudentByNsc($requestString);
-$jsonContent = $Normalizer->normalize($publications, 'json',['groups'=>'publications']);
-$retour=json_encode($jsonContent);
-return new Response($retour);
-*/
-$recherche = $request->get("searchValue"); 
-      //$mission=$this->getDoctrine()->getRepository(Mission::class)->findBy(['mission_name'=>$recherche]); 
-      $titre=$this->getDoctrine()->getRepository(Publication::class)->findStudentByTitre($recherche); 
-        $jsonContent = $normalizer->normalize($titre, 'json',['groups' => 'post:read',]);
+
+    /**
+     * @Route("/searchPub ", name="searchPub")
+     */
+    public function searchPub(Request $request, NormalizerInterface $normalizer)
+    {
+        /*
+    $repository = $this->getDoctrine()->getRepository(Publication::class);
+    $requestString=$request->get('searchValue');
+    $publications = $repository->findStudentByNsc($requestString);
+    $jsonContent = $Normalizer->normalize($publications, 'json',['groups'=>'publications']);
+    $retour=json_encode($jsonContent);
+    return new Response($retour);
+    */
+        $recherche = $request->get("searchValue");
+        //$mission=$this->getDoctrine()->getRepository(Mission::class)->findBy(['mission_name'=>$recherche]);
+        $titre = $this->getDoctrine()->getRepository(Publication::class)->findStudentByTitre($recherche);
+        $jsonContent = $normalizer->normalize($titre, 'json', ['groups' => 'post:read',]);
         $retour = json_encode($jsonContent);
         return new Response($retour);
 
 
-}
-    
-
-
-
-
-
-        
-   
-
     }
+
+
+}
 
 
 
