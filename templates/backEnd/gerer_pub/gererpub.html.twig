@@ -105,37 +105,35 @@
 										</div>
 									</div>
 
-										</div>
-									</div>
 								</div>
 							</div>
-						{% endfor %}
-						<!-- Single review END-->
-						<!-- REVIEWS LISTING END -->
-						<!-- subscribe start --><section class="section bg-light">
-							<div class="container">
-								<div class="row">
-									<div class="col-lg-4 col-md-5">
-										<div class="float-left position-relative notification-icon mr-2">
-											<i class="mdi mdi-bell-outline text-primary"></i>
-											<span class="badge badge-pill badge-danger">1</span>
-										</div>
-										<h5 class="mt-2 mb-0">Your Job Notification</h5>
-									</div>
-									<div class="col-lg-8 col-md-7 mt-4 mt-sm-0">
-										<form>
-											<div class="form-group mb-0">
-												<div class="input-group mb-0">
-													
-												</div>
-											</div>
-										</form>
-									</div>
+						</div>
+					</div>
+				{% endfor %}
+				<!-- Single review END-->
+				<!-- REVIEWS LISTING END -->
+				<!-- subscribe start -->
+					<section class="section bg-light"> <div class="container">
+						<div class="row">
+							<div class="col-lg-4 col-md-5">
+								<div class="float-left position-relative notification-icon mr-2">
+									<i class="mdi mdi-bell-outline text-primary"></i>
+									<span class="badge badge-pill badge-danger">1</span>
 								</div>
+								<h5 class="mt-2 mb-0">Your Job Notification</h5>
 							</div>
-						</section><!-- subscribe end --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-						<script>
-							$(document).ready(function () {
+							<div class="col-lg-8 col-md-7 mt-4 mt-sm-0">
+								<form>
+									<div class="form-group mb-0">
+										<div class="input-group mb-0"></div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</section><!-- subscribe end --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+				<script>
+					$(document).ready(function () {
 $("#search").keyup(function (e) {
 var value = $("#search").val();
 console.log(value);
@@ -160,5 +158,5 @@ console.log("ay hkeya" + obj.titre);
 });
 })
 });
-						</script>
-					{% endblock %}
+				</script>
+			{% endblock %}

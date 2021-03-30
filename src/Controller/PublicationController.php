@@ -165,7 +165,7 @@ class PublicationController extends Controller
         $publication = $publicationManager->getRepository(Publication::class)->find($idPublication);
         $publicationManager->remove($publication);
         $publicationManager->flush();
-        return $this->redirectToRoute('afficherToutPublication');
+        return $this->redirectToRoute('afficherToutPublication ');
     }
 
 

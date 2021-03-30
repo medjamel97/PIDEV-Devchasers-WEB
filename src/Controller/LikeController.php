@@ -45,27 +45,33 @@ class LikeController extends AbstractController
         $idUtilisateur = $this->session->get("utilisateur")["idUtilisateur"];
 
         $haveLike = $this->getDoctrine()->getRepository(Like::class)->findOneBy(['idUtilisateur' => $idUtilisateur]);
-
-        if ($haveLike == null){
-        $like = new Like();
-        $like->setTypelike($likeType);
-        $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idpub);
-        $like->setPublication($publication);
+        
+        if ($likeType == true){
+            if ($haveLike != null){
+                $like = new Like();
+                $like->setTypelike($likeType);
+                $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idpub);
+                $like->setPublication($publication);
        
-        $like->setIdUtilisateur($idUtilisateur);
+               $like->setIdUtilisateur($idUtilisateur);
        
-     $likeRepository = $this->getDoctrine()->getManager();
-       $likeRepository->persist($like);
-        $likeRepository->flush();
+                 $likeRepository = $this->getDoctrine()->getManager();
+                 $likeRepository->persist($like);
+                $likeRepository->flush();
 
-        return new Response( $this->getDoctrine()->getRepository(Like::class)->countlikeNumber() );
+            }else{
+                $missionManager = $this->getDoctrine()->getManager();
+                $mission = $missionManager->getRepository(Like::class)->findOneBy(['idUtilisateur'=>$idUtilisateur]);
+                $missionManager->remove($mission);
+                $missionManager->flush();
+            }
+
+            $id = $this->getDoctrine()->getRepository(Like::class)->countlikeNumber();
+
+            return new Response(null);
         }
         else {
-            $missionManager = $this->getDoctrine()->getManager();
-            $mission = $missionManager->getRepository(Like::class)->findOneBy(['idUtilisateur'=>$idUtilisateur]);
-            $missionManager->remove($mission);
-            $missionManager->flush();
-            return new Response( $this->getDoctrine()->getRepository(Like::class)->countlikeNumber() );
+            return false;
         }
-        return new Response(null);
-    }}
+    }
+}
