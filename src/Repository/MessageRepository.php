@@ -19,29 +19,47 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    public function findLastMessages($idConvesation, $maxResults)
+    public function findLastMessages($idConvesation, $maxResults, $page)
     {
+
         $countResult = $this->createQueryBuilder('m')
             ->select('count(m.id)')
             ->join('m.conversation', 'c')
             ->where('c.id = :val')
-            ->setParameter("val",$idConvesation)
+            ->setParameter("val", $idConvesation)
             ->getQuery()
             ->getSingleScalarResult();
 
-        if ($countResult > $maxResults) {
-            $fistResult = $countResult - $maxResults;
+
+        if ($countResult > ($maxResults * $page)) {
+            $fistResult = $countResult - ($maxResults * $page);
         } else {
+            $maxResults = $maxResults - (($maxResults * $page) - $countResult);
             $fistResult = 0;
+        }
+
+        if ($maxResults < 0) {
+            $maxResults = 0;
         }
 
         return $this->createQueryBuilder('m')
             ->join('m.conversation', 'c')
             ->where('c.id = :val')
-            ->setParameter("val",$idConvesation)
+            ->setParameter("val", $idConvesation)
             ->setFirstResult($fistResult)
             ->setMaxResults($maxResults)
-            ->orderBy('m.dateCreation',"ASC")
+            ->orderBy('m.dateCreation', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUnseenMessages($idConvesation)
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.conversation', 'c')
+            ->where('c.id = :val')
+            ->andWhere('m.estVu = false')
+            ->setParameter("val", $idConvesation)
             ->getQuery()
             ->getResult();
     }

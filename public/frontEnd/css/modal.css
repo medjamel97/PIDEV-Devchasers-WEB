@@ -1,8 +1,10 @@
-/* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
+}
+
+.modal-background{
     position: fixed; /* Stay in place */
-    z-index: 150; /* Sit on top */
+    z-index: 0; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -19,8 +21,8 @@
 .modal-content {
     display: block;
     margin: auto;
-    margin-top : 15vh;
-    margin-bottom : 20vh;
+    margin-top: 15vh;
+    margin-bottom: 20vh;
     width: 26rem;
     z-index: 75;
     -webkit-animation-name: slideIn;
@@ -30,27 +32,34 @@
 }
 
 .modal-content-supp {
+    position: relative;
     display: block;
     margin: auto;
-    margin-top : 38vh;
-    margin-bottom : 48vh;
+    margin-top: 38vh;
+    margin-bottom: 48vh;
     width: 26rem;
     z-index: 75;
-    background: white;
 }
 
 .my-modal-body {
     position: relative;
     justify-content: center;
-
     height: 26rem;
     background: #ffffff;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
+.my-modal-supp-body {
+    position: relative;
+    justify-content: center;
+    background: #ffffff;
+}
+
 .my-modal-footer {
     display: flex;
+    z-index: 75;
+    background: #ffffff;
     flex-direction: row;
     padding: .75rem;
 }
@@ -58,6 +67,7 @@
 .modal-contact-list {
     animation-name: unselected;
     animation-duration: 0.5s;
+    animation-fill-mode: forwards;
     display: flex;
     flex-wrap: wrap;
     width: 90%;
@@ -115,6 +125,14 @@
 
 .modal-header {
     padding: 2px 16px;
+}
+
+.text-blue {
+    color: #2443ac;
+}
+
+.text-blue:hover {
+    color: #3256ff;
 }
 
 /* Add Animation */

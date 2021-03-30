@@ -33,22 +33,25 @@
 {% endblock %}
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <section class="page-next-level">
-        <div class="p-4 bg-dark"></div>
+    <section class="page-next-level bg-light">
+        <div style="height : 100px;"></div>
         <!-- Main div start -->
         <div class="content">
-            <div id="whole-container" class="row justify-content-center pt-5">
-                <div id="conversations-container" class="col-lg-3">
+            <div id="contenaire-principal" class="row justify-content-center ml-5 mr-5">
+                <!-- contenaire conversations -->
+                <div id="contenaire-principal-conversations" class="col-lg-3 mb-5">
                     <p class="display-4 mb-3 text-center">Messagerie</p>
-                    <div class="component-wrapper rounded" style="box-shadow: 0 0 0.5rem 1px rgba(54,54,54,0.14);">
-                        <div class="border-bottom rounded-top bg-light p-3">
+                    <div class="component-wrapper rounded bg-white"
+                         style="box-shadow: 0 0 0.5rem 1px rgba(54,54,54,0.14);">
+                        <div class="border-bottom rounded-top bg-white p-3">
                             <div class="form-group m-0">
                                 <div class="input-group">
-                                    <input id="recherche-message" class="form-control pt-1" type="text"
-                                           placeholder="Rechercher dans mes conversations"
-                                           aria-describedby="buttonRechercheCandidat">
+                                    <label for="recherche-conversation"></label>
+                                    <input id="recherche-conversation" class="form-control pt-1" type="text"
+                                           placeholder="Rechercher dans mes conversations" autocomplete="off"
+                                           aria-describedby="button-recherche-candidat">
                                     <div class="input-group-append">
-                                        <button id="buttonRechercheCandidat" class="btn btn-primary submitBnt pt-1"
+                                        <button id="button-recherche-candidat" class="btn btn-primary submitBnt pt-1"
                                                 type="submit">
                                             <i class="mdi mdi-magnify"></i>
                                         </button>
@@ -56,90 +59,38 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="destinataire-label-conversation" class="conversation-container border-bottom">
-                            {% if conversations|length > 0 %}
-                                <div class="conversation-list">
-                                    {% for conversation in conversations %}
-                                        <div class="conversation border hover-anim">
-                                            <a id="ajax-afficher-conversation-main{{ conversation.candidatDestinataire.id }}"
-                                               href="#" class="conversation-infos col-lg-10">
-                                                <img src="{{ asset('/frontEnd/images/clients/no-profile-pic.png') }}"
-                                                     alt=""
-                                                     class="conversation-image-padding shadow border rounded-circle"
-                                                     height="65">
-                                                <div id="infos" class="conversation-infos-inside">
-                                                    <h5 class="text-dark">
-                                                        {{ conversation.candidatDestinataire.prenom }}
-                                                        {{ conversation.candidatDestinataire.nom }}
-                                                    </h5>
-                                                    <div class="text-dark overflow-hidden">
-                                                        Last message here
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a id="supprimer-conversation{{ conversation.id }}" href="#" class="m-auto">
-                                                <i class="mdi mdi-trash-can p-2"></i>
-                                            </a>
-                                            <script>
-
-                                                $("#supprimer-conversation{{ conversation.id }}").click(function () {
-                                                    openSuppModal(
-                                                        "{{ conversation.candidatDestinataire.prenom }} {{ conversation.candidatDestinataire.nom }}",
-                                                        "{{ conversation.id }}",
-                                                    );
-                                                })
-                                            </script>
-                                        </div>
-                                        <script>
-                                            $("#ajax-afficher-conversation-main{{ conversation.candidatDestinataire.id }}").click(function () {
-                                                $("#id-candidat-destinataire").val({{ conversation.candidatDestinataire.id }});
-                                                emptyConversation("{{ conversation.candidatDestinataire.prenom }}",
-                                                    "{{ conversation.candidatDestinataire.nom }}");
-                                                refreshConversation({{ idCandidatExpediteur }},{{ conversation.candidatDestinataire.id }});
-                                            });
-                                        </script>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                <div class="text-center">
-                                    <p>Aucune conversation</p>
-                                </div>
-                            {% endif %}
+                        <div id="contenaire-conversations" class="conversation-container border-bottom">
                         </div>
-                        <div class="p-3">
-                            <div class="pl-4 align-items-center">
-                                <a id="nouvelle-conversation" href="#" class="btn btn-primary-outline"> + Nouvelle
-                                    conversation </a>
-                            </div>
+                        <div class="p-3 m-auto">
+                            <a id="nouvelle-conversation" href="#" class="btn btn-primary-outline w-100"> + Nouvelle
+                                conversation </a>
                         </div>
                     </div>
                 </div>
-                <div id="chat-container" class="col-lg-6 animation-chat-container">
+                <!-- contenaire chat -->
+                <div id="contenaire-chat" class="col-lg-6 animation-contenaire-chat pb-5">
                     <div class="component-wrapper rounded" style="box-shadow: 0 0 0.5rem 1px rgba(54,54,54,0.14);">
-                        <div class="border-bottom rounded-top bg-light p-3">
-                            <div class="contact bar bg-light">
-                                <div id="chat-container-destinataire-pic" class="mt-auto mb-auto mr-2 ml-2">
-                                    <img src="{{ asset('/frontEnd/images/clients/no-profile-pic.png') }}"
-                                         alt=""
-                                         class="shadow border rounded-circle"
-                                         height="65">
-                                </div>
+                        <div class="border-bottom rounded-top bg-white p-3" style="z-index: 150;position: relative;">
+                            <div class="contact bar bg-white">
+                                <img id="contenaire-chat-destinataire-photo"
+                                     src="{{ asset('/frontEnd/images/candidats/candidat.jpg') }}" height="65" width="65"
+                                     class="shadow border rounded-circle mt-auto mb-auto mr-2 ml-2">
                                 <div id="topbar-infos" class=""
                                      style="display: flex;justify-content: center;align-items: center;">
                                     <div>
-                                        <div id="chat-container-destinataire" class="name">
+                                        <div id="contenaire-chat-destinataire" class="name">
                                             NaN
                                         </div>
-                                        <div id="chat-container-destinataire-dernier-message" class="seen">
+                                        <div id="contenaire-chat-destinataire-dernier-message" class="seen">
                                             NaN
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div id='outside-shadow-top'></div>
                         <div id="chat" class="messages">
-                            <div class="insideShadow"></div>
-                            <div class="time"></div>
+                            <div class="time">time here</div>
                             <div class="message destinataire">
                                 NaN
                             </div>
@@ -154,14 +105,14 @@
                                 </div>
                             {% endif %}
                         </div>
-                        <div id="outsideShadow" class="outsideShadow"></div>
-                        <div class="p-4 rounded-bottom"
-                             style=" position : relative; z-index: 100; background-color: white">
+                        <div id='outside-shadow-bot'></div>
+                        <div class="border-top rounded-bottom bg-white position-relative p-4" style="z-index: 100;">
                             <form>
                                 <div class="form-group m-0">
                                     <div class="input-group">
                                         <input id="message-contenu" class="form-control pt-1" type="text"
-                                               placeholder="Nouveau message" aria-describedby="message_Envoyer">
+                                               placeholder="Nouveau message" aria-describedby="message_Envoyer"
+                                               autocomplete="off">
                                         <div class="input-group-append">
                                             <button id="message-envoyer" class="btn btn-primary submitBnt pt-1"
                                                     type="submit">
@@ -178,15 +129,15 @@
         </div>
         <!-- Main div end -->
     </section>
-    <input id="id-candidat-destinataire" type="hidden">
     <!-- Modal nouvelle conversation -->
     <div id="nouvmodal" class="modal">
+        <div id="nouvmodal-background" class="modal-background"></div>
         <div id="nouvmodal-content" class="modal-content component-wrapper rounded shadow">
-            <div class="border-bottom rounded-top bg-light p-3">
+            <div class="border-bottom rounded-top bg-white p-3">
                 <div class="form-group m-0">
                     <div class="input-group">
-                        <input id="recherche-message" class="form-control pt-1" type="text"
-                               placeholder="Rechercher des candidats"
+                        <input id="recherche-candidat" class="form-control pt-1" type="text"
+                               placeholder="Rechercher des candidats" autocomplete="off"
                                aria-describedby="buttonRechercheCandidat">
                         <div class="input-group-append">
                             <button id="button-recherche-candidat"
@@ -198,72 +149,63 @@
                     </div>
                 </div>
             </div>
-            <div class="my-modal-body custom-scroll rounded-bottom">
-                {% for candidat in candidats %}
-                    {% if candidat.id != idCandidatExpediteur %}
-                        <a id="ajax-afficher-conversation{{ candidat.id }}" href="#">
-                            <div class="modal-contact-list position-relative border rounded p-2 mb-2">
-                                <img src="{{ asset('/frontEnd/images/clients/no-profile-pic.png') }}"
-                                     alt=""
-                                     class="shadow border rounded-circle"
-                                     height="90">
-                                <div class="ml-3">
-                                    <h5 class="text-dark m-0">
-                                        {{ candidat.prenom }} {{ candidat.nom }}
-                                    </h5>
-                                    <p class="text-muted m-0">
-                                        <i class="mdi mdi-briefcase"></i> Web Delveloper</p>
-                                    <p class="text-muted m-0">
-                                        <i class="mdi mdi-map-marker"></i> location
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                        <script>
-                            $("#ajax-afficher-conversation{{ candidat.id }}").click(function () {
-                                closeNouvModal();
-                                $("#id-candidat-destinataire").val({{ candidat.id }});
-                                emptyConversation("{{ candidat.prenom }}",
-                                    "{{ candidat.nom }}");
-                                refreshConversation({{ idCandidatExpediteur }},{{ candidat.id }});
-                            });
-                        </script>
-                    {% endif %}
-                {% endfor %}
+            <div id="contenaire-candidats" class="my-modal-body custom-scroll rounded-bottom">
             </div>
         </div>
     </div>
-    <!-- Modal nouvelle conversation end -->
     <!-- Modal supprimer conversation -->
     <div id="suppmodal" class="modal">
-        <div id="suppmodal-content" class="modal-content-supp rounded">
-            <div id="suppmodal-body" class="modal-body custom-scroll border-bottom">
+        <div id="suppmodal-background" class="modal-background"></div>
+        <div id="suppmodal-content" class="modal-content-supp">
+            <div class="my-modal-supp-body custom-scroll border-bottom rounded-top">
+                <p id="suppmodal-body" class="m-0 p-3 text-center"></p>
             </div>
-            <div id="suppmodal-footer" class="my-modal-footer">
-                <a id="suppmodal-confirmer" href="#" class="m-auto">Confirmer</a>
-                <a id="suppmodal-annuler" href="#" class="m-auto">Annuler</a>
+            <div id="suppmodal-footer" class="my-modal-footer rounded-bottom">
+                <a id="suppmodal-confirmer" href="#" class="m-auto text-blue">Confirmer</a>
+                <a id="suppmodal-annuler" href="#" class="m-auto text-blue">Annuler</a>
             </div>
         </div>
     </div>
-    <!-- Modal supprimer conversation end -->
     <script id="general">
-        $('#chat-container').hide();
-        var shadow = document.getElementById("outsideShadow");
-        shadow.style.visibility = "hidden";
-        shadow.scrollTop = shadow.scrollHeight;
-        $('#chat').scroll(function () {
-            var div = $(this);
-            if (div.scrollTop() > div.height() + 50) {
-                shadow.hide();
-            } else {
-                shadow.show();
-            }
-        });
+        const idCandidatExpediteurActuel = {{ idCandidatExpediteur }}+0;
+        let idCandidatDestinataireActuel = 0;
+        let idConversationActuelle = 0;
+        let nomConversationActuelle = "";
+        let idPhotoConversationActuelle = "";
+        let rechercheChanged = false;
+        let chatContainerIsHidden = true;
+        let retourConversation = "";
+        let retourChat = "";
+        let messagesPageIndex = 1;
+
+        let chatInitialized = false;
+        let endOfChat = false;
+
+        let chatWindow = $('#chat');
+
+        $('#candidat').hide();
+        $('#conversation').hide();
+        $('#contenaire-chat').hide();
+
         document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
+
+        chatWindow.scroll(function () {
+            if ($(this).scrollTop() === 0) {
+                $('#outside-shadow-top').removeClass("outside-shadow-top");
+            } else {
+                $('#outside-shadow-top').addClass("outside-shadow-top");
+            }
+            if ($(this).scrollTop() + $(this).innerHeight() >= ($(this)[0].scrollHeight - 20)) {
+                $('#outside-shadow-bot').removeClass("outside-shadow-bot")
+            } else {
+                $('#outside-shadow-bot').addClass("outside-shadow-bot");
+            }
+            chatWindow.stop();
+        });
     </script>
     <script id="modal-nouvelle-conversation">
-        var nouvModal = document.getElementById("nouvmodal");
-        var nouvModalContent = document.getElementById("nouvmodal-content");
+        let nouvModal = document.getElementById("nouvmodal");
+        let nouvModalContent = document.getElementById("nouvmodal-content");
 
         $(window).keyup(function (e) {
             if (e.keyCode === 27) {
@@ -271,90 +213,408 @@
             }
         });
 
-        $(window).click(function () {
-            if (event.target === nouvModal) {
-                closeNouvModal();
-            }
+        $("#nouvmodal-background").click(function () {
+            closeNouvModal();
         });
 
         $("#nouvelle-conversation").click(function () {
-
             nouvModal.style.display = "block";
-
-            offset = nouvModalContent.offset();
-            nouvModalContent.style.position = 'fixed';
-            nouvModalContent.style.top = offset.top;
-            nouvModalContent.style.left = offset.left;
-
-            document.body.style.height = "100vh";
-            document.body.style.overflowY = "hidden";
-            document.body.style.paddingRight = "15px";
         });
 
         function closeNouvModal() {
             nouvModal.style.display = "none";
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.height = "";
-            document.body.style.overflowY = "";
-            document.body.style.paddingRight = "";
-            const scrollY = document.body.style.top;
-            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            $("#recherche-candidat").val("");
         }
+
+        $('#nouvelle-conversation').click(function () {
+            rafraichirModalNouvelleConversation("");
+        });
+
+        let candidatLoadingPrepended = false;
+        $('#recherche-candidat').keydown(function () {
+            if (!candidatLoadingPrepended) {
+                $('#contenaire-candidats').empty().prepend(
+                    "<div id='loading-candidat' class='justify-content-center'>" +
+                    "<img id='loading-image' src='{{ asset('frontEnd/images/loading-icon.gif') }}' alt='loading'" +
+                    "height='50' width='50' class='loading-img'>" +
+                    "</div>"
+                );
+                candidatLoadingPrepended = true;
+            }
+            clearInterval(release);
+            release = setInterval(function () {
+                rechercheChanged = true;
+                rafraichirModalNouvelleConversation($('#recherche-candidat').val());
+                clearInterval(release)
+            }, 500);
+        });
     </script>
     <script id="modal-supprimer-conversation">
         suppModal = document.getElementById("suppmodal");
         suppModalContent = document.getElementById("suppmodal-content");
         idConv = null;
-
         $(window).keyup(function (e) {
             if (e.keyCode === 27) {
                 closeSuppModal();
             }
         });
 
-        $(window).click(function () {
-            if (event.target === suppModal) {
-                closeSuppModal();
-            }
+        $('#suppmodal-background').click(function () {
+            closeSuppModal();
         });
 
         $('#suppmodal-confirmer').click(function () {
             supprimerConversation(idConv);
             closeSuppModal();
+            if (idConv === idConversationActuelle) {
+                idConversationActuelle = 0;
+            }
         });
+
         $('#suppmodal-annuler').click(function () {
             closeSuppModal();
         });
 
-        function openSuppModal(nomPrenom, idConversation) {
+        function openSuppModal(idConversation, nomPrenom) {
             idConv = idConversation;
             suppModal.style.display = "block";
 
             suppModalBody = $('#suppmodal-body');
             suppModalBody.empty();
             suppModalBody.append('Supprimer la conversation avec ' + nomPrenom + ' ?');
-
-            offset = suppModalContent.offset();
-            suppModalContent.style.position = 'fixed';
-            suppModalContent.style.top = offset.top;
-            suppModalContent.style.left = offset.left;
-            document.body.style.height = "100vh";
-            document.body.style.overflowY = "hidden";
-            document.body.style.paddingRight = "15px";
         }
 
         function closeSuppModal() {
             supModalIsOpen = false;
-
             suppModal.style.display = "none";
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.height = "";
-            document.body.style.overflowY = "";
-            document.body.style.paddingRight = "";
-            const scrollY = document.body.style.top;
-            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
+    </script>
+    <script id="ajax-rafraichir-modal-nouvelle-conversation">
+        function rafraichirModalNouvelleConversation(recherche) {
+            $.ajax({
+                type: 'GET',
+                url: 'recupererCandidats',
+                data: {'recherche': recherche},
+                success: function (retour) {
+                    if (retour) {
+                        $("#contenaire-candidats").children(":not(#candidat)").remove();
+                        let candidat = $("<a id='candidat'>" +
+                            "<div class='modal-contact-list position-relative border rounded p-2 mb-2'>" +
+                            "<img id='photo-candidat' src='/frontEnd/images/candidats/candidat.jpg' " +
+                            "alt='' class='shadow border rounded-circle' height='90' width='90'>" +
+                            "<div class='ml-3'>" +
+                            "<h5 id='prenom-nom-candidat' class='text-dark m-0'>" +
+                            "</h5>" +
+                            "<p class='text-muted m-0'>" +
+                            "<i class='mdi mdi-briefcase'></i> Travail" +
+                            "</p>" +
+                            "<p class='text-muted m-0'>" +
+                            "<i class='mdi mdi-map-marker'></i> Localisation" +
+                            "</p>" +
+                            "</div>" +
+                            "</div>" +
+                            "</a>");
+                        if (retour) {
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                    let clone = candidat.clone().show()
+                                        .attr("id", 'candidat' + i)
+                                        .attr("href", "javascript:closeNouvModal();" +
+                                            "ajouterConversation(" + obj.idCandidatExpediteur + "," + obj.idCandidatDestinataire + ");");
+                                    clone.find('#photo-candidat').attr("id", "photo-candidat" + i)
+                                        .attr("src", "/frontEnd/images/candidats/candidat" + obj.idPhoto + ".jpg");
+                                    clone.find('#prenom-nom-candidat').attr("id", "prenom-nom-candidat" + i).append(obj.nomPrenom);
+
+                                    $('#contenaire-candidats').append(clone);
+                                },
+                            );
+                        }
+                    } else {
+                        $('#contenaire-candidats').empty().append("<p class='text-center p-5'>Aucun candidat</p>")
+                    }
+                    candidatLoadingPrepended = false;
+                    $('#loading-candidat').remove();
+                },
+                error: function () {
+                    alert('Erreur ajax rafraichir candidats');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-rafraichir-fenetre-conversations">
+        let release = null;
+        let conversationLoadingPrepended = false;
+
+        $('#recherche-conversation').keydown(function () {
+
+            if (!conversationLoadingPrepended) {
+                $('#contenaire-conversations').empty().prepend(
+                    "<div id='loading-conversation' class='justify-content-center'>" +
+                    "<img id='loading-image' src='{{ asset('frontEnd/images/loading-icon.gif') }}' alt='loading'" +
+                    "height='50' width='50' class='loading-img'>" +
+                    "</div>"
+                );
+                conversationLoadingPrepended = true;
+            }
+            clearInterval(release);
+            release = setInterval(function () {
+                rechercheChanged = true;
+                rafraichirFenetreConversation($('#recherche-conversation').val());
+                clearInterval(release)
+            }, 500);
+        });
+
+        function rafraichirFenetreConversation(recherche) {
+            $.ajax({
+                type: 'GET',
+                url: 'recupererConversations',
+                data: {'recherche': recherche},
+                success: function (retour) {
+                    if (retour) {
+                        if ((retourConversation !== retour) || (rechercheChanged)) {
+                            rechercheChanged = false;
+                            retourConversation = retour;
+                            if (recherche !== "") {
+                                $("#contenaire-conversations").append(
+                                    "<div id='resultat-label' class='text-center bg-white'>" +
+                                    "<p class='p-3 m-0 text-dark'>Resultats de recherche</p>" +
+                                    "</div>");
+                            } else {
+                                $("#resultat-label").remove();
+                            }
+
+                            let conversation = $(
+                                "<div id='conversation' class='conversation border hover-anim'>" +
+                                "<a id='afficher-conversation' href='#' class='conversation-infos col-lg-10'>" +
+                                "<div class='conversation-image-padding'>" +
+                                "<img id='image-conversation' alt='' src='/frontEnd/images/candidats/candidat.jpg' " +
+                                "class='shadow border rounded-circle' height='65' width='65'>" +
+                                "<div id='messages-non-lus-conversation' class='notification-badge'></div>" +
+                                "</div>" +
+                                "<div class='conversation-infos-inside'>" +
+                                "<h5 id='nom-conversation' class='text-label m-0'>" +
+                                "</h5>" +
+                                "<p id='dernier-message-conversation'></p>" +
+                                "</div>" +
+                                "</a>" +
+                                "<a id='supprimer-conversation' href='#' class='m-auto'>" +
+                                "<i class='mdi mdi-trash-can p-2'></i>" +
+                                "</a>" +
+                                "</div>'+"
+                            );
+
+                            $("#contenaire-conversations").empty()
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                    let clone = conversation.clone().attr("id", 'conversation' + i).show();
+                                    clone.find('#image-conversation').attr("src",
+                                        "/frontEnd/images/candidats/candidat" + obj.idPhoto + ".jpg");
+                                    clone.find('#nom-conversation').append(obj.nomConversation);
+                                    clone.find('#dernier-message-conversation').append(obj.dernierMessage);
+                                    if (obj.dernierMessageEstVu === "0") {
+                                        clone.find('#messages-non-lus-conversation').append(obj.nombreNotifications);
+                                        clone.find('#dernier-message-conversation').addClass("text-unread");
+                                    } else {
+                                        clone.find('#messages-non-lus-conversation').remove();
+                                        clone.find('#dernier-message-conversation').addClass("text-read");
+                                    }
+                                    clone.find('#afficher-conversation')
+                                        .attr("id", "afficher-conversation" + i)
+                                        .attr("href",
+                                            "javascript:rafraichirFenetreChat(" + obj.idConversation + ",'" + obj.nomConversation + "'," +
+                                            "'" + obj.idPhoto + "');");
+                                    clone.find('#supprimer-conversation')
+                                        .attr("id", "supprimer-conversation" + i)
+                                        .attr("href", "javascript:openSuppModal(" + obj.idConversation + ",'" + obj.nomConversation + "');");
+                                    $('#contenaire-conversations').append(clone);
+                                },
+                            );
+                            console.log('changes in conversations');
+                        }
+                    } else {
+                        $("#contenaire-conversations").empty().append(
+                            "<div class='text-center'>" +
+                            "<p class='pt-5'>Aucune conversation</p>" +
+                            "</div>");
+                    }
+                    $('#loading-conversation').remove();
+                    conversationLoadingPrepended = false;
+                },
+                error: function () {
+                    alert('Erreur ajax rafraichir conversation');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-rafraichir-fenetre-chat">
+        function rafraichirFenetreChat(idConversation, nomConversation, idPhotoConversation) {
+            if (idConversationActuelle !== idConversation) {
+                idConversationActuelle = idConversation;
+                nomConversationActuelle = nomConversation;
+                idPhotoConversationActuelle = idPhotoConversation;
+                messagesPageIndex = 1;
+                endOfChat = false;
+                chatInitialized = false;
+
+                $('#contenaire-chat-destinataire').empty().append(nomConversation);
+                $('#contenaire-chat-destinataire-photo')
+                    .attr("src", "/frontEnd/images/candidats/candidat" + idPhotoConversation + ".jpg");
+                $('#contenaire-chat-destinataire-dernier-message').empty();
+                chatWindow.empty();
+
+                if (chatContainerIsHidden) {
+                    chatContainerIsHidden = false;
+                    $('#contenaire-chat').show();
+                    $('#contenaire-principal-conversations').addClass('animation-contenaire-conversations');
+                }
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: 'recupererMessages',
+                data: {
+                    'idConversation': idConversation,
+                    'page': 1,
+                },
+                success: function (retour) {
+                    if (retour) {
+                        if ((retourChat !== retour) && (!chatContainerIsHidden)) {
+                            retourChat = retour;
+                            let date = null;
+                            let stillInExp = false;
+                            let stillInDest = false;
+                            chatWindow.empty();
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                date = obj.dateCreation;
+                                if (obj.estProprietaire) {
+                                    if (stillInDest) {
+                                        stillInExp = false;
+                                        chatWindow.append("<div class='message destinataire' style="
+                                            + "'border-radius : 1.125rem 0.2rem 0.2rem 1.125rem;'>" + obj.contenu + "</div>");
+                                    } else {
+                                        chatWindow.append("<div class='message destinataire'>" + obj.contenu + "</div>");
+                                        stillInDest = true;
+                                    }
+                                } else {
+                                    if (stillInExp) {
+                                        stillInDest = false;
+                                        chatWindow.append("<div class='message expediteur' style="
+                                            + "'border-radius : 0.2rem 1.125rem 1.125rem 0.2rem;'>" + obj.contenu + "</div>");
+                                    } else {
+                                        chatWindow.append("<div class='message expediteur'>" + obj.contenu + "</div>");
+                                        stillInExp = true;
+                                    }
+                                }
+                            });
+
+                            $('#contenaire-chat-destinataire-dernier-message').append(date);
+                            let chatWindowForJS = document.getElementById("chat");
+                            if (chatWindowForJS.offsetHeight === chatWindowForJS.scrollHeight) {
+                                chatWindow.prepend("<p id='ancien-message" + messagesPageIndex + "' class='time mt-3 mb-3'>" + date + "</p>");
+                                chatWindow.prepend("<p id='debut-to-delete' class='time mt-3 mb-3'>Debut chat</p>");
+                            }
+                            chatWindowForJS.scrollTop = chatWindowForJS.scrollHeight;
+                        }
+                        chatInitialized = true;
+                        endOfChat = false;
+                        messagesPageIndex = 1;
+                    }
+                },
+                error: function () {
+                    alert('Erreur ajax refresh chat');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-rafraichir-fenetre-chat-ancien">
+        chatWindow.scroll(function () {
+            if (($(this).scrollTop() === 0) && (!endOfChat) && (chatInitialized)) {
+                chatWindow.prepend("<p id='ancien-message" + (messagesPageIndex + 1) + "' class='time'>recuperation ...</p>");
+                rafraichirFenetreChatAncien();
+            }
+        });
+
+        function rafraichirFenetreChatAncien() {
+            messagesPageIndex++;
+            $.ajax({
+                type: 'GET',
+                url: 'recupererMessages',
+                data: {
+                    'idConversation': idConversationActuelle,
+                    'page': messagesPageIndex,
+                },
+                success: function (retour) {
+                    if (retour) {
+                        let date = null;
+                        let stillInExp = false;
+                        let stillInDest = false;
+                        let addedChat = $("<div id='added-chat'></div>");
+                        $.each(JSON.parse(retour), function (i, obj) {
+                            date = obj.dateCreation;
+                            if (obj.estProprietaire) {
+                                if (stillInDest) {
+                                    stillInExp = false;
+                                    addedChat.append("<div class='message destinataire' style="
+                                        + "'border-radius : 1.125rem 0.2rem 0.2rem 1.125rem;'>" + obj.contenu + "</div>");
+                                } else {
+                                    addedChat.append("<div class='message destinataire'>" + obj.contenu + "</div>");
+                                    stillInDest = true;
+                                }
+                            } else {
+                                if (stillInExp) {
+                                    stillInDest = false;
+                                    addedChat.append("<div class='message expediteur' style="
+                                        + "'border-radius : 0.2rem 1.125rem 1.125rem 0.2rem;'>" + obj.contenu + "</div>");
+                                } else {
+                                    addedChat.append("<div class='message expediteur'>" + obj.contenu + "</div>");
+                                    stillInExp = true;
+                                }
+                            }
+                        });
+                        chatWindow.prepend(addedChat);
+                        let addedChatHeight = addedChat.height();
+                        chatWindow.find("#added-chat").remove();
+                        chatWindow.prepend(addedChat.html());
+
+                        $("#ancien-message" + messagesPageIndex).empty().addClass("time mt-3 mb-3").append(date);
+                        document.getElementById("chat").scrollTop = addedChatHeight;
+
+                        console.log("Chargement ancien chat page = " + messagesPageIndex);
+                    } else {
+                        console.log("Aucun retour ancien chat");
+                        $("#ancien-message" + messagesPageIndex).empty().addClass("time mt-3 mb-3").append("Debut chat");
+                        $('#debut-to-delete').remove();
+                        endOfChat = true;
+                    }
+                },
+                error: function () {
+                    alert('Erreur ajax refresh chat');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-ajouter-conversation">
+        function ajouterConversation(idCandidatExpediteur, idCandidatDestinataire) {
+            $.ajax({
+                type: 'GET',
+                url: 'ajouterConversation',
+                data: {
+                    'idCandidatExpediteur': idCandidatExpediteur,
+                    'idCandidatDestinataire': idCandidatDestinataire
+                },
+                success: function (retour) {
+                    if (retour) {
+                        obj = JSON.parse(retour);
+                        rafraichirFenetreChat(obj.idConversation, obj.nomConversation, obj.idPhoto);
+                    }
+                },
+                error: function () {
+                    alert('Erreur ajax suppression conversation');
+                }
+            });
+            return false;
         }
     </script>
     <script id="ajax-supprimer-conversation">
@@ -367,68 +627,13 @@
                 },
                 success: function (retour) {
                     if (retour) {
-                        alert(retour);
+                        rafraichirFenetreConversation('');
+                        chatContainerIsHidden = true;
+                        $("#contenaire-chat").hide();
                     }
                 },
                 error: function () {
-                    alert('Ajax error suppression conversation');
-                }
-            });
-            return false;
-        }
-    </script>
-    <script id="ajax-refresh-conversation">
-        function emptyConversation(nomDestinataire, prenomDestinataire) {
-            $('#chat-container').show();
-
-            document.body.style.overflow = "hidden";
-            document.getElementById("conversations-container").className = "col-lg-3 animation-conversations-container";
-
-            var chatWindow = $('#chat');
-            var chatDestinataire = $('#chat-container-destinataire');
-            var chatDestinataireDernierMessage = $('#chat-container-destinataire-dernier-message');
-            var chatDestinatairePic = $('#chat-container-destinataire-pic');
-            //chatDestinatairePic.empty()
-            chatDestinataireDernierMessage.empty();
-            chatWindow.empty();
-            chatWindow.append("<div class='insideShadow'></div>");
-            chatDestinataire.empty();
-            chatDestinataire.append(nomDestinataire + " " + prenomDestinataire);
-        }
-
-        function refreshConversation(idCandidatExpediteur, idCandidatDestinataire) {
-            $.ajax({
-                type: 'GET',
-                url: 'afficherConversation',
-                data: {
-                    'idCandidatExpediteur': idCandidatExpediteur,
-                    'idCandidatDestinataire': idCandidatDestinataire,
-                },
-                success: function (retour) {
-                    if (retour) {
-                        var destinataireLastMessage = $('#chat-container-destinataire-dernier-message');
-                        var chatWindow = $('#chat');
-                        var parse = JSON.parse(retour);
-                        var time = new Date(Date.parse(parse[parse.length - 1].dateCreation));
-                        var datestring = time.getDate() + "/" + (time.getMonth() + 1) + "/" + time.getFullYear() + " " +
-                            time.getHours() + ":" + time.getMinutes();
-                        destinataireLastMessage.empty();
-                        destinataireLastMessage.append("Dernier message : " + datestring);
-                        chatWindow.empty();
-                        chatWindow.append("<div class='insideShadow'></div><div class='time'>time here</div>");
-                        $.each(JSON.parse(retour), function (i, obj) {
-                            if (obj.estProprietaire) {
-                                chatWindow.append("<div class='message expediteur'>" + obj.contenu + "</div>");
-                            } else {
-                                chatWindow.append("<div class='message destinataire'>" + obj.contenu + "</div>");
-                            }
-                        });
-                        var chatWindowScrollBottom = document.getElementById("chat");
-                        chatWindowScrollBottom.scrollTop = chatWindowScrollBottom.scrollHeight;
-                    }
-                },
-                error: function () {
-                    alert('Ajax error choisir conversation');
+                    alert('Erreur ajax suppression conversation');
                 }
             });
             return false;
@@ -436,30 +641,38 @@
     </script>
     <script id="ajax-nouveau-message">
         $("#message-envoyer").click(function () {
-            var idCandidatExpediteur = {{ idCandidatExpediteur }};
-            var idCandidatDestinataire = $("#id-candidat-destinataire").val();
-            var contenu = $('#message-contenu');
+            let contenu = $('#message-contenu').val();
+            chatWindow.append("<div class='message destinataire' style='background: rgba(47,85,212,0.64)'>" + contenu + "</div>");
+            let chatWindowScrollBottom = document.getElementById("chat");
+            chatWindowScrollBottom.scrollTop = chatWindowScrollBottom.scrollHeight;
+            $('#message-contenu').val("");
             $.ajax({
                 type: 'GET',
                 url: 'nouveauMessage',
                 data: {
-                    'idCandidatExpediteur': idCandidatExpediteur,
-                    'idCandidatDestinataire': idCandidatDestinataire,
-                    'contenu': contenu.val(),
+                    'idConversation': idConversationActuelle,
+                    'contenu': contenu,
                 },
                 success: function () {
-                    contenu.val("");
-                    refreshConversation(idCandidatExpediteur, idCandidatDestinataire);
+                    rafraichirFenetreChat(idConversationActuelle, nomConversationActuelle, idPhotoConversationActuelle);
+                    rafraichirFenetreConversation('');
                 },
                 error: function () {
-                    alert('ajax error envoyer message');
+                    alert('Erreur ajax envoyer message');
                 }
             });
             return false;
         });
     </script>
-    <script id="refresh-conversation-every-interval">
-        setInterval(refreshConversation("", ""), 1000000);
+    <script id="rafraichir-messagerie">
+        rafraichirFenetreConversation("");
+
+        setInterval(function () {
+            rafraichirFenetreChat(idConversationActuelle, nomConversationActuelle, idPhotoConversationActuelle);
+            if ($('#recherche-conversation').val() === "") {
+                rafraichirFenetreConversation("");
+            }
+        }, 5000);
     </script>
 {% endblock %}
 {% block footer %}
