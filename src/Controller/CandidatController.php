@@ -7,6 +7,7 @@ use App\Entity\Education;
 use App\Entity\ExperienceDeTravail;
 use App\Entity\Utilisateur;
 use App\Form\CandidatType;
+use App\Form\UtilisateurType;
 use App\Repository\ExperienceDeTravailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -127,7 +128,8 @@ class CandidatController extends AbstractController
             $candidatManager = $this->getDoctrine()->getManager();
             $candidatManager->persist($candidat);
             $candidatManager->flush();
-            return $this->redirectToRoute('afficherUtilisateur');
+
+            return $this->redirectToRoute('afficherToutPublication');
         }
 
         return $this->render('_inscription/inscrireCandidat.html.twig', [
@@ -168,6 +170,62 @@ class CandidatController extends AbstractController
 
         return $this->render('frontEnd/utilisateur/candidat/modifierprofil.html.twig', [
             'candidat' => $candidat,
+            'form' => $form->createView(),
+            'manipulation' => "Modifier"
+        ]);
+    }
+
+    /**
+     * @Route("/candidat={idUtilisateur}/modifierEmail", name="modifierEmail")
+     */
+    public function modifierEmail(Request $request, $idUtilisateur)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
+
+        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form->add('submit', SubmitType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $candidat = $form->getData();
+            $manager->persist($candidat);
+            $manager->flush();
+
+            return $this->redirectToRoute('afficherProfil');
+        }
+
+        return $this->render('frontEnd/utilisateur/candidat/modifierEmail.html.twig', [
+            'utilisateur' => $utilisateur,
+            'form' => $form->createView(),
+            'manipulation' => "Modifier"
+        ]);
+    }
+
+    /**
+     * @Route("/candidat={idUtilisateur}/modifierMotDePasse", name="modifierMotDePasse")
+     */
+    public function modifierMotDePasse(Request $request, $idUtilisateur)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
+
+        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form->add('submit', SubmitType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $candidat = $form->getData();
+            $manager->persist($candidat);
+            $manager->flush();
+
+            return $this->redirectToRoute('afficherProfil');
+        }
+
+        return $this->render('frontEnd/utilisateur/candidat/modifierMotDePasse.html.twig', [
+            'utilisateur' => $utilisateur,
             'form' => $form->createView(),
             'manipulation' => "Modifier"
         ]);

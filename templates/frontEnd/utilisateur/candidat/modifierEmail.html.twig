@@ -1,0 +1,83 @@
+{% extends '/frontEnd/base.html.twig' %}
+
+{% block css %}
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ asset('/frontEnd/css/bootstrap.min.css') }}" type="text/css">
+
+    <!--Material Icon -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/materialdesignicons.min.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/fontawesome.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/nice-select.css') }}"/>
+
+    <!-- selectize css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/selectize.css') }}"/>
+
+    <!-- Custom  Css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/style.css') }}"/>
+{% endblock %}
+{% block content %}
+    <script>
+        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
+    </script>
+    <section>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 mt-4 pt-2">
+                        <div class="component-wrapper rounded shadow">
+                            <div class="p-4 border-bottom bg-light">
+                                <h4 class="title mb-0"> Modifier votre email</h4>
+                            </div>
+                            <div class="p-4">
+                                {{ form_start(form) }}
+                                {% do form.email.setRendered() %}
+                                {% do form.motDePasse.setRendered() %}
+                                {% do form.captcha.setRendered() %}
+                                {% do form.typeUtilisateur.setRendered() %}
+                                {% do form.submit.setRendered() %}
+
+                                <form name="utilisateur" method="post">
+                                    <div class="row">
+                                        {{ form_errors(form.email) }}
+                                        <div class="col-md-6">
+                                            <div class="form-group position-relative">
+                                                <label for="utilisateur_email" class="required">Email : </label>
+                                                <input type="text"
+                                                       id="utilisateur_email"
+                                                       name="utilisateur[email]"
+                                                       maxlength="255"
+                                                       value="{{ utilisateur.email }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <button type="submit" id="utilisateur_submit"
+                                                    class="btn btn-primary"
+                                                    name="utilisateur[submit]">Modifier
+                                            </button>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form><!--end form-->
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a href="{{ asset('#') }}" class="back-to-top rounded text-center" id="back-to-top" style="display: inline;">
+        <i class="mdi mdi-chevron-up d-block"> </i>
+    </a>
+
+    <!-- selectize js -->
+    <script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('frontEnd/js/app.js') }}"></script>
+{% endblock %}

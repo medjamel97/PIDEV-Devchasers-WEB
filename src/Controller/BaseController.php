@@ -21,25 +21,6 @@ class BaseController extends AbstractController
     }
 
     /**
-     * @Route("/accueil", name="accueil")
-     */
-    public function accueil(): Response
-    {
-        return $this->render('/frontEnd/accueil.html.twig', [
-            'session' => $this->session->get("utilisateur"),
-        ]);
-    }
-
-    /**
-     * @Route("/accueilBackEnd", name="accueilBackEnd")
-     */
-    public function indexBackEnd(): Response
-    {
-        return $this->render('/backEnd/accueil.html.twig', [
-        ]);
-    }
-
-    /**
      * @Route("/connexion", name="connexion")
      */
     public function connexion(Request $request)
@@ -69,14 +50,14 @@ class BaseController extends AbstractController
                                 'emailUtilisateur' => $utilisateurConnexion->getEmail(),
                                 'idCandidat' => $utilisateurConnexion->getCandidat()->getId(),
                             ]);
-                            return $this->redirectToRoute("accueil");
+                            return $this->redirectToRoute("afficherPublication");
                         } else {
                             $this->session->set("utilisateur", [
                                 'idUtilisateur' => $utilisateurConnexion->getId(),
                                 'emailUtilisateur' => $utilisateurConnexion->getEmail(),
                                 'idSociete' => $utilisateurConnexion->getSociete()->getId(),
                             ]);
-                            return $this->redirectToRoute("accueilBackEnd");
+                            return $this->redirectToRoute("gererpublication");
                         }
                     }
                 }
@@ -94,6 +75,6 @@ class BaseController extends AbstractController
     public function deconnexion()
     {
         $this->session->set("utilisateur", null);
-        return $this->redirectToRoute("accueil");
+        return $this->redirectToRoute("publication");
     }
 }
