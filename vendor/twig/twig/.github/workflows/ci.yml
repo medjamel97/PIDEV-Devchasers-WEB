@@ -4,7 +4,7 @@ on:
     pull_request:
     push:
         branches:
-            - '3.x'
+            - '2.x'
 
 env:
     SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: 1
@@ -80,7 +80,6 @@ jobs:
                     - '7.4'
                     - '8.0'
                 extension:
-                    - 'extra/cache-extra'
                     - 'extra/cssinliner-extra'
                     - 'extra/html-extra'
                     - 'extra/inky-extra'
@@ -134,36 +133,34 @@ jobs:
             - name: "Run tests"
               working-directory: ${{ matrix.extension}}
               run: ../../vendor/bin/simple-phpunit
-#
-#    Drupal does not support Twig 3 now!
-#
-#    integration-tests:
-#        needs:
-#            - 'tests'
-#
-#        name: "Integration tests with PHP ${{ matrix.php-version }}"
-#
-#        runs-on: 'ubuntu-20.04'
-#
-#        continue-on-error: true
-#
-#        strategy:
-#            matrix:
-#                php-version:
-#                    - '7.3'
-#
-#        steps:
-#            - name: "Checkout code"
-#              uses: actions/checkout@v2.3.3
-#
-#            - name: "Install PHP with extensions"
-#              uses: shivammathur/setup-php@2.7.0
-#              with:
-#                  coverage: "none"
-#                  extensions: "gd, pdo_sqlite"
-#                  php-version: ${{ matrix.php-version }}
-#                  ini-values: memory_limit=-1
-#                  tools: composer:v2
-#
-#            - run: ./drupal_test.sh
-#              shell: "bash"
+
+    integration-tests:
+        needs:
+            - 'tests'
+
+        name: "Integration tests with PHP ${{ matrix.php-version }}"
+
+        runs-on: 'ubuntu-20.04'
+
+        continue-on-error: true
+
+        strategy:
+            matrix:
+                php-version:
+                    - '7.3'
+
+        steps:
+            - name: "Checkout code"
+              uses: actions/checkout@v2.3.3
+
+            - name: "Install PHP with extensions"
+              uses: shivammathur/setup-php@2.7.0
+              with:
+                  coverage: "none"
+                  extensions: "gd, pdo_sqlite"
+                  php-version: ${{ matrix.php-version }}
+                  ini-values: memory_limit=-1
+                  tools: composer:v2
+
+            - run: ./drupal_test.sh
+              shell: "bash"

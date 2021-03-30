@@ -27,7 +27,7 @@ class QuestionController extends AbstractController
      */
     public function afficherToutQuestion(): Response
     {
-        return null;
+        return new Response(null);
     }
 
     /**

@@ -1,0 +1,72 @@
+{% extends 'backEnd/base.html.twig' %}
+
+{% block title %}Formation index{% endblock %}
+
+{% block content %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <form method="post" action="{{ path('formation_search') }}">
+                    <input type="text" name="formation" placeholder="formation " />
+                    <input type="submit" value="chercher">
+                </form>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Filiere</th>
+                        <th>Debut</th>
+                        <th>Fin</th>
+                        <th>Id_user</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for formation in formations %}
+                        <tr>
+                            <td>{{ formation.id }}</td>
+                            <td>{{ formation.nom }}</td>
+                            <td>{{ formation.filiere }}</td>
+                            <td>{{ formation.debut ? formation.debut|date('Y-m-d') : '' }}</td>
+                            <td>{{ formation.fin ? formation.fin|date('Y-m-d') : '' }}</td>
+                            <td>{{ formation.idUser }}</td>
+                            <td>
+                                <a href="{{ path('formation_show', {'id': formation.id}) }}"class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">show</a>
+                                <a href="{{ path('formation_edit', {'id': formation.id}) }}"class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+
+
+
+
+        <br> <br>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

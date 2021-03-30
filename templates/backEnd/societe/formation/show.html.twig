@@ -1,0 +1,54 @@
+{% extends 'backEnd/base.html.twig' %}
+{% block title %}Formation{% endblock %}
+
+{% block content %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Formation</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ formation.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ formation.nom }}</td>
+            </tr>
+            <tr>
+                <th>Filiere</th>
+                <td>{{ formation.filiere }}</td>
+            </tr>
+            <tr>
+                <th>Debut</th>
+                <td>{{ formation.debut ? formation.debut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Fin</th>
+                <td>{{ formation.fin ? formation.fin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Id_user</th>
+                <td>{{ formation.idUser }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('formation_index') }}"class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">back to list</a>
+
+    <a href="{{ path('formation_edit', {'id': formation.id}) }}"class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">edit</a>
+
+    {{ include('backEnd/societe/formation/_delete_form.html.twig') }}
+{% endblock %}

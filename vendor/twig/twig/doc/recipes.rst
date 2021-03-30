@@ -263,24 +263,18 @@ In the inner loop, the ``loop.parent`` variable is used to access the outer
 context. So, the index of the current ``topic`` defined in the outer for loop
 is accessible via the ``loop.parent.loop.index`` variable.
 
-Defining undefined Functions, Filters, and Tags on the Fly
-----------------------------------------------------------
+Defining undefined Functions and Filters on the Fly
+---------------------------------------------------
 
-.. versionadded:: 3.2
+When a function (or a filter) is not defined, Twig defaults to throw a
+``\Twig\Error\SyntaxError`` exception. However, it can also call a `callback`_ (any
+valid PHP callable) which should return a function (or a filter).
 
-    The ``registerUndefinedTokenParserCallback()`` method was added in Twig
-    3.2.
-
-When a function/filter/tag is not defined, Twig defaults to throw a
-``\Twig\Error\SyntaxError`` exception. However, it can also call a `callback`_
-(any valid PHP callable) which should return a function/filter/tag.
-
-For tags, register callbacks with ``registerUndefinedTokenParserCallback()``.
 For filters, register callbacks with ``registerUndefinedFilterCallback()``.
 For functions, use ``registerUndefinedFunctionCallback()``::
 
     // auto-register all native PHP functions as Twig functions
-    // NEVER do this in a project as it's NOT secure
+    // don't try this at home as it's not secure at all!
     $twig->registerUndefinedFunctionCallback(function ($name) {
         if (function_exists($name)) {
             return new \Twig\TwigFunction($name, $name);
@@ -289,7 +283,7 @@ For functions, use ``registerUndefinedFunctionCallback()``::
         return false;
     });
 
-If the callable is not able to return a valid function/filter/tag, it must
+If the callable is not able to return a valid function (or filter), it must
 return ``false``.
 
 If you register more than one callback, Twig will call them in turn until one
@@ -297,7 +291,7 @@ does not return ``false``.
 
 .. tip::
 
-    As the resolution of functions/filters/tags is done during compilation,
+    As the resolution of functions and filters is done during compilation,
     there is no overhead when registering these callbacks.
 
 Validating the Template Syntax
@@ -406,7 +400,7 @@ Now, let's define a loader able to use this database::
             $this->dbh = $dbh;
         }
 
-        public function getSourceContext(string $name): Source
+        public function getSourceContext($name)
         {
             if (false === $source = $this->getValue('source', $name)) {
                 throw new \Twig\Error\LoaderError(sprintf('Template "%s" does not exist.', $name));
@@ -415,17 +409,17 @@ Now, let's define a loader able to use this database::
             return new \Twig\Source($source, $name);
         }
 
-        public function exists(string $name)
+        public function exists($name)
         {
             return $name === $this->getValue('name', $name);
         }
 
-        public function getCacheKey(string $name): string
+        public function getCacheKey($name)
         {
             return $name;
         }
 
-        public function isFresh(string $name, int $time): bool
+        public function isFresh($name, $time)
         {
             if (false === $lastModified = $this->getValue('last_modified', $name)) {
                 return false;

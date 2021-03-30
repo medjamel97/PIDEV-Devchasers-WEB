@@ -126,6 +126,10 @@ class ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f
             'Laminas\\EventManager\\' => 21,
             'Laminas\\Code\\' => 13,
         ),
+        'K' => 
+        array (
+            'Knp\\Bundle\\PaginatorBundle\\' => 27,
+        ),
         'G' => 
         array (
             'Gregwar\\CaptchaBundle\\' => 22,
@@ -151,6 +155,10 @@ class ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f
             'Doctrine\\Common\\' => 16,
             'Doctrine\\Bundle\\MigrationsBundle\\' => 33,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
+        ),
+        'C' => 
+        array (
+            'CalendarBundle\\' => 15,
         ),
         'A' => 
         array (
@@ -494,6 +502,10 @@ class ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-code/src',
         ),
+        'Knp\\Bundle\\PaginatorBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle',
+        ),
         'Gregwar\\CaptchaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/gregwar/captcha-bundle',
@@ -564,6 +576,10 @@ class ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f
         array (
             0 => __DIR__ . '/..' . '/doctrine/doctrine-bundle',
         ),
+        'CalendarBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tattali/calendar-bundle/src',
+        ),
         'App\\Tests\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests',
@@ -571,6 +587,23 @@ class ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+        'K' => 
+        array (
+            'Knp\\Component' => 
+            array (
+                0 => __DIR__ . '/..' . '/knplabs/knp-components/src',
+            ),
         ),
     );
 
@@ -593,6 +626,7 @@ class ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit900d7ad5c6b4db00b3d797d1b078c94f::$classMap;
 
         }, null, ClassLoader::class);

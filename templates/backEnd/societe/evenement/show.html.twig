@@ -1,0 +1,61 @@
+{% extends 'backEnd/base.html.twig' %}
+
+{% block title %}Evenement{% endblock %}
+
+
+{% block content %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-primary">Formation</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ evenement.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ evenement.titre }}</td>
+            </tr>
+            <tr>
+                <th>Debut</th>
+                <td>{{ evenement.debut ? evenement.debut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Fin</th>
+                <td>{{ evenement.fin ? evenement.fin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Descp</th>
+                <td>{{ evenement.descp }}</td>
+            </tr>
+            <tr>
+                <th>All_day</th>
+                <td>{{ evenement.allDay ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Id_user</th>
+                <td>{{ evenement.idUser }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('evenement_index') }}"class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">back to list</a>
+
+
+    <a href="{{ path('evenement_edit', {'id': evenement.id}) }}"class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">edit</a>
+
+    {{ include('backEnd/societe/evenement/_delete_form.html.twig') }}
+{% endblock %}

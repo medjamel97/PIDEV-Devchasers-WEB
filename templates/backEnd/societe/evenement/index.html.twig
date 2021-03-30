@@ -1,0 +1,79 @@
+{% extends 'backEnd/base.html.twig' %}
+
+{% block title %}Evenement index{% endblock %}
+
+{% block content %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Debut</th>
+                <th>Fin</th>
+                <th>Descp</th>
+                <th>All_day</th>
+                <th>Id_user</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.id }}</td>
+                <td>{{ evenement.titre }}</td>
+                <td>{{ evenement.debut ? evenement.debut|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.fin ? evenement.fin|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.descp }}</td>
+                <td>{{ evenement.allDay ? 'Yes' : 'No' }}</td>
+                <td>{{ evenement.idUser }}</td>
+                <td>
+
+                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}"class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">show</a>
+                    <a href="{{ path('evenement_edit', {'id': evenement.id}) }}"class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <br>
+
+        {# display navigation #}
+        <div class="navigation text-center">
+            <h3>  <b>  {{ knp_pagination_render(evenements) }}</b> </h3>
+            <style>
+                .text-center {
+                    text-align: center!important;
+                    margin-left: 530px;
+                }
+            </style>
+        </div>
+
+
+        <br> <br>
+    </div>
+
+</div>
+
+{% endblock %}

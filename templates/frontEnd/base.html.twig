@@ -34,16 +34,16 @@
 </head>
 
 <body>
-    <!-- Loader -->
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
         </div>
     </div>
-    <!-- Loader -->
+</div>
+<!-- Loader -->
 {% block sidebar %}
     <!-- Navigation Bar-->
     <header id="topnav" class="defaultscroll scroll-active">
@@ -80,7 +80,7 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="{{ asset('messagerie') }}">
+                            <a href="{{ asset('afficherMessagerie') }}">
                                 <i class="mdi mdi-message mr-2"></i>Messagerie
                             </a>
                             {% endif %}
@@ -116,7 +116,8 @@
                 </a>
             </div>
             <div class="buy-button">
-                <a href="post-a-job.html" class="btn btn-primary"><i class="mdi mdi-cloud-upload"></i> Post a Job</a>
+                <a href="post-a-job.html" class="btn btn-primary"><i class="mdi mdi-cloud-upload"></i> Post a
+                    Job</a>
             </div>
             <!--end login button-->
             <!-- End Logo container-->
@@ -145,7 +146,8 @@
                                     class="menu-arrow"></span>
                             <ul class="submenu">
                                 <li class="has-submenu">
-                                    <a href="{{ asset('categorie') }}">Categories</a><span class="submenu-arrow"></span>
+                                    <a href="{{ asset('categorie') }}">Categories</a><span
+                                            class="submenu-arrow"></span>
                                     <ul class="submenu">
                                         <li><a href="{{ asset('#') }}">categorie 1</a></li>
                                         <li><a href="{{ asset('#') }}">categorie 2</a></li>
@@ -153,9 +155,9 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="{{ asset('formation') }}">Formations</a></li>
+                        <li><a href="{{ asset('formation/indexF') }}">Formations</a></li>
                         <li><a href="{{ asset('mission') }}">Missions</a></li>
-                        <li><a href="{{ asset('evenement') }}">Evenements</a></li>
+                        <li><a href="{{ asset('evenement/calendarA') }}">Evenements</a></li>
                     </ul><!--end navigation menu-->
                 {% endblock %}
             </div><!--end navigation-->
@@ -165,8 +167,8 @@
     </header><!--end header-->
     <!-- Navbar End -->
 {% endblock %}
-    {% block topImage %}{% endblock %}
-    {% block content %}{% endblock %}
+{% block topImage %}{% endblock %}
+{% block content %}{% endblock %}
 {% block footer %}
     <!-- footer start -->
     <footer class="footer">
@@ -194,9 +196,11 @@
                 <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <p class="text-white mb-4 footer-list-title">Company</p>
                     <ul class="list-unstyled footer-list">
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> About Us</a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> About
+                                Us</a>
                         </li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Media &
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Media
+                                &
                                 Press</a></li>
                         <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
                                 Career</a></li>
@@ -204,13 +208,17 @@
                         </li>
                         <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
                                 Pricing</a></li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Marketing</a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                Marketing</a>
                         </li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> CEOs </a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> CEOs
+                            </a>
                         </li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Agencies</a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                Agencies</a>
                         </li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Our Apps</a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Our
+                                Apps</a>
                         </li>
                     </ul>
                 </div>
@@ -219,7 +227,8 @@
                     <ul class="list-unstyled footer-list">
                         <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
                                 Support</a></li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Privacy
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                Privacy
                                 Policy</a></li>
                         <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Terms</a>
                         </li>
@@ -244,7 +253,7 @@
         </div>
     </footer>
     <!-- footer end -->
-<hr>
+    <hr>
     <footer class="footer footer-bar">
         <div class="container text-center">
             <div class="row justify-content-center">

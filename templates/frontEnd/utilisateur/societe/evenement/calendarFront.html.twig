@@ -1,0 +1,56 @@
+{% extends 'frontEnd/base.html.twig' %}
+
+{% block content %}
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.css"
+          integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+
+    <script>
+        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
+    </script>
+    <div style="height:100px"></div>
+
+    <h2 class="text-center"> Calendrier des evenements</h2>
+
+    <style>
+        #calendrier {
+            width: 50%;
+            margin: auto;
+        }
+    </style>
+    <div id="calendrier">
+        <input type="hidden" class="medId">
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.js"
+            integrity="sha256-DBxkGZLxKsLKhz054qUpBqtotG00r9AELGpSigJujLg=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        window.onload = () => {
+            let calendarElt = document.querySelector("#calendrier")
+            let calendar = new FullCalendar.Calendar(calendarElt, {
+                initialView: 'dayGridMonth',
+                locale: 'fr',
+                timeZone: 'Europe/Paris',
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek'
+                },
+                events: {{ data|raw }},
+                editable: true,
+                eventResizableFromStart: true
+            })
+            calendar.on('eventChange', (e) => {
+                window.location.href = "showFront/" + e.event.id;
+            })
+            calendar.render()
+        }
+    </script>
+    <div style="height: 100px"></div>
+
+
+{% endblock %}

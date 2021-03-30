@@ -4,92 +4,232 @@ namespace App\Controller;
 
 use App\Entity\Formation;
 use App\Form\FormationType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Repository\FormationRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
-class FormationController extends AbstractController
+/**
+ * @Route("/formation")
+ */
+class FormationController extends Controller
 {
     /**
-     * @Route("/societe={idSociete}/formation={idFormation}", name="afficherFormation")
+     * @Route("/", name="formation_index", methods={"GET"})
      */
-    public function afficherFormation($idSociete, $idFormation): Response
+    public function index(Request $request): Response
     {
-        return null;
+
+        $formations = $this->getDoctrine()
+            ->getRepository(Formation::class)
+            ->findAll();
+
+        // Paginate the results of the query
+        $paginator = $this->get('knp_paginator');
+        $formations = $paginator->paginate(
+        // Doctrine Query, not results
+            $formations,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+        return $this->render('backEnd/societe/formation/index.html.twig', [
+            'formations' => $formations,
+        ]);
     }
 
+
     /**
-     * @Route("/formation", name="afficherToutFormation")
+     * @Route("/indexF", name="formation_indexF", methods={"GET"})
      */
-    public function afficherToutFormation(): Response
+    public function indexF(Request $request): Response
     {
-        return $this->render('/frontEnd/utilisateur/societe/formation/afficherFormation.html.twig', [
-            'formations' => $this->getDoctrine()->getManager()->getRepository(Formation::class)->findAll(),
+
+        $formations = $this->getDoctrine()
+            ->getRepository(Formation::class)
+            ->findAll();
+
+        // Paginate the results of the query
+        $paginator = $this->get('knp_paginator');
+        $formations = $paginator->paginate(
+        // Doctrine Query, not results
+            $formations,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+        return $this->render('frontEnd/utilisateur/societe/formation/indexFront.html.twig', [
+            'formations' => $formations,
         ]);
     }
 
     /**
-     * @Route("/societe={idSociete}/formation/ajouter", name="ajouterFormation")
+     * @Route("/searchformation", name="formation_search")
      */
-    public function ajouterFormation(Request $request, $idSociete)
+    public function searchFormation(Request $request)
     {
-        $formation = new Formation();
-
-        $form = $this->createForm(FormationType::class, $formation)
-            ->add('Ajouter', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $formation = $form->getData();
-
-            $formationRepository = $this->getDoctrine()->getManager();
-            $formationRepository->persist($formation);
-            $formationRepository->flush();
-
-            return $this->redirectToRoute('afficherToutFormation');
+        $formation = $request->get('formation');
+        $em = $this->getDoctrine()->getManager();
+        if ($formation == "") {
+            $formations = $em->getRepository(Formation::class)->findAll();
+        } else {
+            $formations = $em->getRepository(Formation::class)->findBy(
+                ['nom' => $formation]
+            );
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/formation/manipulerFormation.html.twig', [
-            'form' => $form->createView(),
-            'manipulation' => "Modifier",
-        ]);
+        return $this->render('backEnd/societe/formation/indexR.html.twig', array(
+            'formations' => $formations
+        ));
+
     }
 
     /**
-     * @Route("/societe/formation={idFormation}/modifier", name="modifierFormation")
+     * @Route("/searchFrontformation", name="formationF_search")
      */
-    public function modifierFormation(Request $request, $idFormation)
+    public function searchFrontFormation(Request $request)
     {
-        $formationRepository = $this->getDoctrine()->getManager();
-        $formation = $formationRepository->getRepository(Formation::class)->find($idFormation);
+        $formation = $request->get('formation');
+        $em = $this->getDoctrine()->getManager();
+        if ($formation == "") {
+            $formations = $em->getRepository(Formation::class)->findAll();
+        } else {
+            $formations = $em->getRepository(Formation::class)->findBy(
+                ['nom' => $formation]
+            );
+        }
 
+        return $this->render('frontEnd/utilisateur/societe/formation/indexFrontR.html.twig', array(
+            'formations' => $formations
+        ));
+
+    }
+
+    /**
+     * @Route("/listFPDF", name="formation_listPdf", methods={"GET"}, requirements={"id":"\d+"})
+     */
+    public function indexpdf(): Response
+    {    // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        $formations = $this->getDoctrine()
+            ->getRepository(Formation::class)
+            ->findAll();
+
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('frontEnd/utilisateur/societe/formation/listFormationPDF.html.twig', [
+            'formations' => $formations,
+        ]);
+
+        //  $formations = $fo
+        //rmationRepository->findAll();
+
+        // Retrieve the HTML generated in our twig file
+//        $html = $this->renderView('formation/listFormationPDF.html.twig', [
+//            'formations' => $formations,
+//        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A3', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+
+        return new Response(null);
+    }
+
+
+    /**
+     * @Route("/new", name="formation_new", methods={"GET","POST"})
+     */
+    public function new(Request $request): Response
+    {
+        $formation = new Formation();
         $form = $this->createForm(FormationType::class, $formation);
-        $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formationRepository->flush();
-            return $this->redirectToRoute('afficherToutFormation');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($formation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('formation_index');
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/formation/manipulerFormation.html.twig', [
+        return $this->render('backEnd/societe/formation/new.html.twig', [
+            'formation' => $formation,
             'form' => $form->createView(),
-            'manipulation' => "Modifier",
         ]);
     }
 
     /**
-     * @Route("/societe/formation={idFormation}/supprimer", name="supprimerFormation")
+     * @Route("/{id}", name="formation_show", methods={"GET"})
      */
-    public function supprimerFormation($idFormation)
+    public function show(Formation $formation): Response
     {
-        $formationManager = $this->getDoctrine()->getManager();
-        $formation = $formationManager->getRepository(Formation::class)->find($idFormation);
-        $formationManager->remove($formation);
-        $formationManager->flush();
-        return $this->redirectToRoute('afficherToutFormation');
+        return $this->render('backEnd/societe/formation/show.html.twig', [
+            'formation' => $formation,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="formation_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Formation $formation): Response
+    {
+        $form = $this->createForm(FormationType::class, $formation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('formation_index');
+        }
+
+        return $this->render('backEnd/societe/formation/edit.html.twig', [
+            'formation' => $formation,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="formation_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Formation $formation): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $formation->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($formation);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('formation_index');
+    }
+
+    /**
+     * @Route("/listformation", name="formation_listPdf", methods={"GET"})
+     */
+    public function listFormationPDF(): Response
+    {
+
+
     }
 }

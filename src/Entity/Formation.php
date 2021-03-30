@@ -3,22 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\FormationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
  */
 class Formation
-{
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+{ /**
+ * @ORM\Id
+ * @ORM\GeneratedValue
+ * @ORM\Column(type="integer")
+ */
     private $id;
-
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -27,25 +23,23 @@ class Formation
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $filiere;
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $debut;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="formation")
+     * @ORM\Column(type="datetime")
      */
-    private $societe;
-
+    private $fin;
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureFormation::class, mappedBy="formation", cascade={"remove"})
-     */
-    private $candidatureFormation;
-    /**
-     * @var string
+     * @ORM\Column(type="integer")
      */
 
-    public function __construct()
-    {
-        $this->candidatureFormation = new ArrayCollection();
-    }
+    private $id_user;
+
+    protected $captchaCode;
 
     public function getId(): ?int
     {
@@ -64,57 +58,60 @@ class Formation
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getFiliere(): ?string
     {
-        return $this->description;
+        return $this->filiere;
     }
 
-    public function setDescription(string $description): self
+    public function setFiliere(string $filiere): self
     {
-        $this->description = $description;
+        $this->filiere = $filiere;
 
         return $this;
     }
 
-    public function getSociete(): ?societe
+    public function getDebut(): ?\DateTimeInterface
     {
-        return $this->societe;
+        return $this->debut;
     }
 
-    public function setSociete(?societe $societe): self
+    public function setDebut(\DateTimeInterface $debut): self
     {
-        $this->societe = $societe;
+        $this->debut = $debut;
 
         return $this;
     }
 
-    /**
-     * @return Collection|CandidatureFormation[]
-     */
-    public function getCandidatureFormation(): Collection
+    public function getFin(): ?\DateTimeInterface
     {
-        return $this->candidatureFormation;
+        return $this->fin;
     }
 
-    public function addCandidatureFormation(candidatureFormation $candidatureFormation): self
+    public function setFin(\DateTimeInterface $fin): self
     {
-        if (!$this->candidatureFormation->contains($candidatureFormation)) {
-            $this->candidatureFormation[] = $candidatureFormation;
-            $candidatureFormation->setFormation($this);
-        }
+        $this->fin = $fin;
 
         return $this;
     }
 
-    public function removeCandidatureFormation(candidatureFormation $candidatureFormation): self
+    public function getIdUser(): ?int
     {
-        if ($this->candidatureFormation->removeElement($candidatureFormation)) {
-            // set the owning side to null (unless already changed)
-            if ($candidatureFormation->getFormation() === $this) {
-                $candidatureFormation->setFormation(null);
-            }
-        }
+        return $this->id_user;
+    }
+
+    public function setIdUser(int $id_user): self
+    {
+        $this->id_user = $id_user;
 
         return $this;
+    }
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
     }
 }

@@ -4,92 +4,237 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Form\EvenementType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Repository\EvenementRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
-class EvenementController extends AbstractController
+/**
+ * @Route("/evenement")
+ */
+class EvenementController extends Controller
 {
-    /**
-     * @Route("/societe={idSociete}/evenement={idEvenement}", name="afficherEvenement")
-     */
-    public function afficherEvenement($idSociete, $idEvenement): Response
+    private $session;
+
+    public function __construct(SessionInterface $session)
     {
-        return null;
+        $this->session = $session;
     }
 
-    /**
-     * @Route("/evenement", name="afficherToutEvenement")
-     */
-    public function afficherToutEvenement(): Response
-    {
-        return $this->render('/frontEnd/utilisateur/societe/evenement/afficherEvenement.html.twig', [
-            'evenements' => $this->getDoctrine()->getManager()->getRepository(Evenement::class)->findAll(),
-        ]);
-    }
 
     /**
-     * @Route("/societe={idSociete}/evenement/ajouter", name="ajouterEvenement")
+     * @Route("/calendarA", name="evenement_indexA", methods={"GET"})
      */
-    public function ajouterEvenement(Request $request, $idSociete)
+    public function indexA(EvenementRepository $evenementRepository)
     {
-        $evenement = new Evenement();
+        $events = $evenementRepository->findAll();
+        $rdvs = [];
 
-        $form = $this->createForm(EvenementType::class, $evenement)
-            ->add('Ajouter', SubmitType::class)
-            ->handleRequest($request);
+        foreach ($events as $event) {
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'id_user' => $event->getIdUser(),
+                'start' => $event->getDebut()->format('Y-m-d H:i:s'),
+                'end' => $event->getFin()->format('Y-m-d H:i:s'),
+                'title' => $event->getTitre(),
+                'descp' => $event->getDescp(),
+                'allDay' => $event->getAllDay(),
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $evenement = $form->getData();
-
-            $evenementRepository = $this->getDoctrine()->getManager();
-            $evenementRepository->persist($evenement);
-            $evenementRepository->flush();
-
-            return $this->redirectToRoute('afficherToutEvenement');
+            ];
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/evenement/manipulerEvenement.html.twig', [
-            'form' => $form->createView(),
-            'manipulation' => "Modifier",
-        ]);
+        $data = json_encode($rdvs);
+
+        return $this->render('frontEnd/utilisateur/societe/evenement/calendarFront.html.twig', compact('data'));
     }
 
     /**
-     * @Route("/societe/evenement={idEvenement}/modifier", name="modifierEvenement")
+     * @Route("/calendar", name="evenement_indexB", methods={"GET"})
      */
-    public function modifierEvenement(Request $request, $idEvenement)
-    {
-        $evenementRepository = $this->getDoctrine()->getManager();
-        $evenement = $evenementRepository->getRepository(Evenement::class)->find($idEvenement);
+    public function indexB(EvenementRepository $evenementRepository)
 
+    {
+        $idUtilisateur = $this->session->get("utilisateur")['idUtilisateur'];
+
+        $events = $evenementRepository->findBy(['id_user' => $idUtilisateur]);
+
+        $rdvs = [];
+
+        foreach ($events as $event) {
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'id_user' => $event->getIdUser(),
+                'start' => $event->getDebut()->format('Y-m-d H:i:s'),
+                'end' => $event->getFin()->format('Y-m-d H:i:s'),
+                'title' => $event->getTitre(),
+                'descp' => $event->getDescp(),
+                'allDay' => $event->getAllDay(),
+
+            ];
+        }
+
+        $data = json_encode($rdvs);
+
+        return $this->render('backEnd/societe/evenement/calendarBack.html.twig', compact('data'));
+    }
+
+    /**
+     * @Route("/searchevenement", name="evenement_search")
+     */
+    public function searchEvenement(Request $request)
+    {
+        $evenement = $request->get('evenement');
+        $em = $this->getDoctrine()->getManager();
+        if ($evenement == "") {
+            $evenements = $em->getRepository(Evenement::class)->findAll();
+        } else {
+            $evenements = $em->getRepository(Evenement::class)->findBy(
+                ['titre' => $evenement]
+            );
+        }
+
+        return $this->render('backEnd/societe/evenement/indexR.html.twig', array(
+            'evenements' => $evenements
+        ));
+
+    }
+
+    /**
+     * @Route("/calendarFront", name="evenement_indexFront", methods={"GET"})
+     */
+    public function indexFront(EvenementRepository $evenementRepository)
+
+    {
+
+        $events = $evenementRepository->findAll();
+
+        $rdvs = [];
+
+        foreach ($events as $event) {
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'id_user' => $event->getIdUser(),
+                'start' => $event->getDebut()->format('Y-m-d H:i:s'),
+                'end' => $event->getFin()->format('Y-m-d H:i:s'),
+                'title' => $event->getTitre(),
+                'descp' => $event->getDescp(),
+                'allDay' => $event->getAllDay(),
+
+            ];
+        }
+
+        $data = json_encode($rdvs);
+
+        return $this->render('frontEnd/utilisateur/societe/evenement/calendarBack.html.twig', compact('data'));
+    }
+
+
+    /**
+     * @Route("/", name="evenement_index", methods={"GET"})
+     */
+    public function index(Request $request): Response
+    {
+
+        $evenements = $this->getDoctrine()
+            ->getRepository(Evenement::class)
+            ->findAll();
+
+        // Paginate the results of the query
+        $paginator = $this->get('knp_paginator');
+        $evenements = $paginator->paginate(
+        // Doctrine Query, not results
+            $evenements,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
+        return $this->render('backEnd/societe/evenement/index.html.twig', [
+            'evenements' => $evenements,
+        ]);
+
+
+    }
+
+    /**
+     * @Route("/new", name="evenement_new", methods={"GET","POST"})
+     */
+    public function new(Request $request): Response
+    {
+        $evenement = new Evenement();
         $form = $this->createForm(EvenementType::class, $evenement);
-        $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $evenementRepository->flush();
-            return $this->redirectToRoute('afficherToutEvenement');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($evenement);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('evenement_index');
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/evenement/manipulerEvenement.html.twig', [
+        return $this->render('backEnd/societe/evenement/new.html.twig', [
+            'evenement' => $evenement,
             'form' => $form->createView(),
-            'manipulation' => "Modifier",
         ]);
     }
 
     /**
-     * @Route("/societe/evenement={idEvenement}/supprimer", name="supprimerEvenement")
+     * @Route("/{id}", name="evenement_show", methods={"GET"})
      */
-    public function supprimerEvenement($idEvenement)
+    public function show(Evenement $evenement): Response
     {
-        $evenementManager = $this->getDoctrine()->getManager();
-        $evenement = $evenementManager->getRepository(Evenement::class)->find($idEvenement);
-        $evenementManager->remove($evenement);
-        $evenementManager->flush();
-        return $this->redirectToRoute('afficherToutEvenement');
+        return $this->render('backEnd/societe/evenement/show.html.twig', [
+            'evenement' => $evenement,
+        ]);
     }
+
+    /**
+     * @Route("/showFront/{id}", name="evenement_show_front", methods={"GET"})
+     */
+    public function showFront(Evenement $evenement): Response
+    {
+        return $this->render('frontEnd/utilisateur/societe/evenement/show.html.twig', [
+            'evenement' => $evenement,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="evenement_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Evenement $evenement): Response
+    {
+        $form = $this->createForm(EvenementType::class, $evenement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('evenement_index');
+        }
+
+        return $this->render('backEnd/societe/evenement/edit.html.twig', [
+            'evenement' => $evenement,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="evenement_delete", methods={"POST"})
+     */
+    public function delete(Request $request, Evenement $evenement): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $evenement->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($evenement);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('evenement_index');
+    }
+
+
 }

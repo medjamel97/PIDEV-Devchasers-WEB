@@ -3,9 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EvenementRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EvenementRepository::class)
@@ -22,79 +21,118 @@ class Evenement
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $titre;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="evenement")
+     * @ORM\Column(type="datetime")
      */
-    private $societe;
+    private $debut;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureEvenement::class, mappedBy="evenement", cascade={"remove"})
+     * @ORM\Column(type="datetime")
      */
-    private $candidatureEvenement;
+    private $fin;
 
-    public function __construct()
-    {
-        $this->candidatureEvenement = new ArrayCollection();
-    }
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $descp;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $all_day;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $id_user;
+
+    protected $captchaCode;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDescription(): ?string
+    public function getTitre(): ?string
     {
-        return $this->description;
+        return $this->titre;
     }
 
-    public function setDescription(string $description): self
+    public function setTitre(string $titre): self
     {
-        $this->description = $description;
+        $this->titre = $titre;
 
         return $this;
     }
 
-    public function getSociete(): ?Societe
+    public function getDebut(): ?\DateTimeInterface
     {
-        return $this->societe;
+        return $this->debut;
     }
 
-    public function setSociete(?Societe $societe): self
+    public function setDebut(\DateTimeInterface $debut): self
     {
-        $this->societe = $societe;
+        $this->debut = $debut;
 
         return $this;
     }
 
-    /**
-     * @return Collection|CandidatureEvenement[]
-     */
-    public function getCandidatureEvenement(): Collection
+    public function getFin(): ?\DateTimeInterface
     {
-        return $this->candidatureEvenement;
+        return $this->fin;
     }
 
-    public function addCandidatureEvenement(CandidatureEvenement $candidatureEvenement): self
+    public function setFin(\DateTimeInterface $fin): self
     {
-        if (!$this->candidatureEvenement->contains($candidatureEvenement)) {
-            $this->candidatureEvenement[] = $candidatureEvenement;
-            $candidatureEvenement->setEvenement($this);
-        }
+        $this->fin = $fin;
 
         return $this;
     }
 
-    public function removeCandidatureEvenement(CandidatureEvenement $candidatureEvenement): self
+    public function getDescp(): ?string
     {
-        if ($this->candidatureEvenement->removeElement($candidatureEvenement)) {
-            // set the owning side to null (unless already changed)
-            if ($candidatureEvenement->getEvenement() === $this) {
-                $candidatureEvenement->setEvenement(null);
-            }
-        }
+        return $this->descp;
+    }
+
+    public function setDescp(string $descp): self
+    {
+        $this->descp = $descp;
 
         return $this;
+    }
+
+    public function getAllDay(): ?bool
+    {
+        return $this->all_day;
+    }
+
+    public function setAllDay(bool $all_day): self
+    {
+        $this->all_day = $all_day;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?int
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(int $id_user): self
+    {
+        $this->id_user = $id_user;
+
+        return $this;
+    }
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
     }
 }
