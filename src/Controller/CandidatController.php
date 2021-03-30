@@ -7,11 +7,10 @@ use App\Entity\Competence;
 use App\Entity\Education;
 use App\Entity\ExperienceDeTravail;
 use App\Entity\Utilisateur;
-use App\Event\UserRegisterEvent;
 use App\Form\CandidatType;
+use App\Form\UtilisateurType;
 use App\Repository\ExperienceDeTravailRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,7 +94,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("/candidat/ajouter/email={email}/password={motDePasse}", name="ajouterCandidat")
      */
-    public function ajouterCandidat(Request $request, $email, $motDePasse, EventDispatcherInterface $eventDispatcher)
+    public function ajouterCandidat(Request $request, $email, $motDePasse)
     {
         $utilisateur = new Utilisateur();
         $candidat = new Candidat();
@@ -129,9 +128,8 @@ class CandidatController extends AbstractController
             $candidatManager = $this->getDoctrine()->getManager();
             $candidatManager->persist($candidat);
             $candidatManager->flush();
-            $userRegisterEvent = new UserRegisterEvent($utilisateur);
-            $eventDispatcher->dispatch(UserRegisterEvent::NAME,$userRegisterEvent);
-            return $this->redirectToRoute('afficherUtilisateur');
+
+            return $this->redirectToRoute('publication');
         }
 
         return $this->render('_inscription/inscrireCandidat.html.twig', [
@@ -172,6 +170,62 @@ class CandidatController extends AbstractController
 
         return $this->render('frontEnd/utilisateur/candidat/modifierprofil.html.twig', [
             'candidat' => $candidat,
+            'form' => $form->createView(),
+            'manipulation' => "Modifier"
+        ]);
+    }
+
+    /**
+     * @Route("/candidat={idUtilisateur}/modifierEmail", name="modifierEmail")
+     */
+    public function modifierEmail(Request $request, $idUtilisateur)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
+
+        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form->add('submit', SubmitType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $candidat = $form->getData();
+            $manager->persist($candidat);
+            $manager->flush();
+
+            return $this->redirectToRoute('afficherProfil');
+        }
+
+        return $this->render('frontEnd/utilisateur/candidat/modifierEmail.html.twig', [
+            'utilisateur' => $utilisateur,
+            'form' => $form->createView(),
+            'manipulation' => "Modifier"
+        ]);
+    }
+
+    /**
+     * @Route("/candidat={idUtilisateur}/modifierMotDePasse", name="modifierMotDePasse")
+     */
+    public function modifierMotDePasse(Request $request, $idUtilisateur)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
+
+        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form->add('submit', SubmitType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $candidat = $form->getData();
+            $manager->persist($candidat);
+            $manager->flush();
+
+            return $this->redirectToRoute('afficherProfil');
+        }
+
+        return $this->render('frontEnd/utilisateur/candidat/modifierMotDePasse.html.twig', [
+            'utilisateur' => $utilisateur,
             'form' => $form->createView(),
             'manipulation' => "Modifier"
         ]);

@@ -42,10 +42,10 @@ class SocieteController extends AbstractController
         $societe = new Societe();
 
         $form = $this->createForm(SocieteType::class, $societe)
-            ->add('Ajouter', SubmitType::class)
+            ->add('submit', SubmitType::class)
             ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
             $utilisateur->setEmail($email)
                 ->setMotDePasse($motDePasse)
@@ -61,7 +61,7 @@ class SocieteController extends AbstractController
                 $uploads_directory,
                 $filename
             );
-            $societe->setIdPhotoSociete($uploads_directory . "/" . $filename);
+            $societe->setIdPhotoSociete($filename);
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($utilisateur);
@@ -71,7 +71,7 @@ class SocieteController extends AbstractController
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirectToRoute('afficherUtilisateur');
+            return $this->redirectToRoute('publication');
         }
 
         return $this->render('_inscription/inscrireSociete.html.twig', [
@@ -89,14 +89,14 @@ class SocieteController extends AbstractController
         $societe = $manager->getRepository(Societe::class)->find($utilisateur->getSociete()->getID());
 
         $form = $this->createForm(SocieteType::class, $societe);
-        $form->add('Modifier', SubmitType::class);
+        $form->add('submit', SubmitType::class);
         $form->handleRequest($request);
 
         $utilisateur->setEmail($email)
             ->setMotDePasse($motDePasse)
             ->setTypeUtilisateur(0);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
             $societe = $form->getData()
                 ->setUtilisateur($utilisateur);

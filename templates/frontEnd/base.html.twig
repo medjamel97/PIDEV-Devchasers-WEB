@@ -69,35 +69,41 @@
                                 {% set email = utilisateur['emailUtilisateur'] %}
                             {% endif %}
 
-                            {% if utilisateur is null %}
-                            <a>
-                                <i class="mdi mdi-account mr-2"></i>
-                                Déconnecté
-                            </a>
-                            {% else %}
-                            <a href="{{ asset('utilisateur') }}">
-                                <i class="mdi mdi-account mr-2"></i>Connecté avec id : {{ idUtilisateur }}
+                            {% if utilisateur is not null %}
+                            <a href="{{ asset('afficherProfil') }}">
+                                <i class="mdi mdi-account mr-2"></i>{{ email }}
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="{{ asset('afficherMessagerie') }}">
+                            <a href="{{ asset('messagerie') }}">
                                 <i class="mdi mdi-message mr-2"></i>Messagerie
                             </a>
                             {% endif %}
                         </li>
-                        <li class="list-inline-item">
-                            {% if utilisateur is null %}
+                        {% if utilisateur is null %}
+                            <li class="list-inline-item">
                                 <a href="{{ asset('connexion') }}">
-                                    <button class="btn btn-success p-1"><i class="mdi mdi-logout"></i> Connexion
+                                    <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-login"></i>
+                                        Connexion
                                     </button>
                                 </a>
-                            {% else %}
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="{{ asset('inscription') }}">
+                                    <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-account-plus"></i>
+                                        inscription
+                                    </button>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="list-inline-item">
                                 <a href="{{ asset('deconnexion') }}">
-                                    <button class="btn btn-danger p-1"><i class="mdi mdi-logout"></i> Deconnexion
+                                    <button class="btn btn-danger p-1 pl-2 pr-2"><i class="mdi mdi-logout"></i>
+                                        Deconnexion
                                     </button>
                                 </a>
-                            {% endif %}
-                        </li>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -114,10 +120,6 @@
                          height="18"/>
                     <img src="{{ asset('/frontEnd/images/logo-dark.png') }}" alt="" class="logo-dark" height="18"/>
                 </a>
-            </div>
-            <div class="buy-button">
-                <a href="post-a-job.html" class="btn btn-primary"><i class="mdi mdi-cloud-upload"></i> Post a
-                    Job</a>
             </div>
             <!--end login button-->
             <!-- End Logo container-->
@@ -139,15 +141,16 @@
                 {% block links %}
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
+                        {% if utilisateur is not null %}
                         <li class="has-submenu"><a href="{{ asset('afficherProfil') }}">Profil</a></li>
-                        <li class="has-submenu"><a href="{{ asset('societe') }}">Societe</a></li>
+                        {% endif %}
+                        <li class="has-submenu"><a href="{{ asset('societe') }}">Societes</a></li>
                         <li class="has-submenu">
                             <a href="{{ asset('offreDeTravail/categorie=0') }}">Offres de travail</a><span
                                     class="menu-arrow"></span>
                             <ul class="submenu">
                                 <li class="has-submenu">
-                                    <a href="{{ asset('categorie') }}">Categories</a><span
-                                            class="submenu-arrow"></span>
+                                    <a href="{{ asset('categorie') }}">Categories</a><span class="submenu-arrow"></span>
                                     <ul class="submenu">
                                         <li><a href="{{ asset('#') }}">categorie 1</a></li>
                                         <li><a href="{{ asset('#') }}">categorie 2</a></li>
@@ -155,9 +158,9 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="{{ asset('formation/indexF') }}">Formations</a></li>
+                        <li><a href="{{ asset('formation') }}">Formations</a></li>
                         <li><a href="{{ asset('mission') }}">Missions</a></li>
-                        <li><a href="{{ asset('evenement/calendarA') }}">Evenements</a></li>
+                        <li><a href="{{ asset('evenement') }}">Evenements</a></li>
                     </ul><!--end navigation menu-->
                 {% endblock %}
             </div><!--end navigation-->
@@ -196,11 +199,9 @@
                 <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
                     <p class="text-white mb-4 footer-list-title">Company</p>
                     <ul class="list-unstyled footer-list">
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> About
-                                Us</a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> About Us</a>
                         </li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Media
-                                &
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Media &
                                 Press</a></li>
                         <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
                                 Career</a></li>
@@ -208,17 +209,13 @@
                         </li>
                         <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
                                 Pricing</a></li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
-                                Marketing</a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Marketing</a>
                         </li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> CEOs
-                            </a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> CEOs </a>
                         </li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
-                                Agencies</a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Agencies</a>
                         </li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Our
-                                Apps</a>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Our Apps</a>
                         </li>
                     </ul>
                 </div>
@@ -227,8 +224,7 @@
                     <ul class="list-unstyled footer-list">
                         <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
                                 Support</a></li>
-                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
-                                Privacy
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Privacy
                                 Policy</a></li>
                         <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Terms</a>
                         </li>

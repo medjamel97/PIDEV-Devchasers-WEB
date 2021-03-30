@@ -9,20 +9,20 @@
     <meta name="keywords" content=""/>
     <meta name="author" content="Themesdesign"/>
 
-    <link rel="shortcut icon" href="frontEnd/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ asset('frontEnd/images/favicon.ico') }}">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="frontEnd/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontEnd/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="frontEnd/css/materialdesignicons.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/materialdesignicons.min.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="frontEnd/css/selectize.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/selectize.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="frontEnd/css/nice-select.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/nice-select.css') }}"/>
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="frontEnd/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/style.css') }}"/>
 
 </head>
 
@@ -39,7 +39,8 @@
 <!-- Loader -->
 
 <div class="back-to-home rounded d-none d-sm-block">
-    <a href="frontEnd/index.html" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
+    <a href="{{ asset('publication') }}" class="text-white rounded d-inline-block text-center"><i
+                class="mdi mdi-home"></i></a>
 </div>
 
 <!-- Hero Start -->
@@ -52,7 +53,7 @@
                     <div class="col-md-6">
                         <div class="login_page bg-white shadow rounded p-4">
                             <div class="text-center">
-                                <h4 class="mb-4">Signup</h4>
+                                <h4 class="mb-4">Inscription</h4>
                             </div>
                             {{ form_start(form) }}
                             {% do form.email.setRendered() %}
@@ -61,33 +62,31 @@
                             {% do form.submit.setRendered() %}
 
                             <form name="utilisateur" method="post">
-                                {{ form_errors(form.email) }}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label for="utilisateur_email">Email<span
                                                         class="text-danger">*</span></label>
+                                            {{ form_errors(form.email) }}
                                             <input type="text" class="form-control" id="utilisateur_email"
                                                    placeholder="exemple@email.com"
                                                    name="utilisateur[email]" maxlength="255">
                                         </div>
                                     </div>
-                                    {{ form_errors(form.motDePasse) }}
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label for="utilisateur_motDePasse">Mot de passe<span
                                                         class="text-danger">*</span></label>
+                                            {{ form_errors(form.motDePasse) }}
                                             <input type="password" class="form-control" id="utilisateur_motDePasse"
                                                    placeholder="Entrer votre mot de passe"
                                                    name="utilisateur[motDePasse]" maxlength="255">
                                         </div>
                                     </div>
-                                    {{ form_errors(form.typeUtilisateur) }}
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <label for="utilisateur_typeUtilisateur">Type utilisateur<span
                                                     class="text-danger">*</span></label>
-                                    </div>
-                                    <div class="col-md-6 pb-3">
+                                        {{ form_errors(form.typeUtilisateur) }}
                                         <div class="form-group position-relative">
                                             <select id="utilisateur_typeUtilisateur"
                                                     name="utilisateur[typeUtilisateur]"
@@ -95,6 +94,16 @@
                                                 <option value="0">Societe</option>
                                                 <option value="1">Candidat</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="captcha">Captcha<span
+                                                    class="text-danger">*</span></label>
+                                        {{ form_errors(form.captcha) }}
+                                        <div class="form-group position-relative">
+                                            <div id="captcha" class="text-center border p-2">
+                                                {{ form_widget(form.captcha) }}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -108,13 +117,13 @@
                             <div class="col-lg-12 mt-4 text-center">
                                 <h6>Or Signup With</h6>
                                 <ul class="list-unstyled social-icon mb-0 mt-3">
-                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                    <li class="list-inline-item"><a href="{{ asset('frontEnd/javascript:void(0)') }}"
                                                                     class="rounded"><i
                                                     class="mdi mdi-facebook" title="Facebook"></i></a></li>
-                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                    <li class="list-inline-item"><a href="{{ asset('frontEnd/javascript:void(0)') }}"
                                                                     class="rounded"><i
                                                     class="mdi mdi-google-plus" title="Google"></i></a></li>
-                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                    <li class="list-inline-item"><a href="{{ asset('frontEnd/javascript:void(0)') }}"
                                                                     class="rounded"><i
                                                     class="mdi mdi-github-circle" title="Github"></i></a>
                                     </li>
@@ -123,7 +132,8 @@
                             <div class="mx-auto">
                                 <p class="mb-0 mt-3"><small class="text-dark mr-2">Vous avez deja un compte
                                         ?</small>
-                                    <a href="connexion" class="text-dark font-weight-bold">Se connecter</a>
+                                    <a href="{{ asset('connexion') }}" class="text-dark font-weight-bold">Se
+                                        connecter</a>
                                 </p>
                             </div>
                         </div>
@@ -132,21 +142,20 @@
             </div><!--end row-->
         </div> <!--end container-->
     </div>
-    </div>
 </section><!--end section-->
 <!-- Hero End -->
 
 <!-- javascript -->
-<script src="frontEnd/js/jquery.min.js"></script>
-<script src="frontEnd/js/bootstrap.bundle.min.js"></script>
-<script src="frontEnd/js/jquery.easing.min.js"></script>
-<script src="frontEnd/js/plugins.js"></script>
+<script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
 
 <!-- selectize js -->
-<script src="frontEnd/js/selectize.min.js"></script>
+<script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
 
-<script src="frontEnd/js/jquery.nice-select.min.js"></script>
+<script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
 
-<script src="frontEnd/js/app.js"></script>
+<script src="{{ asset('frontEnd/js/app.js') }}"></script>
 </body>
 </html>
