@@ -61,7 +61,7 @@ class SocieteController extends AbstractController
                 $uploads_directory,
                 $filename
             );
-            $societe->setIdPhotoSociete($filename);
+            $societe->setIdPhotoSociete($uploads_directory . "/" . $filename);
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($utilisateur);
@@ -71,7 +71,7 @@ class SocieteController extends AbstractController
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirectToRoute('publication');
+            return $this->redirectToRoute('accueil');
         }
 
         return $this->render('_inscription/inscrireSociete.html.twig', [

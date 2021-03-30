@@ -50,7 +50,7 @@ class BaseController extends AbstractController
                                 'emailUtilisateur' => $utilisateurConnexion->getEmail(),
                                 'idCandidat' => $utilisateurConnexion->getCandidat()->getId(),
                             ]);
-                            return $this->redirectToRoute("afficherPublication");
+                            return $this->redirectToRoute("publication");
                         } else {
                             $this->session->set("utilisateur", [
                                 'idUtilisateur' => $utilisateurConnexion->getId(),
