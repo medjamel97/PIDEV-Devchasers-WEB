@@ -103,19 +103,10 @@
       <path value="$PROJECT_DIR$/vendor/symfony/inflector" />
       <path value="$PROJECT_DIR$/vendor/symfony/security-csrf" />
       <path value="$PROJECT_DIR$/vendor/symfony/web-server-bundle" />
-<<<<<<< HEAD
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
       <path value="$PROJECT_DIR$/vendor/gregwar/captcha-bundle" />
       <path value="$PROJECT_DIR$/vendor/gregwar/captcha" />
-=======
-      <path value="$PROJECT_DIR$/vendor/gregwar/captcha-bundle" />
-      <path value="$PROJECT_DIR$/vendor/gregwar/captcha" />
-      <path value="$PROJECT_DIR$/vendor/symfony/swiftmailer-bundle" />
-      <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
-      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
-      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
->>>>>>> 42858a93996f13fc2260e6f236ff9bb4696659b5
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

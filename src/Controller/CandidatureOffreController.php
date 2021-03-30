@@ -7,6 +7,8 @@ use App\Entity\CandidatureOffre;
 use App\Entity\OffreDeTravail;
 use App\Entity\Utilisateur;
 use App\Form\CandidatureOffreType;
+use AppBundle\Entity\User;
+use StageBundle\Entity\Listestage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,5 +60,30 @@ class CandidatureOffreController extends AbstractController
             'idSociete' => $idSociete,
             'idCategorie' => "0",
         ]);
+    }
+    /**
+     * @Route("/liste/demande", name="listedemandestage")
+     */
+    public function listeDemandeAction(Request $request)
+    {
+        $listedemande= $this->getDoctrine() ->getRepository(OffreDeTravail::class)->findAll();
+
+        return $this->render('/backEnd/listedemande.html.twig',array('$listedemande'=>$listedemande));
+
+    }
+
+    /**
+     * @Route("/traiter/demande/{id}" , name="traiterdemande")
+     */
+    public function TraiterAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $demande = $em->getRepository(OffreDeTravail\::class)->find($id);
+        $em2 = $this->getDoctrine()->getManager();
+        $users =$em2->getRepository(User::class)->findAll();
+        //return $this->redirectToRoute("consulterliste");
+        return $this->render('StageBundle:Back:traiterdemande.html.twig',array('demande'=>$demande,'users'=>$users));
+
+
     }
 }
