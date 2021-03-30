@@ -146,7 +146,7 @@ class PublicationController extends Controller
         $publication = $publicationManager->getRepository(Publication::class)->find($idPublication);
         $publicationManager->remove($publication);
         $publicationManager->flush();
-        return $this->redirectToRoute('afficherToutPublication ');
+        return $this->redirectToRoute('gererPublication');
     }
 
 
@@ -166,8 +166,6 @@ class PublicationController extends Controller
         $CommentaireRepository->flush();
 
         return $this->redirectToRoute('afficherToutPublication');
-
-
     }
 
     /**
@@ -179,7 +177,7 @@ class PublicationController extends Controller
         $commentaire = $commentaireManager->getRepository(Commentaire::class)->find($id);
         $commentaireManager->remove($commentaire);
         $commentaireManager->flush();
-        return $this->redirectToRoute('afficherToutPublication');
+        return $this->redirectToRoute('supprimerPublication');
     }
 
     /**

@@ -16,8 +16,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class CandidatController extends AbstractController
+
+
+class CandidatController extends Controller
 {
     private $session;
 
@@ -56,10 +59,18 @@ class CandidatController extends AbstractController
     /**
      * @Route("/candidat", name="afficherToutCandidat")
      */
-    public function afficherToutCandidat()
+    public function afficherToutCandidat(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        $cand = $em->getRepository(Candidat::class)->findAll();
+        $paginator = $this->get('knp_paginator');
+        $cand = $paginator->paginate(
+            $cand,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 2)
+        );
         return $this->render('backEnd/candidat/afficherToutCandidat.html.twig', [
-            'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
+            'candidats' =>  $cand,
         ]);
     }
 
@@ -129,7 +140,7 @@ class CandidatController extends AbstractController
             $candidatManager->persist($candidat);
             $candidatManager->flush();
 
-            return $this->redirectToRoute('afficherPublication');
+            return $this->redirectToRoute('afficherToutPublication');
         }
 
         return $this->render('_inscription/inscrireCandidat.html.twig', [
