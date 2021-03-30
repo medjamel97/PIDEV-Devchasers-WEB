@@ -1,0 +1,164 @@
+{% extends '/backEnd/base.html.twig' %}
+{% block content %}
+	<!-- Start home -->
+	<section class="bg-half page-next-level">
+		<div class="bg-overlay"></div>
+		<div class="container">
+			<div class="row justify-content-center"></div>
+		</div>
+	</section>
+	<!-- end home -->
+
+	<!-- CANDIDATES LISTING START -->
+	<section class="section pt-4">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-12">
+					<div class="show-results">
+						<div class="float-left">
+
+							<h5 class="text-dark mb-0 pt-2">
+								Affichage des publications :
+
+							</h5>
+						</div>
+						<div class="sort-button text-center float-sm-right">
+							<ul class="list-unstyled mb-0">
+								<li class="list-inline-item mb-0 mr-3">
+									<select class="nice-select">
+										<option data-display="Sort By">Nothing</option>
+										<option value="1">Web Developer</option>
+										<option value="2">PHP Developer</option>
+										<option value="3">Web Designer</option>
+									</select>
+								</li>
+
+								<li class="list-inline-item">
+									<select class="nice-select">
+										<option data-display="Default">Nothing</option>
+										<option value="1">Web Developer</option>
+										<option value="2">PHP Developer</option>
+										<option value="3">Web Designer</option>
+									</select>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="tableau"></div>
+			<div class="" id="pub1">
+				<div class="col-md-10">
+					{% for publication in publications %}
+						<div
+							class="candidates-listing-item">
+							<!-- Single review Start-->
+							<div class="border mt-3 rounded p-3">
+								<div class="row">
+									<div class="col-md-2">
+										<div class="candidates-list-fav-btn text-left">
+											<a href="#">
+												<div class="candidates-listing-btn overflow-hidden">
+													<div class="text-dark mb-2">
+
+														{# if CandidatureOffre.id == 999999 #}
+														{# endif #}
+															<h6>
+														nom
+															{# candidat.nom #}
+														</h6>
+														<h6>prenom
+															{# candidat.prenom #}
+														</h6>
+													</div>
+													<img src="https://via.placeholder.com/400X400//88929f/5a6270C/O https://placeholder.com/" alt="" class="d-block rounded" height="90">
+												</div>
+											</a>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="candidates-list-desc overflow-hidden job-single-meta  pt-2">
+											<a href="/afficherpublication/{{publication.id}}" class="mb-2 text-dark">{{ publication.titre }}
+											</a>
+											<div style="font-size: 20px;"></div>
+
+											<p class="mt-1 mb-0 text-break">{{ publication.description }}</p>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="candidates-list-fav-btn text-right">
+
+
+											<div class="candidates-listing-btn mt-2">
+												<a href="{{ asset('/candidat/publication='~publication.id~'/modifier') }}" class="btn btn-primary-outline btn-sm mt-1">Accepter publication</a>
+												<a href="{{ asset('/candidat/publication='~publication.id~'/supprimer') }}" class="btn btn-primary-outline btn-sm mt-1">Supprimer publication</a>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-8">
+										<div class="candidates-list-desc overflow-hidden job-single-meta  pt-2">
+
+											<div style="font-size: 20px;"></div>
+
+
+										</div>
+									</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+						<!-- Single review END-->
+						<!-- REVIEWS LISTING END -->
+						<!-- subscribe start --><section class="section bg-light">
+							<div class="container">
+								<div class="row">
+									<div class="col-lg-4 col-md-5">
+										<div class="float-left position-relative notification-icon mr-2">
+											<i class="mdi mdi-bell-outline text-primary"></i>
+											<span class="badge badge-pill badge-danger">1</span>
+										</div>
+										<h5 class="mt-2 mb-0">Your Job Notification</h5>
+									</div>
+									<div class="col-lg-8 col-md-7 mt-4 mt-sm-0">
+										<form>
+											<div class="form-group mb-0">
+												<div class="input-group mb-0">
+													
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</section><!-- subscribe end --><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+						<script>
+							$(document).ready(function () {
+$("#search").keyup(function (e) {
+var value = $("#search").val();
+console.log(value);
+$.ajax({
+type: 'GET',
+url: 'searchPub',
+data: {
+'searchValue': value
+},
+success: function (retour) {
+if (retour) {
+$.each(JSON.parse(retour), function (i, obj) {
+$('#pub1').hide();
+$('#tableau').empty().append("<tr><td>" + obj.id + "</td><td>" + obj.titre + "</td><td>" + obj.description + "</td></tr> ");
+
+console.log("ay hkeya" + obj.titre);
+
+
+});
+}
+}
+});
+})
+});
+						</script>
+					{% endblock %}

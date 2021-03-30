@@ -14,6 +14,7 @@ class PublicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('titre')
             ->add('description')
             ->add('candidat', EntityType::class, [
                 'class' => Candidat::class,

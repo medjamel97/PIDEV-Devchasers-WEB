@@ -14,15 +14,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class PublicationController extends Controller
 {
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     /**
      * @Route("/candidat={}/publication={}", name="afficherPublication")
      */
     public function afficherPublication(): Response
     {   
-
         
         return $this->render('/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig', [
             'publications' => $this->getDoctrine()->getManager()->getRepository(Publication::class)->findAll(),
@@ -38,7 +46,10 @@ class PublicationController extends Controller
         $em= $this->getDoctrine()->getManager();
         $pubs=$em->getRepository(Publication::class)->findAll();
         
-          
+      //  $idCandidat = $this->session->get("utilisateur")["idCandidat"];
+      //  $pubs=$em->getRepository(Publication::class)->find($idCandidat);
+
+
         
         $nbrlike=$em->getRepository(Like::class)->countlikeNumber();
         $like=$em->getRepository(Like::class)->countItemNumber();
@@ -54,8 +65,6 @@ class PublicationController extends Controller
              $request->query->getInt('page', 1),
             $request->query->getInt('limit', 5)
     );
-       
-       
     
          
         return $this->render('/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig', [
@@ -130,7 +139,6 @@ class PublicationController extends Controller
     {
         $commentaireRepository = $this->getDoctrine()->getManager();
         $commentaire = $commentaireRepository->getRepository(Commentaire::class)->find($idcommentaire);
-
         $form = $this->createForm(CommentaireType::class, $commentaire);
         $form->add('Modifier', SubmitType::class);
         $form->handleRequest($request);
@@ -157,7 +165,7 @@ class PublicationController extends Controller
         $publication = $publicationManager->getRepository(Publication::class)->find($idPublication);
         $publicationManager->remove($publication);
         $publicationManager->flush();
-        return $this->redirectToRoute('afficherPublication');
+        return $this->redirectToRoute('afficherToutPublication');
     }
 
 
@@ -219,7 +227,28 @@ class PublicationController extends Controller
             ]);
     }
   
+/**
+* @Route("/searchPub ", name="searchPub")
+*/
+public function searchPub(Request $request,NormalizerInterface $normalizer)
+{ 
+    /*
+$repository = $this->getDoctrine()->getRepository(Publication::class);
+$requestString=$request->get('searchValue');
+$publications = $repository->findStudentByNsc($requestString);
+$jsonContent = $Normalizer->normalize($publications, 'json',['groups'=>'publications']);
+$retour=json_encode($jsonContent);
+return new Response($retour);
+*/
+$recherche = $request->get("searchValue"); 
+      //$mission=$this->getDoctrine()->getRepository(Mission::class)->findBy(['mission_name'=>$recherche]); 
+      $titre=$this->getDoctrine()->getRepository(Publication::class)->findStudentByTitre($recherche); 
+        $jsonContent = $normalizer->normalize($titre, 'json',['groups' => 'post:read',]);
+        $retour = json_encode($jsonContent);
+        return new Response($retour);
 
+
+}
     
 
 

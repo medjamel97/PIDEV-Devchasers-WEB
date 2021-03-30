@@ -36,8 +36,7 @@ class UtilisateurRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?utilisateur
+    public function connexion($email, $motDePasse): ?utilisateur
     {
         try {
             return $this->createQueryBuilder('u')
@@ -52,5 +51,5 @@ class UtilisateurRepository extends ServiceEntityRepository
         } catch (NonUniqueResultException $e) {
             return null;
         }
-    }*/
+    }
 }

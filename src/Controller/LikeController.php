@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Publication;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,6 +16,14 @@ use App\Entity\Like;
 
 class LikeController extends AbstractController
 {
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+    
+
     /**
      * @Route("/likeeee", name="likeeee")
      */
@@ -27,26 +36,36 @@ class LikeController extends AbstractController
 
 
      /**
-     * @Route("/ajouterlike/type={likeType}/publication={idpub}", name="like")
+     * @Route("like", name="ajoutLike")
      */
-    public function ajouterLike($likeType, $idpub)
+    public function ajoutLike(Request $request)
     {
-        if (1==1){
+        $idpub = $request->get('idPub');
+        $likeType = (Boolean)$request->get('likeType');
+        $idUtilisateur = $this->session->get("utilisateur")["idUtilisateur"];
+
+        $haveLike = $this->getDoctrine()->getRepository(Like::class)->findOneBy(['idUtilisateur' => $idUtilisateur]);
+
+        if ($haveLike == null){
         $like = new Like();
         $like->setTypelike($likeType);
         $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idpub);
         $like->setPublication($publication);
        
-        $like->setIdUtilisateur(1);
+        $like->setIdUtilisateur($idUtilisateur);
        
-        $likeRepository = $this->getDoctrine()->getManager();
-        $likeRepository->persist($like);
+     $likeRepository = $this->getDoctrine()->getManager();
+       $likeRepository->persist($like);
         $likeRepository->flush();
+
+        return new Response( $this->getDoctrine()->getRepository(Like::class)->countlikeNumber() );
+        }
+        else {
+            $missionManager = $this->getDoctrine()->getManager();
+            $mission = $missionManager->getRepository(Like::class)->findOneBy(['idUtilisateur'=>$idUtilisateur]);
+            $missionManager->remove($mission);
+            $missionManager->flush();
+            return new Response( $this->getDoctrine()->getRepository(Like::class)->countlikeNumber() );
         }
         return new Response(null);
-    }
-
-
-     
-    
-}
+    }}
