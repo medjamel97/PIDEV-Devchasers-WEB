@@ -47,10 +47,10 @@ class BaseController extends AbstractController
         $utilisateurConnexion = new Utilisateur();
 
         $form = $this->createForm(UtilisateurType::class, $utilisateurConnexion)
-            ->add('Connexion', SubmitType::class)
+            ->add('submit', SubmitType::class)
             ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
             $form->getData();
 

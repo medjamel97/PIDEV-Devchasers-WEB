@@ -34,16 +34,16 @@
 </head>
 
 <body>
-    <!-- Loader -->
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
         </div>
     </div>
-    <!-- Loader -->
+</div>
+<!-- Loader -->
 {% block sidebar %}
     <!-- Navigation Bar-->
     <header id="topnav" class="defaultscroll scroll-active">
@@ -69,14 +69,9 @@
                                 {% set email = utilisateur['emailUtilisateur'] %}
                             {% endif %}
 
-                            {% if utilisateur is null %}
-                            <a>
-                                <i class="mdi mdi-account mr-2"></i>
-                                Déconnecté
-                            </a>
-                            {% else %}
-                            <a href="{{ asset('utilisateur') }}">
-                                <i class="mdi mdi-account mr-2"></i>Connecté avec id : {{ idUtilisateur }}
+                            {% if utilisateur is not null %}
+                            <a href="{{ asset('afficherProfil') }}">
+                                <i class="mdi mdi-account mr-2"></i>{{ email }}
                             </a>
                         </li>
                         <li class="list-inline-item">
@@ -85,19 +80,30 @@
                             </a>
                             {% endif %}
                         </li>
-                        <li class="list-inline-item">
-                            {% if utilisateur is null %}
+                        {% if utilisateur is null %}
+                            <li class="list-inline-item">
                                 <a href="{{ asset('connexion') }}">
-                                    <button class="btn btn-success p-1"><i class="mdi mdi-logout"></i> Connexion
+                                    <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-login"></i>
+                                        Connexion
                                     </button>
                                 </a>
-                            {% else %}
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="{{ asset('inscription') }}">
+                                    <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-account-plus"></i>
+                                        inscription
+                                    </button>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="list-inline-item">
                                 <a href="{{ asset('deconnexion') }}">
-                                    <button class="btn btn-danger p-1"><i class="mdi mdi-logout"></i> Deconnexion
+                                    <button class="btn btn-danger p-1 pl-2 pr-2"><i class="mdi mdi-logout"></i>
+                                        Deconnexion
                                     </button>
                                 </a>
-                            {% endif %}
-                        </li>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -114,9 +120,6 @@
                          height="18"/>
                     <img src="{{ asset('/frontEnd/images/logo-dark.png') }}" alt="" class="logo-dark" height="18"/>
                 </a>
-            </div>
-            <div class="buy-button">
-                <a href="post-a-job.html" class="btn btn-primary"><i class="mdi mdi-cloud-upload"></i> Post a Job</a>
             </div>
             <!--end login button-->
             <!-- End Logo container-->
@@ -138,8 +141,10 @@
                 {% block links %}
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
+                        {% if utilisateur is not null %}
                         <li class="has-submenu"><a href="{{ asset('afficherProfil') }}">Profil</a></li>
-                        <li class="has-submenu"><a href="{{ asset('societe') }}">Societe</a></li>
+                        {% endif %}
+                        <li class="has-submenu"><a href="{{ asset('societe') }}">Societes</a></li>
                         <li class="has-submenu">
                             <a href="{{ asset('offreDeTravail/categorie=0') }}">Offres de travail</a><span
                                     class="menu-arrow"></span>
@@ -165,8 +170,8 @@
     </header><!--end header-->
     <!-- Navbar End -->
 {% endblock %}
-    {% block topImage %}{% endblock %}
-    {% block content %}{% endblock %}
+{% block topImage %}{% endblock %}
+{% block content %}{% endblock %}
 {% block footer %}
     <!-- footer start -->
     <footer class="footer">
@@ -244,7 +249,7 @@
         </div>
     </footer>
     <!-- footer end -->
-<hr>
+    <hr>
     <footer class="footer footer-bar">
         <div class="container text-center">
             <div class="row justify-content-center">

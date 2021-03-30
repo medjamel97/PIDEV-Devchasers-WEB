@@ -9,20 +9,20 @@
     <meta name="keywords" content=""/>
     <meta name="author" content="Themesdesign"/>
 
-    <link rel="shortcut icon" href="frontEnd/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ asset('frontEnd/images/favicon.ico') }}">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="frontEnd/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontEnd/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="frontEnd/css/materialdesignicons.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/materialdesignicons.min.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="frontEnd/css/selectize.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/selectize.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="frontEnd/css/nice-select.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/nice-select.css') }}"/>
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="frontEnd/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/style.css') }}"/>
 
 </head>
 
@@ -39,7 +39,8 @@
 <!-- Loader -->
 
 <div class="back-to-home rounded d-none d-sm-block">
-    <a href="frontEnd/index.html" class="text-white rounded d-inline-block text-center"><i class="mdi mdi-home"></i></a>
+    <a href="{{ asset('frontEnd/index.html') }}" class="text-white rounded d-inline-block text-center"><i
+                class="mdi mdi-home"></i></a>
 </div>
 
 <!-- Hero Start -->
@@ -52,79 +53,146 @@
                     <div class="col-md-6">
                         <div class="login_page bg-white shadow rounded p-4">
                             <div class="text-center">
-                                <h4 class="mb-4">Signup</h4>
+                                <h4 class="mb-4">Insciption candidat</h4>
                             </div>
                             {{ form_start(form) }}
-                            {% do form.email.setRendered() %}
-                            {% do form.motDePasse.setRendered() %}
-                            {% do form.typeUtilisateur.setRendered() %}
+                            {% do form.nom.setRendered() %}
+                            {% do form.prenom.setRendered() %}
+                            {% do form.dateNaissance.setRendered() %}
+                            {% do form.sexe.setRendered() %}
+                            {% do form.tel.setRendered() %}
+                            {% do form.idPhoto.setRendered() %}
                             {% do form.submit.setRendered() %}
 
-                            <form name="utilisateur" method="post">
-                                {{ form_errors(form.email) }}
+                            <form name="candidat" method="post">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
-                                            <label for="utilisateur_email">Email<span
-                                                        class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="utilisateur_email"
-                                                   placeholder="exemple@email.com"
-                                                   name="utilisateur[email]" maxlength="255">
+                                            <label for="candidat_nom" class="required">Nom</label>
+                                            {{ form_errors(form.nom) }}
+                                            <input type="text"
+                                                   id="candidat_nom"
+                                                   name="candidat[nom]"
+                                                   maxlength="255"
+                                                   class="form-control"
+                                                   placeholder="">
                                         </div>
                                     </div>
-                                    {{ form_errors(form.motDePasse) }}
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
-                                            <label for="utilisateur_motDePasse">Mot de passe<span
-                                                        class="text-danger">*</span></label>
-                                            <input type="password" class="form-control" id="utilisateur_motDePasse"
-                                                   placeholder="Entrer votre mot de passe"
-                                                   name="utilisateur[motDePasse]" maxlength="255">
+                                            <label for="candidat_prenom" class="required">Prenom</label>
+                                            {{ form_errors(form.prenom) }}
+                                            <input type="text"
+                                                   id="candidat_prenom"
+                                                   name="candidat[prenom]"
+                                                   maxlength="255"
+                                                   class="form-control"
+                                                   placeholder="">
                                         </div>
                                     </div>
-                                    {{ form_errors(form.typeUtilisateur) }}
                                     <div class="col-md-12">
-                                        <label for="utilisateur_typeUtilisateur">Type utilisateur<span
-                                                    class="text-danger">*</span></label>
+                                        <div class="form-group mb-0">
+                                            <label for="date-de-naissance" class="required">Date de naissance</label>
+                                            {{ form_errors(form.dateNaissance) }}
+                                        </div>
                                     </div>
-                                    <div class="col-md-6 pb-3">
+                                    <div class="col-md-4">
                                         <div class="form-group position-relative">
-                                            <select id="utilisateur_typeUtilisateur"
-                                                    name="utilisateur[typeUtilisateur]"
-                                                    class="nice-select">
-                                                <option value="0">Societe</option>
-                                                <option value="1">Candidat</option>
-                                            </select>
+                                            <label for="candidat_dateNaissance_day" class="required ml-2"
+                                                   style="color: grey; font-size : 12px">Jour</label>
+                                            <input type="text" id="candidat_dateNaissance_day"
+                                                   name="candidat[dateNaissance][day]"
+                                                   maxlength="255"
+                                                   class="form-control"
+                                                   placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group position-relative">
+                                            <label for="candidat_dateNaissance_month" class="required ml-2"
+                                                   style="color: grey; font-size : 12px">Mois</label>
+                                            <div class="form-group">
+                                                <select id="candidat_dateNaissance_month"
+                                                        name="candidat[dateNaissance][month]"
+                                                        class="nice-select rounded w-100">
+                                                    {% set mois=["Janvier","Fevrier","Mars","Avril","May","Juin",
+                                                        "Juillet","Aout","Septembre","Octobre","Novembre","Decembre"] %}
+                                                    {% for i in 1..12 %}
+                                                        <option value="{{ i }}">{{ mois[i-1] }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group position-relative">
+                                            <label for="candidat_dateNaissance_year" class="required ml-2"
+                                                   style="color: grey; font-size : 12px">Année</label>
+                                            <input type="text" id="candidat_dateNaissance_year"
+                                                   name="candidat[dateNaissance][year]"
+                                                   maxlength="255"
+                                                   class="form-control"
+                                                   placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative">
+                                            <label for="candidat_sexe" class="required">Sexe</label>
+                                            {{ form_errors(form.sexe) }}
+                                            <input type="text" id="candidat_sexe"
+                                                   name="candidat[sexe]"
+                                                   maxlength="255"
+                                                   class="form-control"
+                                                   placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative">
+                                            <label for="candidat_tel" class="required">Numero tel</label>
+                                            {{ form_errors(form.tel) }}
+                                            <input type="text" id="candidat_tel"
+                                                   name="candidat[tel]"
+                                                   maxlength="8"
+                                                   class="form-control"
+                                                   placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group position-relative mb-0">
+                                        <div class="col-md-12">
+                                            <label for="candidat_idPhoto">Photo candidat</label>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="submit" id="utilisateur_submit" name="utilisateur[submit]"
-                                                class="btn btn-primary w-100">Suivant
-                                        </button>
+                                        <div class="form-group position-relative">
+                                            {{ form_errors(form.idPhoto) }}
+                                            <input type="file" id="candidat_idPhoto" name="candidat[idPhoto]">
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </div><!--end row-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" id="candidat_submit"
+                                                class="btn btn-primary"
+                                                name="candidat[submit]">S'inscrire
+                                        </button>
+                                    </div><!--end col-->
+                                </div><!--end row-->
+                            </form><!--end form-->
                             {{ form_end(form) }}
                             <div class="col-lg-12 mt-4 text-center">
                                 <h6>Or Signup With</h6>
                                 <ul class="list-unstyled social-icon mb-0 mt-3">
-                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                    <li class="list-inline-item"><a href="{{ asset('frontEnd/javascript:void(0)') }}"
                                                                     class="rounded"><i
                                                     class="mdi mdi-facebook" title="Facebook"></i></a></li>
-                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                    <li class="list-inline-item"><a href="{{ asset('frontEnd/javascript:void(0)') }}"
                                                                     class="rounded"><i
                                                     class="mdi mdi-google-plus" title="Google"></i></a></li>
-                                    <li class="list-inline-item"><a href="frontEnd/javascript:void(0)"
+                                    <li class="list-inline-item"><a href="{{ asset('frontEnd/javascript:void(0)') }}"
                                                                     class="rounded"><i
                                                     class="mdi mdi-github-circle" title="Github"></i></a>
                                     </li>
                                 </ul><!--end icon-->
-                            </div>
-                            <div class="mx-auto">
-                                <p class="mb-0 mt-3"><small class="text-dark mr-2">Vous avez deja un compte
-                                        ?</small>
-                                    <a href="connexion" class="text-dark font-weight-bold">Se connecter</a>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -132,21 +200,20 @@
             </div><!--end row-->
         </div> <!--end container-->
     </div>
-    </div>
 </section><!--end section-->
 <!-- Hero End -->
 
 <!-- javascript -->
-<script src="frontEnd/js/jquery.min.js"></script>
-<script src="frontEnd/js/bootstrap.bundle.min.js"></script>
-<script src="frontEnd/js/jquery.easing.min.js"></script>
-<script src="frontEnd/js/plugins.js"></script>
+<script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
 
 <!-- selectize js -->
-<script src="frontEnd/js/selectize.min.js"></script>
+<script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
 
-<script src="frontEnd/js/jquery.nice-select.min.js"></script>
+<script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
 
-<script src="frontEnd/js/app.js"></script>
+<script src="{{ asset('frontEnd/js/app.js') }}"></script>
 </body>
 </html>

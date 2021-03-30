@@ -24,10 +24,10 @@
 
                                 <form name="education" method="post">
                                     <div class="row">
-                                        {{ form_errors(form.description) }}
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
                                                 <label for="education_description" class="required">Description</label>
+                                                {{ form_errors(form.description) }}
                                                 <input type="text"
                                                        id="education_description"
                                                        name="education[description]"
@@ -37,11 +37,11 @@
                                                        placeholder="">
                                             </div>
                                         </div>
-                                        {{ form_errors(form.titreEmploi) }}
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
                                                 <label for="education_niveauEducation" class="required">Niveau
                                                     education</label>
+                                                {{ form_errors(form.titreEmploi) }}
                                                 <input type="text"
                                                        id="education_niveauEducation"
                                                        name="education[niveauEducation]"
@@ -51,10 +51,10 @@
                                                        placeholder="">
                                             </div>
                                         </div>
-                                        {{ form_errors(form.nomEntreprise) }}
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
-                                                <label for="education_filiere" class="required">Filiere</label>
+                                                <label for="education_filiere" class="required">Nom entreprise</label>
+                                                {{ form_errors(form.nomEntreprise) }}
                                                 <input type="text"
                                                        id="education_filiere"
                                                        name="education[filiere]"
