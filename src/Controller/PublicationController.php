@@ -27,7 +27,7 @@ class PublicationController extends Controller
     }
 
     /**
-     * @Route("/publication", name="afficherToutPublication")
+     * @Route("publication", name="afficherToutPublication")
      */
     public function afficherToutPublication(Request $request): Response
     {
@@ -53,17 +53,36 @@ class PublicationController extends Controller
         );
 
 
-        return $this->render('/frontEnd/utilisateur/candidat/publication/afficherPublication.html.twig', [
+        return $this->render('/frontEnd/utilisateur/candidat/publication/afficherToutPublication.html.twig', [
             'publications' => $res,
             'nbrlike' => $nbrlike,
             'like' => $like,
-            'pourcen' => $pourcentage,
             'commentaires' => $this->getDoctrine()->getManager()->getRepository(Commentaire::class)->findAll(),
         ]);
     }
 
     /**
-     * @Route("/candidat/publication/ajouter", name="ajouterPublication")
+     * @Route("publication/{id}/afficher", name="afficherPublication")
+     */
+    public function afficherunePublication($id): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pubs = $em->getRepository(Publication::class)->find($id);
+        $nbrlike = $em->getRepository(Like::class)->countlikeNumber();
+        $like = $em->getRepository(Like::class)->countItemNumber();
+
+
+        return $this->render('/frontEnd/utilisateur/candidat/publication/unepublication.html.twig', [
+            'publication' => $pubs,
+            'nbrlike' => $nbrlike,
+            'like' => $like,
+
+            'commentaires' => $this->getDoctrine()->getManager()->getRepository(Commentaire::class)->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("publication/ajouter", name="ajouterPublication")
      */
     public function ajouterPublication(Request $request)
     {
@@ -91,7 +110,7 @@ class PublicationController extends Controller
     }
 
     /**
-     * @Route("/candidat/publication={idPublication}/modifier", name="modifierPublication")
+     * @Route("publication/{idPublication}/modifier", name="modifierPublication")
      */
     public function modifierPublication(Request $request, $idPublication)
     {
@@ -113,32 +132,8 @@ class PublicationController extends Controller
         ]);
     }
 
-
     /**
-     * @Route("/modifiercommentaire{idcommentaire}", name="modifierCommentaire")
-     */
-    public function modifierCommentaire(Request $request, $idcommentaire)
-    {
-        $commentaireRepository = $this->getDoctrine()->getManager();
-        $commentaire = $commentaireRepository->getRepository(Commentaire::class)->find($idcommentaire);
-        $form = $this->createForm(CommentaireType::class, $commentaire);
-        $form->add('Modifier', SubmitType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commentaireRepository->flush();
-            return $this->redirectToRoute('afficherToutPublication');
-        }
-
-        return $this->render('/frontEnd/utilisateur/candidat/publication/commentaire/manipulerCommentaire.html.twig', [
-            'form' => $form->createView(),
-            'manipulation' => "Modifier",
-        ]);
-    }
-
-
-    /**
-     * @Route("/candidat/publication={idPublication}/supprimer", name="supprimerPublication")
+     * @Route("publication/{idPublication}/supprimer", name="supprimerPublication")
      */
     public function supprimerPublication($idPublication)
     {
@@ -149,83 +144,17 @@ class PublicationController extends Controller
         return $this->redirectToRoute('gererPublication');
     }
 
-
     /**
-     * @Route("/ajoutercommentaire", name="ajouterCommentaire", methods={"POST"})
-     */
-    public function ajouterCommentaire(Request $request)
-    {
-        $commentaire = new Commentaire();
-
-        $commentaire->setDescription($request->get('description'));
-        $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($request->get('id_publication'));
-        $commentaire->setPublication($publication);
-
-        $CommentaireRepository = $this->getDoctrine()->getManager();
-        $CommentaireRepository->persist($commentaire);
-        $CommentaireRepository->flush();
-
-        return $this->redirectToRoute('afficherToutPublication');
-    }
-
-    /**
-     * @Route("/supprimerCommentaire/{id}", name="supprimerCommentaire")
-     */
-    public function supprimerCommentaire($id)
-    {
-        $commentaireManager = $this->getDoctrine()->getManager();
-        $commentaire = $commentaireManager->getRepository(Commentaire::class)->find($id);
-        $commentaireManager->remove($commentaire);
-        $commentaireManager->flush();
-        return $this->redirectToRoute('supprimerPublication');
-    }
-
-    /**
-     * @Route("/afficherpublication/{id}", name="afficherPublication")
-     */
-    public function afficherunePublication($id): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $pubs = $em->getRepository(Publication::class)->find($id);
-        $nbrlike = $em->getRepository(Like::class)->countlikeNumber();
-        $like = $em->getRepository(Like::class)->countItemNumber();
-
-
-        return $this->render('/frontEnd/utilisateur/candidat/publication/unepublication.html.twig', [
-            'publication' => $pubs,
-            'nbrlike' => $nbrlike,
-            'like' => $like,
-
-            'commentaires' => $this->getDoctrine()->getManager()->getRepository(Commentaire::class)->findAll(),
-
-
-        ]);
-    }
-
-    /**
-     * @Route("/searchPub ", name="searchPub")
+     * @Route("publication/rechreche ", name="rechrechePublication")
      */
     public function searchPub(Request $request, NormalizerInterface $normalizer)
     {
-        /*
-    $repository = $this->getDoctrine()->getRepository(Publication::class);
-    $requestString=$request->get('searchValue');
-    $publications = $repository->findStudentByNsc($requestString);
-    $jsonContent = $Normalizer->normalize($publications, 'json',['groups'=>'publications']);
-    $retour=json_encode($jsonContent);
-    return new Response($retour);
-    */
         $recherche = $request->get("searchValue");
-        //$mission=$this->getDoctrine()->getRepository(Mission::class)->findBy(['mission_name'=>$recherche]);
         $titre = $this->getDoctrine()->getRepository(Publication::class)->findStudentByTitre($recherche);
         $jsonContent = $normalizer->normalize($titre, 'json', ['groups' => 'post:read',]);
         $retour = json_encode($jsonContent);
         return new Response($retour);
-
-
     }
-
-
 }
 
 

@@ -31,7 +31,7 @@
                 <td>{{ offreDeTravail.description }}</td>
                 <td>{{ offreDeTravail.societe.id }}</td>
                 {% if offreDeTravail.categorie %}
-                    <td>{{ offreDeTravail.categorie.description }}</td>
+                    <td>{{ offreDeTravail.categorie.nomCategorie }}</td>
                 {% else %}
                     <td>
                         Aucune categorie
@@ -40,8 +40,8 @@
                 {% if offreDeTravail.candidatureOffre %}
                     <td>
                         {% for candidature in offreDeTravail.candidatureOffre %}
-                            Candidature {{ candidature.id }} : {{ candidature.candidat.prenom }}
-                            {{ candidature.offreDeTravail.description }} a {{ candidature.offreDeTravail.societe.nomSociete }}
+                            Candidature {{ candidature.id }} : {{ candidature.candidat.prenom }} /
+                            offre : {{ candidature.offreDeTravail.description }} a {{ candidature.offreDeTravail.societe.nomSociete }}
                             <br>
                         {% endfor %}
                     </td>
@@ -77,7 +77,7 @@
                             <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/interview/ajouter') }}">
                                 Ajouter une interview pour cette offre</a>
                         {% else %}
-                            <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/utilisateur='~idUtilisateur~'/ajouter') }}">
+                            <a href="{{ asset('candidatureOffre/offreDeTravail='~offreDeTravail.id~'/ajouter') }}">
                                 Candidater pour cette offre
                             </a>
                         {% endif %}

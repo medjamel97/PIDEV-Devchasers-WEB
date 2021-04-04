@@ -52,13 +52,7 @@ class Publication
      * @ORM\Column(type="integer",nullable=true)
      * @Groups("post:read")
      */
-    private $nbr_like;
-
-    /**
-     * @ORM\Column(type="integer",nullable=true)
-     * @Groups("post:read")
-     */
-    private $all_like;
+    private $pourcentageLike;
 
     /**
      * @ORM\Column(type="date",nullable=true)
@@ -167,26 +161,14 @@ class Publication
         return $this;
     }
 
-    public function getNbrLike(): ?int
+    public function getPourcentageLike(): ?int
     {
-        return $this->nbr_like;
+        return $this->pourcentageLike;
     }
 
-    public function setNbrLike(int $nbr_like): self
+    public function setPourcentageLike(int $pourcentageLike): self
     {
-        $this->nbr_like = $nbr_like;
-
-        return $this;
-    }
-
-    public function getAllLike(): ?int
-    {
-        return $this->all_like;
-    }
-
-    public function setAllLike(int $all_like): self
-    {
-        $this->all_like = $all_like;
+        $this->pourcentageLike = $pourcentageLike;
 
         return $this;
     }

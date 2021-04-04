@@ -21,6 +21,22 @@ class BaseController extends AbstractController
     }
 
     /**
+     * @Route("", name="")
+     */
+    public function index()
+    {
+        return $this->redirectToRoute('afficherToutPublication');
+    }
+
+    /**
+     * @Route("/accueil", name="accueil")
+     */
+    public function accueil()
+    {
+        return $this->redirectToRoute('afficherToutPublication');
+    }
+
+    /**
      * @Route("/connexion", name="connexion")
      */
     public function connexion(Request $request)
@@ -38,27 +54,32 @@ class BaseController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $utilisateurs = $manager->getRepository(Utilisateur::class)->findAll();
 
+            $currentEmail = $utilisateurConnexion->getEmail();
+            $currentMdp = $utilisateurConnexion->getMotDePasse();
+
             foreach ($utilisateurs as $utilisateur) {
-                $email = $utilisateur->getEmail();
-                if ($utilisateurConnexion->getEmail() == $email) {
-                    $motDePasse = $utilisateur->getMotDePasse();
-                    if ($utilisateurConnexion->getMotDePasse() == $motDePasse) {
-                        $utilisateurConnexion = $manager->getRepository(Utilisateur::class)->connexion($email, $motDePasse);
-                        if ($utilisateurConnexion->getTypeUtilisateur()==1) {
-                            $this->session->set("utilisateur", [
-                                'idUtilisateur' => $utilisateurConnexion->getId(),
-                                'emailUtilisateur' => $utilisateurConnexion->getEmail(),
-                                'idCandidat' => $utilisateurConnexion->getCandidat()->getId(),
-                            ]);
-                            return $this->redirectToRoute("afficherToutPublication");
+                if ($currentEmail == $utilisateur->getEmail()) {
+                    if ($currentMdp == $utilisateur->getMotDePasse()) {
+                        $utilisateurConnexion = $manager->getRepository(Utilisateur::class)
+                            ->connexion($currentEmail, $currentMdp);
+
+                        if ($utilisateurConnexion->getTypeUtilisateur() == 0) {
+                            $idCandidat = null;
+                            $idSociete = $utilisateurConnexion->getSociete()->getId();
                         } else {
-                            $this->session->set("utilisateur", [
-                                'idUtilisateur' => $utilisateurConnexion->getId(),
-                                'emailUtilisateur' => $utilisateurConnexion->getEmail(),
-                                'idSociete' => $utilisateurConnexion->getSociete()->getId(),
-                            ]);
-                            return $this->redirectToRoute("gererpublication");
+                            $idCandidat = $utilisateurConnexion->getCandidat()->getId();
+                            $idSociete = null;
                         }
+
+                        $this->session->set("utilisateur", [
+                            'idUtilisateur' => $utilisateurConnexion->getId(),
+                            'idCandidat' => $idCandidat,
+                            'idSociete' => $idSociete,
+                            'emailUtilisateur' => $utilisateur->getEmail(),
+                            'typeUtilisateur' => $utilisateurConnexion->getTypeUtilisateur(),
+                        ]);
+
+                        return $this->redirectToRoute("accueil");
                     }
                 }
             }

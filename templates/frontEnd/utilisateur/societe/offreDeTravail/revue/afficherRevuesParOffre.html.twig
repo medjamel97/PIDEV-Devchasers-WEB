@@ -25,12 +25,16 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="text-center text-white">
-                        <h4 class="text-uppercase title mb-4">revues sur la societe {{ societe.nomSociete }}</h4>
+                        <h4 class="text-uppercase title mb-4">revues sur l'offre {{ offreDeTravail.description }} de la
+                            societe : {{ offreDeTravail.societe.nomSociete }}</h4>
                         <ul class="page-next d-inline-block mb-0">
                             <li><a href="{{ asset('/societe') }}" class="text-uppercase font-weight-bold">Societes</a>
                             </li>
-                            <li><a href="{{ asset('/societe='~societe.id) }}"
-                                   class="text-uppercase font-weight-bold">{{ societe.nomSociete }}</a>
+                            <li><a href="{{ asset('/societe='~offreDeTravail.societe.id) }}"
+                                   class="text-uppercase font-weight-bold">{{ offreDeTravail.societe.nomSociete }}</a>
+                            </li>
+                            <li><a href="{{ asset('/societe='~offreDeTravail.societe.id) }}"
+                                   class="text-uppercase font-weight-bold">{{ offreDeTravail.description }}</a>
                             </li>
                             <li><span class="text-uppercase text-white font-weight-bold">Revues</span></li>
                         </ul>
@@ -41,7 +45,9 @@
     </section>
     <!-- end home -->
     <br><br><br>
-    &nbsp&nbsp&nbsp&nbsp ICI RECHERCHE DEBUT
+    <div class="text-center h2" style="color: red">{% if message != 'null' %}{{ message }}{% endif %}</div>
+    <br><br><br>
+    &nbsp&nbsp&nbsp&nbsp ICI RECHERCHE DEBUT---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     <br><br><br>
 
     &nbsp&nbsp&nbsp&nbsp
@@ -115,7 +121,7 @@
     </script>
 
     <br><br><br>
-    &nbsp&nbsp&nbsp&nbsp ICI RECHERCHE FIN
+    &nbsp&nbsp&nbsp&nbsp ICI RECHERCHE FIN--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     <br><br><br>
 
     {% if nbResults > 0 %}
@@ -289,6 +295,11 @@
     {% else %}
         <h4 class="row justify-content-center p-5">Aucune revue pour cette societe</h4>
     {% endif %}
+    <a class="row justify-content-center p-5">Ajputer une revue pour cette societe avec l'offre : </a>
+    offres de travails pour {{ offreDeTravail.societe.nomSociete }} :
+
+    <a href="/revue/offreDeTravail={{ offreDeTravail.id }}/ajouter" class="h2 text-center">Publier une revue pour l'offre
+        : {{ offreDeTravail.description }}</a>
 
     <!-- subscribe start -->
     <section class="section bg-light">

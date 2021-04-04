@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CandidatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -53,16 +54,6 @@ class Candidat
     private $idPhoto;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureFormation::class, mappedBy="candidat")
-     */
-    private $candidatureFormation;
-
-    /**
-     * @ORM\OneToMany(targetEntity=CandidatureEvenement::class, mappedBy="candidat")
-     */
-    private $candidatureEvenement;
-
-    /**
      * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="candidat")
      */
     private $candidatureOffre;
@@ -99,8 +90,6 @@ class Candidat
 
     public function __construct()
     {
-        $this->candidatureFormation = new ArrayCollection();
-        $this->candidatureEvenement = new ArrayCollection();
         $this->candidatureOffre = new ArrayCollection();
         $this->candidatureMission = new ArrayCollection();
         $this->publication = new ArrayCollection();
@@ -182,66 +171,6 @@ class Candidat
     public function setIdPhoto(string $idPhoto): self
     {
         $this->idPhoto = $idPhoto;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CandidatureFormation[]
-     */
-    public function getCandidatureFormation(): Collection
-    {
-        return $this->candidatureFormation;
-    }
-
-    public function addCandidatureFormation(candidatureFormation $candidatureFormation): self
-    {
-        if (!$this->candidatureFormation->contains($candidatureFormation)) {
-            $this->candidatureFormation[] = $candidatureFormation;
-            $candidatureFormation->setCandidat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCandidatureFormation(candidatureFormation $candidatureFormation): self
-    {
-        if ($this->candidatureFormation->removeElement($candidatureFormation)) {
-            // set the owning side to null (unless already changed)
-            if ($candidatureFormation->getCandidat() === $this) {
-                $candidatureFormation->setCandidat(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CandidatureEvenement[]
-     */
-    public function getCandidatureEvenement(): Collection
-    {
-        return $this->candidatureEvenement;
-    }
-
-    public function addCandidatureEvenement(candidatureEvenement $candidatureEvenement): self
-    {
-        if (!$this->candidatureEvenement->contains($candidatureEvenement)) {
-            $this->candidatureEvenement[] = $candidatureEvenement;
-            $candidatureEvenement->setCandidat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCandidatureEvenement(candidatureEvenement $candidatureEvenement): self
-    {
-        if ($this->candidatureEvenement->removeElement($candidatureEvenement)) {
-            // set the owning side to null (unless already changed)
-            if ($candidatureEvenement->getCandidat() === $this) {
-                $candidatureEvenement->setCandidat(null);
-            }
-        }
 
         return $this;
     }

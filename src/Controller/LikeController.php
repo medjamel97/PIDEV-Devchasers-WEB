@@ -13,7 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Controller\PublicationController;
 use App\Entity\Like;
 
-
+/**
+ * @Route("like/", name="like")
+ */
 class LikeController extends AbstractController
 {
     private $session;
@@ -22,81 +24,75 @@ class LikeController extends AbstractController
     {
         $this->session = $session;
     }
-    
 
     /**
-     * @Route("/likeeee", name="likeeee")
+     * @Route("", name="gererLikes")
      */
-    public function index(): Response
+    public function gererLikes(Request $request)
     {
-        return $this->render('like/index.html.twig', [
-            'controller_name' => 'LikeController',
-        ]);
-    }
+        $likeType = (int)$request->get('typeLike');
 
-
-     /**
-     * @Route("like", name="ajoutLike")
-     */
-    public function ajoutLike(Request $request)
-    {
-        $idpub = $request->get('idPub');
-        $likeType = (boolean)$request->get('typeLike');
         $idUtilisateur = $this->session->get("utilisateur")["idUtilisateur"];
 
         $haveLike = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
             'idUtilisateur' => $idUtilisateur,
             'typelike' => true,
-            ]);
+        ]);
         $haveDislike = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
             'idUtilisateur' => $idUtilisateur,
             'typelike' => false,
-            ]);
-        
+        ]);
 
-        if ($likeType == true){
-            if ($haveLike == null){
-                $like = new Like();
-                $like->setTypelike($likeType);
-                $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idpub);
-                $like->setPublication($publication);
-       
-                $like->setIdUtilisateur($idUtilisateur);
-       
-                $likeRepository = $this->getDoctrine()->getManager();
-                $likeRepository->persist($like);
-                $likeRepository->flush();
+        $jsonContent['haveLike'] = $haveLike != null;
+        $jsonContent['haveDislike'] = $haveDislike == null;
 
-            }else{
-                $missionManager = $this->getDoctrine()->getManager();
-                $missionManager->remove($haveLike);
-                $missionManager->flush();
-            }
-
-            return new Response($this->getDoctrine()->getRepository(Like::class)->countlikeNumber());
+        if ($likeType == 1) {
+            $this->addLike($haveLike, $likeType, $idUtilisateur, $request->get('idPub'));
+        } else {
+            $this->addLike($haveDislike, $likeType, $idUtilisateur, $request->get('idPub'));
         }
-        else {
-            if ($haveDislike == null){
-                $like = new Like();
-                $like->setTypelike($likeType);
-                $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idpub);
-       
-                $like->setPublication($publication);
-                $like->setIdUtilisateur($idUtilisateur);
-       
-                 $likeRepository = $this->getDoctrine()->getManager();
-                 $likeRepository->persist($like);
-                $likeRepository->flush();
 
-            }else{
-                $missionManager = $this->getDoctrine()->getManager();
-                $missionManager->remove($haveDislike);
-                $missionManager->flush();
-            }
+        $nbrlike = $this->getDoctrine()->getRepository(Like::class)->countlikeNumber();
+        $like = $this->getDoctrine()->getRepository(Like::class)->countItemNumber();
 
-            $nbrlike= $this->getDoctrine()->getRepository(Like::class)->countlikeNumber();
-            $like= $this->getDoctrine()->getRepository(Like::class)->countItemNumber();
-            return new Response($like-$nbrlike);
+        if ($like != 0) {
+            $pourcentage = ((float)$nbrlike / (float)$like) * 100;
+        } else {
+            $pourcentage = 0;
+        }
+
+        $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($request->get('idPub'));
+        $publication->setPourcentageLike($pourcentage);
+
+        $repository = $this->getDoctrine()->getManager();
+        $repository->persist($publication);
+        $repository->flush();
+
+        $jsonContent['nbLike'] = $nbrlike;
+        $jsonContent['nbDislike'] = ($like - $nbrlike);
+        $jsonContent['pourcentage'] = $pourcentage;
+        return new Response(json_encode($jsonContent));
+    }
+
+    function addLike($haveLike, $typeLike, $idUtilisateur, $idPub)
+    {
+
+        if ($haveLike == null) {
+            $like = new Like();
+            $like->setTypelike($typeLike);
+            $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idPub);
+
+            $like->setPublication($publication);
+            $like->setIdUtilisateur($idUtilisateur);
+
+            $repository = $this->getDoctrine()->getManager();
+            $repository->persist($like);
+            $repository->flush();
+
+        } else {
+            $missionManager = $this->getDoctrine()->getManager();
+            $missionManager->remove($haveLike);
+            $missionManager->flush();
         }
     }
 }

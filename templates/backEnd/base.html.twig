@@ -89,20 +89,6 @@
                 </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Candidat</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Candidats</h6>
-                        <a class="collapse-item" href={{ path('afficherToutCandidat') }}>Afficher tout candidats</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('afficherToutCandidat') }}">
@@ -121,15 +107,38 @@
 
             {% set utilisateur = app.session.get('utilisateur') %}
             {% if utilisateur is not null %}
-                {% set idSociete = utilisateur['idSociete'] %}
+                {% if utilisateur['idSociete'] %}
+                    {% set idSociete = utilisateur['idSociete'] %}
+                {% endif %}
+            {% endif %}
+
+            {% if utilisateur is not null %}
+                {% if utilisateur['idSociete'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="societeMission/{{ idSociete }}">
+                            <span>Vos missions</span></a>
+                    </li>
+                {% endif %}
             {% endif %}
 
             <li class="nav-item">
-                <a class="nav-link" href="societeMission/{{ idSociete}}">
-                    <span>Vos missions</span></a>
+                <a class="nav-link" href="{{ path('listc') }}">
+                    <span>Lister categorie</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('aff') }}">
+                    <span>Ajout offre</span></a>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('ac') }}">
+                    <span>Ajout categorie</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('listeA') }}">
+                    <span>List offre 2</span></a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

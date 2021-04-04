@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
-
 class CandidatController extends Controller
 {
     private $session;
@@ -30,34 +28,7 @@ class CandidatController extends Controller
     }
 
     /**
-     * @Route("/afficherProfil", name="afficherProfil")
-     */
-    public function afficherProfil()
-    {
-        $idCandidat = $this->session->get("utilisateur")["idCandidat"];
-        return $this->render('frontEnd/utilisateur/candidat/afficherProfil.html.twig', [
-            'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
-            'educations' => $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat),
-            'workexps' => $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat),
-            'competences' => $this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat)
-        ]);
-    }
-
-    /**
-     * @Route("/afficherCandidatBackEnd/{idCandidat}", name="afficherCandidatBackEnd")
-     */
-    public function afficherCandidatBackEnd($idCandidat)
-    {
-        return $this->render('backend/candidat/afficherCandidat.html.twig', [
-            'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
-            'educations' => $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat),
-            'workexps' => $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat),
-            'competences' => $this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat)
-        ]);
-    }
-
-    /**
-     * @Route("/candidat", name="afficherToutCandidat")
+     * @Route("candidat", name="afficherToutCandidat")
      */
     public function afficherToutCandidat(Request $request)
     {
@@ -70,12 +41,38 @@ class CandidatController extends Controller
             $request->query->getInt('limit', 2)
         );
         return $this->render('backEnd/candidat/afficherToutCandidat.html.twig', [
-            'candidats' =>  $cand,
+            'candidats' => $cand,
         ]);
     }
 
     /**
-     * @Route("/afficherCandidatsRecherche", name="afficherCandidatsRecherche")
+     * @Route("candidat/{idCandidat}/profile", name="profile")
+     */
+    public function profile($idCandidat)
+    {
+        $idUtilisateur = $this->session->get("utilisateur")["idUtilisateur"];
+        $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($idUtilisateur);
+
+        $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat);
+        $educations = $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat);
+        $workexps = $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat);
+        $competences = $this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat);
+        if ($utilisateur->getCandidat()) {
+            $twig = 'frontEnd/utilisateur/candidat/afficherProfil.html.twig';
+        } else {
+            $twig = 'backend/candidat/afficherCandidat.html.twig';
+        }
+
+        return $this->render($twig, [
+            'candidat' => $candidat,
+            'educations' => $educations,
+            'workexps' => $workexps,
+            'competences' => $competences
+        ]);
+    }
+
+    /**
+     * @Route("candidat/afficherCandidatsRecherche", name="afficherCandidatsRecherche")
      * @throws \Exception
      */
     public function afficherCandidatsRecherche(Request $request)
@@ -103,7 +100,7 @@ class CandidatController extends Controller
     }
 
     /**
-     * @Route("/candidat/ajouter/email={email}/password={motDePasse}", name="ajouterCandidat")
+     * @Route("candidat/ajouter/email={email}/password={motDePasse}", name="ajouterCandidat")
      */
     public function ajouterCandidat(Request $request, $email, $motDePasse)
     {
@@ -150,7 +147,7 @@ class CandidatController extends Controller
 
 
     /**
-     * @Route("/candidat={idCandidat}/modifier", name="modifierCandidat")
+     * @Route("candidat/{idCandidat}/modifier", name="modifierCandidat")
      */
     public function modifierCandidat(Request $request, $idCandidat)
     {
@@ -187,7 +184,7 @@ class CandidatController extends Controller
     }
 
     /**
-     * @Route("/candidat={idUtilisateur}/modifierEmail", name="modifierEmail")
+     * @Route("candidat/{idUtilisateur}/modifierEmail", name="modifierEmail")
      */
     public function modifierEmail(Request $request, $idUtilisateur)
     {
@@ -215,7 +212,7 @@ class CandidatController extends Controller
     }
 
     /**
-     * @Route("/candidat={idUtilisateur}/modifierMotDePasse", name="modifierMotDePasse")
+     * @Route("candidat/{idUtilisateur}/modifierMotDePasse", name="modifierMotDePasse")
      */
     public function modifierMotDePasse(Request $request, $idUtilisateur)
     {

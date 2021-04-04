@@ -35,7 +35,7 @@
                                 <a href="{{ asset('frontEnd/index.html') }}" class="text-uppercase font-weight-bold">Societes</a>
                             </li>
                             <li>
-                                <a class="text-uppercase font-weight-bold">{{ societe.nomSociete }}</a>
+                                <a class="text-uppercase font-weight-bold">{{ offreDeTravail.societe.nomSociete }}</a>
                             </li>
                             <li>
                                 <a class="text-uppercase font-weight-bold">{{ offreDeTravail.description }}</a>
@@ -58,11 +58,12 @@
                     <div class="rounded shadow bg-white p-4">
                         <div class="custom-form">
                             <div id="message3"></div>
-                            <h4 class="text-dark mb-3">{{ manipulation }} une revue sur l'offre {{ offreDeTravail.description }} de {{ societe.nomSociete }} :</h4>
+                            <h4 class="text-dark mb-3">{{ manipulation }} une revue sur l'offre {{ offreDeTravail.description }} de {{ offreDeTravail.societe.nomSociete }} :</h4>
                             {{ form_start(form) }}
                             {% do form.nbEtoiles.setRendered() %}
                             {% do form.objet.setRendered() %}
                             {% do form.description.setRendered() %}
+                            {% do form.candidatureOffre.setRendered() %}
                             {% do form.submit.setRendered() %}
                             {% if revue is not null %}
                                 {% set objet = revue.objet %}

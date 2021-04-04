@@ -18,41 +18,4 @@ class CandidatureOffreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, CandidatureOffre::class);
     }
-
-    // /**
-    //  * @return CandidatureOffre[] Returns an array of CandidatureOffre objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?CandidatureOffre
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-    public function getCandidatureOffreId()
-    {
-        return $this->createQueryBuilder('c')
-            ->innerJOIN('c.revue', 'r')
-            ->where('r.id = c.id')
-            ->getQuery()
-            ->getResult();
-    }
 }

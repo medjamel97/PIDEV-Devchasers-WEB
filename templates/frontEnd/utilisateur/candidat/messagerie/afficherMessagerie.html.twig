@@ -321,7 +321,7 @@
                                         .attr("href", "javascript:closeNouvModal();" +
                                             "ajouterConversation(" + obj.idCandidatExpediteur + "," + obj.idCandidatDestinataire + ");");
                                     clone.find('#photo-candidat').attr("id", "photo-candidat" + i)
-                                        .attr("src", "/frontEnd/images/candidats/candidat" + obj.idPhoto + ".jpg");
+                                        .attr("src", "/uploads/" + obj.idPhoto);
                                     clone.find('#prenom-nom-candidat').attr("id", "prenom-nom-candidat" + i).append(obj.nomPrenom);
 
                                     $('#contenaire-candidats').append(clone);

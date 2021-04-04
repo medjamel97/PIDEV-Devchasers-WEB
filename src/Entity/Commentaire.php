@@ -26,9 +26,14 @@ class Commentaire
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Publication::class, inversedBy="commentaire", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity=Publication::class, inversedBy="commentaire")
      */
     private $publication;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commentaire")
+     */
+    private $utilisateur;
 
     public function getId(): ?int
     {
@@ -55,6 +60,18 @@ class Commentaire
     public function setPublication(?publication $publication): self
     {
         $this->publication = $publication;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

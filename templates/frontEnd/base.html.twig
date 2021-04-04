@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-<head>
+<head id="head">
     {% block head %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,8 +67,8 @@
                             {% if utilisateur is not null %}
                                 {% set idUtilisateur = utilisateur['idUtilisateur'] %}
                                 {% set email = utilisateur['emailUtilisateur'] %}
+                                {% set idCandidat = utilisateur['idCandidat'] %}
                             {% endif %}
-
                             {% if utilisateur is not null %}
                             <a href="{{ asset('afficherProfil') }}">
                                 <i class="mdi mdi-account mr-2"></i>{{ email }}
@@ -142,15 +142,22 @@
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
                         {% if utilisateur is not null %}
-                        <li class="has-submenu"><a href="{{ asset('afficherProfil') }}">Profil</a></li>
+                            <li class="has-submenu"><a href="{{ asset('candidat/'~idCandidat~'/profile') }}">Profil</a>
+                            </li>
                         {% endif %}
                         <li class="has-submenu"><a href="{{ asset('societe') }}">Societes</a></li>
                         <li class="has-submenu">
-                            <a href="{{ asset('listoffres') }}">
+                            <a href="{{ asset('offreDeTravail') }}">
                                 Offres
                             </a>
                             <span class="menu-arrow"></span>
                             <ul class="submenu">
+                                <li>
+                                    <a href="{{ path('rechercheSociete') }}">Revues</a>
+                                </li>
+                                <li>
+                                    <a href="#">Interviews</a>
+                                </li>
                                 <li class="has-submenu">
                                     <a href="{{ asset('categorie') }}">Categories</a><span class="submenu-arrow"></span>
                                     <ul class="submenu">

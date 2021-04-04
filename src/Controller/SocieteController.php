@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SocieteController extends AbstractController
 {
     /**
-     * @Route("/societe={idSociete}", name="afficherSociete")
+     * @Route("societe={idSociete}", name="afficherSociete")
      */
     public function afficherSociete($idSociete)
     {
@@ -24,7 +24,7 @@ class SocieteController extends AbstractController
     }
 
     /**
-     * @Route("/societe", name="afficherToutSociete")
+     * @Route("societe", name="afficherToutSociete")
      */
     public function afficherToutSociete()
     {
@@ -34,7 +34,7 @@ class SocieteController extends AbstractController
     }
 
     /**
-     * @Route("/societe/ajouter/email={email}/password={motDePasse}", name="ajouterSociete")
+     * @Route("societe/ajouter/email={email}/password={motDePasse}", name="ajouterSociete")
      */
     public function ajouterSociete(Request $request, $email, $motDePasse)
     {
@@ -71,7 +71,7 @@ class SocieteController extends AbstractController
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirectToRoute('gererpublication');
+            return $this->redirectToRoute('gererPublication');
         }
 
         return $this->render('_inscription/inscrireSociete.html.twig', [
@@ -80,7 +80,7 @@ class SocieteController extends AbstractController
     }
 
     /**
-     * @Route("/societe/modifier/id={id}/email={email}/password={motDePasse}", name="modifierSociete")
+     * @Route("societe/modifier/id={id}/email={email}/password={motDePasse}", name="modifierSociete")
      */
     public function modifierSociete(Request $request, $id, $email, $motDePasse)
     {
@@ -115,7 +115,7 @@ class SocieteController extends AbstractController
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirectToRoute('gererpublication');
+            return $this->redirectToRoute('gererPublication');
         }
 
         return $this->render('frontEnd/utilisateur/societe/manipulerSociete.html.twig', [

@@ -18,9 +18,18 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class OffreDeTravailController extends Controller
 {
+    /**
+     * @Route("/offreDeTravail", name="afficherToutOffres")
+     */
+    public function afficherTout(Request $request)
+    {
+        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/afficherToutOffreDeTravail.html.twig',[
+            'offreDeTravails' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll(),
+        ]);
+    }
 
     /**
-     * @Route("/offreDeTravail", name="aff")
+     * @Route("/offreDeTravail/ajouter", name="aff")
      */
     public function addOffre(Request $request)
     {
