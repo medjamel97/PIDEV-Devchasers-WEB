@@ -2,152 +2,88 @@
 
 namespace App\Controller;
 
-use App\Entity\Candidat;
-use App\Entity\Societe;
-use App\Entity\Utilisateur;
-use App\Form\CandidatType;
-use App\Form\SocieteType;
-use App\Form\UtilisateurType;
+use App\Entity\User;
+use App\Form\RegistrationFormType;
+use App\Security\EmailVerifier;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class InscriptionController extends AbstractController
 {
-    /**
-     * @Route("inscription", name="inscription")
-     */
-    public function inscription(Request $request)
+    private $emailVerifier;
+
+    public function __construct(EmailVerifier $emailVerifier)
     {
-        $utilisateur = new Utilisateur();
-
-        $form = $this->createForm(UtilisateurType::class, $utilisateur)
-            ->add('submit', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-
-            $utilisateur = $form->getData();
-
-            if ($utilisateur->getTypeUtilisateur() == 0) {
-                return $this->inscriptionSociete($utilisateur->getEmail(), $utilisateur->getMotDePasse());
-            } elseif ($utilisateur->getTypeUtilisateur() == 1) {
-
-                //$this->getRequest()->setParameter('email', $utilisateur->getEmail());
-                return $this->forward('App\Controller\InscriptionController:inscriptionCandidat', [
-                    'email' => $utilisateur->getEmail(),
-                    'motDePasse' => $utilisateur->getMotDePasse(),
-                ]);
-
-                //return $this->forward(, $utilisateur->getEmail(), $utilisateur->getMotDePasse());
-            } else {
-                $this->redirectToRoute("acceuil");
-            }
-        }
-
-        return $this->render('_inscription/inscription.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        $this->emailVerifier = $emailVerifier;
     }
 
     /**
-     * @Route("inscription/candidat", name="inscription_candidat")
+     * @Route("inscription", name="app_register")
      */
-    public function inscriptionCandidat(Request $request)
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $email = $request->get('email');
-        $motDePasse = $request->get('motDePasse');
-        $this->addFlash('success', $request->get('email'));
-        $this->addFlash('success', $request->get('motDePasse'));
-        $this->addFlash('success', $request->set);
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
 
-
-
-        $utilisateur = new Utilisateur();
-        $candidat = new Candidat();
-
-        $form = $this->createForm(CandidatType::class, $candidat)
-            ->add('submit', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $utilisateur->setEmail($email)
-                ->setMotDePasse($motDePasse)
-                ->setTypeUtilisateur(1);
-            $candidat = $form->getData()
-                ->setUtilisateur($utilisateur);
-
-            $file = $request->files->get('candidat')['idPhoto'];
-            $uploads_directory = $this->getParameter('uploads_directory');
-            $filename = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move(
-                $uploads_directory,
-                $filename
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
             );
-            $candidat->setIdPhoto($filename);
 
-            $utilisateurManager = $this->getDoctrine()->getManager();
-            $utilisateurManager->persist($utilisateur);
-            $utilisateurManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-            $candidatManager = $this->getDoctrine()->getManager();
-            $candidatManager->persist($candidat);
-            $candidatManager->flush();
-
-            return $this->redirectToRoute('accueil');
-        }
-
-        return $this->render('_inscription/inscrire_candidat.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("inscription/societe", name="inscription_societe")
-     */
-    public function inscriptionSociete($email, $motDePasse)
-    {
-        $request = new Request();
-        $utilisateur = new Utilisateur();
-        $societe = new Societe();
-
-        $form = $this->createForm(SocieteType::class, $societe)
-            ->add('submit', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-
-            $utilisateur->setEmail($email)
-                ->setMotDePasse($motDePasse)
-                ->setTypeUtilisateur(0);
-
-            $societe = $form->getData()
-                ->setUtilisateur($utilisateur);
-
-            $file = $request->files->get('societe')['idPhotoSociete'];
-            $uploads_directory = $this->getParameter('uploads_directory');
-            $filename = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move(
-                $uploads_directory,
-                $filename
+            // generate a signed url and email it to the user
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                (new TemplatedEmail())
+                    ->from(new Address('jamelbd97@gmail.com', 'Jamel'))
+                    ->to($user->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('_inscription/confirmation_email.html.twig')
             );
-            $societe->setIdPhotoSociete($filename);
-
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($utilisateur);
-            $manager->flush();
-
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($societe);
-            $manager->flush();
+            // do anything else you need here, like send an email
 
             return $this->redirectToRoute('connexion');
         }
 
-        return $this->render('_inscription/inscrire_societe.html.twig', [
-            'form' => $form->createView(),
+        $this->addFlash('success', 'Veuillez verifier votre email.');
+
+        return $this->render('_inscription/inscription.html.twig', [
+            'registrationForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("verify/email", name="app_verify_email")
+     */
+    public function verifyUserEmail(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        // validate email confirmation link, sets User::isVerified=true and persists
+        try {
+            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
+        } catch (VerifyEmailExceptionInterface $exception) {
+            $this->addFlash('verify_email_error', $exception->getReason());
+
+            return $this->redirectToRoute('app_register');
+        }
+
+        // @TODO Change the redirect on success and handle or remove the flash message in your templates
+        $this->addFlash('success', 'Your email address has been verified.');
+
+        return $this->redirectToRoute('connexion');
     }
 }

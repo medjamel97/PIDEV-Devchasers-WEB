@@ -53,67 +53,52 @@
                     <div class="col-md-6">
                         <div class="login_page bg-white shadow rounded p-4">
                             <div class="text-center">
-                                <h4 class="mb-4">Inscription</h4>
+                                <h4 class="mb-4" style="color: #16116b">Inscription</h4>
                             </div>
-                            {{ form_start(form) }}
-                            {% do form.email.setRendered() %}
-                            {% do form.motDePasse.setRendered() %}
-                            {% do form.typeUtilisateur.setRendered() %}
-                            {% do form.submit.setRendered() %}
+                            {% for flashError in app.flashes('verify_email_error') %}
+                                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                            {% endfor %}
 
-                            <form name="utilisateur" method="post">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group position-relative">
-                                            <label for="utilisateur_email">Email<span
-                                                        class="text-danger">*</span></label>
-                                            {{ form_errors(form.email) }}
-                                            <input type="text" class="form-control" id="utilisateur_email"
-                                                   placeholder="exemple@email.com"
-                                                   name="utilisateur[email]" maxlength="255">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group position-relative">
-                                            <label for="utilisateur_motDePasse">Mot de passe<span
-                                                        class="text-danger">*</span></label>
-                                            {{ form_errors(form.motDePasse) }}
-                                            <input type="password" class="form-control" id="utilisateur_motDePasse"
-                                                   placeholder="Entrer votre mot de passe"
-                                                   name="utilisateur[motDePasse]" maxlength="255">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="utilisateur_typeUtilisateur">Type utilisateur<span
-                                                    class="text-danger">*</span></label>
-                                        {{ form_errors(form.typeUtilisateur) }}
-                                        <div class="form-group position-relative">
-                                            <select id="utilisateur_typeUtilisateur"
-                                                    name="utilisateur[typeUtilisateur]"
-                                                    class="nice-select">
-                                                <option value="0">Societe</option>
-                                                <option value="1">Candidat</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="captcha">Captcha<span
-                                                    class="text-danger">*</span></label>
-                                        {{ form_errors(form.captcha) }}
-                                        <div class="form-group position-relative">
-                                            <div id="captcha" class="text-center border p-2">
-                                                {{ form_widget(form.captcha) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button type="submit" id="utilisateur_submit" name="utilisateur[submit]"
-                                                class="btn btn-primary w-100">Suivant
-                                        </button>
+                            {{ form_start(registrationForm) }}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.email, {
+                                            label: 'Email',
+                                            'attr': {
+                                                'class': 'form-control',
+                                                'placeholder': 'Exemple@mail.com',
+                                            },
+                                        }) }}
                                     </div>
                                 </div>
-                            </form>
-                            {{ form_end(form) }}
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.plainPassword, {
+                                            label: 'Mot de passe',
+                                            'attr': {
+                                                'class': 'form-control',
+                                                'placeholder': 'Entrez votre mot de passe',
+                                            },
+                                        }) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.agreeTerms, {
+                                            label: "J'accepte les termes d'utilisation",
+                                            'attr': {
+                                                'class': 'mx-2',
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                                {{ form_row(registrationForm.agreeTerms) }}
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+                                </div>
+                            </div>
+                            {{ form_end(registrationForm) }}
                             <div class="col-lg-12 mt-4 text-center">
                                 <h6>Or Signup With</h6>
                                 <ul class="list-unstyled social-icon mb-0 mt-3">

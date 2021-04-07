@@ -63,15 +63,9 @@
                 <div class="float-right">
                     <ul class="topbar-list list-unstyled d-flex" style="margin: 11px 0;">
                         <li class="list-inline-item">
-                            {% set utilisateur = app.session.get('utilisateur') %}
-                            {% if utilisateur is not null %}
-                                {% set idUtilisateur = utilisateur['idUtilisateur'] %}
-                                {% set email = utilisateur['emailUtilisateur'] %}
-                                {% set idCandidat = utilisateur['idCandidat'] %}
-                            {% endif %}
-                            {% if utilisateur is not null %}
-                            <a href="{{ asset('candidat/'~idCandidat~'/profile') }}">
-                                <i class="mdi mdi-account mr-2"></i>{{ email }}
+                            {% if app.user %}
+                            <a href="{{ asset('candidat/'~app.user.id~'/profile') }}">
+                                <i class="mdi mdi-account mr-2"></i>{{ app.user.email }}
                             </a>
                         </li>
                         <li class="list-inline-item">
@@ -80,7 +74,15 @@
                             </a>
                             {% endif %}
                         </li>
-                        {% if utilisateur is null %}
+                        {% if app.user %}
+                            <li class="list-inline-item">
+                                <a href="{{ asset('deconnexion') }}">
+                                    <button class="btn btn-danger p-1 pl-2 pr-2"><i class="mdi mdi-logout"></i>
+                                        Deconnexion
+                                    </button>
+                                </a>
+                            </li>
+                        {% else %}
                             <li class="list-inline-item">
                                 <a href="{{ asset('connexion') }}">
                                     <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-login"></i>
@@ -92,14 +94,6 @@
                                 <a href="{{ asset('inscription') }}">
                                     <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-account-plus"></i>
                                         inscription
-                                    </button>
-                                </a>
-                            </li>
-                        {% else %}
-                            <li class="list-inline-item">
-                                <a href="{{ asset('deconnexion') }}">
-                                    <button class="btn btn-danger p-1 pl-2 pr-2"><i class="mdi mdi-logout"></i>
-                                        Deconnexion
                                     </button>
                                 </a>
                             </li>
@@ -141,8 +135,8 @@
                 {% block links %}
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
-                        {% if utilisateur is not null %}
-                            <li class="has-submenu"><a href="{{ asset('candidat/'~idCandidat~'/profil') }}">Profil</a>
+                        {% if app.user %}
+                            <li class="has-submenu"><a href="{{ asset('candidat/'~app.user.id~'/profil') }}">Profil</a>
                             </li>
                         {% endif %}
                         <li class="has-submenu"><a href="{{ asset('societe') }}">Societes</a></li>

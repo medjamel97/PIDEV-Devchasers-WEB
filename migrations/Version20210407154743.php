@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210407094627 extends AbstractMigration
+final class Version20210407154743 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -41,6 +41,7 @@ final class Version20210407094627 extends AbstractMigration
         $this->addSql('CREATE TABLE questionnaire (id INT AUTO_INCREMENT NOT NULL, mission_id INT NOT NULL, description VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_7A64DAFBE6CAE90 (mission_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE revue (id INT AUTO_INCREMENT NOT NULL, candidature_offre_id INT DEFAULT NULL, nb_etoiles INT NOT NULL, objet VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, INDEX IDX_76244F0523929EC4 (candidature_offre_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE societe (id INT AUTO_INCREMENT NOT NULL, nom_societe VARCHAR(255) NOT NULL, date_creation_societe DATE NOT NULL, num_tel_societe VARCHAR(8) NOT NULL, id_photo_societe VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE utilisateur (id INT AUTO_INCREMENT NOT NULL, societe_id INT DEFAULT NULL, candidat_id INT DEFAULT NULL, email VARCHAR(255) NOT NULL, mot_de_passe VARCHAR(255) NOT NULL, type_utilisateur INT NOT NULL, UNIQUE INDEX UNIQ_1D1C63B3FCF77503 (societe_id), UNIQUE INDEX UNIQ_1D1C63B38D0EB82 (candidat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE candidature_mission ADD CONSTRAINT FK_7ADE8DEACE07E8FF FOREIGN KEY (questionnaire_id) REFERENCES questionnaire (id)');
         $this->addSql('ALTER TABLE candidature_mission ADD CONSTRAINT FK_7ADE8DEABE6CAE90 FOREIGN KEY (mission_id) REFERENCES mission (id) ON DELETE SET NULL');
@@ -116,6 +117,7 @@ final class Version20210407094627 extends AbstractMigration
         $this->addSql('DROP TABLE questionnaire');
         $this->addSql('DROP TABLE revue');
         $this->addSql('DROP TABLE societe');
+        $this->addSql('DROP TABLE user');
         $this->addSql('DROP TABLE utilisateur');
     }
 }
