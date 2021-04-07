@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Calendar;
-use App\Entity\Evenement;
+use App\Entity\EvenementZO;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,25 +25,25 @@ class ApiController extends AbstractController
     /**
      * @Route("api/{id}/edit", name="api_event_edit", methods={"GET"})
      */
-    public function majEvent(?Evenement $evenement, Request $request)
+    public function majEvent(?EvenementZO $evenement, Request $request)
     {
         // On récupère les données
         $donnees = json_decode($request->getContent());
 
-        if(
+        if (
             isset($donnees->title) && !empty($donnees->title) &&
             isset($donnees->start) && !empty($donnees->start) &&
-            isset($donnees->descp) && !empty($donnees->descp)&&
+            isset($donnees->descp) && !empty($donnees->descp) &&
             isset($donnees->end) && !empty($donnees->end)
-        ){
+        ) {
             // Les données sont complètes
             // On initialise un code
             $code = 200;
 
             // On vérifie si l'id existe
-            if(!$evenement){
+            if (!$evenement) {
                 // On instancie un rendez-vous
-                $evenement = new Evenement();
+                $evenement = new EvenementZO();
 
                 // On change le code
                 $code = 201;
@@ -53,9 +53,9 @@ class ApiController extends AbstractController
             $evenement->setTitre($donnees->title);
             $evenement->setDescp($donnees->descp);
             $evenement->setDebut(new DateTime($donnees->start));
-            if($donnees->allDay){
+            if ($donnees->allDay) {
                 $evenement->setFin(new DateTime($donnees->start));
-            }else{
+            } else {
                 $evenement->setFin(new DateTime($donnees->end));
             }
             $evenement->setAllDay($donnees->allDay);
@@ -67,7 +67,7 @@ class ApiController extends AbstractController
 
             // On retourne le code  ;
             return new Response('Ok', $code);
-        }else{
+        } else {
             // Les données sont incomplètes
             return new Response('Données incomplètes', 404);
         }

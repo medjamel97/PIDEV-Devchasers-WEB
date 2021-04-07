@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Like;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,61 +21,45 @@ class LikeRepository extends ServiceEntityRepository
         parent::__construct($registry, Like::class);
     }
 
-    // /**
-    //  * @return Like[] Returns an array of Like objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function nombreObjets($idPublication)
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Like
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
-
-    public function countItemNumber()
-    {
-        return $this->createQueryBuilder('r')
-            ->select('count(r.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return $this->createQueryBuilder('r')
+                ->select('count(r.id)')
+                ->where('l.publication = :idPublication')
+                ->setParameter('idPublication', $idPublication)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            return 0;
+        } catch (NonUniqueResultException $e) {
+            return 0;
+        }
     }
 
-    public function countlikeNumber()
+    public function nombreLikes($idPublication)
     {
-        return $this->createQueryBuilder('r')
-        ->select('count(r.id)')
-        ->andWhere('r.typelike = :val')
-        ->setParameter('val', true)
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return $this->createQueryBuilder('l')
+                ->select('count(l.id)')
+                ->andWhere('l.publication = :idPublication')
+                ->andWhere('l.typeLike = :likeType')
+                ->setParameters(['likeType' => true, 'idPublication' => $idPublication])
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            return 0;
+        } catch (NonUniqueResultException $e) {
+            return 0;
+        }
     }
-
 
     public function date()
     {
         return
-     $this->createQueryBuilder('a')
-    ->innerJoin('a.categories', 'c')
-    ->addSelect('c')
-    ->where('CURRENT_DATE() >= a.datePublication');}
-
+            $this->createQueryBuilder('a')
+                ->innerJoin('a.categories', 'c')
+                ->addSelect('c')
+                ->where('CURRENT_DATE() >= a.datePublication');
+    }
 }

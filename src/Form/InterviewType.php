@@ -19,8 +19,7 @@ class InterviewType extends AbstractType
             ->add('candidatureOffre', EntityType::class, [
                 'class' => CandidatureOffre::class,
                 'choice_label' => 'id',
-                'multiple' => false]);
-        ;
+                'multiple' => false]);;
     }
 
     public function configureOptions(OptionsResolver $resolver)

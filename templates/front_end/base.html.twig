@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head id="head">
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Khedemti</title>
+        <meta name="description" content=""/>
+        <meta name="keywords" content=""/>
+        <meta name="author" content="Themesdesign"/>
+        <link rel="shortcut icon" href="{{ asset('/frontEnd/images/favicon.ico') }}">
+
+        {% block css %}
+            <!-- Bootstrap core CSS -->
+            <link rel="stylesheet" href="{{ asset('/frontEnd/css/bootstrap.min.css') }}" type="text/css">
+
+            <!--Material Icon -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/materialdesignicons.min.css') }}"/>
+
+            <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/fontawesome.css') }}"/>
+
+            <!-- selectize css -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/selectize.css') }}"/>
+
+            <!--Slider-->
+            <link rel="stylesheet" href="{{ asset('/frontEnd/css/owl.carousel.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('/frontEnd/css/owl.theme.css') }}"/>
+            <link rel="stylesheet" href="{{ asset('/frontEnd/css/owl.transitions.css') }}"/>
+
+            <!-- Custom  Css -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/style.css') }}"/>
+        {% endblock %}
+    {% endblock %}
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+{% block sidebar %}
+    <!-- Navigation Bar-->
+    <header id="topnav" class="defaultscroll scroll-active">
+        <!-- Tagline STart -->
+        <div class="tagline">
+            <div class="container">
+                <div class="float-left">
+                    <div class="phone">
+                        <i class="mdi mdi-phone-classic"></i> +1 800 123 45 67
+                    </div>
+                    <div class="email">
+                        <a href="{{ asset('#') }}">
+                            <i class="mdi mdi-email"></i> Support@mail.com
+                        </a>
+                    </div>
+                </div>
+                <div class="float-right">
+                    <ul class="topbar-list list-unstyled d-flex" style="margin: 11px 0;">
+                        <li class="list-inline-item">
+                            {% set utilisateur = app.session.get('utilisateur') %}
+                            {% if utilisateur is not null %}
+                                {% set idUtilisateur = utilisateur['idUtilisateur'] %}
+                                {% set email = utilisateur['emailUtilisateur'] %}
+                                {% set idCandidat = utilisateur['idCandidat'] %}
+                            {% endif %}
+                            {% if utilisateur is not null %}
+                            <a href="{{ asset('candidat/'~idCandidat~'/profile') }}">
+                                <i class="mdi mdi-account mr-2"></i>{{ email }}
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="{{ asset('messagerie') }}">
+                                <i class="mdi mdi-message mr-2"></i>Messagerie
+                            </a>
+                            {% endif %}
+                        </li>
+                        {% if utilisateur is null %}
+                            <li class="list-inline-item">
+                                <a href="{{ asset('connexion') }}">
+                                    <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-login"></i>
+                                        Connexion
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="{{ asset('inscription') }}">
+                                    <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-account-plus"></i>
+                                        inscription
+                                    </button>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="list-inline-item">
+                                <a href="{{ asset('deconnexion') }}">
+                                    <button class="btn btn-danger p-1 pl-2 pr-2"><i class="mdi mdi-logout"></i>
+                                        Deconnexion
+                                    </button>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- Tagline End -->
+
+        <!-- Menu Start -->
+        <div class="container">
+            <!-- Logo container-->
+            <div>
+                <a href="{{ asset('publication') }}" class="logo">
+                    <img src="{{ asset('/frontEnd/images/logo-light.png') }}" alt="" class="logo-light"
+                         height="18"/>
+                    <img src="{{ asset('/frontEnd/images/logo-dark.png') }}" alt="" class="logo-dark" height="18"/>
+                </a>
+            </div>
+            <!--end login button-->
+            <!-- End Logo container-->
+            <div class="menu-extras">
+                <div class="menu-item">
+                    <!-- Mobile menu toggle-->
+                    <a class="navbar-toggle">
+                        <div class="lines">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </a>
+                    <!-- End mobile menu toggle-->
+                </div>
+            </div>
+
+            <div id="navigation">
+                {% block links %}
+                    <!-- Navigation Menu-->
+                    <ul class="navigation-menu">
+                        {% if utilisateur is not null %}
+                            <li class="has-submenu"><a href="{{ asset('candidat/'~idCandidat~'/profil') }}">Profil</a>
+                            </li>
+                        {% endif %}
+                        <li class="has-submenu"><a href="{{ asset('societe') }}">Societes</a></li>
+                        <li class="has-submenu">
+                            <a href="{{ asset('offre_de_travail') }}">
+                                Offres
+                            </a>
+                            <span class="menu-arrow"></span>
+                            <ul class="submenu">
+                                <li>
+                                    <a href="{{ asset('#') }}">Revues</a>
+                                </li>
+                                <li>
+                                    <a href="#">Interviews</a>
+                                </li>
+                                <li class="has-submenu">
+                                    <a href="{{ asset('categorie') }}">Categories</a><span class="submenu-arrow"></span>
+                                    <ul class="submenu">
+                                        {{ render(controller('App\\Controller\\front_end\\CategorieController::afficherToutCategorie')) }}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ asset('mission') }}">Missions</a></li>
+                        <li><a href="{{ asset('formation') }}">Formations</a></li>
+                        <li><a href="{{ asset('evenement') }}">Evenements</a></li>
+                    </ul><!--end navigation menu-->
+                {% endblock %}
+            </div><!--end navigation-->
+
+        </div><!--end container-->
+        <!--end end-->
+    </header><!--end header-->
+    <!-- Navbar End -->
+{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}
+    <!-- footer start -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
+                    <a href="{{ asset('/frontEnd/javascript:void(0)') }}"><img
+                                src="{{ asset('/frontEnd/images/logo-light.png') }}" height="20" alt=""></a>
+                    <p class="mt-4">At vero eos et accusamus et iusto odio dignissim os ducimus qui blanditiis
+                        praesentium</p>
+                    <ul class="social-icon social list-inline mb-0">
+                        <li class="list-inline-item"><a href="{{ asset('#') }}" class="rounded"><i
+                                        class="mdi mdi-facebook"></i></a>
+                        </li>
+                        <li class="list-inline-item"><a href="{{ asset('#') }}" class="rounded"><i
+                                        class="mdi mdi-twitter"></i></a>
+                        </li>
+                        <li class="list-inline-item"><a href="{{ asset('#') }}" class="rounded"><i
+                                        class="mdi mdi-instagram"></i></a>
+                        </li>
+                        <li class="list-inline-item"><a href="{{ asset('#') }}" class="rounded"><i
+                                        class="mdi mdi-google"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <p class="text-white mb-4 footer-list-title">Company</p>
+                    <ul class="list-unstyled footer-list">
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> About Us</a>
+                        </li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Media &
+                                Press</a></li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                Career</a></li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Blog</a>
+                        </li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                Pricing</a></li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Marketing</a>
+                        </li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> CEOs </a>
+                        </li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Agencies</a>
+                        </li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Our Apps</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <p class="text-white mb-4 footer-list-title">Resources</p>
+                    <ul class="list-unstyled footer-list">
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                Support</a></li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Privacy
+                                Policy</a></li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i> Terms</a>
+                        </li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                Accounting </a></li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                Billing</a></li>
+                        <li><a href="{{ asset('#') }}" class="text-foot"><i class="mdi mdi-chevron-right"></i>
+                                F.A.Q.</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                    <p class="text-white mb-4 footer-list-title f-17">Business Hours</p>
+                    <ul class="list-unstyled text-foot mt-4 mb-0">
+                        <li>Monday - Friday : 9:00 to 17:00</li>
+                        <li class="mt-2">Saturday : 10:00 to 15:00</li>
+                        <li class="mt-2">Sunday : Day Off (Holiday)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer end -->
+    <hr>
+    <footer class="footer footer-bar">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="">
+                        <p class="mb-0">© 2021 Khedemti. design with <i class="mdi mdi-heart text-danger"></i> by
+                            Devchasers.</p>
+                    </div>
+                </div>
+            </div>
+        </div><!--end container-->
+
+        <!-- Footer End -->
+        <!-- Back to top -->
+        <a href="{{ asset('#') }}" class="back-to-top rounded text-center" id="back-to-top">
+            <i class="mdi mdi-chevron-up d-block"> </i>
+        </a>
+        <!-- Back to top -->
+    </footer>
+{% endblock %}
+
+{% block js %}
+    <!-- javascript -->
+    <script src="{{ asset('/frontEnd/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/plugins.js') }}"></script>
+
+    <!-- selectize js -->
+    <script src="{{ asset('/frontEnd/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/jquery.nice-select.min.js') }}"></script>
+
+    <script src="{{ asset('/frontEnd/js/owl.carousel.min.js') }}"></script>
+
+    <script src="{{ asset('/frontEnd/js/app.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/home.js') }}"></script>
+{% endblock %}
+</body>
+</html>

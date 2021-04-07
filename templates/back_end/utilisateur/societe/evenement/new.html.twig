@@ -1,0 +1,37 @@
+{% extends 'back_end/base.html.twig' %}
+
+{% block title %}New Evenement{% endblock %}
+{% block content %}
+
+    <body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">New Formation</h1>
+                            </div>
+
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <button class="btn">{{ button_label|default('Save') }}</button>
+                            {{ form_end(form) }}
+
+
+                            <a href="{{ path('evenement_index') }}"
+                               class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">back to list</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}

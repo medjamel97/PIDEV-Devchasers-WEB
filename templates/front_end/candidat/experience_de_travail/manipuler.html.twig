@@ -1,0 +1,109 @@
+{% extends '/front_end/base.html.twig' %}
+
+{% block content %}
+    <script>
+        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
+    </script>
+    <section>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 mt-4 pt-2">
+                        <div class="component-wrapper rounded shadow">
+                            <div class="p-4 border-bottom bg-light">
+                                <h4 class="title mb-0"> {{ manipulation }} experience_de_travail : {{ experienceDeTravail.description }}</h4>
+                            </div>
+                            <div class="p-4">
+                                {{ form_start(form) }}
+                                {% do form.description.setRendered() %}
+                                {% do form.titreEmploi.setRendered() %}
+                                {% do form.nomEntreprise.setRendered() %}
+                                {% do form.ville.setRendered() %}
+                                {% do form.duree.setRendered() %}
+                                {% do form.submit.setRendered() %}
+
+                                <form name="experience_de_travail" method="post">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="experience_de_travail_description" class="required">Description</label>
+                                                {{ form_errors(form.description) }}
+                                                <input type="text"
+                                                       id="experience_de_travail_description"
+                                                       name="experience_de_travail[description]"
+                                                       maxlength="255"
+                                                       value="{{ experienceDeTravail.description }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="experience_de_travail_titreEmploi" class="required">Titre emploi</label>
+                                                {{ form_errors(form.titreEmploi) }}
+                                                <input type="text"
+                                                       id="experience_de_travail_titreEmploi"
+                                                       name="experience_de_travail[titreEmploi]"
+                                                       maxlength="255"
+                                                       value="{{ experienceDeTravail.titreEmploi }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="experience_de_travail_nomEntreprise" class="required">Nom entreprise</label>
+                                                {{ form_errors(form.nomEntreprise) }}
+                                                <input type="text"
+                                                       id="experience_de_travail_nomEntreprise"
+                                                       name="experience_de_travail[nomEntreprise]"
+                                                       maxlength="255"
+                                                       value="{{ experienceDeTravail.nomEntreprise }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.ville) }}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="experience_de_travail_ville"
+                                                       class="required">Ville</label>
+                                                <input type="text"
+                                                       id="experience_de_travail_ville"
+                                                       name="experience_de_travail[ville]"
+                                                       maxlength="255"
+                                                       value="{{ experienceDeTravail.ville }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                        {{ form_errors(form.duree) }}
+                                        <div class="col-md-12">
+                                            <div class="form-group position-relative">
+                                                <label for="experience_de_travail_duree" class="required">Duree</label>
+                                                <input type="text" id="experience_de_travail_duree"
+                                                       name="experience_de_travail[duree]"
+                                                       maxlength="255"
+                                                       value="{{ experienceDeTravail.duree }}"
+                                                       class="form-control"
+                                                       placeholder="">
+                                            </div>
+                                        </div>
+                                    </div><!--end row-->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <button type="submit" id="experience_de_travail_submit"
+                                                    class="btn btn-primary"
+                                                    name="experience_de_travail[submit]">{{ manipulation }}</button>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form><!--end form-->
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

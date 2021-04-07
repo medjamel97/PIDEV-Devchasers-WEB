@@ -13,8 +13,7 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('contenu')
-            ->add('dateCreation')
-        ;
+            ->add('dateCreation');
     }
 
     public function configureOptions(OptionsResolver $resolver)

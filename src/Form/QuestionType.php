@@ -19,8 +19,7 @@ class QuestionType extends AbstractType
                 'class' => Questionnaire::class,
                 'choice_label' => 'id',
                 'multiple' => false,
-            ]);
-        ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver)

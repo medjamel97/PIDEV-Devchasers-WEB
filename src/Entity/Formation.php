@@ -9,12 +9,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=FormationRepository::class)
  */
 class Formation
-{ /**
- * @ORM\Id
- * @ORM\GeneratedValue
- * @ORM\Column(type="integer")
- */
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
     private $id;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -24,6 +26,7 @@ class Formation
      * @ORM\Column(type="string", length=255)
      */
     private $filiere;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -33,13 +36,6 @@ class Formation
      * @ORM\Column(type="datetime")
      */
     private $fin;
-    /**
-     * @ORM\Column(type="integer")
-     */
-
-    private $id_user;
-
-    protected $captchaCode;
 
     public function getId(): ?int
     {
@@ -92,26 +88,5 @@ class Formation
         $this->fin = $fin;
 
         return $this;
-    }
-
-    public function getIdUser(): ?int
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser(int $id_user): self
-    {
-        $this->id_user = $id_user;
-
-        return $this;
-    }
-    public function getCaptchaCode()
-    {
-        return $this->captchaCode;
-    }
-
-    public function setCaptchaCode($captchaCode)
-    {
-        $this->captchaCode = $captchaCode;
     }
 }

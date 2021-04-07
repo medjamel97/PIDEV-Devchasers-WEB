@@ -1,0 +1,7 @@
+{% if categories %}
+    {% for categorie in categories %}
+        <li class="text-center"><a href="{{ asset('#') }}">{{ categorie.nomCategorie }}</a></li>
+    {% endfor %}
+{% else %}
+    <li class="text-center">Aucune categorie</li>
+{% endif %}

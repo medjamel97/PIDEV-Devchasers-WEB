@@ -1,0 +1,29 @@
+{% extends 'back_end/base.html.twig' %}
+{% block content %}
+
+    <div>
+        <table align="center" border="2" class="table">
+            <tr>
+                {% set labels =["ID"] %}
+                <td><b>Categories</b></td>
+                <td><b>Actions</b></td>
+                {% for cats in Cat %}
+            </tr>
+            <tr>
+
+
+                <td>{{ cats.nomCategorie }}</td>
+                <td>
+
+                    <a href="{{ asset('/modifier/'~cats.id~'/') }}">Modifier</a>
+                    <a href="{{ asset('/deletecat/'~cats.id~'/') }}">Supprimer</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+
+        </table>
+        <p><a href="{{ asset('/ajouCategorie/') }}" class="btn btn-primary btn-lg square" role="button">Ajouter</a></p>
+    </div>
+
+{% endblock %}

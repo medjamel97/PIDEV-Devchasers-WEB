@@ -1,0 +1,74 @@
+{% extends 'front_end/base.html.twig' %}
+{% block title %}Formation index{% endblock %}
+
+{% block content %}
+    <script>
+        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
+    </script>
+    <div style="height:100px"></div>
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+
+                        <th>Nom</th>
+                        <th>Filiere</th>
+                        <th>Debut</th>
+                        <th>Fin</th>
+
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for formation in formations %}
+                        <tr>
+
+                            <td>{{ formation.nom }}</td>
+                            <td>{{ formation.filiere }}</td>
+                            <td>{{ formation.debut ? formation.debut|date('Y-m-d') : '' }}</td>
+                            <td>{{ formation.fin ? formation.fin|date('Y-m-d') : '' }}</td>
+
+
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+
+        {# display navigation #}
+        <div class="navigation text-center">
+            <h3>  <b>  {{ knp_pagination_render(formations) }}</b> </h3>
+            <style>
+                .text-center {
+                    text-align: center!important;
+                    margin-left: 530px;
+                }
+            </style>
+        </div>
+
+
+        <br> <br>
+    </div>
+
+</div>
+    <div style="height:100px"></div>
+{% endblock %}

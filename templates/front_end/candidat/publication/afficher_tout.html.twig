@@ -1,0 +1,828 @@
+{% extends '/front_end/base.html.twig' %}
+{% block css %}
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ asset('/frontEnd/css/bootstrap.min.css') }}" type="text/css">
+    <!--Material Icon -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/materialdesignicons.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/fontawesome.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/nice-select.css') }}"/>
+    <!-- selectize css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/selectize.css') }}"/>
+    <!-- Custom  Css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/style.css') }}"/>
+{% endblock %}
+{% block content %}
+    {% set utilisateur = app.session.get('utilisateur') %}
+    {% if utilisateur is not null %}
+        {% set idUtilisateur = utilisateur['idUtilisateur'] %}
+    {% else %}
+        {% set idUtilisateur = null %}
+    {% endif %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <section class="section pt-0 bg-light min-vh-100">
+        <div class="bg-dark" style="height: 9rem;"></div>
+        <div class="container pt-5 col-md-10">
+            <!-- Publier Start -->
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <ul class="nav nav-pills nav nav-pills bg-white shadow rounded nav-justified flex-column flex-sm-row"
+                        id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link rounded active" id="pills-cloud-tab" data-toggle="pill"
+                               href="#pills-cloud" role="tab" aria-controls="pills-cloud" aria-selected="true">Toutes
+                                les
+                                publications</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link rounded" id="pills-smart-tab" data-toggle="pill" href="#pills-smart"
+                               role="tab" aria-controls="pills-smart" aria-selected="false">Vos publications</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link rounded" id="pills-apps-tab" data-toggle="pill" href="#pills-apps"
+                               role="tab" aria-controls="pills-apps" aria-selected="false">Ajouter une publication</a>
+                        </li>
+                    </ul>
+                </div><!--end col-->
+            </div><!--end row-->
+            <div class="row">
+                <!-- LeftBar Start -->
+                <div class="col-md-3 pt-2">
+                    <div class="left-sidebar">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card mt-4 rounded border-bottom-0">
+                                <a data-toggle="collapse" href="/#collapseOne" class="job-list" aria-expanded="true"
+                                   aria-controls="collapseOne">
+                                    <div class="card-header" id="headingOne">
+                                        <h6 class="mb-0 text-dark">Last Activity</h6>
+                                    </div>
+                                </a>
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                                    <div class="card-body p-0">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio1" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio1">Last
+                                                Hour</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio2" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio2">Last
+                                                24
+                                                hours</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio3" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio3">Last
+                                                7
+                                                days</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio4" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio4">Last
+                                                14
+                                                days</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio5" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio5">Last
+                                                30
+                                                days</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- collapse one end -->
+                            <div class="card mt-4 rounded border-bottom-0">
+                                <a data-toggle="collapse" href="/#collapsetwo" class="job-list" aria-expanded="true"
+                                   aria-controls="collapsetwo">
+                                    <div class="card-header" id="headingtwo">
+                                        <h6 class="mb-0 text-dark">Team Size</h6>
+                                    </div>
+                                </a>
+                                <div id="collapsetwo" class="collapse show" aria-labelledby="headingtwo">
+                                    <div class="card-body p-0">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck7">1 To
+                                                50</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck8">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck8">51 To
+                                                100</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck3">101
+                                                To
+                                                150</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck4">151
+                                                To
+                                                200</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck5">201
+                                                To
+                                                250</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck6">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck6">251
+                                                To
+                                                300</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- collapse one end -->
+                            <div class="card mt-4 rounded border-bottom-0">
+                                <a data-toggle="collapse" href="/#collapsethree" class="job-list" aria-expanded="true"
+                                   aria-controls="collapsethree">
+                                    <div class="card-header" id="headingthree">
+                                        <h6 class="mb-0 text-dark">Categories</h6>
+                                    </div>
+                                </a>
+                                <div id="collapsethree" class="collapse show" aria-labelledby="headingthree">
+                                    <div class="card-body p-0">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio7" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio7">Web
+                                                Designer</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio8" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio8">Graphic
+                                                Designer</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio9" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio9">PHP
+                                                Developer</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio10" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio10">UI/UX
+                                                Designer</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio11" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted"
+                                                   for="customRadio11">Banking</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio12" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio12">Accountancy</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mt-4 rounded border-bottom-0">
+                                <a data-toggle="collapse" href="/#collapsefour" class="job-list" aria-expanded="true"
+                                   aria-controls="collapsefour">
+                                    <div class="card-header" id="headingfour">
+                                        <h6 class="mb-0 text-dark">Gender</h6>
+                                    </div>
+                                </a>
+                                <div id="collapsefour" class="collapse show" aria-labelledby="headingfour">
+                                    <div class="card-body p-0">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio13" name="customRadio3"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted"
+                                                   for="customRadio13">Male</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio14" name="customRadio3"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted"
+                                                   for="customRadio14">Female</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio15" name="customRadio3"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted"
+                                                   for="customRadio15">Others</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- collapse one end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- LeftBar End -->
+                <div class="col-md-9 mt-4 pt-2">
+                    <div class="col-12">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-cloud" role="tabpanel"
+                                 aria-labelledby="pills-cloud-tab">
+
+                                <!-- Single publication start-->
+                                {% if publications|length > 0 %}
+                                    {% for publication in publications %}
+                                        <div class="border rounded-top bg-white shadow p-3">
+                                            <div class="row rounded-top pb-3">
+                                                <div class="col-md-2">
+                                                    <div class="candidates-list-fav-btn text-left">
+                                                        <div class="col-md-12 candidates-listing-btn overflow-hidden">
+                                                            <div class="text-dark text-center my-2">
+                                                                <h6>{{ publication.candidat.prenom }}</h6>
+                                                                <h6>{{ publication.candidat.nom }}</h6>
+                                                            </div>
+                                                            <img src="/uploads/{{ publication.candidat.idPhoto }}"
+                                                                 alt=""
+                                                                 class="d-block rounded shadow border mx-auto my-2"
+                                                                 height="90">
+                                                            <a href="candidat/{{ publication.candidat.id }}/profile">
+                                                                <button class="btn btn-outline-dark ml-1 p-2">
+                                                                    Voir profil
+                                                                </button>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="candidates-list-desc overflow-hidden job-single-meta  pt-2">
+                                                        <a href="/publication/{{ publication.id }}"
+                                                           class="mb-2 text-dark">{{ publication.titre }}
+                                                        </a>
+                                                        <div style="font-size: 20px;"></div>
+
+                                                        <p class="mt-1 mb-0 text-break">{{ publication.description }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="candidates-list-fav-btn text-right">
+                                                        <div class="candidates-listing-btn mt-2">
+                                                            <a href="{{ asset('publication/'~publication.id~'/modifier') }}"
+                                                               class="btn btn-primary-outline btn-sm mt-1">Modifier
+                                                                publication</a>
+                                                            <a href="{{ asset('publication/'~publication.id~'/supprimer') }}"
+                                                               class="btn btn-primary-outline btn-sm mt-1">Supprimer
+                                                                publication</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Like container -->
+                                                <div class="col-md-12 mt-5">
+                                                    <div class="text-dark mt-3 row">
+                                                        {% set nbLikes = 0 %}
+                                                        {% set nbDislikes = 0 %}
+                                                        {% set hasLike = false %}
+                                                        {% set hasDislike = false %}
+
+                                                        {% for like in publication.likeid %}
+                                                            {% if like.typelike == 1 %}
+                                                                {% set nbLikes = nbLikes + 1 %}
+                                                                {% if like.idUtilisateur == idUtilisateur %}
+                                                                    {% set hasLike = true %}
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% set nbDislikes = nbDislikes + 1 %}
+                                                                {% if like.idUtilisateur == idUtilisateur %}
+                                                                    {% set hasDislike = true %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                        <a class="col-md-2" href="#"
+                                                           onclick="likeDislike(0,{{ publication.id }});return false;">
+                                                            {% if hasDislike %}
+                                                                <button id="dislike-button-{{ publication.id }}"
+                                                                        class="btn btn-dark w-100">
+                                                                    Dislike
+                                                                    <i id="dislike-button-heart-{{ publication.id }}"
+                                                                       class="mdi mdi-heart text-light"></i>
+                                                                </button>
+                                                            {% else %}
+                                                                <button id="dislike-button-{{ publication.id }}"
+                                                                        class="btn btn-outline-dark w-100">Dislike
+                                                                    <i id="dislike-button-heart-{{ publication.id }}"
+                                                                       class="mdi mdi-heart-outline"
+                                                                       style="color: red"></i>
+                                                                </button>
+                                                            {% endif %}
+                                                        </a>
+                                                        <p id="nb-dislike-{{ publication.id }}"
+                                                           class="col-md-1 my-auto text-center">{{ nbDislikes }}</p>
+                                                        <div class="col-md-6 m-auto progress-box">
+                                                            <div class="progress">
+                                                                <div id="like-bar-{{ publication.id }}"
+                                                                     class="progress-bar progress-bar-striped position-relative bg-dark"
+                                                                     style="width:{{ publication.pourcentageLike }}%">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p id="nb-like-{{ publication.id }}"
+                                                           class="col-md-1 my-auto text-center">{{ nbLikes }}</p>
+                                                        <a class="col-md-2 w-100" href="#"
+                                                           onclick="likeDislike(1,{{ publication.id }});return false;">
+                                                            {% if hasLike %}
+                                                                <button id="like-button-{{ publication.id }}"
+                                                                        class="btn btn-dark w-100">
+                                                                    Like
+                                                                    <i id="like-button-heart-{{ publication.id }}"
+                                                                       class="mdi mdi-heart text-light"></i>
+                                                                </button>
+                                                            {% else %}
+                                                                <button id="like-button-{{ publication.id }}"
+                                                                        class="btn btn-outline-dark w-100">Like
+                                                                    <i id="like-button-heart-{{ publication.id }}"
+                                                                       class="mdi mdi-heart"
+                                                                       style="color: red"></i>
+                                                                </button>
+                                                            {% endif %}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 border rounded-bottom shadow mb-5"
+                                             style="background: rgb(245,245,255)">
+                                            <div id="contenaire-commentaires-{{ publication.id }}"
+                                                 class="col-md-12 my-3">
+                                                {% for comment in publication.commentaire %}
+                                                    <!-- Like container end -->
+                                                    <div id="contenaire-commentaire-{{ comment.id }}"
+                                                         class="flex-wrap border rounded bg-white p-2"
+                                                         style="display: flex">
+                                                        <div class="col-md-1">
+                                                            <img src="/uploads/{{ comment.utilisateur.candidat.idPhoto }}"
+                                                                 alt=""
+                                                                 class="rounded-circle shadow" height="50" width="50">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <b class="col-md-12 m-0">
+                                                                {{ comment.utilisateur.candidat.prenom }} {{ comment.utilisateur.candidat.nom }}
+                                                                :
+                                                            </b>
+                                                            <p id="description-commentaire-{{ comment.id }}"
+                                                               class="m-0 col-md-12">{{ comment.description }}</p>
+                                                        </div>
+                                                        {% if comment.utilisateur.id == idUtilisateur %}
+                                                            <div class="col-md-6 my-auto mx-3">
+                                                                <a href="#"
+                                                                   onclick="modifierCommentaire({{ comment.id }});return false;"><i
+                                                                            class="mdi mdi-pencil"></i></a>
+                                                                <a href="#"
+                                                                   onclick="supprimerCommentaire({{ comment.id }});return false;"><i
+                                                                            class="mdi mdi-trash-can"></i></a>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                            <form class="col-md-12 input-group my-3" action="#">
+                                                <input id="input-commentaire-{{ publication.id }}" type="text"
+                                                       class="form-control rounded-left"
+                                                       placeholder="Ecrire un commentaire ...">
+                                                <div class="input-group-append">
+                                                    <button id="commentaire-pub-{{ publication.id }}" type="submit"
+                                                            class="btn btn-primary submitBnt pt-1"
+                                                            onclick="ajouterCommentaire({{ publication.id }});return false;">
+                                                        <i class="mdi mdi-send"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                    <!-- Single publication END-->
+                                {% else %}
+                                    <div class="text-center">
+                                        Aucune de publications
+                                    </div>
+                                {% endif %}
+
+                            </div><!--end teb pane-->
+                            <div class="tab-pane fade" id="pills-smart" role="tabpanel"
+                                 aria-labelledby="pills-smart-tab">
+
+                                <!-- Single publication start-->
+                                {% set havePublication = false %}
+                                {% if publications|length > 0 %}
+                                    {% for publication in publications %}
+                                        {% if publication.candidat.utilisateur.id == idUtilisateur %}
+                                            {% set havePublication = true %}
+                                            <div class="border rounded-top bg-white shadow p-3">
+                                                <div class="row rounded-top pb-3">
+                                                    <div class="col-md-2">
+                                                        <div class="candidates-list-fav-btn text-left">
+                                                            <div class="col-md-12 candidates-listing-btn overflow-hidden">
+                                                                <div class="text-dark text-center my-2">
+                                                                    <h6>{{ publication.candidat.prenom }}</h6>
+                                                                    <h6>{{ publication.candidat.nom }}</h6>
+                                                                </div>
+                                                                <img src="uploads/{{ publication.candidat.idPhoto }}"
+                                                                     alt=""
+                                                                     class="d-block rounded shadow border mx-auto my-2"
+                                                                     height="90">
+                                                                <a href="candidat/{{ publication.candidat.id }}/profil">
+                                                                    <button class="btn btn-outline-dark ml-1 p-2">
+                                                                        Voir profil
+                                                                    </button>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="candidates-list-desc overflow-hidden job-single-meta  pt-2">
+                                                            <a href="/afficherpublication/{{ publication.id }}"
+                                                               class="mb-2 text-dark">{{ publication.titre }}
+                                                            </a>
+                                                            <div style="font-size: 20px;"></div>
+
+                                                            <p class="mt-1 mb-0 text-break">{{ publication.description }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="candidates-list-fav-btn text-right">
+                                                            <div class="candidates-listing-btn mt-2">
+                                                                <a href="{{ asset('publication/'~publication.id~'/modifier') }}"
+                                                                   class="btn btn-primary-outline btn-sm mt-1">Modifier
+                                                                    publication</a>
+                                                                <a href="{{ asset('publication/'~publication.id~'/supprimer') }}"
+                                                                   class="btn btn-primary-outline btn-sm mt-1">Supprimer
+                                                                    publication</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Like container -->
+                                                    <div class="col-md-12 mt-5">
+                                                        <div class="text-dark mt-3 row">
+                                                            {% set nbLikes = 0 %}
+                                                            {% set nbDislikes = 0 %}
+                                                            {% set hasLike = false %}
+                                                            {% set hasDislike = false %}
+
+                                                            {% for like in publication.likeid %}
+                                                                {% if like.typelike == 1 %}
+                                                                    {% set nbLikes = nbLikes + 1 %}
+                                                                    {% if like.idUtilisateur == idUtilisateur %}
+                                                                        {% set hasLike = true %}
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% set nbDislikes = nbDislikes + 1 %}
+                                                                    {% if like.idUtilisateur == idUtilisateur %}
+                                                                        {% set hasDislike = true %}
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+
+                                                            <a class="col-md-2" href="#"
+                                                               onclick="likeDislike(0,{{ publication.id }});return false;">
+                                                                {% if hasDislike %}
+                                                                    <button id="dislike-button-{{ publication.id }}"
+                                                                            class="btn btn-dark w-100">
+                                                                        Dislike
+                                                                        <i id="dislike-button-heart-{{ publication.id }}"
+                                                                           class="mdi mdi-heart text-light"></i>
+                                                                    </button>
+                                                                {% else %}
+                                                                    <button id="dislike-button-{{ publication.id }}"
+                                                                            class="btn btn-outline-dark w-100">Dislike
+                                                                        <i id="dislike-button-heart-{{ publication.id }}"
+                                                                           class="mdi mdi-heart-outline"
+                                                                           style="color: red"></i>
+                                                                    </button>
+                                                                {% endif %}
+                                                            </a>
+                                                            <p id="nb-dislike-{{ publication.id }}"
+                                                               class="col-md-1 my-auto text-center">{{ nbDislikes }}</p>
+                                                            <div class="col-md-6 m-auto progress-box">
+                                                                <div class="progress">
+                                                                    <div id="like-bar-{{ publication.id }}"
+                                                                         class="progress-bar progress-bar-striped position-relative bg-dark"
+                                                                         style="width:{{ publication.pourcentageLike }}%">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <p id="nb-like-{{ publication.id }}"
+                                                               class="col-md-1 my-auto text-center">{{ nbLikes }}</p>
+                                                            <a class="col-md-2 w-100" href="#"
+                                                               onclick="likeDislike(1,{{ publication.id }});return false;">
+                                                                {% if hasLike %}
+                                                                    <button id="like-button-{{ publication.id }}"
+                                                                            class="btn btn-dark w-100">
+                                                                        Like
+                                                                        <i id="like-button-heart-{{ publication.id }}"
+                                                                           class="mdi mdi-heart text-light"></i>
+                                                                    </button>
+                                                                {% else %}
+                                                                    <button id="like-button-{{ publication.id }}"
+                                                                            class="btn btn-outline-dark w-100">Like
+                                                                        <i id="like-button-heart-{{ publication.id }}"
+                                                                           class="mdi mdi-heart"
+                                                                           style="color: red"></i>
+                                                                    </button>
+                                                                {% endif %}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 border rounded-bottom shadow mb-5"
+                                                 style="background: rgb(245,245,255)">
+                                                <div id="contenaire-commentaires-{{ publication.id }}"
+                                                     class="col-md-12 my-3">
+                                                    {% for comment in publication.commentaire %}
+                                                        <!-- Like container end -->
+                                                        <div id="contenaire-commentaire-{{ comment.id }}"
+                                                             class="flex-wrap border rounded bg-white p-2"
+                                                             style="display: flex">
+                                                            <div class="col-md-1">
+                                                                <img src="/uploads/{{ comment.utilisateur.candidat.idPhoto }}"
+                                                                     alt=""
+                                                                     class="rounded-circle shadow" height="50"
+                                                                     width="50">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <b class="col-md-12 m-0">
+                                                                    {{ comment.utilisateur.candidat.prenom }} {{ comment.utilisateur.candidat.nom }}
+                                                                    :
+                                                                </b>
+                                                                <p id="description-commentaire-{{ comment.id }}"
+                                                                   class="m-0 col-md-12">{{ comment.description }}</p>
+                                                            </div>
+                                                            {% if comment.utilisateur.id == idUtilisateur %}
+                                                                <div class="col-md-6 my-auto mx-3">
+                                                                    <a href="#"
+                                                                       onclick="modifierCommentaire({{ comment.id }});return false;"><i
+                                                                                class="mdi mdi-pencil"></i></a>
+                                                                    <a href="#"
+                                                                       onclick="supprimerCommentaire({{ comment.id }});return false;"><i
+                                                                                class="mdi mdi-trash-can"></i></a>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <form class="col-md-12 input-group my-3" action="#">
+                                                    <input id="input-commentaire-{{ publication.id }}" type="text"
+                                                           class="form-control rounded-left"
+                                                           placeholder="Ecrire un commentaire ...">
+                                                    <div class="input-group-append">
+                                                        <button id="commentaire-pub-{{ publication.id }}" type="submit"
+                                                                class="btn btn-primary submitBnt pt-1"
+                                                                onclick="ajouterCommentaire({{ publication.id }});return false;">
+                                                            <i class="mdi mdi-send"></i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <!-- Single publication END-->
+                                {% endif %}
+                                {% if idUtilisateur %}
+                                    {% if not havePublication %}
+                                        <div class="text-center">
+                                            Vous n'avez de publications
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="text-center">
+                                        Veuillez vous connecter
+                                    </div>
+                                {% endif %}
+
+                            </div><!--end teb pane-->
+                            <div class="tab-pane fade" id="pills-apps" role="tabpanel" aria-labelledby="pills-apps-tab">
+                                <div class="row col-md-5 mx-auto my-5">
+                                    <a href="{{ asset('publication/ajouter') }}" class="mx-auto">
+                                        <button class="btn btn-dark-outline px-5">Publier</button>
+                                    </a>
+                                </div>
+                            </div><!--end teb pane-->
+                        </div><!--end tab content-->
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
+            <!-- Publier End -->
+        </div>
+    </section>
+    <script id="ajax-like-dislike">
+        function likeDislike(typeLike, idPub) {
+            $.ajax({
+                type: 'GET',
+                url: 'like',
+                data: {
+                    'typeLike': typeLike,
+                    'idPub': idPub
+                },
+                success: function (retour) {
+
+                    obj = JSON.parse(retour);
+                    if (typeLike) {
+                        $("#nb-like-" + idPub).empty().append(obj.nbLike);
+                        if (obj.haveLike) {
+                            $('#like-button-' + idPub).attr('class', 'btn btn-outline-dark w-100');
+                            $('#like-button-heart-' + idPub).attr('class', 'mdi mdi-heart').attr('style', 'color: red');
+                        } else {
+                            $('#like-button-' + idPub).attr('class', 'btn btn-dark w-100');
+                            $('#like-button-heart-' + idPub).attr('class', 'mdi mdi-heart text-light');
+                        }
+                    } else {
+                        $("#nb-dislike-" + idPub).empty().append(obj.nbDislike);
+                        if (obj.haveDislike) {
+                            $('#dislike-button-' + idPub).attr('class', 'btn btn-dark w-100');
+                            $('#dislike-button-heart-' + idPub).attr('class', 'mdi mdi-heart text-light');
+                        } else {
+                            $('#dislike-button-' + idPub).attr('class', 'btn btn-outline-dark w-100');
+                            $('#dislike-button-heart-' + idPub).attr('class', 'mdi mdi-heart-outline').attr('style', 'color: red');
+                        }
+                    }
+                    $("#like-bar-" + idPub).attr('style', 'width:' + obj.pourcentage + '%');
+                },
+                error: function () {
+                    alert("Connectez vous d'abord");
+                }
+            });
+
+        }
+    </script>
+    <script id="ajax-recherche">
+        $(document).ready(function () {
+            $("#search").keyup(function (e) {
+                var value = $("#search").val();
+                console.log(value);
+                $.ajax({
+                    type: 'GET',
+                    url: 'searchPub',
+                    data: {
+                        'searchValue': value
+                    },
+                    success: function (retour) {
+                        if (retour) {
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                $('#pub1').hide();
+                                $('#tableau').empty().append("<tr><td>" + obj.id + "</td><td>" + obj.titre + "</td><td>" + obj.description + "</td></tr> ");
+
+                                console.log("ay hkeya" + obj.titre);
+                            });
+                        }
+                    }
+                });
+            })
+        });
+    </script>
+    <script id="ajax-ajouter-commentaire">
+        function ajouterCommentaire(idPublication) {
+            value = $('#input-commentaire-' + idPublication).val();
+            $('#input-commentaire-' + idPublication).val("");
+            $.ajax({
+                type: 'GET',
+                url: '/commentaire/ajouter',
+                data: {
+                    'idPublication': idPublication,
+                    'description': value,
+                },
+                success: function (retour) {
+                    if (retour) {
+                        obj = JSON.parse(retour);
+                        $("#contenaire-commentaires-" + idPublication).append(
+                            "<div id='contenaire-commentaire-" + obj.id + "'" +
+                            " class='flex-wrap border rounded bg-white p-2' style='display: flex'>" +
+                            "   <div class='col-md-1'>" +
+                            "       <img src='/uploads/" + obj.idPhoto + "' alt='' " +
+                            "           class='rounded-circle shadow' height='50' width='50'>" +
+                            "   </div>" +
+                            "   <div class='col-md-3'>" +
+                            "       <b class='col-md-12 m-0'>" + obj.nomPrenom + "</b>" +
+                            "       <p id='description-commentaire-" + obj.id + "' class='m-0 col-md-12'>" + obj.description + "</p>" +
+                            "   </div>" +
+                            "   <div class='col-md-6 my-auto mx-3'>" +
+                            "       <a href='#' onclick='modifierCommentaire(" + obj.id + ");return false;'><i" +
+                            "           class='mdi mdi-pencil'></i></a>" +
+                            "       <a href='#' onclick='supprimerCommentaire(" + obj.id + ");return false;'><i" +
+                            "           class='mdi mdi-trash-can'></i></a>" +
+                            "   </div>" +
+                            "</div>");
+                    }
+                },
+                error: function () {
+                    alert('Erreur ajax ajout commentaire');
+                }
+            });
+        }
+    </script>
+    <script id="ajax-modifier-commentaire">
+        function modifierCommentaire(idCommentaire) {
+
+            let comment = $('#contenaire-commentaire-' + idCommentaire);
+            let descriptionCommentaire = $("#description-commentaire-" + idCommentaire);
+
+
+            comment.empty().append(
+                "<label for='modification-commentaire-" + idCommentaire + "' class='col-md-3 my-auto'>" +
+                "   modifier le commentaire : " +
+                "</label>" +
+                "<form class='row col-md-9 pr-0' action='#'>" +
+                "   <input id='modification-commentaire-" + idCommentaire + "' type='text' class='form-control col-md-10' " +
+                "           value='" + descriptionCommentaire.text() + "'>" +
+                "   <a onclick='confirmerModificationCommentaire(" + idCommentaire + "," + true + ");return false;' " +
+                "               class='col-md-1 my-auto' href='#'><i class='mdi mdi-check'></i></a>" +
+                "   <a onclick='confirmerModificationCommentaire(" + idCommentaire + "," + false + ");return false;' " +
+                "               class='col-md-1 my-auto' href='#'><i class='mdi mdi-close'></i></a>" +
+                "</form>"
+            );
+        }
+
+        function confirmerModificationCommentaire(idCommentaire, isModified) {
+            let modifiedComment = "";
+            if (isModified) {
+                modifiedComment = $('#modification-commentaire-' + idCommentaire).val();
+                $("#contenaire-commentaire-" + idCommentaire).empty().append('commentaire modifié');
+            }
+            setTimeout(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/commentaire/' + idCommentaire + '/modifier',
+                    data: {
+                        'modifiedComment': modifiedComment,
+                    },
+                    success: function (retour) {
+                        obj = JSON.parse(retour);
+                        $('#contenaire-commentaire-' + idCommentaire).empty().append(
+                            "<div class='col-md-1'>" +
+                            "<img src='/uploads/" + obj.idPhoto + "' alt='' " +
+                            "     class='rounded-circle shadow' height='50' width='50'>" +
+                            "</div>" +
+                            "<div class='col-md-3'>" +
+                            "    <b class='col-md-12 m-0'>" + obj.nomPrenom + "</b>" +
+                            "    <p id='description-commentaire-" + obj.id + "' class='m-0 col-md-12'>" + obj.description + "</p>" +
+                            "</div>" +
+                            "<div class='col-md-6 my-auto mx-3'>" +
+                            "   <a href='#' onclick='modifierCommentaire(" + obj.id + ");return false;'><i" +
+                            "           class='mdi mdi-pencil'></i></a>" +
+                            "   <a href='#' onclick='supprimerCommentaire(" + obj.id + ");return false;'><i" +
+                            "           class='mdi mdi-trash-can'></i></a>" +
+                            "</div>"
+                        );
+                    },
+                    error: function () {
+                        alert('Erreur ajax modification commentaire');
+                    }
+                });
+            }, 1000);
+        }
+    </script>
+    <script id="ajax-supprimer-commentaire">
+        function supprimerCommentaire(idCommentaire) {
+            $("#contenaire-commentaire-" + idCommentaire).empty().append('commentaire supprimé');
+            $.ajax({
+                type: 'GET',
+                url: '/commentaire/' + idCommentaire + '/supprimer',
+                success: function () {
+                    setTimeout(function () {
+                        $("#contenaire-commentaire-" + idCommentaire).remove();
+                    }, 1000)
+                },
+                error: function () {
+                    alert('Erreur ajax suppression commentaire');
+                }
+            });
+        }
+    </script>
+{% endblock %}
+{% block js %}
+    <!-- javascript -->
+    <script src="{{ asset('/frontEnd/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/plugins.js') }}"></script>
+    <!-- selectize js -->
+    <script src="{{ asset('/frontEnd/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('/frontEnd/js/app.js') }}"></script>
+{% endblock %}

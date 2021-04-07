@@ -2,9 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Candidat;
 use App\Entity\Publication;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,12 +13,7 @@ class PublicationType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('description')
-            ->add('candidat', EntityType::class, [
-                'class' => Candidat::class,
-                'choice_label' => 'id',
-                'multiple' => false]);
-        ;
+            ->add('description');
     }
 
     public function configureOptions(OptionsResolver $resolver)

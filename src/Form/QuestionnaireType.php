@@ -18,8 +18,7 @@ class QuestionnaireType extends AbstractType
                 'class' => CandidatureMission::class,
                 'choice_label' => 'id',
                 'multiple' => false,
-            ]);
-        ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver)

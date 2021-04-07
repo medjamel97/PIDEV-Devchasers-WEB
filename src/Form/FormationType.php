@@ -3,10 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Formation;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 
 class FormationType extends AbstractType

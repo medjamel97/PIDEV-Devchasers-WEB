@@ -7,7 +7,6 @@ use App\Form\UtilisateurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,29 +20,31 @@ class BaseController extends AbstractController
     }
 
     /**
-     * @Route("", name="")
-     */
-    public function index()
-    {
-        return $this->redirectToRoute('afficherToutPublication');
-    }
-
-    /**
-     * @Route("/accueil", name="accueil")
+     * @Route("")
+     * @Route("front_end", name="front_end")
+     * @Route("accueil", name="accueil")
      */
     public function accueil()
     {
-        return $this->redirectToRoute('afficherToutPublication');
+        return $this->redirectToRoute('afficher_tout_publication');
     }
 
     /**
-     * @Route("/connexion", name="connexion")
+     * @Route("back_end", name="back_end")
+     */
+    public function backEnd()
+    {
+        return $this->redirectToRoute('afficher_tout_publication_back_end');
+    }
+
+    /**
+     * @Route("connexion", name="connexion")
      */
     public function connexion(Request $request)
     {
-        $utilisateurConnexion = new Utilisateur();
+        $loginUser = new Utilisateur();
 
-        $form = $this->createForm(UtilisateurType::class, $utilisateurConnexion)
+        $form = $this->createForm(UtilisateurType::class, $loginUser)
             ->add('submit', SubmitType::class)
             ->handleRequest($request);
 
@@ -54,21 +55,21 @@ class BaseController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $utilisateurs = $manager->getRepository(Utilisateur::class)->findAll();
 
-            $currentEmail = $utilisateurConnexion->getEmail();
-            $currentMdp = $utilisateurConnexion->getMotDePasse();
+            $currentEmail = $loginUser->getEmail();
+            $currentPassword = $loginUser->getMotDePasse();
 
             foreach ($utilisateurs as $utilisateur) {
                 if ($currentEmail == $utilisateur->getEmail()) {
-                    if ($currentMdp == $utilisateur->getMotDePasse()) {
+                    if ($currentPassword == $utilisateur->getMotDePasse()) {
                         $utilisateurConnexion = $manager->getRepository(Utilisateur::class)
-                            ->connexion($currentEmail, $currentMdp);
+                            ->connexion($currentEmail, $currentPassword);
 
                         if ($utilisateurConnexion->getTypeUtilisateur() == 0) {
                             $idCandidat = null;
                             $idSociete = $utilisateurConnexion->getSociete()->getId();
                         } else {
-                            $idCandidat = $utilisateurConnexion->getCandidat()->getId();
-                            $idSociete = null;
+                            $idSociete = $utilisateurConnexion->getCandidat()->getId();
+                            $idCandidat = null;
                         }
 
                         $this->session->set("utilisateur", [
@@ -84,18 +85,17 @@ class BaseController extends AbstractController
                 }
             }
         }
-
         return $this->render('_connexion/connexion.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/deconnexion", name="deconnexion")
+     * @Route("deconnexion", name="deconnexion")
      */
     public function deconnexion()
     {
         $this->session->set("utilisateur", null);
-        return $this->redirectToRoute("afficherToutPublication");
+        return $this->redirectToRoute("accueil");
     }
 }

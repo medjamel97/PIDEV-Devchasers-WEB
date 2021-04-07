@@ -2,9 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Candidat;
 use App\Entity\Competence;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,8 +13,7 @@ class CompetenceType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('level');
-        ;
+            ->add('level');;
     }
 
     public function configureOptions(OptionsResolver $resolver)

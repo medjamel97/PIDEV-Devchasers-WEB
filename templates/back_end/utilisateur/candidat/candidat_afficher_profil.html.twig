@@ -1,0 +1,134 @@
+{% extends '/backEnd/base.html.twig' %}
+
+{% set utilisateur = app.session.get('utilisateur') %}
+{% if utilisateur is not null %}
+    {% set idCandidat = utilisateur['idCandidat'] %}
+{% endif %}
+
+{% block content %}
+    <!-- Start home -->
+    <div class="text-center p-4">
+        <img src="{{ asset('uploads/'~candidat.idPhoto) }}"
+             height="150" alt="" class="d-block mx-auto shadow rounded-pill mb-4">
+        <h5 class="text-dark mb-2">{{ candidat.nom }} {{ candidat.prenom }}  </h5>
+        <p class="text-dark h6 mb-2"><i class="mdi mdi-bank mr-2"></i>Web Themes.pvt.Ltd</p>
+        <p class="text-dark h6 mb-2">PHP Developer</p>
+    </div>
+    <!-- end home -->
+
+    <!-- CANDIDATES PROFILE START -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 border text-center p-2">
+                    <i class="mdi mdi-pencil"></i><a href="{{ asset('candidat='~candidat.id~'/modifier') }}">
+                        Modifier profil</a>
+                </div>
+                <div class="col-lg-4 border text-center p-2">
+                    <i class="mdi mdi-pencil"></i><a href="{{ asset('candidat='~candidat.utilisateur.id~'/modifierEmail') }}">
+                        Changer email</a>
+                </div>
+                <div class="col-lg-4 border text-center p-2">
+                    <i class="mdi mdi-pencil"></i><a href="{{ asset('candidat='~candidat.utilisateur.id~'/modifierMotDePasse') }}">
+                        Changer mot de passe</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 mt-4 pt-2">
+                    <h4 class="text-dark">Education :</h4>
+                    <a class="btn btn-dark-outline" href="{{ path("education_new") }}">Ajouter education</a>
+                </div>
+            </div>
+            <div class="row">
+                {% for education in educations %}
+                    <div class="col-lg-4 col-md-6 mt-4 pt-5">
+                        <div class="border rounded candidates-profile-education text-center text-muted">
+                            <div class="profile-education-icon border rounded-pill bg-white text-primary">
+                                <i class="mdi mdi-36px mdi-school"></i>
+                            </div>
+                            <h6 class="text-uppercase f-17"><a href="{{ asset('#') }}"
+                                                               class="text-muted">{{ education.niveauEducation }}</a>
+                            </h6>
+                            <p class="f-14 mb-1"><i class="mdi mdi-briefcase"> </i>{{ education.etablissement }}</p>
+                            <p class="pb-3 mb-0">{{ education.filiere }}</p>
+                            <p class="pb-3 mb-0">{{ education.description }}</p>
+
+                            <div class="pt-3 border-top mb-0">
+                                <a href="{{ path("education_edit",{'id': education.id } ) }}">
+                                    <i class="mdi mdi-pencil text-center p-2"></i>Modifier education
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-lg-12 mt-4 pt-2">
+                    <h4 class="text-dark">Experience :</h4>
+                    <a class="btn btn-dark-outline" href="{{ path("experienceDeTravail_new") }}">Ajouter experience de
+                        travail</a>
+                </div>
+            </div>
+            <div class="row">
+                {% for ExperienceDeTravail in workexps %}
+                    <div class="col-md-6 mt-3 mt-md-0 pt-3">
+                        <div class="border rounded job-list-box p-4">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="company-brand-logo text-center mb-4">
+                                        <img src="{{ asset('frontEnd/images/featured-job/img-2.png') }}" alt=""
+                                             class="img-fluid mx-auto d-block">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <div class="job-list-desc candidates-profile-exp-desc">
+                                        <h5 class="f-19 mb-2"><a href="{{ asset('#') }}" class="text-dark">Desc : {{ ExperienceDeTravail.description }}</a>
+                                        </h5>
+                                        <p class="text-muted mb-0 f-16">Titre emploi : {{ ExperienceDeTravail.titreEmploi }}</p>
+                                        <p class="text-muted mb-0 f-16">Nom entreprise : {{ ExperienceDeTravail.nomEntreprise }}</p>
+                                        <p class="text-muted mb-0 f-16">Duree : {{ ExperienceDeTravail.duree }}
+                                        <p class="text-muted mb-0 f-16"><i class="mdi mdi-map-marker"></i>{{ ExperienceDeTravail.ville }}</p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-lg-12 mt-4 pt-2">
+                    <h4 class="text-dark">Skills :</h4>
+                    <a class="btn btn-dark-outline" href="{{ path("competence_new") }}">Ajouter competence</a>
+                </div>
+            </div>
+            <div class="row">
+                {% for competence in competences %}
+                    <div class="col-md-1 mt-4 pt-0">
+                        <div class="progress-box mt-4">
+                            <h6 class="title text-muted">{{ competence.name }}</h6>
+                        </div><!--end process box-->
+                    </div>
+                    <div class="col-md-9 mt-4 pt-2">
+                        <div class="progress-box mt-4">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped position-relative bg-primary"
+                                     style="width:{{ competence.level }}%;">
+                                    <div class="progress-value d-block text-muted h6">1%</div>
+                                </div>
+                            </div>
+                        </div><!--end process box-->
+                    </div>
+                    <div class="col-md-2 mt-4 pt-0">
+                        <div class="progress-box mt-4">
+                            <a href="{{ path("competence_edit",{'id': competence.id } ) }}">Modifier competence</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- CANDIDATES PROFILE END -->
+
+{% endblock %}

@@ -14,12 +14,14 @@ class MissionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('nom')
             ->add('date')
-            ->add('nbheure')
-            ->add('prixH')
+            ->add('nombreHeure')
+            ->add('prixHeure')
+            ->add('description')
             ->add('societe', EntityType::class, [
                 'class' => Societe::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nomSociete',
                 'multiple' => false]);
     }
 

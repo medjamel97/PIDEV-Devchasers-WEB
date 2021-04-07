@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\EvenementRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EvenementRepository::class)
@@ -36,19 +35,12 @@ class Evenement
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $descp;
+    private $description;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $all_day;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $id_user;
-
-    protected $captchaCode;
+    private $allDay;
 
     public function getId(): ?int
     {
@@ -91,48 +83,27 @@ class Evenement
         return $this;
     }
 
-    public function getDescp(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descp;
+        return $this->description;
     }
 
-    public function setDescp(string $descp): self
+    public function setDescription(string $description): self
     {
-        $this->descp = $descp;
+        $this->description = $description;
 
         return $this;
     }
 
     public function getAllDay(): ?bool
     {
-        return $this->all_day;
+        return $this->allDay;
     }
 
-    public function setAllDay(bool $all_day): self
+    public function setAllDay(bool $allDay): self
     {
-        $this->all_day = $all_day;
+        $this->allDay = $allDay;
 
         return $this;
-    }
-
-    public function getIdUser(): ?int
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser(int $id_user): self
-    {
-        $this->id_user = $id_user;
-
-        return $this;
-    }
-    public function getCaptchaCode()
-    {
-        return $this->captchaCode;
-    }
-
-    public function setCaptchaCode($captchaCode)
-    {
-        $this->captchaCode = $captchaCode;
     }
 }

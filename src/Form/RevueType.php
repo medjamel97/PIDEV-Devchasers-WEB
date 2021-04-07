@@ -22,8 +22,7 @@ class RevueType extends AbstractType
                 'class' => CandidatureOffre::class,
                 'choice_label' => 'id',
                 'multiple' => false,
-            ]);
-        ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver)
