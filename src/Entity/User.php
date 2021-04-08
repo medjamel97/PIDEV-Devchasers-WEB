@@ -37,14 +37,24 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", unique=true, nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private $apiToken;
+    private $isVerified = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isVerified = false;
+    private $isSetUp = false;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Candidat::class, inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $candidat;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Societe::class, inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $societe;
 
     public function getId(): ?int
     {
@@ -135,17 +145,41 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+        return $this;
+    }
+
+    public function getIsSetUp(): bool
+    {
+        return $this->isSetUp;
+    }
+
+    public function setIsSetUp(bool $isSetUp): self
+    {
+        $this->isSetUp = $isSetUp;
+        return $this;
+    }
+
+    public function getCandidat(): ?Candidat
+    {
+        return $this->candidat;
+    }
+
+    public function setCandidat(?Candidat $candidat): self
+    {
+        $this->candidat = $candidat;
 
         return $this;
     }
 
-    public function getApiToken()
+    public function getSociete(): ?Societe
     {
-        return $this->apiToken;
+        return $this->societe;
     }
 
-    public function setApiToken($apiToken): void
+    public function setSociete(?Societe $societe): self
     {
-        $this->apiToken = $apiToken;
+        $this->societe = $societe;
+
+        return $this;
     }
 }

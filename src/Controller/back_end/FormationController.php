@@ -6,43 +6,31 @@ use App\Entity\Formation;
 use App\Form\FormationType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("back_end/")
  */
-class FormationController extends Controller
+class FormationController extends AbstractController
 {
     /**
-     * @Route("formation", name="afficher_tout_formation")
+     * @Route("formation")
      */
-    public function afficherToutFormation(Request $request)
+    public function afficherToutFormation(Request $request, PaginatorInterface $paginator)
     {
-
-        $formations = $this->getDoctrine()
-            ->getRepository(Formation::class)
-            ->findAll();
-
-        // Paginate the results of the query
-        $paginator = $this->get('knp_paginator');
-        $formations = $paginator->paginate(
-        // Doctrine Query, not results
-            $formations,
-            // Define the page parameter
-            $request->query->getInt('page', 1),
-            // Items per page
-            5
-        );
         return $this->render('back_end/societe/formation/index.html.twig', [
-            'formations' => $formations,
+            'formations' => $paginator->paginate(
+                $this->getDoctrine()->getRepository(Formation::class)->findAll(),
+                $request->query->getInt('page', 1), 3
+            ),
         ]);
     }
 
     /**
-     * @Route("formation/{idFormation}", name="afficher_formation")
+     * @Route("formation/{idFormation}")
      */
     public function afficherFormation($idFormation)
     {
@@ -52,7 +40,7 @@ class FormationController extends Controller
     }
 
     /**
-     * @Route("formation/recherche", name="recherche_formation")
+     * @Route("formation/recherche")
      */
     public function rechercheFormation(Request $request)
     {
@@ -72,7 +60,7 @@ class FormationController extends Controller
     }
 
     /**
-     * @Route("formation/ajouter", name="ajouter_formation")
+     * @Route("formation/ajouter")
      */
     public function ajouterFormation(Request $request)
     {
@@ -85,7 +73,7 @@ class FormationController extends Controller
             $entityManager->persist($formation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('formation');
         }
 
         return $this->render('back_end/societe/formation/new.html.twig', [
@@ -95,7 +83,7 @@ class FormationController extends Controller
     }
 
     /**
-     * @Route("formation/{idFormation}/modifier", name="modifier_formation")
+     * @Route("formation/{idFormation}/modifier")
      */
     public function modifierFormation(Request $request, $idFormation)
     {
@@ -106,7 +94,7 @@ class FormationController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('formation');
         }
 
         return $this->render('back_end/societe/formation/edit.html.twig', [
@@ -116,17 +104,15 @@ class FormationController extends Controller
     }
 
     /**
-     * @Route("formation/{idFormation}/supprimer", name="supprimer_formation")
+     * @Route("formation/{idFormation}/supprimer")
      */
     public function supprimerFormation(Request $request, $idFormation)
     {
         $formation = $this->getDoctrine()->getRepository(Formation::class)->find($idFormation);
-        if ($this->isCsrfTokenValid('delete' . $formation->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($formation);
-            $entityManager->flush();
-        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($formation);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('');
+        return $this->redirectToRoute('formation');
     }
 }

@@ -6,26 +6,19 @@ use App\Entity\Candidat;
 use App\Entity\Competence;
 use App\Entity\Education;
 use App\Entity\ExperienceDeTravail;
-use App\Entity\Utilisateur;
+use App\Entity\User;
 use App\Form\CandidatType;
-use App\Form\UtilisateurType;
+use App\Form\UserType;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
-class CandidatController extends Controller
+class CandidatController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
      * @Route("candidat/{idCandidat}/profil", name="profil_candidat")
      */
@@ -33,13 +26,13 @@ class CandidatController extends Controller
     {
         $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat);
         $educations = $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat);
-        $workExps = $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat);
+        $experienceDeTravails = $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat);
         $competences = $this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat);
 
-        return $this->render("frontEnd/utilisateur/candidat/_profile/display.html.twig", [
+        return $this->render("front_end/candidat/_profile/afficher.html.twig", [
             'candidat' => $candidat,
             'educations' => $educations,
-            'workExps' => $workExps,
+            'experienceDeTravails' => $experienceDeTravails,
             'competences' => $competences
         ]);
     }
@@ -49,7 +42,8 @@ class CandidatController extends Controller
      */
     public function recupererCandidats(Request $request)
     {
-        $idCandidatExpediteur = $this->session->get("utilisateur")['idCandidat'];
+        $idCandidatExpediteur = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' =>
+            $request->getSession()->get(Security::LAST_USERNAME)])->getCandidat()->getId();
 
         $recherche = $request->get('recherche');
 
@@ -116,24 +110,23 @@ class CandidatController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
             $file = $request->files->get('candidat')['idPhoto'];
-            $uploads_directory = $this->getParameter('uploads_directory');
+            $uploads_directory = $this->getParameter('uploads_directory_candidat');
             $filename = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move(
                 $uploads_directory,
                 $filename
             );
-            $candidat->setIdPhoto($filename);
+            $candidat->setIdPhoto('images/candidat/uploads/'.$filename);
 
             $candidat = $form->getData();
             $manager->persist($candidat);
             $manager->flush();
 
-            return $this->redirectToRoute('profil_candidat');
+            return $this->redirectToRoute('profil_candidat', ['idCandidat' => $candidat->getId()]);
         }
 
-        return $this->render('frontEnd/utilisateur/candidat/modifierprofil.html.twig', [
+        return $this->render('front_end/candidat/_profile/modifier.html.twig', [
             'candidat' => $candidat,
             'form' => $form->createView(),
             'manipulation' => "Modifier"
@@ -141,14 +134,14 @@ class CandidatController extends Controller
     }
 
     /**
-     * @Route("candidat/{idUtilisateur}/modifier_email", name="modifier_email")
+     * @Route("candidat/{idUser}/modifier_email", name="modifier_email")
      */
-    public function modifierEmail(Request $request, $idUtilisateur)
+    public function modifierEmail(Request $request, $idUser)
     {
         $manager = $this->getDoctrine()->getManager();
-        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
+        $user = $manager->getRepository(User::class)->find($idUser);
 
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UserType::class, $user);
         $form->add('submit', SubmitType::class);
         $form->handleRequest($request);
 
@@ -161,22 +154,22 @@ class CandidatController extends Controller
             return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('frontEnd/utilisateur/candidat/modification_email.html.twig', [
-            'utilisateur' => $utilisateur,
+        return $this->render('front_end/candidat/modification_email.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
             'manipulation' => "Modifier"
         ]);
     }
 
     /**
-     * @Route("candidat/{idUtilisateur}/modifier_mot_de_passe", name="modifier_mot_de_passe")
+     * @Route("candidat/{idUser}/modifier_mot_de_passe", name="modifier_mot_de_passe")
      */
-    public function modifierMotDePasse(Request $request, $idUtilisateur)
+    public function modifierMotDePasse(Request $request, $idUser)
     {
         $manager = $this->getDoctrine()->getManager();
-        $utilisateur = $manager->getRepository(Utilisateur::class)->find($idUtilisateur);
+        $user = $manager->getRepository(User::class)->find($idUser);
 
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UserType::class, $user);
         $form->add('submit', SubmitType::class);
         $form->handleRequest($request);
 
@@ -189,8 +182,8 @@ class CandidatController extends Controller
             return $this->redirectToRoute('afficherProfil');
         }
 
-        return $this->render('frontEnd/utilisateur/candidat/modification_mot_de_passe.html.twig', [
-            'utilisateur' => $utilisateur,
+        return $this->render('front_end/candidat/modification_mot_de_passe.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
             'manipulation' => "Modifier"
         ]);

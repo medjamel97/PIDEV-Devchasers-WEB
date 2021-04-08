@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inscription - Khedemti</title>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="author" content="Themesdesign"/>
+
+    <link rel="shortcut icon" href="{{ asset('frontEnd/images/favicon.ico') }}">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{{ asset('frontEnd/css/bootstrap.min.css') }}" type="text/css">
+
+    <!--Material Icon -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/materialdesignicons.min.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/selectize.css') }}"/>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/nice-select.css') }}"/>
+
+    <!-- Custom  Css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/style.css') }}"/>
+
+</head>
+
+<body>
+<!-- Loader -->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+    </div>
+</div>
+<!-- Loader -->
+
+<div class="back-to-home rounded d-none d-sm-block">
+    <a href="{{ asset('accueil') }}" class="text-dark bg-light rounded d-inline-block text-center"><i
+                class="mdi mdi-home"></i></a>
+</div>
+
+<!-- Hero Start -->
+<section class="vh-100"
+         style="background: url({{ asset('images/backgrounds/inscription-BG.jpg') }}) center center;">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-9">
+                        <div class="login_page bg-white shadow rounded p-4">
+                            <div class="text-center">
+                                <p class="h3 text-uppercase pb-4 mb-4 border-bottom" style="color: #16116b">
+                                    Inscription en tant que candidat</p>
+                            </div>
+                            {% for flashError in app.flashes('verify_email_error') %}
+                                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                            {% endfor %}
+
+                            {{ form_start(registrationForm) }}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.email, {
+                                            label: 'Email',
+                                            'attr': {
+                                                'class': 'form-control',
+                                                'placeholder': 'Exemple@mail.com',
+                                            },
+                                        }) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.plainPassword, {
+                                            label: 'Mot de passe',
+                                            'attr': {
+                                                'class': 'form-control',
+                                                'placeholder': 'Créer votre mot de passe',
+                                            },
+                                        }) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.candidat.nom, {
+                                            label: 'Nom',
+                                            'attr': {
+                                                'class': 'form-control',
+                                                'placeholder': 'Tapez votre nom',
+                                            },
+                                        }) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.candidat.prenom, {
+                                            label: 'prenom',
+                                            'attr': {
+                                                'class': 'form-control',
+                                                'placeholder': 'Tapez votre prenom',
+                                            },
+                                        }) }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.candidat.sexe, {
+                                            label: 'Sexe',
+                                            'attr': {
+                                                'class': 'nice-select rounded w-100',
+                                            },
+                                        }) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.candidat.tel, {
+                                            label: 'Tel',
+                                            'attr': {
+                                                'class': 'form-control',
+                                                'placeholder': 'Tapez votre numero',
+                                            },
+                                        }) }}
+                                    </div>
+                                </div>
+
+                                <div class="row col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group mb-0">
+                                            <label for="date-de-naissance" class="required">Date de naissance</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            {{ form_row(registrationForm.candidat.dateNaissance.day, {
+                                                'label' : 'Jour',
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            {{ form_row(registrationForm.candidat.dateNaissance.month, {
+                                                'label' : ' Mois',
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" id="year">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            {{ form_row(registrationForm.candidat.dateNaissance.year, {
+                                                'label' : ' Année',
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group position-relative mb-0">
+                                        <div class="col-md-12">
+                                            {{ form_row(registrationForm.candidat.idPhoto, {
+                                                label: "Photo de profil",
+                                                'attr': {
+                                                    'class': 'mt-4 btn btn-light',
+                                                }
+                                            }) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 mt-3">
+                                    <div class="form-group position-relative">
+                                        {{ form_row(registrationForm.agreeTerms, {
+                                            label: "J'accepte les termes d'utilisation",
+                                            'attr': {
+                                                'class': 'mx-2',
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 m-auto">
+                                    <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+                                </div>
+                            </div>
+                            {{ form_end(registrationForm) }}
+                            <div class="row mt-3">
+                                <div class="col-md-6 text-center">
+                                    <p class="mb-0"><small class="text-dark mr-2">Vous avez deja un compte ?</small>
+                                        <a href="{{ asset('connexion') }}" class="text-dark font-weight-bold">Se
+                                            connecter</a>
+                                    </p>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <p class="mb-0"><small class="text-dark mr-2">Vous etes une entreprise ?</small>
+                                        <a href="{{ asset('inscription/societe') }}" class="text-dark font-weight-bold">Espace entreprise</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!--end col-->
+            </div><!--end row-->
+        </div> <!--end container-->
+    </div>
+</section><!--end section-->
+<!-- Hero End -->
+
+<!-- javascript -->
+<script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
+
+<!-- selectize js -->
+<script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
+
+<script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
+
+<script src="{{ asset('frontEnd/js/app.js') }}"></script>
+
+</body>
+</html>

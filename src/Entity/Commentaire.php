@@ -20,8 +20,6 @@ class Commentaire
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez saisir une description")
-     * @Assert\Length(min=1, max=200, minMessage="Taille minimale (1)", maxMessage="Taille maximale (200) depassé")
      */
     private $description;
 
@@ -31,9 +29,9 @@ class Commentaire
     private $publication;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="commentaire")
+     * @ORM\ManyToOne(targetEntity=User::class)
      */
-    private $utilisateur;
+    private $user;
 
     public function getId(): ?int
     {
@@ -64,14 +62,14 @@ class Commentaire
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getUser(): ?User
     {
-        return $this->utilisateur;
+        return $this->user;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): self
+    public function setUser(?User $user): self
     {
-        $this->utilisateur = $utilisateur;
+        $this->user = $user;
 
         return $this;
     }

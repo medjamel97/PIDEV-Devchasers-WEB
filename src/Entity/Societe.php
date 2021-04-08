@@ -22,22 +22,22 @@ class Societe
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nomSociete;
+    private $nom;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $dateCreationSociete;
+    private $dateCreation;
 
     /**
      * @ORM\Column(type="string", length=8)
      */
-    private $numTelSociete;
+    private $tel;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $idPhotoSociete;
+    private $idPhoto;
 
     /**
      * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="societe")
@@ -60,9 +60,9 @@ class Societe
     private $formation;
 
     /**
-     * @ORM\OneToOne(targetEntity=Utilisateur::class, mappedBy="societe", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="societe", cascade={"persist", "remove"})
      */
-    private $utilisateur;
+    private $user;
 
     public function __construct()
     {
@@ -78,50 +78,50 @@ class Societe
         return $this->id;
     }
 
-    public function getNomSociete(): ?string
+    public function getNom(): ?string
     {
-        return $this->nomSociete;
+        return $this->nom;
     }
 
-    public function setNomSociete(string $nomSociete): self
+    public function setNom(string $nom): self
     {
-        $this->nomSociete = $nomSociete;
+        $this->nom = $nom;
 
         return $this;
     }
 
-    public function getDateCreationSociete(): ?\DateTimeInterface
+    public function getDateCreation(): ?\DateTimeInterface
     {
-        return $this->dateCreationSociete;
+        return $this->dateCreation;
     }
 
-    public function setDateCreationSociete(\DateTimeInterface $dateCreationSociete): self
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
     {
-        $this->dateCreationSociete = $dateCreationSociete;
+        $this->dateCreation = $dateCreation;
 
         return $this;
     }
 
-    public function getNumTelSociete(): ?int
+    public function getTel(): ?int
     {
-        return $this->numTelSociete;
+        return $this->tel;
     }
 
-    public function setNumTelSociete(int $numTelSociete): self
+    public function setTel(int $tel): self
     {
-        $this->numTelSociete = $numTelSociete;
+        $this->tel = $tel;
 
         return $this;
     }
 
-    public function getIdPhotoSociete(): ?string
+    public function getIdPhoto(): ?string
     {
-        return $this->idPhotoSociete;
+        return $this->idPhoto;
     }
 
-    public function setIdPhotoSociete(string $idPhotoSociete): self
+    public function setIdPhoto(string $idPhoto): self
     {
-        $this->idPhotoSociete = $idPhotoSociete;
+        $this->idPhoto = $idPhoto;
 
         return $this;
     }
@@ -246,19 +246,19 @@ class Societe
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getUser(): ?User
     {
-        return $this->utilisateur;
+        return $this->user;
     }
 
-    public function setUtilisateur(Utilisateur $utilisateur): self
+    public function setUser(User $user): self
     {
         // set the owning side of the relation if necessary
-        if ($utilisateur->getSociete() !== $this) {
-            $utilisateur->setSociete($this);
+        if ($user->getSociete() !== $this) {
+            $user->setSociete($this);
         }
 
-        $this->utilisateur = $utilisateur;
+        $this->user = $user;
 
         return $this;
     }

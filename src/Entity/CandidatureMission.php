@@ -18,16 +18,6 @@ class CandidatureMission
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $nomFormation;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $description;
-
-    /**
      * @ORM\OneToOne(targetEntity=Questionnaire::class, inversedBy="candidatureMission", cascade={"remove"})
      */
     private $questionnaire;
@@ -44,38 +34,9 @@ class CandidatureMission
      */
     private $candidat;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $numreponse;
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNomFormation(): ?string
-    {
-        return $this->nomFormation;
-    }
-
-    public function setNomFormation(string $nomFormation): self
-    {
-        $this->nomFormation = $nomFormation;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     public function getQuestionnaire(): ?questionnaire
@@ -110,18 +71,6 @@ class CandidatureMission
     public function setCandidat(?Candidat $candidat): self
     {
         $this->candidat = $candidat;
-
-        return $this;
-    }
-
-    public function getNumreponse(): ?int
-    {
-        return $this->numreponse;
-    }
-
-    public function setNumreponse(?int $numreponse): self
-    {
-        $this->numreponse = $numreponse;
 
         return $this;
     }

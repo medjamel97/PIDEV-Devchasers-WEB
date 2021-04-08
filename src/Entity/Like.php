@@ -31,7 +31,7 @@ class Like
     /**
      * @ORM\Column(type="integer")
      */
-    private $idUtilisateur;
+    private $idUser;
 
     public function getId(): ?int
     {
@@ -62,14 +62,14 @@ class Like
         return $this;
     }
 
-    public function getIdUtilisateur(): ?int
+    public function getIdUser(): ?int
     {
-        return $this->idUtilisateur;
+        return $this->idUser;
     }
 
-    public function setIdUtilisateur(int $idUtilisateur): self
+    public function setIdUser(int $idUser): self
     {
-        $this->idUtilisateur = $idUtilisateur;
+        $this->idUser = $idUser;
 
         return $this;
     }

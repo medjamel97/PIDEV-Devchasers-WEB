@@ -2,43 +2,41 @@
 
 namespace App\Controller\back_end;
 
-use App\Entity\Candidat;
-use App\Entity\CandidatureMission;
 use App\Entity\Mission;
-use App\Entity\Question;
-use App\Entity\Questionnaire;
-use App\Form\FormType;
-use App\Form\QuestType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Entity\User;
+use App\Form\MissionType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-class MissionController extends Controller
+/**
+ * @Route("back_end/")
+ */
+class MissionController extends AbstractController
 {
     /**
-     * @Route("missionsearch", name="missionsearch")
+     * @Route("mission/{idMission}")
      */
-    public function missionsearch(Request $request, NormalizerInterface $normalizer)
+    public function afficherMission($idMission)
     {
-        $recherche = $request->get("searchValue");
-        //$mission=$this->getDoctrine()->getRepository(Mission::class)->findBy(['mission_name'=>$recherche]);
-        $mission = $this->getDoctrine()->getRepository(Mission::class)->findOneByMissionName($recherche);
+        return $this->render('back_end/mission/afficher.html.twig', [
+            'missions' => $this->getDoctrine()->getRepository(Mission::class)->find($idMission)
+        ]);
+    }
 
-        // $maValeur = $request->get("tab");
-        // $tab=explode (',' ,$maValeur );
-        // $em=$this->getDoctrine()->getManager();
-        //   for($i=0; $i<count($tab);$i++)
-        //   {if($tab[$i]!="undefined")
-        //    { $Questionnaire= new Questionnaire();
-        //     $Questionnaire->setDescription($tab[$i])->setMission($mission);
-        //    $em->persist($Questionnaire);
-        //    $em->flush();}
-        //   }
-        //    return $this->redirectToRoute('mission');
+    /**
+     * @Route("mission/recherche")
+     * @throws ExceptionInterface
+     */
+    public function rechercheMission(Request $request, NormalizerInterface $normalizer)
+    {
+        $recherche = $request->get("valeurRecherche");
+        $mission = $this->getDoctrine()->getRepository(Mission::class)->findOneByMissionName($recherche);
 
         $jsonContent = $normalizer->normalize($mission, 'json', ['groups' => 'post:read',]);
         $retour = json_encode($jsonContent);
@@ -46,161 +44,62 @@ class MissionController extends Controller
     }
 
     /**
-     * @Route("back_end/ajouterMission", name="AjouterMission")
+     * @Route("mission/ajouter")
      */
-    public function AddMission(Request $request): Response
+    public function ajouterMission(Request $request)
     {
-        $mission = new Mission();
-        $form = $this->createForm(FormType::class, $mission);
-        $form->add('Ajouter', SubmitType::class, array('label' => 'Ajouter / Donner vos questions  >'));
-        $form->handleRequest($request);
-        // && $form->isValid()
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($mission);
-            $em->flush();
-            $id = $mission->getId();
-            return $this->redirectToRoute('addQuest', array('name' => $id));
-        }
-        return $this->render('/back_end/mission/essai.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->manipulerMission($request, 'Ajouter', new Mission());
     }
 
     /**
-     * @Route("addQuest/name={name}", name="addQuest")
+     * @Route("mission/{idMission}/modifier")
      */
-    public function AddQuestMission(Request $request, $name): Response
+    public function modifierMission(Request $request, $idMission)
     {
-        $Questionnaire = new Questionnaire();
-        $form = $this->createForm(QuestType::class, $Questionnaire);
-        // $form->add('Ajouter',SubmitType::class, array('label' => 'Ajouter votre questionnaire >'));
-        $maValeur = $request->request->get("valeurArecuperer", "valeur par défaut si le champ n'existe pas");
-        // $form->handleRequest($request);
-        // if($form->isSubmitted()&& $form->isValid())
-        // {
-        //    $em=$this->getDoctrine()->getManager();
-        //    $em->persist($Questionnaire);
-        //    $em->flush();
-        //   //  return $this->redirectToRoute('/questMission/',['id'=>$mission.id]);
-        // }
-        return $this->render('/back_end/mission/addQuestMission.html.twig', [
-            'form' => $form->createView(),
-            'id2' => $name,
-        ]);
-
+        return $this->manipulerMission($request, 'Modifier',
+            $this->getDoctrine()->getRepository(Mission::class)->find($idMission));
     }
 
-    /**
-     * @Route("addQuest/ajouterchamp/pp", name="ajouterchamp")
-     */
-    public function ajouterchamp(Request $request): Response
+    public function manipulerMission(Request $request, $manipulation, $mission)
     {
-        return new Response(null);
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-    }
+        if ($user) {
+            $form = $this->createForm(MissionType::class, $mission)
+                ->add('submit', SubmitType::class)
+                ->handleRequest($request);
 
-    /**
-     * @Route("back_end/addQuest/ajoutationQuestionnaire", name="ajoutationQuestionnaire")
-     */
-    public function ajouterQuestionnaire(Request $request, NormalizerInterface $normalizer): Response
-    {
-        $id = $request->get("id");
-        $mission = $this->getDoctrine()->getRepository(Mission::class)->find($id);
+            if ($form->isSubmitted()) {
+                $mission = $form->getData();
+                $mission->setSociete($user->getSosiete());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($mission);
+                $entityManager->flush();
 
-        $maValeur = $request->get("tab");
-        $tab = explode(',', $maValeur);
-        $em = $this->getDoctrine()->getManager();
-        for ($i = 0; $i < count($tab); $i++) {
-            if ($tab[$i] != "undefined") {
-                $Questionnaire = new Questionnaire();
-                $Questionnaire->setDescription($tab[$i])->setMission($mission);
-                $em->persist($Questionnaire);
-                $em->flush();
+                return $this->redirectToRoute('profil_societe', ['idSociete' => $user->getSociete()->getId()]);
             }
+
+            return $this->render('back_end/societe/mission/manipuler.html.twig', [
+                'mission' => $mission,
+                'form' => $form->createView(),
+                'manipulation' => $manipulation,
+            ]);
+        } else {
+            return $this->redirectToRoute('connexion');
         }
-        return New Response(null);
-        //
-        // $jsonContent = $normalizer->normalize($tab, 'json',['groups' => 'post:read',]);
-        // $retour = json_encode($jsonContent);
-        // return new Response($retour);
     }
 
     /**
-     * @Route("back_end/questMission/condidature/i", name="condidature")
+     * @Route("mission/{idMission}/supprimer")
      */
-    public function Addcondidature(Request $request, NormalizerInterface $normalizer): Response
+    public function supprimerMission(Request $request, $idMission)
     {
-        $id = $request->get("id");
-        $em = $this->getDoctrine()->getManager();
-        $question = $em->getRepository(Questionnaire::class)->findBy(['Mission' => $id]);
-        $num = $request->get("num");
-        $maValeur = $request->get("ch");
-        $tab = explode(',', $maValeur);
-        // $em=$this->getDoctrine()->getManager();
-//replir la table question
-        for ($i = 0; $i < count($tab); $i++) {
-            if ($tab[$i] != "undefined") {
-                $Questionnaire = new Question();
-                $Questionnaire->setDescription($tab[$i])->setQuestionnaire($question[$i])->setNumReponse($num);
-                $em->persist($Questionnaire);
-                $em->flush();
-            }
-        }
-//remplir la table condiature
-        $condidat = $em->getRepository(Candidat::class)->find(1);
-        $mission = $em->getRepository(Mission::class)->find($id);
-        $condidature = new CandidatureMission();
-        $condidature->setCandidat($condidat)->setMission($mission)->setNumreponse($num);
-        $em->persist($condidature);
-        $em->flush();
-        return $this->redirectToRoute('mission');
-        // $jsonContent = $normalizer->normalize($maValeur, 'json',['groups' => 'post:read',]);
-        // $retour = json_encode($jsonContent);
-        // return new Response($retour);
-    }
+        $mission = $this->getDoctrine()->getRepository(Mission::class)->find($idMission);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($mission);
+        $entityManager->flush();
 
-    /**
-     * @Route("societeMission/{id}", name="societeMission")
-     */
-    public function societeMission(Request $request, $id): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $mission = $em->getRepository(Mission::class)->findBy(['societe' => $id]);
-        return $this->render('/back_end/mission/societeMission.html.twig', [
-            'missions' => $mission,
-        ]);
-    }
-
-    /**
-     * @Route("deleteMission/{id}", name="deleteMission")
-     */
-    public function deleteMission($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $classe = $em->getRepository(Mission::class)->find($id);
-        $em->remove($classe);
-        $em->flush();
-        return $this->redirectToRoute("mission");
-    }
-
-    /**
-     * @Route("updateMission/{id}", name="modifierMission")
-     */
-    public function modifierMission(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $classroom = $em->getRepository(Mission::class)->find($id);
-        $form = $this->createForm(FormType::class, $classroom);
-        $form->add('Modifier', SubmitType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            return $this->redirectToRoute('mission');
-        }
-        return $this->render('/back_end/mission/updateMission.html.twig', [
-            "form-title" => "Modifier une Mission",
-            "form" => $form->createView(),
-        ]);
+        return $this->redirectToRoute('back_end/mission');
     }
 }

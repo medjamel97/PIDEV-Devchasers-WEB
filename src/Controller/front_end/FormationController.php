@@ -5,29 +5,24 @@ namespace App\Controller\front_end;
 use App\Entity\Formation;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FormationController extends Controller
+class FormationController extends AbstractController
 {
     /**
      * @Route("formation", name="afficher_tout_formation")
      */
-    public function afficherToutFormation(Request $request)
+    public function afficherToutFormation(Request $request, PaginatorInterface $paginator)
     {
-        $formations = $this->getDoctrine()
-            ->getRepository(Formation::class)
-            ->findAll();
-
-        $paginator = $this->get('knp_paginator');
-        $formations = $paginator->paginate(
-            $formations,
-            $request->query->getInt('page', 1), 5);
-
-        return $this->render('front_end/societe/formation/indexFront.html.twig', [
-            'formations' => $formations,
+        return $this->render('front_end/societe/formation/afficher_tout.html.twig', [
+            'formations' => $paginator->paginate(
+                $this->getDoctrine()->getRepository(Formation::class)->findAll(),
+                $request->query->getInt('page', 1), 3
+            ),
         ]);
     }
 

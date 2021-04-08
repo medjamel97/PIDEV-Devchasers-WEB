@@ -18,9 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class InterviewController extends AbstractController
 {
     /**
-     * @Route("/societe={idSociete}/interview/activePage={activePage}", name="afficherToutInterview")
+     * @Route("/societe={idSociete}/interview/activePage={activePage}", name="afficher_tout_interview")
      */
-    public function afficherToutInterview($idSociete, $activePage): Response
+    public function afficherToutInterview($idSociete, $activePage)
     {
         $interviewRepository = $this->getDoctrine()->getRepository(Interview::class);
         $countItems = $interviewRepository->countItemNumber();
@@ -38,7 +38,7 @@ class InterviewController extends AbstractController
             $nbPages = 0;
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/interview/afficherToutInterview.html.twig', [
+        return $this->render('front_end/societe/offreDeTravail/interview/afficher.html.twig', [
             'interviews' => $interviewRepository->findSinglePageResults($firstItem, $itemPerPage),
             'nbResults' => $countItems,
             'nbPages' => $nbPages,
@@ -87,14 +87,14 @@ class InterviewController extends AbstractController
             $manager->persist($interview);
             $manager->flush();
 
-            return $this->redirectToRoute('afficherToutInterview', [
+            return $this->redirectToRoute('afficher_tout_interview', [
                 'idSociete' => $idSociete,
                 'idOffreDeTravail' => $idOffreDeTravail,
                 'activePage' => 1,
             ]);
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/interview/manipulerInterview.html.twig', [
+        return $this->render('front_end/societe/offreDeTravail/interview/manipuler.html.twig', [
             'manipulation' => "Ajouter",
             'form' => $form->createView(),
             'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
@@ -117,14 +117,14 @@ class InterviewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
-            return $this->redirectToRoute('afficherToutInterview', [
+            return $this->redirectToRoute('afficher_tout_interview', [
                 'idSociete' => $idSociete,
                 'idOffreDeTravail' => $idOffreDeTravail,
                 'activePage' => 1,
             ]);
         }
 
-        return $this->render('/frontEnd/utilisateur/societe/offreDeTravail/interview/manipulerInterview.html.twig', [
+        return $this->render('front_end/societe/offreDeTravail/interview/manipuler.html.twig', [
             'manipulation' => "Modifier",
             'form' => $form->createView(),
             'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
@@ -142,7 +142,7 @@ class InterviewController extends AbstractController
         $interview = $manager->getRepository(Interview::class)->find($idInterview);
         $manager->remove($interview);
         $manager->flush();
-        return $this->redirectToRoute('afficherToutInterview', [
+        return $this->redirectToRoute('afficher_tout_interview', [
             'idSociete' => $idSociete,
             'idOffreDeTravail' => $idOffreDeTravail,
             'activePage' => 1,
@@ -156,9 +156,9 @@ class InterviewController extends AbstractController
     public
     function recherche(Request $request, NormalizerInterface $normalizer)
     {
-        $searchValue = $request->get('searchValue');
-        if ($searchValue != null) {
-            $interviews = $this->getDoctrine()->getRepository(Interview::class)->findInterviewByNbEtoiles($searchValue);
+        $valeurRecherche = $request->get('valeurRecherche');
+        if ($valeurRecherche != null) {
+            $interviews = $this->getDoctrine()->getRepository(Interview::class)->findInterviewByNbEtoiles($valeurRecherche);
             $jsonContent = $normalizer->normalize($interviews, 'json', ['groups' => 'post:read']);
             $retour = json_encode($jsonContent);
             return new Response($retour);

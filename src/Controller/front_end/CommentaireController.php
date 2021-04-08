@@ -4,35 +4,29 @@ namespace App\Controller\front_end;
 
 use App\Entity\Commentaire;
 use App\Entity\Publication;
-use App\Entity\Utilisateur;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class CommentaireController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
      * @Route("commentaire/ajouter", name="ajouterCommentaire")
      */
     public function ajouterCommentaire(Request $request)
     {
-        $idUtilisateur = $this->session->get("utilisateur")["idUtilisateur"];
+        $idUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' =>
+            $request->getSession()->get(Security::LAST_USERNAME)])->getId();
 
         $commentaire = new Commentaire();
         $publication = $this->getDoctrine()->getRepository(Publication::class)->find($request->get('idPublication'));
         $commentaire
             ->setDescription($request->get('description'))
             ->setPublication($publication)
-            ->setUtilisateur($this->getDoctrine()->getRepository(Utilisateur::class)->find($idUtilisateur));
+            ->setUser($this->getDoctrine()->getRepository(User::class)->find($idUser));
 
         $commentaireRepository = $this->getDoctrine()->getManager();
         $commentaireRepository->persist($commentaire);
@@ -40,9 +34,9 @@ class CommentaireController extends AbstractController
 
         $jsonContent['id'] = $commentaire->getId();
         $jsonContent['nomPrenom'] =
-            $commentaire->getUtilisateur()->getCandidat()->getPrenom() . " " .
-            $commentaire->getUtilisateur()->getCandidat()->getNom() . " :";
-        $jsonContent['idPhoto'] = $commentaire->getUtilisateur()->getCandidat()->getIdPhoto();
+            $commentaire->getUser()->getCandidat()->getPrenom() . " " .
+            $commentaire->getUser()->getCandidat()->getNom() . " :";
+        $jsonContent['idPhoto'] = $commentaire->getUser()->getCandidat()->getIdPhoto();
         $jsonContent['description'] = $commentaire->getDescription();
 
         return new Response(json_encode($jsonContent));
@@ -63,9 +57,9 @@ class CommentaireController extends AbstractController
 
         $jsonContent['id'] = $commentaire->getId();
         $jsonContent['nomPrenom'] =
-            $commentaire->getUtilisateur()->getCandidat()->getPrenom() . " " .
-            $commentaire->getUtilisateur()->getCandidat()->getNom() . " :";
-        $jsonContent['idPhoto'] = $commentaire->getUtilisateur()->getCandidat()->getIdPhoto();
+            $commentaire->getUser()->getCandidat()->getPrenom() . " " .
+            $commentaire->getUser()->getCandidat()->getNom() . " :";
+        $jsonContent['idPhoto'] = $commentaire->getUser()->getCandidat()->getIdPhoto();
         $jsonContent['description'] = $commentaire->getDescription();
 
         return new Response(json_encode($jsonContent));

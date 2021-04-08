@@ -41,7 +41,7 @@
                     <td>
                         {% for candidature in offreDeTravail.candidatureOffre %}
                             Candidature {{ candidature.id }} : {{ candidature.candidat.prenom }} /
-                            offre : {{ candidature.offreDeTravail.description }} a {{ candidature.offreDeTravail.societe.nomSociete }}
+                            offre : {{ candidature.offreDeTravail.description }} a {{ candidature.offreDeTravail.societe.nom }}
                             <br>
                         {% endfor %}
                     </td>
@@ -51,15 +51,12 @@
                     </td>
                 {% endif %}
                 <td>
-                    {% set utilisateur = app.session.get('utilisateur') %}
-                    {% if utilisateur is not null %}
-                        {% set idUtilisateur = utilisateur['idUtilisateur'] %}
-                        {% set email = utilisateur['emailUtilisateur'] %}
+                    {% if app.user %}
                         {% set CandidatureBool = false %}
                         {% set activeSessionCondidature = null %}
                         {% if offreDeTravail.candidatureOffre|length > 0 %}
                             {% for candidature in offreDeTravail.candidatureOffre %}
-                                {% if candidature.candidat.utilisateur.id == idUtilisateur %}
+                                {% if candidature.candidat.user.email == app.user %}
                                     {% set activeSessionCondidature = candidature %}
                                     {% set CandidatureBool = true %}
                                 {% endif %}

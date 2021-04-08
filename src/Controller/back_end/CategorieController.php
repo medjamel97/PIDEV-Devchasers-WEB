@@ -9,10 +9,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("back_end/")
+ */
 class CategorieController extends AbstractController
 {
     /**
-     * @Route("back_end/categorie", name="afficher_tout_categorie")
+     * @Route("categorie")
      */
     public function afficherToutCategorie()
     {
@@ -22,7 +25,7 @@ class CategorieController extends AbstractController
     }
 
     /**
-     * @Route("back_end/categorie/ajouter", name="ajouter_categorie")
+     * @Route("categorie/ajouter")
      */
     public function ajouterCategorie(Request $request)
     {
@@ -48,7 +51,7 @@ class CategorieController extends AbstractController
     }
 
     /**
-     * @Route("back_end/categorie/{idCategorie}/modifier", name="modifier_categorie")
+     * @Route("categorie/{idCategorie}/modifier")
      */
     public function modifierCategorie(Request $request, $idCategorie)
     {
@@ -64,14 +67,14 @@ class CategorieController extends AbstractController
             return $this->redirectToRoute('afficher_tout_categorie');
         }
 
-        return $this->render('/back_end/ajouCategorie.html.twig', [
+        return $this->render('back_end/ajouCategorie.html.twig', [
             'form' => $form->createView(),
             'Cat' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
         ]);
     }
 
     /**
-     * @Route("back_end/categorie/{idCategorie}/supprimer", name="supprimer_categorie")
+     * @Route("categorie/{idCategorie}/supprimer")
      */
     public function supprimerCategorie($idCategorie)
     {

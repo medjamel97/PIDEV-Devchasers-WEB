@@ -34,7 +34,7 @@
                                             $.ajax({
                                                     type: 'GET',
                                                     url: 'missionsearch',
-                                                    data: {'searchValue': value},
+                                                    data: {'valeurRecherche': value},
                                                     success: function (retour) {
                                                         if (retour) {
                                                             $.each(JSON.parse(retour), function (i, obj) {
@@ -66,7 +66,7 @@
                                                                     "<a href=\"condidatureMission/" + obj.id + "\" class=\"text-dark readmore\">Read more <i class=\"mdi mdi-chevron-right\"></i></a>" +
                                                                     "</div>" +
                                                                     " <div class=\"author\">" +
-                                                                    "<p class=\" mb-0\"><i class=\"mdi mdi-account text-light\"></i> <a href=\"condidatureMission/" + obj.id + "\" class=\"text-light user\">" + soc.nomSociete + "</a></p>" +
+                                                                    "<p class=\" mb-0\"><i class=\"mdi mdi-account text-light\"></i> <a href=\"condidatureMission/" + obj.id + "\" class=\"text-light user\">" + soc.nom + "</a></p>" +
                                                                     " <p class=\"text-light mb-0 date\"><i class=\"mdi mdi-calendar-check\"></i> " +
                                                                     obj.date +
                                                                     "</p>" +
@@ -138,7 +138,7 @@
                             <div class="author">
                                 <p class=" mb-0"><i class="mdi mdi-account text-light"></i> <a
                                             href="{{ path('condidatureMission',{'id':mission.id}) }}"
-                                            class="text-light user">{{ mission.societe.nomSociete }}</a></p>
+                                            class="text-light user">{{ mission.societe.nom }}</a></p>
                                 <p class="text-light mb-0 date"><i class="mdi mdi-calendar-check"></i>
                                     {{ mission.date|date("d/m/Y") }}
                                 </p>

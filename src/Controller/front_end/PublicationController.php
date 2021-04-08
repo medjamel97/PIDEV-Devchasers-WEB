@@ -10,24 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PublicationController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
-     * @Route("publication", name="afficher_tout_publication")
+     * @Route("accueil", name="accueil")
      */
-    public function afficherToutPublication(): Response
+    public function afficherToutPublication()
     {
         return $this->render('front_end/candidat/publication/afficher_tout.html.twig', [
             'publications' => $this->getDoctrine()->getRepository(Publication::class)->findAll(),
@@ -45,7 +37,6 @@ class PublicationController extends AbstractController
         $nombreLikesTrue = $em->getRepository(Like::class)->nombreObjets($idPublication);
         $nombreLikes = $em->getRepository(Like::class)->nombreLikes($idPublication);
 
-
         return $this->render('front_end/candidat/publication/afficher_tout.html.twig', [
             'publication' => $publication,
             'nombreLikesTrue' => $nombreLikesTrue,
@@ -60,15 +51,7 @@ class PublicationController extends AbstractController
      */
     public function ajouterPublication(Request $request)
     {
-        // Connexion candidat requise
-        $session = $this->session->get("utilisateur");
-        if ($session == null) {
-            return $this->redirectToRoute('connexion');
-        } else {
-            if ($session['idCandidat'] == null){
-                return $this->redirectToRoute('connexion');
-            }
-        }
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $publication = new Publication();
 
@@ -98,15 +81,7 @@ class PublicationController extends AbstractController
      */
     public function modifierPublication(Request $request, $idPublication)
     {
-        // Connexion candidat requise
-        $session = $this->session->get("utilisateur");
-        if ($session == null) {
-            return $this->redirectToRoute('connexion');
-        } else {
-            if ($session['idCandidat'] == null){
-                return $this->redirectToRoute('connexion');
-            }
-        }
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $publicationRepository = $this->getDoctrine()->getManager();
         $publication = $publicationRepository->getRepository(Publication::class)->find($idPublication);
@@ -131,6 +106,8 @@ class PublicationController extends AbstractController
      */
     public function supprimerPublication($idPublication)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $publicationManager = $this->getDoctrine()->getManager();
         $publication = $publicationManager->getRepository(Publication::class)->find($idPublication);
         $publicationManager->remove($publication);
@@ -139,12 +116,12 @@ class PublicationController extends AbstractController
     }
 
     /**
-     * @Route("publication/rechreche ", name="chercher_publication")
+     * @Route("publication/rechreche ", name="recherche_publication")
      * @throws ExceptionInterface
      */
-    public function searchPub(Request $request, NormalizerInterface $normalizer)
+    public function recherchePublication(Request $request, NormalizerInterface $normalizer)
     {
-        $recherche = $request->get("searchValue");
+        $recherche = $request->get("valeurRecherche");
         $titre = $this->getDoctrine()->getRepository(Publication::class)->findStudentByTitre($recherche);
         $jsonContent = $normalizer->normalize($titre, 'json', ['groups' => 'post:read',]);
         $retour = json_encode($jsonContent);

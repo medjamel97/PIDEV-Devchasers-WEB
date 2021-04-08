@@ -3,34 +3,27 @@
 namespace App\Controller\back_end;
 
 use App\Entity\Evenement;
+use App\Entity\User;
 use App\Form\EvenementType;
-use App\Repository\EvenementRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("back_end/")
  */
-class EvenementController extends Controller
+class EvenementController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
-     * @Route("evenement", name="afficher_tout_evenement_back", methods={"GET"})
+     * @Route("evenement")
      */
-    public function afficherToutEvenement()
+    public function afficherToutEvenement(Request $request)
     {
-        $idUtilisateur = $this->session->get("utilisateur")['idUtilisateur'];
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findBy(['utilisateur' => $idUtilisateur]);
+        $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findBy(['user' => $user->getId()]);
 
         $rdvs = [];
 
@@ -53,7 +46,7 @@ class EvenementController extends Controller
     }
 
     /**
-     * @Route("evenement/{idEvenement}", name="afficher_evenement")
+     * @Route("evenement/{idEvenement}")
      */
     public function afficherEvenement($idEvenement)
     {
@@ -63,9 +56,9 @@ class EvenementController extends Controller
     }
 
     /**
-     * @Route("evenement/searchevenement", name="evenement_search")
+     * @Route("evenement/recherche")
      */
-    public function searchEvenement(Request $request)
+    public function rechercheEvenement(Request $request)
     {
         $evenement = $request->get('evenement');
         $em = $this->getDoctrine()->getManager();
@@ -77,14 +70,14 @@ class EvenementController extends Controller
             );
         }
 
-        return $this->render('back_end/societe/evenement/indexR.html.twig', array(
+        return $this->render('back_end/societe/evenement/afficher_tout.html.twig', array(
             'evenements' => $evenements
         ));
 
     }
 
     /**
-     * @Route("evenement/ajouter", name="ajouter_evenement")
+     * @Route("evenement/ajouter")
      */
     public function ajouterEvenement(Request $request)
     {
@@ -100,14 +93,14 @@ class EvenementController extends Controller
             return $this->redirectToRoute('evenement_index');
         }
 
-        return $this->render('back_end/societe/evenement/new.html.twig', [
+        return $this->render('back_end/societe/evenement/manipuler.html.twig', [
             'evenement' => $evenement,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("evenement/{idEvenement}/modifier", name="modifier_evenement")
+     * @Route("evenement/{idEvenement}/modifier")
      */
     public function modifierEvenement(Request $request, $idEvenement)
     {
@@ -121,25 +114,23 @@ class EvenementController extends Controller
             return $this->redirectToRoute('evenement_index');
         }
 
-        return $this->render('back_end/societe/evenement/modifier.html.twig', [
+        return $this->render('back_end/societe/evenement/manipuler.html.twig', [
             'evenement' => $evenement,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("evenement/{idEvenement}/supprimer", name="supprimer_evenement")
+     * @Route("evenement/{idEvenement}/supprimer")
      */
     public function supprimerEvenement(Request $request, $idEvenement)
     {
         $evenement = $this->getDoctrine()->getRepository(Evenement::class)->find($idEvenement);
 
-        if ($this->isCsrfTokenValid('delete' . $evenement->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($evenement);
-            $entityManager->flush();
-        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($evenement);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('');
+        return $this->redirectToRoute('evenement');
     }
 }

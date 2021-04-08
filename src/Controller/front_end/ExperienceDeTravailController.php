@@ -2,102 +2,74 @@
 
 namespace App\Controller\front_end;
 
-use App\Entity\Candidat;
 use App\Entity\ExperienceDeTravail;
+use App\Entity\User;
 use App\Form\ExperienceDeTravailType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class ExperienceDeTravailController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
-     * @Route("offre_de_travail/ajouter", name="ajouter_offre_de_travail")
+     * @Route("experience_de_travail/ajouter", name="ajouter_experience_de_travail")
      */
     public function ajouterExperienceDeTravail(Request $request)
     {
-        $offreDeTravail = new ExperienceDeTravail();
-        $form = $this->createForm(ExperienceDeTravailType::class, $offreDeTravail)
-            ->add('submit', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-
-            $offreDeTravail = $form->getData();
-
-            $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
-                $this->session->get("utilisateur")["idCandidat"]
-            );
-            $offreDeTravail->setCandidat($candidat);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($offreDeTravail);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('profil_candidat');
-        }
-
-        return $this->render('front_end/candidat/offre_de_travail/manipulation.html.twig', [
-            'offreDeTravail' => $offreDeTravail,
-            'form' => $form->createView(),
-            'manipulation' => 'Ajouter'
-        ]);
+        return $this->manipulerExperienceDeTravail($request, 'Ajouter', new ExperienceDeTravail());
     }
 
     /**
-     * @Route("offre_de_travail/{idExperienceDeTravail}/modifier", name="modifier_offre_de_travail")
+     * @Route("experience_de_travail/{idExperienceDeTravail}/modifier", name="modifier_experience_de_travail")
      */
     public function modifierExperienceDeTravail(Request $request, $idExperienceDeTravail)
     {
-        $offreDeTravail = $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->find($idExperienceDeTravail);
+        return $this->manipulerExperienceDeTravail($request, 'Modifier',
+            $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->find($idExperienceDeTravail));
+    }
 
-        $form = $this->createForm(ExperienceDeTravailType::class, $offreDeTravail)
-            ->add('submit', SubmitType::class)
-            ->handleRequest($request);
+    public function manipulerExperienceDeTravail(Request $request, $manipulation, $experienceDeTravail)
+    {
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        if ($form->isSubmitted()) {
+        if ($user) {
+            $form = $this->createForm(ExperienceDeTravailType::class, $experienceDeTravail)
+                ->add('submit', SubmitType::class)
+                ->handleRequest($request);
 
-            $offreDeTravail = $form->getData();
+            if ($form->isSubmitted()) {
+                $experienceDeTravail = $form->getData();
+                $experienceDeTravail->setCandidat($user->getCandidat());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($experienceDeTravail);
+                $entityManager->flush();
 
-            $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find(
-                $this->session->get("utilisateur")["idCandidat"]
-            );
-            $offreDeTravail->setCandidat($candidat);
+                return $this->redirectToRoute('profil_candidat', ['idCandidat' => $user->getCandidat()->getId()]);
+            }
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($offreDeTravail);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('profil_candidat');
+            return $this->render('front_end/candidat/experience_de_travail/manipuler.html.twig', [
+                'experienceDeTravail' => $experienceDeTravail,
+                'form' => $form->createView(),
+                'manipulation' => $manipulation,
+            ]);
+        } else {
+            return $this->redirectToRoute('connexion');
         }
-
-        return $this->render('front_end/candidat/offre_de_travail/manipulation.html.twig', [
-            'offreDeTravail' => $offreDeTravail,
-            'form' => $form->createView(),
-            'manipulation' => 'Modifier',
-        ]);
     }
 
     /**
-     * @Route("offre_de_travail/{idExperienceDeTravail}/supprimer", name="supprimer_offre_de_travail")
+     * @Route("experience_de_travail/{idExperienceDeTravail}/supprimer", name="supprimer_experience_de_travail")
      */
     public function supprimerExperienceDeTravail($idExperienceDeTravail)
     {
         $manager = $this->getDoctrine()->getManager();
-        $offreDeTravail = $manager->getRepository(ExperienceDeTravail::class)->find($idExperienceDeTravail);
-        $manager->remove($offreDeTravail);
+        $experienceDeTravail = $manager->getRepository(ExperienceDeTravail::class)->find($idExperienceDeTravail);
+        $manager->remove($experienceDeTravail);
         $manager->flush();
 
-        return $this->redirectToRoute('profil_candidat');
+        return $this->redirectToRoute('profil_candidat', ['idCandidat' => $experienceDeTravail->getCandidat()->getId()]);
     }
 }

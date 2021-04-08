@@ -48,7 +48,7 @@
     <!-- Navigation Bar-->
     <header id="topnav" class="defaultscroll scroll-active">
         <!-- Tagline STart -->
-        <div class="tagline">
+        <div id="tagline" class="tagline">
             <div class="container">
                 <div class="float-left">
                     <div class="phone">
@@ -63,8 +63,19 @@
                 <div class="float-right">
                     <ul class="topbar-list list-unstyled d-flex" style="margin: 11px 0;">
                         <li class="list-inline-item">
+
+
+                            {% set isCandidat = false %}
                             {% if app.user %}
-                            <a href="{{ asset('candidat/'~app.user.id~'/profile') }}">
+                                {% for role in app.user.roles %}
+                                    {% if role == "ROLE_CANDIDAT" %}
+                                        {% set isCandidat = true %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                            {% if isCandidat %}
+                            <a href="{{ asset('candidat/'~app.user.id~'/profil') }}">
                                 <i class="mdi mdi-account mr-2"></i>{{ app.user.email }}
                             </a>
                         </li>
@@ -75,13 +86,26 @@
                             {% endif %}
                         </li>
                         {% if app.user %}
-                            <li class="list-inline-item">
-                                <a href="{{ asset('deconnexion') }}">
-                                    <button class="btn btn-danger p-1 pl-2 pr-2"><i class="mdi mdi-logout"></i>
-                                        Deconnexion
-                                    </button>
+                            {% if isCandidat %}
+                                <li class="list-inline-item">
+                                    <a href="{{ asset('deconnexion') }}">
+                                        <button class="btn btn-danger p-1 pl-2 pr-2"><i class="mdi mdi-logout"></i>
+                                            Deconnexion
+                                        </button>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <a href="{{ asset('back_end/societe/'~app.user.id~'/profil') }}">
+                                    <i class="mdi mdi-office-building mr-2"></i>{{ app.user.email }}
                                 </a>
-                            </li>
+                                <li class="list-inline-item">
+                                    <a href="{{ asset('back_end/') }}">
+                                        <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-arrow-right"></i>
+                                            Revenir a l'espace societe
+                                        </button>
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% else %}
                             <li class="list-inline-item">
                                 <a href="{{ asset('connexion') }}">
@@ -104,7 +128,8 @@
             </div>
         </div>
         <!-- Tagline End -->
-
+        {% block tagline %}
+        {% endblock %}
         <!-- Menu Start -->
         <div class="container">
             <!-- Logo container-->
@@ -135,7 +160,7 @@
                 {% block links %}
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
-                        {% if app.user %}
+                        {% if isCandidat %}
                             <li class="has-submenu"><a href="{{ asset('candidat/'~app.user.id~'/profil') }}">Profil</a>
                             </li>
                         {% endif %}

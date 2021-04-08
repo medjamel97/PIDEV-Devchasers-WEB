@@ -2,38 +2,27 @@
 
 namespace App\Controller;
 
-use App\Entity\Utilisateur;
-use App\Form\UtilisateurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
      * @Route("")
+     * @Route("publication")
      * @Route("front_end", name="front_end")
-     * @Route("accueil", name="accueil")
      */
     public function accueil()
     {
-        return $this->redirectToRoute('afficher_tout_publication');
+        return $this->redirectToRoute('accueil');
     }
 
     /**
+     * @Route("back_end/publication")
      * @Route("back_end", name="back_end")
      */
     public function backEnd()
     {
-        return $this->redirectToRoute('afficher_tout_publication_back_end');
+        return $this->redirectToRoute('accueil_societe');
     }
 }

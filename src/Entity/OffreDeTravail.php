@@ -32,7 +32,7 @@ class OffreDeTravail
      * )
      * @Groups("get:read")
      */
-    private $job;
+    private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,19 +45,20 @@ class OffreDeTravail
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail")
-     */
-    private $candidatureOffre;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="offreDeTravail")
      */
     private $categorie;
 
     /**
      * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="offreDeTravail")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $societe;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail")
+     */
+    private $candidatureOffre;
 
     public function __construct()
     {
@@ -69,14 +70,14 @@ class OffreDeTravail
         return $this->id;
     }
 
-    public function getJob(): ?string
+    public function getNom(): ?string
     {
-        return $this->job;
+        return $this->nom;
     }
 
-    public function setJob(string $job): self
+    public function setNom(string $nom): self
     {
-        $this->job = $job;
+        $this->nom = $nom;
 
         return $this;
     }
@@ -98,6 +99,30 @@ class OffreDeTravail
 
         $this->id = $id;
 
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getSociete(): ?Societe
+    {
+        return $this->societe;
+    }
+
+    public function setSociete(?Societe $societe): self
+    {
+        $this->societe = $societe;
 
         return $this;
     }
@@ -128,30 +153,6 @@ class OffreDeTravail
                 $candidatureOffre->setOffreDeTravail(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): self
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    public function getSociete(): ?Societe
-    {
-        return $this->societe;
-    }
-
-    public function setSociete(?Societe $societe): self
-    {
-        $this->societe = $societe;
 
         return $this;
     }

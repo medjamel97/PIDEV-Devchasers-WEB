@@ -3,7 +3,7 @@
 namespace App\Controller\front_end;
 
 use App\Entity\Societe;
-use App\Entity\Utilisateur;
+use App\Entity\User;
 use App\Form\SocieteType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

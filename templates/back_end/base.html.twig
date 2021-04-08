@@ -32,7 +32,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
-               href="{{ asset('gererpublication') }}">
+               href="{{ asset('back_end/accueil_societe') }}">
                 <div class="sidebar-brand-text mx-3">
                     <img src="{{ asset('backEnd/img/logo-light.png') }}" height="30">
                 </div>
@@ -51,10 +51,10 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Gestion Evenement:</h6>
-                        <a class="collapse-item" href={{ path('evenement_index') }}>List Evenement</a>
-                        <a class="collapse-item" href={{ path('evenement_new') }}>Nouveau Evenement</a>
-                        <a class="collapse-item" href={{ path('evenement_search') }}>Chercher Evenement</a>
-                        <a class="collapse-item" href={{ path('evenement_indexB') }}>Calendrier</a>
+                        <a class="collapse-item" href={{ asset('back_end/afficher_tout_evenement') }}>afficher tout evenement</a>
+                        <a class="collapse-item" href={{ asset('back_end/ajouter_evenement') }}>Nouveau Evenement</a>
+                        <a class="collapse-item" href={{ asset('back_end/recherche_evenement') }}>Chercher Evenement</a>
+                        <a class="collapse-item" href={{ asset('back_end/calendrier_evenement') }}>Calendrier</a>
                     </div>
                 </div>
             </li>
@@ -68,9 +68,9 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Gestion Formation:</h6>
-                        <a class="collapse-item" href={{ path('formation_index') }}>List Formation</a>
-                        <a class="collapse-item" href={{ path('formation_new') }}>Nouvelle Formation</a>
-                        <a class="collapse-item" href={{ path('formation_search') }}>Chercher Formation</a>
+                        <a class="collapse-item" href={{ asset('back_end/afficher_tout_formation') }}>Afficher tout Formation</a>
+                        <a class="collapse-item" href={{ asset('back_end/ajouter_formation') }}>Ajouter Formation</a>
+                        <a class="collapse-item" href={{ asset('back_end/recherche_formation') }}>Chercher Formation</a>
                     </div>
                 </div>
             </li>
@@ -84,61 +84,46 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Candidats</h6>
-                        <a class="collapse-item" href={{ path('afficherToutCandidatBack') }}>Afficher tout candidats</a>
+                        <a class="collapse-item" href={{ asset('back_end/afficher_tout_candidat') }}>Afficher tout
+                            candidats</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('afficherToutCandidatBack') }}">
-                    <span>Candidats</span></a>
+                <a class="nav-link" href="{{ asset('back_end/afficher_tout_candidat') }}">
+                    <span>Afficher tout candidats</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('listc') }}">
-                    <span>lister categorie</span></a>
+                <a class="nav-link" href="{{ asset('back_end/afficher_tout_mission') }}">
+                    <span>Afficher tout missions</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('AjouterMission') }}">
-                    <span>ajout mission</span></a>
-            </li>
-
-            {% set utilisateur = app.session.get('utilisateur') %}
-            {% if utilisateur is not null %}
-                {% if utilisateur['idSociete'] %}
-                    {% set idSociete = utilisateur['idSociete'] %}
-                {% endif %}
-            {% endif %}
-
-            {% if utilisateur is not null %}
-                {% if utilisateur['idSociete'] %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="societeMission/{{ idSociete }}">
-                            <span>Vos missions</span></a>
-                    </li>
-                {% endif %}
-            {% endif %}
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('listc') }}">
-                    <span>Lister categorie</span></a>
+                <a class="nav-link" href="{{ asset('back_end/AjouterMission') }}">
+                    <span>Ajouter mission</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('aff') }}">
+                <a class="nav-link" href="{{ asset('back_end/afficher_tout_categorie') }}">
+                    <span>Afficher tout categorie</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ asset('back_end/ajouter_categorie') }}">
+                    <span>Ajouter categorie</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ asset('back_end/afficher_tout_offre_de_travail') }}">
+                    <span>Afficher tout offres</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ asset('back_end/ajouter_offre_de_travail') }}">
                     <span>Ajout offre</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('ac') }}">
-                    <span>Ajout categorie</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('listeA') }}">
-                    <span>List offre 2</span></a>
-            </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

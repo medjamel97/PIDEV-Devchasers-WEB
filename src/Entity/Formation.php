@@ -37,6 +37,12 @@ class Formation
      */
     private $fin;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="formation")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $societe;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +92,18 @@ class Formation
     public function setFin(\DateTimeInterface $fin): self
     {
         $this->fin = $fin;
+
+        return $this;
+    }
+
+    public function getSociete(): ?Societe
+    {
+        return $this->societe;
+    }
+
+    public function setSociete(?Societe $societe): self
+    {
+        $this->societe = $societe;
 
         return $this;
     }

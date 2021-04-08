@@ -42,6 +42,12 @@ class Evenement
      */
     private $allDay;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="evenement")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $societe;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +109,18 @@ class Evenement
     public function setAllDay(bool $allDay): self
     {
         $this->allDay = $allDay;
+
+        return $this;
+    }
+
+    public function getSociete(): ?Societe
+    {
+        return $this->societe;
+    }
+
+    public function setSociete(?Societe $societe): self
+    {
+        $this->societe = $societe;
 
         return $this;
     }

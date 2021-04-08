@@ -3,24 +3,11 @@
 namespace App\Controller\front_end;
 
 use App\Entity\Evenement;
-use App\Form\EvenementType;
-use App\Repository\EvenementRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Knp\Component\Pager\PaginatorInterface;
 
-class EvenementController extends Controller
+class EvenementController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
      * @Route("evenement", name="calendrier_evenement")
      */

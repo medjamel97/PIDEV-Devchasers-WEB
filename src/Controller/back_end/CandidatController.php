@@ -6,32 +6,31 @@ use App\Entity\Candidat;
 use App\Entity\Competence;
 use App\Entity\Education;
 use App\Entity\ExperienceDeTravail;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CandidatController extends Controller
+/**
+ * @Route("back_end/")
+ */
+class CandidatController extends AbstractController
 {
     /**
-     * @Route("back_end/candidat", name="afficher_tout_candidat_back")
+     * @Route("candidat")
      */
-    public function afficherToutCandidat(Request $request)
+    public function afficherToutCandidat(Request $request, PaginatorInterface $paginator)
     {
-        $em = $this->getDoctrine()->getManager();
-        $candidats = $em->getRepository(Candidat::class)->findAll();
-        $paginator = $this->get('knp_paginator');
-        $candidats = $paginator->paginate(
-            $candidats,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 2)
-        );
         return $this->render('back_end/candidat/afficher_tout.html.twig', [
-            'candidats' => $candidats,
+            'candidat' => $paginator->paginate(
+                $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
+                $request->query->getInt('page', 1), 3
+            ),
         ]);
     }
 
     /**
-     * @Route("back_end/candidat/{idCandidat}/profil", name="profil_candidat_back")
+     * @Route("candidat/{idCandidat}/profil")
      */
     public function profile($idCandidat)
     {

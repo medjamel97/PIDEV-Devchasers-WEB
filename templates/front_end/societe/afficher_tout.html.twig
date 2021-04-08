@@ -310,15 +310,15 @@
                         {% for societe in societes %}
                         <div class="col-lg-4 col-md-6 mt-4 pt-2">
                             <div class="employers-list position-relative pb-3 pt-3 pl-2 pr-2 border rounded">
-                                <img src="{{ asset('uploads/'~societe.idPhotoSociete) }}"
+                                <img src="{{ asset(societe.idPhoto) }}"
                                      alt="" class="mx-auto d-block shadow border rounded-circle" height="90" width="90">
                                 <div class="grid-list-desc text-center mt-3">
-                                    <h5 class="mb-2"><a href="{{ asset('societe='~societe.id) }}" class="text-dark name">{{ societe.nomSociete }}</a></h5>
+                                    <h5 class="mb-2"><a href="{{ asset('societe='~societe.id) }}" class="text-dark name">{{ societe.nom }}</a></h5>
                                     <p class="text-muted mb-0"><i class="mdi mdi-briefcase mr-2"></i>Web Delveloper</p>
                                     <p class="text-muted mb-0"><i class="mdi mdi-map-marker mr-2"></i>location</p>
                                 </div>
                                 <div class="apply-button text-center mt-3">
-                                    <a href="{{ asset('societe='~societe.id) }}" class="btn btn-primary btn-sm">Consulter {{ societe.nomSociete }}</a>
+                                    <a href="{{ asset('societe='~societe.id) }}" class="btn btn-primary btn-sm">Consulter {{ societe.nom }}</a>
                                 </div>
                             </div>
                         </div>

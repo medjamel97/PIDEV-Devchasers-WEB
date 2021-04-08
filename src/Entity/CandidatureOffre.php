@@ -30,14 +30,15 @@ class CandidatureOffre
     private $revue;
 
     /**
-     * @ORM\ManyToOne(targetEntity=OffreDeTravail::class, inversedBy="candidatureOffres")
-     */
-    private $offreDeTravail;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="candidatureOffre")
      */
     private $candidat;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=OffreDeTravail::class, inversedBy="candidatureOffre")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $offreDeTravail;
 
     public function __construct()
     {
@@ -110,18 +111,6 @@ class CandidatureOffre
         return $this;
     }
 
-    public function getOffreDeTravail(): ?offreDeTravail
-    {
-        return $this->offreDeTravail;
-    }
-
-    public function setOffreDeTravail(?offreDeTravail $offreDeTravail): self
-    {
-        $this->offreDeTravail = $offreDeTravail;
-
-        return $this;
-    }
-
     public function getCandidat(): ?Candidat
     {
         return $this->candidat;
@@ -130,6 +119,18 @@ class CandidatureOffre
     public function setCandidat(?Candidat $candidat): self
     {
         $this->candidat = $candidat;
+
+        return $this;
+    }
+
+    public function getOffreDeTravail(): ?OffreDeTravail
+    {
+        return $this->offreDeTravail;
+    }
+
+    public function setOffreDeTravail(?OffreDeTravail $offreDeTravail): self
+    {
+        $this->offreDeTravail = $offreDeTravail;
 
         return $this;
     }

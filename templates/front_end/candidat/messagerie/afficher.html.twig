@@ -1,13 +1,4 @@
 {% extends '/front_end/base.html.twig' %}
-{% set utilisateur = app.session.get('utilisateur') %}
-{% if utilisateur is not null %}
-    {% set idUtilisateur = utilisateur['idUtilisateur'] %}
-    {% set idCandidatExpediteur = utilisateur['idCandidat'] %}
-{% else %}
-    {% set idUtilisateur = null %}
-    {% set idCandidatExpediteur = null %}
-{% endif %}
-{% set idCandidatDestinataire = null %}
 {% block css %}
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{{ asset('/frontEnd/css/bootstrap.min.css') }}" type="text/css">
@@ -167,7 +158,7 @@
         </div>
     </div>
     <script id="general">
-        const idCandidatExpediteurActuel = {{ idCandidatExpediteur }}+0;
+        const idCandidatExpediteurActuel = {{ app.user.candidat.id }}+0;
         let idCandidatDestinataireActuel = 0;
         let idConversationActuelle = 0;
         let nomConversationActuelle = "";
@@ -321,7 +312,7 @@
                                         .attr("href", "javascript:closeNouvModal();" +
                                             "ajouterConversation(" + obj.idCandidatExpediteur + "," + obj.idCandidatDestinataire + ");");
                                     clone.find('#photo-candidat').attr("id", "photo-candidat" + i)
-                                        .attr("src", "/uploads/" + obj.idPhoto);
+                                        .attr("src", obj.idPhoto);
                                     clone.find('#prenom-nom-candidat').attr("id", "prenom-nom-candidat" + i).append(obj.nomPrenom);
 
                                     $('#contenaire-candidats').append(clone);

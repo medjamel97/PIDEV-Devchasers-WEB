@@ -84,9 +84,9 @@ class Candidat
     private $competence;
 
     /**
-     * @ORM\OneToOne(targetEntity=Utilisateur::class, mappedBy="candidat", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="candidat", cascade={"persist", "remove"})
      */
-    private $utilisateur;
+    private $user;
 
     public function __construct()
     {
@@ -355,24 +355,24 @@ class Candidat
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getUser(): ?User
     {
-        return $this->utilisateur;
+        return $this->user;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): self
+    public function setUser(?User $user): self
     {
         // unset the owning side of the relation if necessary
-        if ($utilisateur === null && $this->utilisateur !== null) {
-            $this->utilisateur->setCandidat(null);
+        if ($user === null && $this->user !== null) {
+            $this->user->setCandidat(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($utilisateur !== null && $utilisateur->getCandidat() !== $this) {
-            $utilisateur->setCandidat($this);
+        if ($user !== null && $user->getCandidat() !== $this) {
+            $user->setCandidat($this);
         }
 
-        $this->utilisateur = $utilisateur;
+        $this->user = $user;
 
         return $this;
     }

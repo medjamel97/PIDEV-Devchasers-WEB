@@ -23,6 +23,21 @@ class Mission
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\Length(min=10, max=200, minMessage="Taille minimale (10)", maxMessage="Taille maximale (100) depassé")
+     * @Groups("post:read")
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=10383, nullable=true)
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Groups("post:read")
+     */
+    private $description;
+
+    /**
      * @ORM\Column(type="date")
      * @Groups("post:read")
      */
@@ -36,9 +51,9 @@ class Mission
      *      max = 10,
      *      notInRangeMessage = "You must be between {{ min }}cm and {{ max }}cm tall to enter",
      * )
-          * @Groups("post:read")
+     * @Groups("post:read")
      */
-    private $nbheure;
+    private $nombreHeures;
 
     /**
      * @ORM\Column(type="float")
@@ -50,7 +65,7 @@ class Mission
      * )
      * @Groups("post:read")
      */
-    private $prixH;
+    private $prixHeure;
 
     /**
      * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="mission")
@@ -62,26 +77,6 @@ class Mission
      * @Groups("post:read")
      */
     private $societe;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez saisir une description")
-     * @Assert\Length(min=10, max=200, minMessage="Taille minimale (10)", maxMessage="Taille maximale (100) depassé")
-        * @Groups("post:read")
-     */
-    private $mission_name;
-
-    /**
-     * @ORM\Column(type="string", length=10383, nullable=true)
-     * @Assert\NotBlank(message="Veuillez saisir une description")
-   * @Groups("post:read")
-     */
-    private $description;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Questionnaire::class, mappedBy="Mission", cascade={"persist", "remove"})
-     */
-    private $questionnaire;
 
     public function __construct()
     {
@@ -105,26 +100,26 @@ class Mission
         return $this;
     }
 
-    public function getNbheure(): ?int
+    public function getNbHeures(): ?int
     {
-        return $this->nbheure;
+        return $this->nombreHeures;
     }
 
-    public function setNbheure(int $nbheure): self
+    public function setNbHeures(int $nombreHeures): self
     {
-        $this->nbheure = $nbheure;
+        $this->nombreHeures = $nombreHeures;
 
         return $this;
     }
 
-    public function getPrixH(): ?float
+    public function getPrixHeure(): ?float
     {
-        return $this->prixH;
+        return $this->prixHeure;
     }
 
-    public function setPrixH(float $prixH): self
+    public function setPrixHeure(float $prixHeure): self
     {
-        $this->prixH = $prixH;
+        $this->prixHeure = $prixHeure;
 
         return $this;
     }
@@ -171,14 +166,14 @@ class Mission
         return $this;
     }
 
-    public function getMissionName(): ?string
+    public function getNom(): ?string
     {
-        return $this->mission_name;
+        return $this->nom;
     }
 
-    public function setMissionName(string $mission_name): self
+    public function setNom(string $nom): self
     {
-        $this->mission_name = $mission_name;
+        $this->nom = $nom;
 
         return $this;
     }
@@ -191,23 +186,6 @@ class Mission
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getQuestionnaire(): ?Questionnaire
-    {
-        return $this->questionnaire;
-    }
-
-    public function setQuestionnaire(Questionnaire $questionnaire): self
-    {
-        // set the owning side of the relation if necessary
-        if ($questionnaire->getMission() !== $this) {
-            $questionnaire->setMission($this);
-        }
-
-        $this->questionnaire = $questionnaire;
 
         return $this;
     }

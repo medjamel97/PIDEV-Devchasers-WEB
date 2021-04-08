@@ -5,31 +5,25 @@ namespace App\Controller\front_end;
 use App\Entity\Candidat;
 use App\Entity\Conversation;
 use App\Entity\Message;
+use App\Entity\User;
 use DateTime;
 use DateTimeZone;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MessagerieController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
      * @Route("messagerie", name="messagerie")
      */
     public function messagerie(Request $request)
     {
-        return $this->render('/frontEnd/utilisateur/candidat/messagerie/afficherMessagerie.html.twig');
+        return $this->render('front_end/candidat/messagerie/afficher.html.twig');
     }
 
     /**
@@ -37,7 +31,9 @@ class MessagerieController extends AbstractController
      */
     public function recupererConversations(Request $request)
     {
-        $idCandidatExpediteur = $this->session->get("utilisateur")['idCandidat'];
+        $idCandidatExpediteur = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' =>
+            $request->getSession()->get(Security::LAST_USERNAME)])->getCandidat()->getId();
+
         $recherche = $request->get('recherche');
 
         $conversationsRepository = $this->getDoctrine()->getRepository(Conversation::class);

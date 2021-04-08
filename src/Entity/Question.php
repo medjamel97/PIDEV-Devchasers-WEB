@@ -23,14 +23,14 @@ class Question
     private $description;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $reponse;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Questionnaire::class, inversedBy="question")
      */
     private $questionnaire;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $num_reponse;
 
     public function getId(): ?int
     {
@@ -49,6 +49,18 @@ class Question
         return $this;
     }
 
+    public function getReponse(): ?string
+    {
+        return $this->reponse;
+    }
+
+    public function setReponse(string $reponse): self
+    {
+        $this->reponse = $reponse;
+
+        return $this;
+    }
+
     public function getQuestionnaire(): ?Questionnaire
     {
         return $this->questionnaire;
@@ -57,18 +69,6 @@ class Question
     public function setQuestionnaire(?Questionnaire $questionnaire): self
     {
         $this->questionnaire = $questionnaire;
-
-        return $this;
-    }
-
-    public function getNumReponse(): ?int
-    {
-        return $this->num_reponse;
-    }
-
-    public function setNumReponse(?int $num_reponse): self
-    {
-        $this->num_reponse = $num_reponse;
 
         return $this;
     }

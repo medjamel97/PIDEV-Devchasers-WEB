@@ -12,26 +12,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RevueController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
      * @Route("revue/recherche_societe", name="recherche_societe")
      */
     public function rechercheSociete()
     {
-        return $this->render('front_end/societe/offreDeTravail/revue/rechercherSociete.html.twig');
+        return $this->render('front_end/societe/offreDeTravail/revue/recherche.html.twig');
     }
 
     /**
@@ -39,7 +31,7 @@ class RevueController extends AbstractController
      */
     public function afficherToutRevue($idOffreDeTravail, $message)
     {
-        return $this->render('front_end/societe/offreDeTravail/revue/afficher_tout_revue.html.twig', [
+        return $this->render('front_end/societe/offreDeTravail/revue/afficher_tout.html.twig', [
             'message' => $message,
             'revues' => $this->getDoctrine()->getRepository(Revue::class)
                 ->findBy(['offreDeTravail' => $idOffreDeTravail])
@@ -52,13 +44,15 @@ class RevueController extends AbstractController
     public
     function ajouterRevue(Request $request, $idOffreDeTravail)
     {
-        $idCandidat = $this->session->get("utilisateur")["idCandidat"];
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+
         $candidatureOffre = $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
             'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
-            'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
+            'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($user->getCandidat()->getId()),
         ]);
 
-        if ($idCandidat == null)
+        if ($user->getCandidat()->getId() == null)
             return $this->redirectToRoute('afficher_tout_revue', [
                 'idOffreDeTravail' => $idOffreDeTravail,
                 'message' => "Vous devez d'abord vous connecter"
@@ -122,7 +116,7 @@ class RevueController extends AbstractController
             ]);
         }
 
-        return $this->render('front_end/societe/offreDeTravail/revue/manipulerRevue.html.twig', [
+        return $this->render('front_end/societe/offreDeTravail/revue/manipuler.html.twig', [
             'manipulation' => "Modifier",
             'form' => $form->createView(),
             'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
@@ -153,9 +147,9 @@ class RevueController extends AbstractController
      */
     public function recherche(Request $request, NormalizerInterface $normalizer)
     {
-        $searchValue = $request->get('searchValue');
-        if ($searchValue != null) {
-            $revues = $this->getDoctrine()->getRepository(Revue::class)->findRevueByNbEtoiles($searchValue);
+        $valeurRecherche = $request->get('valeurRecherche');
+        if ($valeurRecherche != null) {
+            $revues = $this->getDoctrine()->getRepository(Revue::class)->findRevueByNbEtoiles($valeurRecherche);
             $jsonContent = $normalizer->normalize($revues, 'json', ['groups' => 'post:read']);
             $retour = json_encode($jsonContent);
             return new Response($retour);
@@ -171,9 +165,9 @@ class RevueController extends AbstractController
     public
     function ajaxRechercheSociete(Request $request)
     {
-        $searchValue = $request->get('searchValue');
-        if ($searchValue != null) {
-            $societes = $this->getDoctrine()->getRepository(Societe::class)->findStartingWith($searchValue);
+        $valeurRecherche = $request->get('valeurRecherche');
+        if ($valeurRecherche != null) {
+            $societes = $this->getDoctrine()->getRepository(Societe::class)->findStartingWith($valeurRecherche);
 
             $jsonContent = null;
             $i = 0;

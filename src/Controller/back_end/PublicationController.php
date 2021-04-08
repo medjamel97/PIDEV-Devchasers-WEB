@@ -3,33 +3,28 @@
 namespace App\Controller\back_end;
 
 use App\Entity\Publication;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PublicationController extends Controller
+/**
+ * @Route("back_end/")
+ */
+class PublicationController extends AbstractController
 {
-    private $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     /**
-     * @Route("back_end/publicationBackEnd", name="afficherToutPublicationBackEnd")
+     * @Route("accueil_societe", name="accueil_societe")
      */
     public function afficherToutPublicationBackEnd()
     {
-        return $this->render('/back_end/base.html.twig', [
+        return $this->render('back_end/base.html.twig', [
         ]);
     }
 
     /**
-     * @Route("back_end/publication/{idPublication}/supprimer", name="supprimerPublication")
+     * @Route("publication/{idPublication}/supprimer")
      */
     public function supprimerPublication($idPublication)
     {
@@ -41,11 +36,11 @@ class PublicationController extends Controller
     }
 
     /**
-     * @Route("back_end/publication/rechreche ", name="rechrechePublication")
+     * @Route("publication/rechreche ")
      */
-    public function searchPub(Request $request, NormalizerInterface $normalizer)
+    public function recherchePublication(Request $request, NormalizerInterface $normalizer)
     {
-        $recherche = $request->get("searchValue");
+        $recherche = $request->get("valeurRecherche");
         $titre = $this->getDoctrine()->getRepository(Publication::class)->findStudentByTitre($recherche);
         $jsonContent = $normalizer->normalize($titre, 'json', ['groups' => 'post:read',]);
         $retour = json_encode($jsonContent);
