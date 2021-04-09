@@ -3,6 +3,7 @@
 namespace App\Controller\back_end;
 
 use App\Entity\Formation;
+use App\Entity\User;
 use App\Form\FormationType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -10,6 +11,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("back_end/")
@@ -21,7 +23,7 @@ class FormationController extends AbstractController
      */
     public function afficherToutFormation(Request $request, PaginatorInterface $paginator)
     {
-        return $this->render('back_end/societe/formation/index.html.twig', [
+        return $this->render('back_end/societe/formation/afficher_tout.html.twig', [
             'formations' => $paginator->paginate(
                 $this->getDoctrine()->getRepository(Formation::class)->findAll(),
                 $request->query->getInt('page', 1), 3
@@ -30,7 +32,7 @@ class FormationController extends AbstractController
     }
 
     /**
-     * @Route("formation/{idFormation}")
+     * @Route("formation/{idFormation}/afficher")
      */
     public function afficherFormation($idFormation)
     {
@@ -54,9 +56,9 @@ class FormationController extends AbstractController
             );
         }
 
-        return $this->render('back_end/societe/formation/indexR.html.twig', array(
+        return $this->render('back_end/societe/formation/indexR.html.twig', [
             'formations' => $formations
-        ));
+        ]);
     }
 
     /**
@@ -68,17 +70,23 @@ class FormationController extends AbstractController
         $form = $this->createForm(FormationType::class, $formation);
         $form->handleRequest($request);
 
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $formation->setSociete($user->getSociete());
+
             $entityManager->persist($formation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('formation');
+            return $this->redirect('/back_end/formation');
         }
 
-        return $this->render('back_end/societe/formation/new.html.twig', [
+        return $this->render('back_end/societe/formation/manipuler.html.twig', [
             'formation' => $formation,
             'form' => $form->createView(),
+            'manipulation' => 'Ajouter',
         ]);
     }
 
@@ -94,12 +102,13 @@ class FormationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('formation');
+            return $this->redirect('/back_end/formation');
         }
 
-        return $this->render('back_end/societe/formation/edit.html.twig', [
+        return $this->render('back_end/societe/formation/manipuler.html.twig', [
             'formation' => $formation,
             'form' => $form->createView(),
+            'manipulation' => 'Modifier',
         ]);
     }
 
@@ -113,6 +122,6 @@ class FormationController extends AbstractController
         $entityManager->remove($formation);
         $entityManager->flush();
 
-        return $this->redirectToRoute('formation');
+        return $this->redirect('/back_end/formation');
     }
 }

@@ -24,8 +24,8 @@ class LikeRepository extends ServiceEntityRepository
     public function nombreObjets($idPublication)
     {
         try {
-            return $this->createQueryBuilder('r')
-                ->select('count(r.id)')
+            return $this->createQueryBuilder('l')
+                ->select('count(l.id)')
                 ->where('l.publication = :idPublication')
                 ->setParameter('idPublication', $idPublication)
                 ->getQuery()

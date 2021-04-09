@@ -1,47 +1,68 @@
 {% extends '/back_end/base.html.twig' %}
 {% block content %}
     <section class="container-fluid bg-light">
-        <h1 class="h3 mb-2 text-gray-800 text-center mt-4">Vos offres de travail</h1>
+        <h1 class="h3 mb-2 text-gray-800 text-center mt-4">Vos missions</h1>
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="section-title text-center mb-4 py-4">
                     <table class="table border bg-white">
                         {% set hasData = false %}
 
-                        {% if not offreDeTravails %}
+                        {% if not missions %}
                             {% set hasData = false %}
                         {% endif %}
 
                         {% set initialized = false %}
-                        {% for offreDeTravail in offreDeTravails %}
-                            {% if app.user == offreDeTravail.societe.user %}
+                        {% for mission in missions %}
+                            {% if app.user == mission.societe.user %}
                                 {% set hasData = true %}
                                 {% if not initialized %}
                                     {% set initialized = true %}
                                     <tr>
                                         <td><b>Nom</b></td>
                                         <td><b>Description</b></td>
-                                        <td><b>Categorie</b></td>
+                                        <td><b>Date</b></td>
+                                        <td><b>Questions</b></td>
+                                        <td><b>Réponses</b></td>
                                         <td><b>Actions</b></td>
                                     </tr>
                                 {% endif %}
                                 <tr>
-                                    <td>{{ offreDeTravail.nom }}</td>
-                                    <td class="text-break">{{ offreDeTravail.description }}</td>
-                                    {% if offreDeTravail.categorie %}
-                                        <td>{{ offreDeTravail.categorie.nom }}</td>
+                                    <td>{{ mission.nom }}</td>
+                                    <td class="text-break">{{ mission.description }}</td>
+                                    <td>{{ mission.date|date("d/m/Y") }}</td>
+                                    {% if mission.question %}
+                                        {% set i = 1 %}
+                                        <td>
+                                            {% for question in mission.question %}
+                                                <div class="text-left">
+                                                    Question {{ i }} : {{ question.description }}
+                                                </div>
+                                                {% set i = i+1 %}
+                                            {% endfor %}
+                                        </td>
+                                        {% set i = 1 %}
+                                        <td>
+                                            {% for question in mission.question %}
+                                                <div class="text-left">
+                                                    Réponse {{ i }} : {{ question.reponse }}
+                                                </div>
+                                                {% set i = i+1 %}
+                                            {% endfor %}
+                                        </td>
                                     {% else %}
+                                        <td>Aucune question</td>
                                         <td>-</td>
                                     {% endif %}
                                     <td>
                                         <div class="form-row">
                                             <div class="form-group col-md-4 my-0 mx-auto">
-                                                <a href="{{ asset('back_end/offre_de_travail/'~offreDeTravail.id~'/modifier') }}"
+                                                <a href="{{ asset('back_end/mission/'~mission.id~'/modifier') }}"
                                                    class="btn btn-outline-dark" role="button"
                                                    aria-pressed="true"><i class="fa fa-pen"></i></a>
                                             </div>
                                             <div class="form-group col-md-4 my-0 mx-auto">
-                                                <a href="{{ asset('back_end/offre_de_travail/'~offreDeTravail.id~'/supprimer') }}"
+                                                <a href="{{ asset('back_end/mission/'~mission.id~'/supprimer') }}"
                                                    class="btn btn-outline-danger " role="button"
                                                    aria-pressed="true"><i class="fa fa-trash"></i></a>
                                             </div>
@@ -51,7 +72,7 @@
                             {% endif %}
                         {% endfor %}
                         {% if not hasData %}
-                            <td>Aucune offre de travail</td>
+                            <td>Aucune mission</td>
                         {% endif %}
                     </table>
                 </div>

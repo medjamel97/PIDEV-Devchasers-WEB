@@ -3,6 +3,7 @@
 namespace App\Controller\back_end;
 
 use App\Entity\Mission;
+use App\Entity\Question;
 use App\Entity\User;
 use App\Form\MissionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,11 +21,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class MissionController extends AbstractController
 {
     /**
-     * @Route("mission/{idMission}")
+     * @Route("mission")
+     */
+    public function afficherToutMission()
+    {
+        return $this->render('back_end/societe/mission/afficher_tout.html.twig', [
+            'missions' => $this->getDoctrine()->getRepository(Mission::class)->findAll()
+        ]);
+    }
+
+    /**
+     * @Route("mission/{idMission}/afficher")
      */
     public function afficherMission($idMission)
     {
-        return $this->render('back_end/mission/afficher.html.twig', [
+        return $this->render('back_end/societe/mission/afficher.html.twig', [
             'missions' => $this->getDoctrine()->getRepository(Mission::class)->find($idMission)
         ]);
     }
@@ -48,7 +59,13 @@ class MissionController extends AbstractController
      */
     public function ajouterMission(Request $request)
     {
-        return $this->manipulerMission($request, 'Ajouter', new Mission());
+        $mission = new Mission();
+        for ($i = 0; $i < 5; $i++) {
+            $question = new Question();
+            $question->setDescription('')->setReponse('');
+            $mission->addQuestion($question);
+        }
+        return $this->manipulerMission($request, 'Ajouter', $mission);
     }
 
     /**
@@ -72,12 +89,13 @@ class MissionController extends AbstractController
 
             if ($form->isSubmitted()) {
                 $mission = $form->getData();
-                $mission->setSociete($user->getSosiete());
+                $mission->setSociete($user->getSociete());
+
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($mission);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('profil_societe', ['idSociete' => $user->getSociete()->getId()]);
+                return $this->redirect('/back_end/mission');
             }
 
             return $this->render('back_end/societe/mission/manipuler.html.twig', [
@@ -86,20 +104,21 @@ class MissionController extends AbstractController
                 'manipulation' => $manipulation,
             ]);
         } else {
-            return $this->redirectToRoute('connexion');
+            return $this->redirect('/connexion');
         }
     }
 
     /**
      * @Route("mission/{idMission}/supprimer")
      */
-    public function supprimerMission(Request $request, $idMission)
+    public
+    function supprimerMission($idMission)
     {
         $mission = $this->getDoctrine()->getRepository(Mission::class)->find($idMission);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($mission);
         $entityManager->flush();
 
-        return $this->redirectToRoute('back_end/mission');
+        return $this->redirect('/back_end/mission');
     }
 }

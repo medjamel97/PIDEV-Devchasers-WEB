@@ -15,27 +15,27 @@ class EvenementController extends AbstractController
     {
         $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findAll();
 
-        $rdvs = [];
+        $rendezVous = [];
         foreach ($evenements as $evenement) {
-            $rdvs[] = [
+            $rendezVous[] = [
                 'id' => $evenement->getId(),
-                'id_user' => $evenement->getIdUser(),
+                'societe' => $evenement->getSociete()->getId(),
                 'start' => $evenement->getDebut()->format('Y-m-d H:i:s'),
                 'end' => $evenement->getFin()->format('Y-m-d H:i:s'),
                 'title' => $evenement->getTitre(),
-                'descp' => $evenement->getDescription(),
+                'description' => $evenement->getDescription(),
                 'allDay' => $evenement->getAllDay(),
 
             ];
         }
 
-        $data = json_encode($rdvs);
+        $data = json_encode($rendezVous);
 
         return $this->render('front_end/societe/evenement/calendrier.html.twig', compact('data'));
     }
 
     /**
-     * @Route("evenement/{idEvenement}", name="afficher_evenement")
+     * @Route("evenement/{idEvenement}/afficher", name="afficher_evenement")
      */
     public function afficherEvenement($idEvenement)
     {

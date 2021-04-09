@@ -18,7 +18,6 @@ class FormationType extends AbstractType
             ->add('filiere')
             ->add('debut')
             ->add('fin')
-            ->add('id_user')
             ->add('captcha', CaptchaType::class);
     }
 

@@ -14,11 +14,11 @@ class OffreDeTravailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('job')
+            ->add('nom')
             ->add('description')
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
-                'choice_label' => 'nomCategorie',
+                'choice_label' => 'nom',
                 'multiple' => false]);
     }
 

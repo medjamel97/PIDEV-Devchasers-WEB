@@ -3,8 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Question;
-use App\Entity\Questionnaire;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,11 +13,7 @@ class QuestionType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('questionnaire', EntityType::class, [
-                'class' => Questionnaire::class,
-                'choice_label' => 'id',
-                'multiple' => false,
-            ]);;
+            ->add('reponse');
     }
 
     public function configureOptions(OptionsResolver $resolver)

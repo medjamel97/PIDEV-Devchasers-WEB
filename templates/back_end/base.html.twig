@@ -51,10 +51,8 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Gestion Evenement:</h6>
-                        <a class="collapse-item" href={{ asset('back_end/afficher_tout_evenement') }}>afficher tout evenement</a>
-                        <a class="collapse-item" href={{ asset('back_end/ajouter_evenement') }}>Nouveau Evenement</a>
-                        <a class="collapse-item" href={{ asset('back_end/recherche_evenement') }}>Chercher Evenement</a>
-                        <a class="collapse-item" href={{ asset('back_end/calendrier_evenement') }}>Calendrier</a>
+                        <a class="collapse-item" href={{ asset('back_end/evenement') }}>Afficher calendrier</a>
+                        <a class="collapse-item" href={{ asset('back_end/evenement/ajouter') }}>Nouveau Evenement</a>
                     </div>
                 </div>
             </li>
@@ -68,59 +66,43 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Gestion Formation:</h6>
-                        <a class="collapse-item" href={{ asset('back_end/afficher_tout_formation') }}>Afficher tout Formation</a>
-                        <a class="collapse-item" href={{ asset('back_end/ajouter_formation') }}>Ajouter Formation</a>
-                        <a class="collapse-item" href={{ asset('back_end/recherche_formation') }}>Chercher Formation</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Candidat</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Candidats</h6>
-                        <a class="collapse-item" href={{ asset('back_end/afficher_tout_candidat') }}>Afficher tout
-                            candidats</a>
+                        <a class="collapse-item" href={{ asset('back_end/formation') }}>Afficher tout Formation</a>
+                        <a class="collapse-item" href={{ asset('back_end/formation/ajouter') }}>Ajouter Formation</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/afficher_tout_candidat') }}">
+                <a class="nav-link" href="{{ asset('back_end/candidat') }}">
                     <span>Afficher tout candidats</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/afficher_tout_mission') }}">
+                <a class="nav-link" href="{{ asset('back_end/mission') }}">
                     <span>Afficher tout missions</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/AjouterMission') }}">
+                <a class="nav-link" href="{{ asset('back_end/mission/ajouter') }}">
                     <span>Ajouter mission</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/afficher_tout_categorie') }}">
+                <a class="nav-link" href="{{ asset('back_end/categorie') }}">
                     <span>Afficher tout categorie</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/ajouter_categorie') }}">
+                <a class="nav-link" href="{{ asset('back_end/categorie/ajouter') }}">
                     <span>Ajouter categorie</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/afficher_tout_offre_de_travail') }}">
+                <a class="nav-link" href="{{ asset('back_end/offre_de_travail') }}">
                     <span>Afficher tout offres</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/ajouter_offre_de_travail') }}">
+                <a class="nav-link" href="{{ asset('back_end/offre_de_travail/ajouter') }}">
                     <span>Ajout offre</span></a>
             </li>
 
@@ -327,16 +309,19 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="{{ asset('#') }}" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                     src="{{ asset('backEnd/img/undraw_profile.svg') }}">
+                                <div class="row mx-1 p-0">
+                                    <span class="col-md-12 text-gray-900 small text-right">Connecté en tant que societe</span>
+                                    <span class="col-md-12 text-gray-600 small text-right">{{ app.user.email }}</span>
+                                </div>
+                                <img class="img-profile rounded-circle shadow"
+                                     src="{{ asset(app.user.societe.idPhoto) }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ asset('#') }}">
+                                <a class="dropdown-item" href="{{ asset('back_end/societe/'~app.user.societe.id~'/profil') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Profil
                                 </a>
                                 <a class="dropdown-item" href="{{ asset('#') }}">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -403,7 +388,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ asset('backEnd/login.html') }}">Logout</a>
+                    <a class="btn btn-primary" href="{{ asset('deconnexion') }}">Logout</a>
                 </div>
             </div>
         </div>

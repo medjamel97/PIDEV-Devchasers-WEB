@@ -3,12 +3,14 @@
 namespace App\Controller\back_end;
 
 use App\Entity\OffreDeTravail;
+use App\Entity\User;
 use App\Form\OffreDeTravailType;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,73 +22,96 @@ class OffreDeTravailController extends AbstractController
     /**
      * @Route("offre_de_travail")
      */
-    public function afficherToutOffreDeTravailBack(Request $request, PaginatorInterface $paginator)
+    public function afficherToutOffreDeTravail()
     {
-        return $this->render('back_end/offre_de_travail/afficher.html.twig', [
-            'offreDeTravails' => $paginator->paginate(
-                $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll(),
-                $request->query->getInt('page', 1), 3
-            ),
+        return $this->render('back_end/societe/offre_de_travail/afficher_tout.html.twig', [
+            'offreDeTravails' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll()
         ]);
+    }
+
+    /**
+     * @Route("offre_de_travail/{idOffreDeTravail}/afficher")
+     */
+    public function afficherOffreDeTravail($idOffreDeTravail)
+    {
+        return $this->render('back_end/societe/offre_de_travail/afficher.html.twig', [
+            'offreDeTravails' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail)
+        ]);
+    }
+
+    /**
+     * @Route("offre_de_travail/recherche")
+     * @throws ExceptionInterface
+     */
+    public function rechercheOffreDeTravail(Request $request, NormalizerInterface $normalizer)
+    {
+        $recherche = $request->get("valeurRecherche");
+        $offreDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)->findOneByOffreDeTravailName($recherche);
+
+        $jsonContent = $normalizer->normalize($offreDeTravail, 'json', ['groups' => 'post:read',]);
+        $retour = json_encode($jsonContent);
+        return new Response($retour);
     }
 
     /**
      * @Route("offre_de_travail/ajouter")
      */
-    public function addOffre(Request $request)
+    public function ajouterOffreDeTravail(Request $request)
     {
-        $offreDeTravail = new OffreDeTravail();
-
-        $form = $this->createForm(OffreDeTravailType::class, $offreDeTravail)
-            ->add('Ajouter', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($offreDeTravail);
-            $em->flush();
-            $this->addFlash(
-                'Success', 'added successfully'
-            );
-
-            return $this->redirectToRoute('listeA');
-        }
-        return $this->render('back_end/offre_de_travail/manipuler.html.twig', ['form' => $form->createView()]);
+        return $this->manipulerOffreDeTravail($request, 'Ajouter', new OffreDeTravail());
     }
 
     /**
-     * @Route("offre/{idOffreDeTravail}/modifier")
+     * @Route("offre_de_travail/{idOffreDeTravail}/modifier")
      */
     public function modifierOffreDeTravail(Request $request, $idOffreDeTravail)
     {
-        $em = $this->getDoctrine()->getManager();
-        $offreDeTravail = $em->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
+        return $this->manipulerOffreDeTravail($request, 'Modifier',
+            $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail));
+    }
 
-        $form = $this->createForm(OffreDeTravailType::class, $offreDeTravail)
-            ->add('Modifier', SubmitType::class)
-            ->handleRequest($request);
+    public function manipulerOffreDeTravail(Request $request, $manipulation, $offreDeTravail)
+    {
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        if ($form->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            return $this->redirectToRoute('listeA');
+        if ($user) {
+            $form = $this->createForm(OffreDeTravailType::class, $offreDeTravail)
+                ->add('submit', SubmitType::class)
+                ->handleRequest($request);
+
+            if ($form->isSubmitted()) {
+                $offreDeTravail = $form->getData();
+                $offreDeTravail->setSociete($user->getSociete());
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($offreDeTravail);
+                $entityManager->flush();
+
+                return $this->redirect('/back_end/offre_de_travail');
+            }
+
+            return $this->render('back_end/societe/offre_de_travail/manipuler.html.twig', [
+                'offreDeTravail' => $offreDeTravail,
+                'form' => $form->createView(),
+                'manipulation' => $manipulation,
+            ]);
+        } else {
+            return $this->redirect('/connexion');
         }
-
-        return $this->render('back_end/offre_de_travail/manipuler.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
 
     /**
      * @Route("offre_de_travail/{idOffreDeTravail}/supprimer")
      */
-    public function supprimerOffreDeTravail($idOffreDeTravail)
+    public
+    function supprimerOffreDeTravail($idOffreDeTravail)
     {
-        $manager = $this->getDoctrine()->getManager();
-        $entity = $manager->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
-        $manager->remove($entity);
-        $manager->flush();
+        $offreDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($offreDeTravail);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('afficher_tout_offre_de_travail');
+        return $this->redirect('/back_end/offre_de_travail');
     }
 }

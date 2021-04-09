@@ -64,7 +64,7 @@
                         <div class="border-bottom rounded-top bg-white p-3" style="z-index: 150;position: relative;">
                             <div class="contact bar bg-white">
                                 <img id="contenaire-chat-destinataire-photo"
-                                     src="{{ asset('/frontEnd/images/candidats/candidat.jpg') }}" height="65" width="65"
+                                     src="{{ asset('/images/candidat/default.jpg') }}" height="65" width="65"
                                      class="shadow border rounded-circle mt-auto mb-auto mr-2 ml-2">
                                 <div id="topbar-infos" class=""
                                      style="display: flex;justify-content: center;align-items: center;">
@@ -284,14 +284,14 @@
         function rafraichirModalNouvelleConversation(recherche) {
             $.ajax({
                 type: 'GET',
-                url: 'recupererCandidats',
+                url: 'recuperer_candidats',
                 data: {'recherche': recherche},
                 success: function (retour) {
                     if (retour) {
                         $("#contenaire-candidats").children(":not(#candidat)").remove();
                         let candidat = $("<a id='candidat'>" +
                             "<div class='modal-contact-list position-relative border rounded p-2 mb-2'>" +
-                            "<img id='photo-candidat' src='/frontEnd/images/candidats/candidat.jpg' " +
+                            "<img id='photo-candidat' src='{{ asset('/images/candidat/default.jpg') }}' " +
                             "alt='' class='shadow border rounded-circle' height='90' width='90'>" +
                             "<div class='ml-3'>" +
                             "<h5 id='prenom-nom-candidat' class='text-dark m-0'>" +
@@ -358,7 +358,7 @@
         function rafraichirFenetreConversation(recherche) {
             $.ajax({
                 type: 'GET',
-                url: 'recupererConversations',
+                url: 'recuperer_conversations',
                 data: {'recherche': recherche},
                 success: function (retour) {
                     if (retour) {
@@ -378,7 +378,7 @@
                                 "<div id='conversation' class='conversation border hover-anim'>" +
                                 "<a id='afficher-conversation' href='#' class='conversation-infos col-lg-10'>" +
                                 "<div class='conversation-image-padding'>" +
-                                "<img id='image-conversation' alt='' src='/frontEnd/images/candidats/candidat.jpg' " +
+                                "<img id='image-conversation' alt='' src='{{ asset('/images/candidat/default.jpg') }}'" +
                                 "class='shadow border rounded-circle' height='65' width='65'>" +
                                 "<div id='messages-non-lus-conversation' class='notification-badge'></div>" +
                                 "</div>" +
@@ -397,8 +397,7 @@
                             $("#contenaire-conversations").empty()
                             $.each(JSON.parse(retour), function (i, obj) {
                                     let clone = conversation.clone().attr("id", 'conversation' + i).show();
-                                    clone.find('#image-conversation').attr("src",
-                                        "/frontEnd/images/candidats/candidat" + obj.idPhoto + ".jpg");
+                                    clone.find('#image-conversation').attr("src", obj.idPhoto);
                                     clone.find('#nom-conversation').append(obj.nomConversation);
                                     clone.find('#dernier-message-conversation').append(obj.dernierMessage);
                                     if (obj.dernierMessageEstVu === "0") {
@@ -449,7 +448,7 @@
 
                 $('#contenaire-chat-destinataire').empty().append(nomConversation);
                 $('#contenaire-chat-destinataire-photo')
-                    .attr("src", "/frontEnd/images/candidats/candidat" + idPhotoConversation + ".jpg");
+                    .attr("src", idPhotoConversation);
                 $('#contenaire-chat-destinataire-dernier-message').empty();
                 chatWindow.empty();
 
@@ -462,7 +461,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: 'recupererMessages',
+                url: 'recuperer_messages',
                 data: {
                     'idConversation': idConversation,
                     'page': 1,
@@ -530,7 +529,7 @@
             messagesPageIndex++;
             $.ajax({
                 type: 'GET',
-                url: 'recupererMessages',
+                url: 'recuperer_messages',
                 data: {
                     'idConversation': idConversationActuelle,
                     'page': messagesPageIndex,
@@ -590,7 +589,7 @@
         function ajouterConversation(idCandidatExpediteur, idCandidatDestinataire) {
             $.ajax({
                 type: 'GET',
-                url: 'ajouterConversation',
+                url: 'ajouter_conversation',
                 data: {
                     'idCandidatExpediteur': idCandidatExpediteur,
                     'idCandidatDestinataire': idCandidatDestinataire
@@ -612,7 +611,7 @@
         function supprimerConversation(idConversation) {
             $.ajax({
                 type: 'GET',
-                url: 'supprimerConversation',
+                url: 'supprimer_conversation',
                 data: {
                     'idConversation': idConversation
                 },
@@ -639,7 +638,7 @@
             $('#message-contenu').val("");
             $.ajax({
                 type: 'GET',
-                url: 'nouveauMessage',
+                url: 'nouveau_message',
                 data: {
                     'idConversation': idConversationActuelle,
                     'contenu': contenu,

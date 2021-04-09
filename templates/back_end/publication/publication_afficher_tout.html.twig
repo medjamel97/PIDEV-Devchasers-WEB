@@ -1,4 +1,4 @@
-{% extends '/backEnd/base.html.twig' %}
+{% extends '/back_end/base.html.twig' %}
 {% block content %}
 	<!-- Start home -->
 	<section class="bg-half page-next-level">
@@ -90,8 +90,8 @@
 
 
 											<div class="candidates-listing-btn mt-2">
-												<a href="{{ asset('/candidat/publication='~publication.id~'/modifier') }}" class="btn btn-primary-outline btn-sm mt-1">Accepter publication</a>
-												<a href="{{ asset('/candidat/publication='~publication.id~'/supprimer') }}" class="btn btn-primary-outline btn-sm mt-1">Supprimer publication</a>
+												<a href="{{ asset('publication/'~publication.id~'/modifier') }}" class="btn btn-primary-outline btn-sm mt-1">Accepter publication</a>
+												<a href="{{ asset('publication/'~publication.id~'/supprimer') }}" class="btn btn-primary-outline btn-sm mt-1">Supprimer publication</a>
 											</div>
 										</div>
 									</div>
@@ -139,7 +139,7 @@ var value = $("#search").val();
 console.log(value);
 $.ajax({
 type: 'GET',
-url: 'searchPub',
+url: 'publication/recherche',
 data: {
 'valeurRecherche': value
 },

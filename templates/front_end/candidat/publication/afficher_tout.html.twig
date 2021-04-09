@@ -11,11 +11,12 @@
     <!-- Custom  Css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/style.css') }}"/>
 {% endblock %}
+
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
-        $('#tagline').attr('class','tagline bg-dark').show();
+        $('#tagline').attr('class', 'tagline bg-dark').show();
     </script>
     <section class="section pt-0 bg-light min-vh-100">
         <div class="bg-light" style="height: 9rem;"></div>
@@ -240,6 +241,12 @@
                     </div>
                 </div>
                 <!-- LeftBar End -->
+                {% if app.user %}
+                    {% set idUser = app.user.id %}
+                {% else %}
+                    {% set idUser = null %}
+                {% endif %}
+
                 <div class="col-md-9 mt-4 pt-2">
                     <div class="col-12">
                         <div class="tab-content" id="pills-tabContent">
@@ -280,18 +287,20 @@
                                                         <p class="mt-1 mb-0 text-break">{{ publication.description }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <div class="candidates-list-fav-btn text-right">
-                                                        <div class="candidates-listing-btn mt-2">
-                                                            <a href="{{ asset('publication/'~publication.id~'/modifier') }}"
-                                                               class="btn btn-primary-outline btn-sm mt-1">Modifier
-                                                                publication</a>
-                                                            <a href="{{ asset('publication/'~publication.id~'/supprimer') }}"
-                                                               class="btn btn-primary-outline btn-sm mt-1">Supprimer
-                                                                publication</a>
+                                                {% if publication.candidat.user == app.user %}
+                                                    <div class="col-md-2">
+                                                        <div class="candidates-list-fav-btn text-right">
+                                                            <div class="candidates-listing-btn mt-2">
+                                                                <a href="{{ asset('publication/'~publication.id~'/modifier') }}"
+                                                                   class="btn btn-primary-outline btn-sm mt-1">Modifier
+                                                                    publication</a>
+                                                                <a href="{{ asset('publication/'~publication.id~'/supprimer') }}"
+                                                                   class="btn btn-primary-outline btn-sm mt-1">Supprimer
+                                                                    publication</a>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                {% endif %}
                                                 <!-- Like container -->
                                                 <div class="col-md-12 mt-5">
                                                     <div class="text-dark mt-3 row">
@@ -303,12 +312,12 @@
                                                         {% for like in publication.likeid %}
                                                             {% if like.typelike == 1 %}
                                                                 {% set nbLikes = nbLikes + 1 %}
-                                                                {% if like.user.email == email %}
+                                                                {% if like.idUser == idUser %}
                                                                     {% set hasLike = true %}
                                                                 {% endif %}
                                                             {% else %}
                                                                 {% set nbDislikes = nbDislikes + 1 %}
-                                                                {% if like.user.email == email %}
+                                                                {% if like.idUser == idUser %}
                                                                     {% set hasDislike = true %}
                                                                 {% endif %}
                                                             {% endif %}
@@ -388,7 +397,7 @@
                                                             <p id="description-commentaire-{{ comment.id }}"
                                                                class="m-0 col-md-12">{{ comment.description }}</p>
                                                         </div>
-                                                        {% if comment.user.id == email %}
+                                                        {% if comment.user == app.user %}
                                                             <div class="col-md-6 my-auto mx-3">
                                                                 <a href="#"
                                                                    onclick="modifierCommentaire({{ comment.id }});return false;"><i
@@ -487,12 +496,12 @@
                                                                 {% for like in publication.likeid %}
                                                                     {% if like.typelike == 1 %}
                                                                         {% set nbLikes = nbLikes + 1 %}
-                                                                        {% if like.user.email == email %}
+                                                                        {% if like.idUser == idUser %}
                                                                             {% set hasLike = true %}
                                                                         {% endif %}
                                                                     {% else %}
                                                                         {% set nbDislikes = nbDislikes + 1 %}
-                                                                        {% if like.user.email == email %}
+                                                                        {% if like.idUser == idUser %}
                                                                             {% set hasDislike = true %}
                                                                         {% endif %}
                                                                     {% endif %}
@@ -574,7 +583,7 @@
                                                                     <p id="description-commentaire-{{ comment.id }}"
                                                                        class="m-0 col-md-12">{{ comment.description }}</p>
                                                                 </div>
-                                                                {% if comment.user.email == app.email %}
+                                                                {% if comment.user == app.user %}
                                                                     <div class="col-md-6 my-auto mx-3">
                                                                         <a href="#"
                                                                            onclick="modifierCommentaire({{ comment.id }});return false;"><i
@@ -680,7 +689,7 @@
                 console.log(value);
                 $.ajax({
                     type: 'GET',
-                    url: 'searchPub',
+                    url: 'publication/recherche',
                     data: {
                         'valeurRecherche': value
                     },
@@ -704,7 +713,7 @@
             $('#input-commentaire-' + idPublication).val("");
             $.ajax({
                 type: 'GET',
-                url: '/commentaire/ajouter',
+                url: 'commentaire/ajouter',
                 data: {
                     'idPublication': idPublication,
                     'description': value,
@@ -733,7 +742,7 @@
                     }
                 },
                 error: function () {
-                    alert('Erreur ajax ajout commentaire');
+                    alert("Connectez vous d'abord");
                 }
             });
         }
@@ -769,7 +778,7 @@
             setTimeout(function () {
                 $.ajax({
                     type: 'GET',
-                    url: '/commentaire/' + idCommentaire + '/modifier',
+                    url: 'commentaire/' + idCommentaire + '/modifier',
                     data: {
                         'modifiedComment': modifiedComment,
                     },
@@ -804,7 +813,7 @@
             $("#contenaire-commentaire-" + idCommentaire).empty().append('commentaire supprimé');
             $.ajax({
                 type: 'GET',
-                url: '/commentaire/' + idCommentaire + '/supprimer',
+                url: 'commentaire/' + idCommentaire + '/supprimer',
                 success: function () {
                     setTimeout(function () {
                         $("#contenaire-commentaire-" + idCommentaire).remove();

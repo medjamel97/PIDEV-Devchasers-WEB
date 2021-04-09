@@ -22,7 +22,7 @@ class Categorie
     /**
      * @ORM\Column(type="string", length=255)
      */
-    public $nomCategorie;
+    public $nom;
 
     /**
      * @ORM\OneToMany(targetEntity=OffreDeTravail::class, mappedBy="categorie")
@@ -39,15 +39,14 @@ class Categorie
         return $this->id;
     }
 
-    public function getNomCategorie(): ?string
+    public function getNom(): ?string
     {
-        return $this->nomCategorie;
+        return $this->nom;
     }
 
-    public function setNomCategorie(string $nomCategorie): self
+    public function setNom(string $nom): self
     {
-        $this->nomCategorie = $nomCategorie;
-
+        $this->nom = $nom;
         return $this;
     }
 
@@ -80,6 +79,7 @@ class Categorie
 
         return $this;
     }
+
     public function getCategorie(): ?Categorie
     {
         return $this->categorie;

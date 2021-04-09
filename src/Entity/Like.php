@@ -26,7 +26,7 @@ class Like
     /**
      * @ORM\Column(type="boolean")
      */
-    private $typelike;
+    private $typeLike;
 
     /**
      * @ORM\Column(type="integer")
@@ -50,14 +50,14 @@ class Like
         return $this;
     }
 
-    public function getTypelike(): ?bool
+    public function getTypeLike(): ?bool
     {
-        return $this->typelike;
+        return $this->typeLike;
     }
 
-    public function setTypelike(bool $typelike): self
+    public function setTypeLike(bool $typeLike): self
     {
-        $this->typelike = $typelike;
+        $this->typeLike = $typeLike;
 
         return $this;
     }

@@ -75,7 +75,7 @@
                             {% endif %}
 
                             {% if isCandidat %}
-                            <a href="{{ asset('candidat/'~app.user.id~'/profil') }}">
+                            <a href="{{ asset('candidat/'~app.user.candidat.id~'/profil') }}">
                                 <i class="mdi mdi-account mr-2"></i>{{ app.user.email }}
                             </a>
                         </li>
@@ -95,7 +95,7 @@
                                     </a>
                                 </li>
                             {% else %}
-                                <a href="{{ asset('back_end/societe/'~app.user.id~'/profil') }}">
+                                <a href="{{ asset('back_end/societe/'~app.user.societe.id~'/profil') }}">
                                     <i class="mdi mdi-office-building mr-2"></i>{{ app.user.email }}
                                 </a>
                                 <li class="list-inline-item">
@@ -115,7 +115,7 @@
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="{{ asset('inscription') }}">
+                                <a href="{{ asset('inscription/candidat') }}">
                                     <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-account-plus"></i>
                                         inscription
                                     </button>
@@ -134,7 +134,7 @@
         <div class="container">
             <!-- Logo container-->
             <div>
-                <a href="{{ asset('publication') }}" class="logo">
+                <a href="{{ asset('accueil') }}" class="logo">
                     <img src="{{ asset('/frontEnd/images/logo-light.png') }}" alt="" class="logo-light"
                          height="18"/>
                     <img src="{{ asset('/frontEnd/images/logo-dark.png') }}" alt="" class="logo-dark" height="18"/>
@@ -161,7 +161,7 @@
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
                         {% if isCandidat %}
-                            <li class="has-submenu"><a href="{{ asset('candidat/'~app.user.id~'/profil') }}">Profil</a>
+                            <li class="has-submenu"><a href="{{ asset('candidat/'~app.user.candidat.id~'/profil') }}">Profil</a>
                             </li>
                         {% endif %}
                         <li class="has-submenu"><a href="{{ asset('societe') }}">Societes</a></li>
@@ -172,7 +172,7 @@
                             <span class="menu-arrow"></span>
                             <ul class="submenu">
                                 <li>
-                                    <a href="{{ asset('#') }}">Revues</a>
+                                    <a href="{{ asset('revue') }}">Revues</a>
                                 </li>
                                 <li>
                                     <a href="#">Interviews</a>

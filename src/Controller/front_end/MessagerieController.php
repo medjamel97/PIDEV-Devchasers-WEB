@@ -21,13 +21,13 @@ class MessagerieController extends AbstractController
     /**
      * @Route("messagerie", name="messagerie")
      */
-    public function messagerie(Request $request)
+    public function messagerie()
     {
         return $this->render('front_end/candidat/messagerie/afficher.html.twig');
     }
 
     /**
-     * @Route("recupererConversations", name="recupererConversations")
+     * @Route("recuperer_conversations")
      */
     public function recupererConversations(Request $request)
     {
@@ -68,11 +68,9 @@ class MessagerieController extends AbstractController
     }
 
     /**
-     * @Route("ajouterConversation", name="ajouterConversation")
-     * @throws ExceptionInterface
+     * @Route("ajouter_conversation")
      */
-    public
-    function ajouterConversation(Request $request)
+    public function ajouterConversation(Request $request)
     {
         $param1 = (integer)$request->get('idCandidatExpediteur');
         $param2 = (integer)$request->get('idCandidatDestinataire');
@@ -106,7 +104,7 @@ class MessagerieController extends AbstractController
     }
 
     /**
-     * @Route("supprimerConversation", name="supprimerConversation")
+     * @Route("supprimer_conversation")
      */
     public
     function supprimerConversation(Request $request)
@@ -121,11 +119,9 @@ class MessagerieController extends AbstractController
     }
 
     /**
-     * @Route("recupererMessages", name="recupererMessages")
-     * @throws ExceptionInterface
+     * @Route("recuperer_messages")
      */
-    public
-    function recupererMessages(Request $request)
+    public function recupererMessages(Request $request)
     {
         $idConversation = (integer)$request->get('idConversation');
         $page = $request->get('page');
@@ -166,11 +162,10 @@ class MessagerieController extends AbstractController
     }
 
     /**
-     * @Route("nouveauMessage", name="nouveauMessage")
+     * @Route("nouveau_message")
      * @throws Exception
      */
-    public
-    function nouveauMessage(Request $request)
+    public function nouveauMessage(Request $request)
     {
         $idConversation = (integer)$request->get('idConversation');
         $contenu = $request->get('contenu');

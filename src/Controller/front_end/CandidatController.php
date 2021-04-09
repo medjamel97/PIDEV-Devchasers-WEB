@@ -29,7 +29,7 @@ class CandidatController extends AbstractController
         $experienceDeTravails = $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat);
         $competences = $this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat);
 
-        return $this->render("front_end/candidat/_profile/afficher.html.twig", [
+        return $this->render('front_end/candidat/_profile/afficher.html.twig', [
             'candidat' => $candidat,
             'educations' => $educations,
             'experienceDeTravails' => $experienceDeTravails,

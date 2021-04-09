@@ -23,30 +23,30 @@ class EvenementController extends AbstractController
         $email = $request->getSession()->get(Security::LAST_USERNAME);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findBy(['user' => $user->getId()]);
+        $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findBy(['societe' => $user->getSociete()]);
 
-        $rdvs = [];
+        $rendezVous = [];
 
         foreach ($evenements as $evenement) {
-            $rdvs[] = [
+            $rendezVous[] = [
                 'id' => $evenement->getId(),
-                'id_user' => $evenement->getIdUser(),
+                'societe' => $evenement->getSociete()->getId(),
                 'start' => $evenement->getDebut()->format('Y-m-d H:i:s'),
                 'end' => $evenement->getFin()->format('Y-m-d H:i:s'),
                 'title' => $evenement->getTitre(),
-                'descp' => $evenement->getDescp(),
+                'description' => $evenement->getDescription(),
                 'allDay' => $evenement->getAllDay(),
 
             ];
         }
 
-        $data = json_encode($rdvs);
+        $data = json_encode($rendezVous);
 
         return $this->render('back_end/societe/evenement/calendrier.html.twig', compact('data'));
     }
 
     /**
-     * @Route("evenement/{idEvenement}")
+     * @Route("evenement/{idEvenement}/afficher")
      */
     public function afficherEvenement($idEvenement)
     {
@@ -70,9 +70,9 @@ class EvenementController extends AbstractController
             );
         }
 
-        return $this->render('back_end/societe/evenement/afficher_tout.html.twig', array(
+        return $this->render('back_end/societe/evenement/afficher_tout.html.twig', [
             'evenements' => $evenements
-        ));
+        ]);
 
     }
 
@@ -85,17 +85,23 @@ class EvenementController extends AbstractController
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
 
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $evenement->setSociete($user->getSociete());
+
             $entityManager->persist($evenement);
             $entityManager->flush();
 
-            return $this->redirectToRoute('evenement_index');
+            return $this->redirect('/back_end/evenement');
         }
 
         return $this->render('back_end/societe/evenement/manipuler.html.twig', [
             'evenement' => $evenement,
             'form' => $form->createView(),
+            'manipulation' => 'Ajouter',
         ]);
     }
 
@@ -111,12 +117,13 @@ class EvenementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('evenement_index');
+            return $this->redirect('/back_end/evenement');
         }
 
         return $this->render('back_end/societe/evenement/manipuler.html.twig', [
             'evenement' => $evenement,
             'form' => $form->createView(),
+            'manipulation' => 'Modifier',
         ]);
     }
 
@@ -131,6 +138,6 @@ class EvenementController extends AbstractController
         $entityManager->remove($evenement);
         $entityManager->flush();
 
-        return $this->redirectToRoute('evenement');
+        return $this->redirect('/back_end/evenement');
     }
 }

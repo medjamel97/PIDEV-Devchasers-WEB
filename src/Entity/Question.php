@@ -28,9 +28,9 @@ class Question
     private $reponse;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Questionnaire::class, inversedBy="question")
+     * @ORM\ManyToOne(targetEntity=Mission::class, inversedBy="question")
      */
-    private $questionnaire;
+    private $mission;
 
     public function getId(): ?int
     {
@@ -61,14 +61,14 @@ class Question
         return $this;
     }
 
-    public function getQuestionnaire(): ?Questionnaire
+    public function getMission(): ?Mission
     {
-        return $this->questionnaire;
+        return $this->mission;
     }
 
-    public function setQuestionnaire(?Questionnaire $questionnaire): self
+    public function setMission(?Mission $mission): self
     {
-        $this->questionnaire = $questionnaire;
+        $this->mission = $mission;
 
         return $this;
     }

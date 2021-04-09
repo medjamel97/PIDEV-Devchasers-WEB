@@ -3,10 +3,15 @@
 namespace App\Controller\back_end;
 
 use App\Entity\Categorie;
+use App\Entity\User;
 use App\Form\CategorieType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,8 +25,32 @@ class CategorieController extends AbstractController
     public function afficherToutCategorie()
     {
         return $this->render('back_end/societe/offre_de_travail/categorie/afficher_tout.html.twig', [
-            'Cat' => $this->getDoctrine()->getManager()->getRepository(Categorie::class)->findAll(),
+            'categories' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
         ]);
+    }
+
+    /**
+     * @Route("categorie/{idCategorie}/afficher")
+     */
+    public function afficherCategorie($idCategorie)
+    {
+        return $this->render('back_end/societe/offre_de_travail/categorie/afficher.html.twig', [
+            'categories' => $this->getDoctrine()->getRepository(Categorie::class)->find($idCategorie)
+        ]);
+    }
+
+    /**
+     * @Route("categorie/recherche")
+     * @throws ExceptionInterface
+     */
+    public function rechercheCategorie(Request $request, NormalizerInterface $normalizer)
+    {
+        $recherche = $request->get("valeurRecherche");
+        $categorie = $this->getDoctrine()->getRepository(Categorie::class)->findOneByCategorieName($recherche);
+
+        $jsonContent = $normalizer->normalize($categorie, 'json', ['groups' => 'post:read',]);
+        $retour = json_encode($jsonContent);
+        return new Response($retour);
     }
 
     /**
@@ -29,25 +58,7 @@ class CategorieController extends AbstractController
      */
     public function ajouterCategorie(Request $request)
     {
-        $cat = new Categorie();
-
-        $form = $this->createForm(CategorieType::class, $cat)
-            ->add('Ajouter', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($cat);
-            $em->flush();
-
-
-            return $this->redirectToRoute('afficher_tout_categorie');
-        }
-        return $this->render('back_end/societe/offre_de_travail/categorie/manipuler.html.twig', [
-            'form' => $form->createView(),
-            'Cat' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
-
-        ]);
+        return $this->manipulerCategorie($request, 'Ajouter', new Categorie());
     }
 
     /**
@@ -55,34 +66,50 @@ class CategorieController extends AbstractController
      */
     public function modifierCategorie(Request $request, $idCategorie)
     {
-        $categorie = $this->getDoctrine()->getManager()->getRepository(Categorie::class)->find($idCategorie);
+        return $this->manipulerCategorie($request, 'Modifier',
+            $this->getDoctrine()->getRepository(Categorie::class)->find($idCategorie));
+    }
 
-        $form = $this->createForm(CategorieType::class, $categorie)
-            ->add('Modifier', SubmitType::class)
-            ->handleRequest($request);
+    public function manipulerCategorie(Request $request, $manipulation, $categorie)
+    {
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        if ($form->isSubmitted()) {
-            $manager = $this->getDoctrine()->getManager();
-            $manager->flush();
-            return $this->redirectToRoute('afficher_tout_categorie');
+        if ($user) {
+            $form = $this->createForm(CategorieType::class, $categorie)
+                ->add('submit', SubmitType::class)
+                ->handleRequest($request);
+
+            if ($form->isSubmitted()) {
+                $categorie = $form->getData();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($categorie);
+                $entityManager->flush();
+
+                return $this->redirect('/back_end/categorie');
+            }
+
+            return $this->render('back_end/societe/offre_de_travail/categorie/manipuler.html.twig', [
+                'categorie' => $categorie,
+                'form' => $form->createView(),
+                'manipulation' => $manipulation,
+            ]);
+        } else {
+            return $this->redirect('/connexion');
         }
-
-        return $this->render('back_end/ajouCategorie.html.twig', [
-            'form' => $form->createView(),
-            'Cat' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
-        ]);
     }
 
     /**
      * @Route("categorie/{idCategorie}/supprimer")
      */
-    public function supprimerCategorie($idCategorie)
+    public
+    function supprimerCategorie($idCategorie)
     {
-        $em = $this->getDoctrine()->getManager();
-        $e = $em->getRepository(Categorie::class)->find($idCategorie);
-        $em->remove($e);
-        $em->flush();
+        $categorie = $this->getDoctrine()->getRepository(Categorie::class)->find($idCategorie);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($categorie);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('afficher_tout_categorie');
+        return $this->redirect('/back_end/categorie');
     }
 }

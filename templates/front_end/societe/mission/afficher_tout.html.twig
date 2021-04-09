@@ -39,7 +39,7 @@
                                                         if (retour) {
                                                             $.each(JSON.parse(retour), function (i, obj) {
                                                                 console.log(obj.description);
-                                                                console.log(obj.mission_name);
+                                                                console.log(obj.nom);
                                                                 var soc = obj.societe;
                                                                 console.log(soc);
                                                                 $('#body1').hide();
@@ -58,7 +58,7 @@
                                                                     "<div class=\"content p-4\">" +
                                                                     "<h4><a href=\"condidatureMission/" + obj.id + "\" class=\"title text-dark\">" +
 
-                                                                    obj.mission_name +
+                                                                    obj.nom +
                                                                     " </a></h4>" +
                                                                     "<p class=\"text-muted\"> " +
                                                                     obj.description +
@@ -113,31 +113,31 @@
                                 <div class="likes">
                                     <ul class="list-unstyled mb-0">
                                         <li class="list-inline-item mr-2"><a
-                                                    href="{{ path('condidatureMission',{'id':mission.id}) }}"
+                                                    href="{{ asset('#') }}"
                                                     class="text-white like"><i class="mdi mdi-heart-outline mr-1"></i>33</a>
                                         </li>
                                         <li class="list-inline-item"><a
-                                                    href="{{ path('condidatureMission',{'id':mission.id}) }}"
+                                                    href="{{ asset('#') }}"
                                                     class="text-white comments"><i
                                                         class="mdi mdi-comment-outline mr-1"></i>08</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="content p-4">
-                                <h4><a href="{{ path('condidatureMission',{'id':mission.id}) }}"
+                                <h4><a href="{{ asset('#') }}"
                                        class="title text-dark">
 
-                                        {{ mission.missionname }}
+                                        {{ mission.nom }}
                                     </a></h4>
                                 <p class="text-muted">
                                     {{ mission.description }}
                                 </p>
-                                <a href="{{ path('condidatureMission',{'id':mission.id}) }}" class="text-dark readmore">Read
+                                <a href="{{ asset('#') }}" class="text-dark readmore">Read
                                     more <i class="mdi mdi-chevron-right"></i></a>
                             </div>
                             <div class="author">
                                 <p class=" mb-0"><i class="mdi mdi-account text-light"></i> <a
-                                            href="{{ path('condidatureMission',{'id':mission.id}) }}"
+                                            href="{{ asset('#') }}"
                                             class="text-light user">{{ mission.societe.nom }}</a></p>
                                 <p class="text-light mb-0 date"><i class="mdi mdi-calendar-check"></i>
                                     {{ mission.date|date("d/m/Y") }}

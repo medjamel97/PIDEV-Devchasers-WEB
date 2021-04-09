@@ -7,11 +7,13 @@ use App\Entity\CandidatureOffre;
 use App\Entity\OffreDeTravail;
 use App\Entity\Revue;
 use App\Entity\Societe;
+use App\Entity\User;
 use App\Form\RevueType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,126 +25,84 @@ class RevueController extends AbstractController
      */
     public function rechercheSociete()
     {
-        return $this->render('front_end/societe/offreDeTravail/revue/recherche.html.twig');
+        return $this->render('front_end/societe/offre_de_travail/revue/recherche.html.twig');
     }
 
     /**
-     * @Route("/revue/offreDeTravail={idOffreDeTravail}/message={message}", name="afficher_tout_revue")
+     * @Route("revue", name="afficher_tout_revue")
      */
-    public function afficherToutRevue($idOffreDeTravail, $message)
+    public function afficherToutRevue()
     {
-        return $this->render('front_end/societe/offreDeTravail/revue/afficher_tout.html.twig', [
-            'message' => $message,
-            'revues' => $this->getDoctrine()->getRepository(Revue::class)
-                ->findBy(['offreDeTravail' => $idOffreDeTravail])
+        return $this->render('front_end/societe/offre_de_travail/revue/afficher_tout.html.twig', [
+            'revues' => $this->getDoctrine()->getRepository(Revue::class)->findAll()
         ]);
     }
 
     /**
-     * @Route("revue/offreDeTravail={idOffreDeTravail}/ajouter", name="ajouter_revue")
+     * @Route("revue/{idCandidatureOffre}/ajouter")
      */
-    public
-    function ajouterRevue(Request $request, $idOffreDeTravail)
+    public function ajouterRevue(Request $request, $idCandidatureOffre)
+    {
+        $candidatureOffre = $this->getDoctrine()->getRepository(CandidatureOffre::class)->find($idCandidatureOffre);
+        return $this->manipulerRevue($request, 'Ajouter', new Revue(), $candidatureOffre);
+    }
+
+    /**
+     * @Route("revue/{idRevue}/modifier")
+     */
+    public function modifierRevue(Request $request, $idRevue)
+    {
+        $revue = $this->getDoctrine()->getRepository(Revue::class)->find($idRevue);
+        $candidatureOffre = $revue->getCandidatureOffre();
+        return $this->manipulerRevue($request, 'Modifier', $revue, $candidatureOffre);
+    }
+
+    public function manipulerRevue(Request $request, $manipulation, $revue, $candidatureOffre)
     {
         $email = $request->getSession()->get(Security::LAST_USERNAME);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        $candidatureOffre = $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
-            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
-            'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($user->getCandidat()->getId()),
-        ]);
+        if ($user) {
+            $form = $this->createForm(RevueType::class, $revue)
+                ->add('submit', SubmitType::class)
+                ->handleRequest($request);
 
-        if ($user->getCandidat()->getId() == null)
-            return $this->redirectToRoute('afficher_tout_revue', [
-                'idOffreDeTravail' => $idOffreDeTravail,
-                'message' => "Vous devez d'abord vous connecter"
+            if ($form->isSubmitted()) {
+                $revue = $form->getData();
+                if ($candidatureOffre) $revue->setCandidatureOffre($candidatureOffre);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($revue);
+                $entityManager->flush();
+
+                return $this->redirect('/revue');
+            }
+
+            return $this->render('front_end/societe/offre_de_travail/revue/manipuler.html.twig', [
+                'candidatureOffre' => $candidatureOffre,
+                'revue' => $revue,
+                'form' => $form->createView(),
+                'manipulation' => $manipulation,
             ]);
-
-        if ($candidatureOffre == null)
-            return $this->redirectToRoute('afficher_tout_revue', [
-                'idOffreDeTravail' => $idOffreDeTravail,
-                'message' => "Vous devez d'abord avoir une candidature a cette offre"
-            ]);
-
-
-        $revue = new Revue();
-
-        $form = $this->createForm(RevueType::class, $revue)
-            ->add('submit', SubmitType::class)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $manager = $this->getDoctrine()->getManager();
-            $revue = $form->getData();
-            $revue->setCandidatureOffre($candidatureOffre);
-            $manager->persist($revue);
-            $manager->flush();
-
-            return $this->redirectToRoute('afficher_tout_revue', [
-                'idOffreDeTravail' => $idOffreDeTravail,
-                'message' => "Ajouté avec succes"
-            ]);
+        } else {
+            return $this->redirect('/connexion');
         }
-        return $this->render('front_end/societe/offreDeTravail/revue/manipuler.html.twig', [
-            'manipulation' => "Ajouter",
-            'form' => $form->createView(),
-            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
-            'revue' => null,
-        ]);
     }
 
     /**
-     * @Route("revue/offreDeTravail={idOffreDeTravail}/{idRevue}/modifier", name="modifierRevue")
+     * @Route("revue/{idRevue}/supprimer", name="supprimerRevue")
      */
-    public
-    function modifierRevue(Request $request, $idOffreDeTravail, $idRevue)
-    {
-        $manager = $this->getDoctrine()->getManager();
-        $revue = $manager->getRepository(Revue::class)->find($idRevue);
-        $candidatureOffre = $revue->getCandidatureOffre();
-
-        $form = $this->createForm(RevueType::class, $revue);
-        $form->add('submit', SubmitType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $revue->setCandidatureOffre($candidatureOffre);
-            $manager->flush();
-            return $this->redirectToRoute('afficherRevuesParOffreDeTravail', [
-                'idOffreDeTravail' => $idOffreDeTravail,
-                'activePage' => 0,
-                'message' => "Revue modifié"
-            ]);
-        }
-
-        return $this->render('front_end/societe/offreDeTravail/revue/manipuler.html.twig', [
-            'manipulation' => "Modifier",
-            'form' => $form->createView(),
-            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
-            'revue' => $revue,
-        ]);
-    }
-
-    /**
-     * @Route("revue/offreDeTravail={idOffreDeTravail}/{idRevue}/supprimer", name="supprimerRevue")
-     */
-    public
-    function supprimerRevue($idRevue, $idOffreDeTravail)
+    public function supprimerRevue($idRevue)
     {
         $manager = $this->getDoctrine()->getManager();
         $revue = $manager->getRepository(Revue::class)->find($idRevue);
         $manager->remove($revue);
         $manager->flush();
-        return $this->redirectToRoute('afficherRevuesParOffreDeTravail', [
-            'idOffreDeTravail' => $idOffreDeTravail,
-            'activePage' => 0,
-            'message' => "Revue supprimé"
-        ]);
+        return $this->redirect('/revue');
     }
 
     /**
-     * @Route("/revue/recherche", name="recherche")
+     * @Route("revue/recherche", name="recherche")
      * @throws ExceptionInterface
      */
     public function recherche(Request $request, NormalizerInterface $normalizer)
@@ -159,11 +119,9 @@ class RevueController extends AbstractController
     }
 
     /**
-     * @Route("/revue/ajaxRechercheSociete", name="ajaxRechercheSociete")
-     * @throws ExceptionInterface
+     * @Route("revue/ajaxRechercheSociete", name="ajaxRechercheSociete")
      */
-    public
-    function ajaxRechercheSociete(Request $request)
+    public function ajaxRechercheSociete(Request $request)
     {
         $valeurRecherche = $request->get('valeurRecherche');
         if ($valeurRecherche != null) {

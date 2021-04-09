@@ -3,10 +3,16 @@
 namespace App\Form;
 
 use App\Entity\Mission;
-use App\Entity\Societe;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Question;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MissionType extends AbstractType
@@ -15,14 +21,16 @@ class MissionType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('date')
-            ->add('nombreHeure')
-            ->add('prixHeure')
-            ->add('description')
-            ->add('societe', EntityType::class, [
-                'class' => Societe::class,
-                'choice_label' => 'nomSociete',
-                'multiple' => false]);
+            ->add('date', DateType::class, [
+                'years' => range(date('Y'), date('Y') + 3),
+            ])
+            ->add('nombreHeures', IntegerType::class)
+            ->add('prixHeure', IntegerType::class)
+            ->add('description', TextareaType::class)
+            ->add("question", CollectionType::class, [
+                'entry_type' => QuestionType::class,
+                'entry_options' => ['label' => false],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

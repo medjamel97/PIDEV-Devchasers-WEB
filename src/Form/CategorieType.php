@@ -11,8 +11,7 @@ class CategorieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('nomCategorie');
+        $builder->add('nom', null);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -1,7 +1,7 @@
 {% extends '/front_end/base.html.twig' %}
 {% block content %}
     <section class="bg-home"
-             style="background: url('https://via.placeholder.com/2000X1333//88929f/5a6270C/O https://placeholder.com/') center center;">
+             style="background-image: url({{ asset('images/backgrounds/offres-de-travail-BG.jpg') }})">
         <div class="bg-overlay"></div>
         <div class="home-center">
             <div class="home-desc-center">
@@ -51,41 +51,41 @@
                     </td>
                 {% endif %}
                 <td>
+                    {% set hasCandidatures = false %}
                     {% if app.user %}
-                        {% set CandidatureBool = false %}
-                        {% set activeSessionCondidature = null %}
-                        {% if offreDeTravail.candidatureOffre|length > 0 %}
-                            {% for candidature in offreDeTravail.candidatureOffre %}
-                                {% if candidature.candidat.user.email == app.user %}
-                                    {% set activeSessionCondidature = candidature %}
-                                    {% set CandidatureBool = true %}
+                        {% if offreDeTravail.candidatureOffre %}
+                            {% for candidatureOffre in offreDeTravail.candidatureOffre %}
+                                {% if app.user.candidat.id == candidatureOffre.candidat.id %}
+                                    {% set hasCandidatures = true %}
+                                    <p>
+                                        Vous avez candidaté pour cette offre
+                                    </p>
+                                    <a href="{{ asset('candidature_offre/'~candidatureOffre.id~'/supprimer') }}">
+                                        Supprimer candidature</a>
+                                    <br>------------<br>
+                                    <a href="{{ asset('revue/'~candidatureOffre.id~'/ajouter') }}">
+                                        Ajouter une revue pour cette offre</a><br>
+                                    <a href="{{ asset('#') }}">
+                                        Ajouter une interview pour cette offre</a>
+                                    <br>------------<br>
+                                {% else %}
+                                    {% set hasCandidatures = false %}
                                 {% endif %}
                             {% endfor %}
-                        {% else %}
-                            {% set CandidatureBool = false %}
                         {% endif %}
-                        {% if CandidatureBool %}
-                            Vous avez candidaté pour cette offre <br>
-                            <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/supprimer') }}">
-                                Supprimer candidature</a>
-                            <br>------------<br>
-                            <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/revue/ajouter') }}">
-                                Ajouter une revue pour cette offre</a><br>
-                            <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/offreDeTravail='~offreDeTravail.id~'/candidatureOffre='~activeSessionCondidature.id~'/interview/ajouter') }}">
-                                Ajouter une interview pour cette offre</a>
-                        {% else %}
-                            <a href="{{ asset('candidatureOffre/offreDeTravail='~offreDeTravail.id~'/ajouter') }}">
+                        {% if not hasCandidatures %}
+                            <a href="{{ asset('candidature_offre/'~offreDeTravail.id~'/ajouter') }}">
                                 Candidater pour cette offre
                             </a>
+                            <br>
                         {% endif %}
                     {% else %}
                         Veuillez vous connecter pour candidater
                         <br>------------<br>
                     {% endif %}
-                    <br>------------<br>
-                    <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/revue/activePage=0') }}">
+                    <a href="{{ asset('revue') }}">
                         Voir les revues pour cette offre</a><br>
-                    <a href="{{ asset('/societe='~offreDeTravail.societe.id~'/interview/activePage=0') }}">
+                    <a href="{{ asset('interview') }}">
                         Voir les interviews pour cette offre</a>
                 </td>
             </tr>

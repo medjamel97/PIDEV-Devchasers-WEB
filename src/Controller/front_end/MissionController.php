@@ -2,11 +2,7 @@
 
 namespace App\Controller\front_end;
 
-use App\Entity\Candidat;
-use App\Entity\CandidatureMission;
 use App\Entity\Mission;
-use App\Entity\Question;
-use App\Entity\Questionnaire;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

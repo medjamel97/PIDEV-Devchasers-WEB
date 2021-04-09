@@ -20,7 +20,7 @@ class SocieteController extends AbstractController
      */
     public function profile($idSociete)
     {
-        return $this->render("back_end/societe/_profile/afficher.html.twig", [
+        return $this->render('back_end/societe/_profile/afficher.html.twig', [
             'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
         ]);
     }
@@ -45,13 +45,13 @@ class SocieteController extends AbstractController
                 $uploads_directory,
                 $filename
             );
-            $societe->setIdPhoto('images/societe/uploads/'.$filename);
+            $societe->setIdPhoto('images/societe/uploads/' . $filename);
 
             $societe = $form->getData();
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirectToRoute('profil_societe', ['idSociete' => $societe->getId()]);
+            return $this->redirect('/back_end/societe/' . $societe->getId() . '/profil');
         }
 
         return $this->render('back_end/societe/_profile/modifier.html.twig', [
@@ -79,7 +79,7 @@ class SocieteController extends AbstractController
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirectToRoute('afficherProfil');
+            return $this->redirect('/back_end/societe/' . $societe->getId() . '/profil');
         }
 
         return $this->render('back_end/societe/modification_email.html.twig', [
@@ -107,7 +107,7 @@ class SocieteController extends AbstractController
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirectToRoute('afficherProfil');
+            return $this->redirect('/back_end/societe/' . $societe->getId() . '/profil');
         }
 
         return $this->render('back_end/societe/modification_mot_de_passe.html.twig', [

@@ -32,7 +32,7 @@ class PublicationController extends AbstractController
         $publication = $publicationManager->getRepository(Publication::class)->find($idPublication);
         $publicationManager->remove($publication);
         $publicationManager->flush();
-        return $this->redirectToRoute('gererPublication');
+        return $this->redirect('/back_end/publication');
     }
 
     /**

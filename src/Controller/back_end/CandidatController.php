@@ -9,6 +9,7 @@ use App\Entity\ExperienceDeTravail;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,7 +23,7 @@ class CandidatController extends AbstractController
     public function afficherToutCandidat(Request $request, PaginatorInterface $paginator)
     {
         return $this->render('back_end/candidat/afficher_tout.html.twig', [
-            'candidat' => $paginator->paginate(
+            'candidats' => $paginator->paginate(
                 $this->getDoctrine()->getRepository(Candidat::class)->findAll(),
                 $request->query->getInt('page', 1), 3
             ),
@@ -36,14 +37,42 @@ class CandidatController extends AbstractController
     {
         $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat);
         $educations = $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat);
-        $workexps = $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat);
+        $experienceDeTravails = $this->getDoctrine()->getRepository(ExperienceDeTravail::class)->findOneBySomeField($idCandidat);
         $competences = $this->getDoctrine()->getRepository(Competence::class)->findOneBySomeField($idCandidat);
 
-        return $this->render("back_end/candidat/profil.html.twig", [
+        return $this->render('back_end/candidat/profil.html.twig', [
             'candidat' => $candidat,
             'educations' => $educations,
-            'workexps' => $workexps,
+            'experienceDeTravails' => $experienceDeTravails,
             'competences' => $competences
         ]);
+    }
+
+    /**
+     * @Route("candidat/recherche")
+     * @throws Exception
+     */
+    public function rechercheCandidat(Request $request)
+    {
+        $recherche = $request->get('recherche');
+
+        $candidats = $this->getDoctrine()->getRepository(Candidat::class)->findStartingWith($recherche);
+
+        $i = 0;
+        $jsonContent = null;
+        if ($candidats != null) {
+            foreach ($candidats as $candidat) {
+                $jsonContent[$i]["id"] = $candidat->getId();
+                $jsonContent[$i]["nom"] = $candidat->getNom();
+                $jsonContent[$i]["prenom"] = $candidat->getPrenom();
+                $jsonContent[$i]["dateNaissance"] = $candidat->getDateNaissance()->format('d-m-Y');
+                $jsonContent[$i]["sexe"] = $candidat->getSexe();
+                $jsonContent[$i]["tel"] = $candidat->getTel();
+                $i++;
+            }
+            return new Response(json_encode($jsonContent));
+        } else {
+            return new Response(null);
+        }
     }
 }

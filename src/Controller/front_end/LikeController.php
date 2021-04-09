@@ -26,11 +26,11 @@ class LikeController extends AbstractController
 
         $haveLike = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
             'idUser' => $idUser,
-            'typelike' => true,
+            'typeLike' => true,
         ]);
         $haveDislike = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
             'idUser' => $idUser,
-            'typelike' => false,
+            'typeLike' => false,
         ]);
 
         $jsonContent['haveLike'] = $haveLike != null;
@@ -42,10 +42,10 @@ class LikeController extends AbstractController
             $this->addLike($haveDislike, $likeType, $idUser, $request->get('idPub'));
         }
 
-        $itemNumber = $this->getDoctrine()->getRepository(Like::class)->itemNumber($idPublication);
-        $likeNumber = $this->getDoctrine()->getRepository(Like::class)->likeNumber($idPublication);
-        if ($likeNumber != 0) {
-            $pourcentage = ($likeNumber / $itemNumber) * 100;
+        $nombreObjets = $this->getDoctrine()->getRepository(Like::class)->nombreObjets($idPublication);
+        $nombreLikes = $this->getDoctrine()->getRepository(Like::class)->nombreLikes($idPublication);
+        if ($nombreLikes != 0) {
+            $pourcentage = ($nombreLikes / $nombreObjets) * 100;
         } else {
             $pourcentage = 0;
         }
@@ -57,8 +57,8 @@ class LikeController extends AbstractController
         $repository->persist($publication);
         $repository->flush();
 
-        $jsonContent['nbLike'] = $likeNumber;
-        $jsonContent['nbDislike'] = ($itemNumber - $likeNumber);
+        $jsonContent['nbLike'] = $nombreLikes;
+        $jsonContent['nbDislike'] = ($nombreObjets - $nombreLikes);
         $jsonContent['pourcentage'] = $pourcentage;
         return new Response(json_encode($jsonContent));
     }
@@ -68,7 +68,7 @@ class LikeController extends AbstractController
 
         if ($haveLike == null) {
             $like = new Like();
-            $like->setTypelike($typeLike);
+            $like->setTypeLike($typeLike);
             $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idPub);
 
             $like->setPublication($publication);

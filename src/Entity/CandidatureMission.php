@@ -18,11 +18,6 @@ class CandidatureMission
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Questionnaire::class, inversedBy="candidatureMission", cascade={"remove"})
-     */
-    private $questionnaire;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Mission::class, inversedBy="candidatureMission")
      * @ORM\JoinColumn(name="mission_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -37,18 +32,6 @@ class CandidatureMission
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQuestionnaire(): ?questionnaire
-    {
-        return $this->questionnaire;
-    }
-
-    public function setQuestionnaire(?questionnaire $questionnaire): self
-    {
-        $this->questionnaire = $questionnaire;
-
-        return $this;
     }
 
     public function getMission(): ?Mission

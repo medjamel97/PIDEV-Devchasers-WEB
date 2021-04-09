@@ -66,28 +66,32 @@
     <!-- CANDIDATES PROFILE START -->
     <section class="section">
         <div class="container">
-            <div class="row text-center">
-                <div class="col-lg-3 border p-2">
-                    <i class="mdi mdi-pencil"></i><a class="text-dark" href="{{ asset('candidat/'~candidat.id~'/modifier') }}">
-                        Modifier profil</a>
+            {% if app.user == candidat.user %}
+                <div class="row text-center">
+                    <div class="col-lg-3 border p-2">
+                        <i class="mdi mdi-pencil"></i>
+                        <a class="text-dark" href="{{ asset('candidat/'~candidat.id~'/modifier') }}">Modifier profil</a>
+                    </div>
+                    <div class="col-lg-3 border p-2">
+                        <i class="mdi mdi-email"></i><a class="text-dark" href="#">
+                            Changer email</a>
+                    </div>
+                    <div class="col-lg-3 border p-2">
+                        <i class="mdi mdi-key-variant"></i><a class="text-dark" href="#">
+                            Changer mot de passe</a>
+                    </div>
+                    <div class="col-lg-3 border p-2">
+                        <i class="mdi mdi-settings"></i><a class="text-dark" href="#">
+                            Parametres du compte</a>
+                    </div>
                 </div>
-                <div class="col-lg-3 border p-2">
-                    <i class="mdi mdi-email"></i><a class="text-dark" href="#">
-                        Changer email</a>
-                </div>
-                <div class="col-lg-3 border p-2">
-                    <i class="mdi mdi-key-variant"></i><a class="text-dark" href="#">
-                        Changer mot de passe</a>
-                </div>
-                <div class="col-lg-3 border p-2">
-                    <i class="mdi mdi-settings"></i><a class="text-dark" href="#">
-                        Parametres du compte</a>
-                </div>
-            </div>
+            {% endif %}
             <div class="row">
                 <div class="col-lg-12 mt-4 pt-2">
                     <h4 class="text-dark">Education :</h4>
-                    <a class="btn btn-dark-outline" href="{{ path("ajouter_education") }}">Ajouter education</a>
+                    {% if app.user == candidat.user %}
+                        <a class="btn btn-dark-outline" href="{{ path("ajouter_education") }}">Ajouter education</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">
@@ -97,18 +101,25 @@
                             <div class="profile-education-icon border rounded-pill bg-white text-primary">
                                 <i class="mdi mdi-36px mdi-school"></i>
                             </div>
-                            <h6 class="text-uppercase f-17"><a href="{{ asset('#') }}"
-                                                               class="text-muted">{{ education.niveauEducation }}</a>
+                            <h6 class="text-uppercase f-17"><a href="{{ asset('#') }}" class="text-muted">
+                                    {{ education.niveauEducation }}</a>
                             </h6>
                             <p class="f-14 mb-1"><i class="mdi mdi-briefcase"> </i>{{ education.etablissement }}</p>
                             <p class="pb-3 mb-0">{{ education.filiere }}</p>
                             <p class="pb-3 mb-0">{{ education.description }}</p>
 
-                            <div class="pt-3 border-top mb-0">
-                                <a href="{{ path("modifier_education",{'idEducation': education.id } ) }}">
-                                    <i class="mdi mdi-pencil text-center p-2"></i>Modifier education
-                                </a>
-                            </div>
+                            {% if app.user == candidat.user %}
+                                <div class="pt-3 border-top mb-0">
+                                    <a href="{{ path("modifier_education",{'idEducation': education.id } ) }}">
+                                        <i class="mdi mdi-pencil text-center p-2"></i>Modifier education
+                                    </a>
+                                </div>
+                                <div class="pt-3 mb-0">
+                                    <a href="{{ path("supprimer_education",{'idEducation': education.id } ) }}">
+                                        <i class="mdi mdi-trash-can text-center p-2"></i>Supprimer education
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
@@ -116,9 +127,11 @@
             <div class="row">
                 <div class="col-lg-12 mt-4 pt-2">
                     <h4 class="text-dark">Experience :</h4>
-                    <a class="btn btn-dark-outline" href="{{ path("ajouter_experience_de_travail") }}">Ajouter
-                        experience de
-                        travail</a>
+                    {% if app.user == candidat.user %}
+                        <a class="btn btn-dark-outline" href="{{ path("ajouter_experience_de_travail") }}">Ajouter
+                            experience de
+                            travail</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">
@@ -145,7 +158,20 @@
                                         <p class="text-muted mb-0 f-16">Duree : {{ experienceDeTravail.duree }}
                                         <p class="text-muted mb-0 f-16"><i
                                                     class="mdi mdi-map-marker"></i>{{ experienceDeTravail.ville }}</p>
-                                        </p>
+
+                                        {% if app.user == candidat.user %}
+                                            <div class="pt-3 border-top mb-0">
+                                                <a href="{{ path("modifier_experience_de_travail",{'idExperienceDeTravail': experienceDeTravail.id } ) }}">
+                                                    <i class="mdi mdi-pencil text-center p-2"></i>Modifier education
+                                                </a>
+                                            </div>
+                                            <div class="pt-3 mb-0">
+                                                <a href="{{ path("supprimer_experience_de_travail",{'idExperienceDeTravail': experienceDeTravail.id } ) }}">
+                                                    <i class="mdi mdi-trash-can text-center p-2"></i>Supprimer education
+                                                </a>
+                                            </div>
+                                        {% endif %}
+
                                     </div>
                                 </div>
                             </div>
@@ -155,18 +181,20 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 mt-4 pt-2">
-                    <h4 class="text-dark">Skills :</h4>
-                    <a class="btn btn-dark-outline" href="{{ path("ajouter_competence") }}">Ajouter competence</a>
+                    <h4 class="text-dark">Competences :</h4>
+                    {% if app.user == candidat.user %}
+                        <a class="btn btn-dark-outline" href="{{ path("ajouter_competence") }}">Ajouter competence</a>
+                    {% endif %}
                 </div>
             </div>
-            <div class="row">
-                {% for competence in competences %}
-                    <div class="col-md-1 mt-4 pt-0">
+            {% for competence in competences %}
+                <div class="row border bg-light rounded my-3">
+                    <div class="col-md-1 pt-0">
                         <div class="progress-box mt-4">
                             <h6 class="title text-muted">{{ competence.name }}</h6>
                         </div><!--end process box-->
                     </div>
-                    <div class="col-md-9 mt-4 pt-2">
+                    <div class="col-md-9 pt-2">
                         <div class="progress-box mt-4">
                             <div class="progress">
                                 <div class="progress-bar progress-bar-striped position-relative bg-primary"
@@ -176,14 +204,22 @@
                             </div>
                         </div><!--end process box-->
                     </div>
-                    <div class="col-md-2 mt-4 pt-0">
-                        <div class="progress-box mt-4">
-                            <a href="{{ path("modifier_competence",{'idCompetence': competence.id } ) }}">Modifier
-                                competence</a>
+                    {% if app.user == candidat.user %}
+                        <div class="col-md-1 pt-0 text-center">
+                            <div class="progress-box mt-4">
+                                <a href="{{ path("modifier_competence",{'idCompetence': competence.id } ) }}">
+                                    <i class="mdi mdi-pencil"></i></a>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
+                        <div class="col-md-1 pt-0 text-center">
+                            <div class="progress-box mt-4">
+                                <a href="{{ path("supprimer_competence",{'idCompetence': competence.id } ) }}">
+                                    <i class="mdi mdi-trash-can"></i></a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
         </div>
     </section>
     <!-- CANDIDATES PROFILE END -->

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Calendar;
-use App\Entity\EvenementZO;
+use App\Entity\Evenement;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ class ApiController extends AbstractController
      */
     public function index()
     {
-        return $this->render('api/index.html.twig', [
+        return $this->render('api/afficher_tout.html.twig', [
             'controller_name' => 'ApiController',
         ]);
     }
@@ -25,7 +25,7 @@ class ApiController extends AbstractController
     /**
      * @Route("api/{id}/edit", name="api_event_edit", methods={"GET"})
      */
-    public function majEvent(?EvenementZO $evenement, Request $request)
+    public function majEvent(?Evenement $evenement, Request $request)
     {
         // On récupère les données
         $donnees = json_decode($request->getContent());
@@ -33,7 +33,7 @@ class ApiController extends AbstractController
         if (
             isset($donnees->title) && !empty($donnees->title) &&
             isset($donnees->start) && !empty($donnees->start) &&
-            isset($donnees->descp) && !empty($donnees->descp) &&
+            isset($donnees->description) && !empty($donnees->description) &&
             isset($donnees->end) && !empty($donnees->end)
         ) {
             // Les données sont complètes
@@ -43,7 +43,7 @@ class ApiController extends AbstractController
             // On vérifie si l'id existe
             if (!$evenement) {
                 // On instancie un rendez-vous
-                $evenement = new EvenementZO();
+                $evenement = new Evenement();
 
                 // On change le code
                 $code = 201;
@@ -51,7 +51,7 @@ class ApiController extends AbstractController
 
             // On hydrate l'objet avec les données
             $evenement->setTitre($donnees->title);
-            $evenement->setDescp($donnees->descp);
+            $evenement->setDescription($donnees->description);
             $evenement->setDebut(new DateTime($donnees->start));
             if ($donnees->allDay) {
                 $evenement->setFin(new DateTime($donnees->start));

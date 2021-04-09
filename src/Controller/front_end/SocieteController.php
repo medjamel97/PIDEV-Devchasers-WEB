@@ -23,7 +23,7 @@ class SocieteController extends AbstractController
     }
 
     /**
-     * @Route("societe/{idSociete}", name="afficher_societe")
+     * @Route("societe/{idSociete}/afficher", name="afficher_societe")
      */
     public function afficherSociete($idSociete)
     {

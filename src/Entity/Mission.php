@@ -68,19 +68,25 @@ class Mission
     private $prixHeure;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="mission")
-     */
-    private $candidatureMission;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="mission")
      * @Groups("post:read")
      */
     private $societe;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="mission", cascade={"remove"})
+     */
+    private $candidatureMission;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="mission", cascade={"remove"})
+     */
+    private $question;
+
     public function __construct()
     {
         $this->candidatureMission = new ArrayCollection();
+        $this->question = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,12 +106,12 @@ class Mission
         return $this;
     }
 
-    public function getNbHeures(): ?int
+    public function getNombreHeures(): ?int
     {
         return $this->nombreHeures;
     }
 
-    public function setNbHeures(int $nombreHeures): self
+    public function setNombreHeures(int $nombreHeures): self
     {
         $this->nombreHeures = $nombreHeures;
 
@@ -186,6 +192,36 @@ class Mission
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestion(): Collection
+    {
+        return $this->question;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->question->contains($question)) {
+            $this->question[] = $question;
+            $question->setMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->question->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getMission() === $this) {
+                $question->setMission(null);
+            }
+        }
 
         return $this;
     }

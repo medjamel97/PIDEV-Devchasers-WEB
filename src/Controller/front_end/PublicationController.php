@@ -5,11 +5,13 @@ namespace App\Controller\front_end;
 use App\Entity\Publication;
 use App\Entity\Commentaire;
 use App\Entity\Like;
+use App\Entity\User;
 use App\Form\PublicationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,6 +55,9 @@ class PublicationController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+
         $publication = new Publication();
 
         $form = $this->createForm(PublicationType::class, $publication)
@@ -60,14 +65,14 @@ class PublicationController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted()) {
-
             $publication = $form->getData();
+            $publication->setCandidat($user->getCandidat());
 
             $publicationRepository = $this->getDoctrine()->getManager();
             $publicationRepository->persist($publication);
             $publicationRepository->flush();
 
-            return $this->redirectToRoute('afficher_tout_publication');
+            return $this->redirectToRoute('accueil');
         }
 
         return $this->render('front_end/candidat/publication/manipuler.html.twig', [
@@ -92,7 +97,7 @@ class PublicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $publicationRepository->flush();
-            return $this->redirectToRoute('afficher_tout_publication');
+            return $this->redirectToRoute('accueil');
         }
 
         return $this->render('front_end/candidat/publication/manipuler.html.twig', [
@@ -112,7 +117,7 @@ class PublicationController extends AbstractController
         $publication = $publicationManager->getRepository(Publication::class)->find($idPublication);
         $publicationManager->remove($publication);
         $publicationManager->flush();
-        return $this->redirectToRoute('gererPublication');
+        return $this->redirectToRoute('accueil');
     }
 
     /**

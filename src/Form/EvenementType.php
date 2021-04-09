@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\EvenementZO;
+use App\Entity\Evenement;
 use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,16 +16,15 @@ class EvenementType extends AbstractType
             ->add('titre')
             ->add('debut')
             ->add('fin')
-            ->add('descp')
+            ->add('description')
             ->add('all_day')
-            ->add('id_user')
             ->add('captcha', CaptchaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => EvenementZO::class,
+            'data_class' => Evenement::class,
         ]);
     }
 }
