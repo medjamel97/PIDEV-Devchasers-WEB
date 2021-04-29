@@ -49,37 +49,37 @@ class Candidat
     private $tel;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $idPhoto;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="candidat", cascade={"remove"})
      */
     private $candidatureOffre;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=CandidatureMission::class, mappedBy="candidat", cascade={"remove"})
      */
     private $candidatureMission;
 
     /**
-     * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="candidat", cascade={"remove"})
      */
     private $publication;
 
     /**
-     * @ORM\OneToMany(targetEntity=ExperienceDeTravail::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=ExperienceDeTravail::class, mappedBy="candidat", cascade={"remove"})
      */
     private $experienceDeTravail;
 
     /**
-     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=Education::class, mappedBy="candidat", cascade={"remove"})
      */
     private $education;
 
     /**
-     * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="candidat")
+     * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="candidat", cascade={"remove"})
      */
     private $competence;
 

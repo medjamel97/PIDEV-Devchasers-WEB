@@ -35,7 +35,7 @@ class OffreDeTravail
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=5000)
      * @Assert\Regex(
      * pattern = "/^[a-zA-Z]+$/i",
      * message = "vous ne devez saisir que des lettres"
@@ -52,12 +52,12 @@ class OffreDeTravail
 
     /**
      * @ORM\ManyToOne(targetEntity=Societe::class, inversedBy="offreDeTravail")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $societe;
 
     /**
-     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail")
+     * @ORM\OneToMany(targetEntity=CandidatureOffre::class, mappedBy="offreDeTravail", cascade={"remove"})
      */
     private $candidatureOffre;
 

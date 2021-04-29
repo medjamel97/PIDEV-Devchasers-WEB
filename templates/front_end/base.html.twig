@@ -51,20 +51,18 @@
         <div id="tagline" class="tagline">
             <div class="container">
                 <div class="float-left">
-                    <div class="phone">
-                        <i class="mdi mdi-phone-classic"></i> +1 800 123 45 67
+                    <div class="phone py-3">
+                        <i class="mdi mdi-phone-classic"></i> +216 55 636 500
                     </div>
-                    <div class="email">
+                    <div class="email p-3">
                         <a href="{{ asset('#') }}">
-                            <i class="mdi mdi-email"></i> Support@mail.com
+                            <i class="mdi mdi-email"></i> khedemti.website@gmail.com
                         </a>
                     </div>
                 </div>
                 <div class="float-right">
-                    <ul class="topbar-list list-unstyled d-flex" style="margin: 11px 0;">
+                    <ul class="topbar-list list-unstyled d-flex m-0">
                         <li class="list-inline-item">
-
-
                             {% set isCandidat = false %}
                             {% if app.user %}
                                 {% for role in app.user.roles %}
@@ -73,7 +71,6 @@
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
-
                             {% if isCandidat %}
                             <a href="{{ asset('candidat/'~app.user.candidat.id~'/profil') }}">
                                 <i class="mdi mdi-account mr-2"></i>{{ app.user.email }}
@@ -89,7 +86,7 @@
                             {% if isCandidat %}
                                 <li class="list-inline-item">
                                     <a href="{{ asset('deconnexion') }}">
-                                        <button class="btn btn-danger p-1 pl-2 pr-2"><i class="mdi mdi-logout"></i>
+                                        <button class="btn btn-danger px-2 py-1 mt-2"><i class="mdi mdi-logout"></i>
                                             Deconnexion
                                         </button>
                                     </a>
@@ -100,7 +97,7 @@
                                 </a>
                                 <li class="list-inline-item">
                                     <a href="{{ asset('back_end/') }}">
-                                        <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-arrow-right"></i>
+                                        <button class="btn btn-light px-2 py-1 mt-2"><i class="mdi mdi-arrow-right"></i>
                                             Revenir a l'espace societe
                                         </button>
                                     </a>
@@ -109,14 +106,14 @@
                         {% else %}
                             <li class="list-inline-item">
                                 <a href="{{ asset('connexion') }}">
-                                    <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-login"></i>
+                                    <button class="btn btn-light px-2 py-1 mt-2"><i class="mdi mdi-login"></i>
                                         Connexion
                                     </button>
                                 </a>
                             </li>
                             <li class="list-inline-item">
                                 <a href="{{ asset('inscription/candidat') }}">
-                                    <button class="btn btn-light p-1 pl-2 pr-2"><i class="mdi mdi-account-plus"></i>
+                                    <button class="btn btn-light px-2 py-1 mt-2"><i class="mdi mdi-account-plus"></i>
                                         inscription
                                     </button>
                                 </a>

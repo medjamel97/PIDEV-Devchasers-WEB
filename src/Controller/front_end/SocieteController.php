@@ -27,7 +27,7 @@ class SocieteController extends AbstractController
      */
     public function afficherSociete($idSociete)
     {
-        return $this->render('front_end/societe/afficher_tout.html.twig', [
+        return $this->render('front_end/societe/afficher.html.twig', [
             'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
         ]);
     }

@@ -1,0 +1,47 @@
+{% extends '/admin/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid">
+        <div class="row align-content-center">
+            <div class="col-md-6">
+                <p class="h1 m-5">Liste des interviews</p>
+            </div>
+            <div class="col-md-5 m-auto">
+                <a class="btn btn-primary float-right" href="{{ asset('admin/offre_de_travail/ajouter') }}">Ajouter une
+                    interview</a>
+            </div>
+        </div>
+        <table class="table border text-center">
+            <tr class="text-uppercase text-dark font-weight-bold">
+                <td>Candidat</td>
+                <td>Offre</td>
+                <td>Societe</td>
+                <td>Difficulté</td>
+                <td>Objet</td>
+                <td>Description</td>
+                <td class="w-25">Date</td>
+                <td>Actions</td>
+            </tr>
+            {% for interview in interviews %}
+                <tr>
+                    <td>{{ interview.candidatureOffre.candidat.prenom }} {{ interview.candidatureOffre.candidat.nom }}</td>
+                    <td>{{ interview.candidatureOffre.offreDeTravail.societe.nom }}</td>
+                    <td>{{ interview.candidatureOffre.offreDeTravail.nom }}</td>
+                    <td>{{ interview.difficulte }}/4</td>
+                    <td>{{ interview.objet }}</td>
+                    <td>{{ interview.description }}</td>
+                    <td>{{ interview.dateCreation|date("d-m-Y") }}</td>
+                    <td>
+                        <a class="btn btn-dark m-1"
+                           href="{{ asset('admin/offre_de_travail/'~interview.id~'/modifier') }}">
+                            Modifier
+                        </a>
+                        <a class="btn btn-danger m-1"
+                           href="{{ asset('admin/offre_de_travail/'~interview.id~'/supprimer') }}">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock %}

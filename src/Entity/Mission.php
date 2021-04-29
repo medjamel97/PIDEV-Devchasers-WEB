@@ -23,15 +23,15 @@ class Mission
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=5000)
      * @Assert\NotBlank(message="Veuillez saisir une description")
-     * @Assert\Length(min=10, max=200, minMessage="Taille minimale (10)", maxMessage="Taille maximale (100) depassé")
+     * @Assert\Length(min=10, max=5000, minMessage="Taille minimale (10)", maxMessage="Taille maximale (5000) depassé")
      * @Groups("post:read")
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=10383, nullable=true)
+     * @ORM\Column(type="string", length=5000, nullable=true)
      * @Assert\NotBlank(message="Veuillez saisir une description")
      * @Groups("post:read")
      */
@@ -45,11 +45,10 @@ class Mission
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\NotBlank(message="Veuillez saisir le nombre d'heures")
      * @Assert\Range(
      *      min = 1,
      *      max = 10,
-     *      notInRangeMessage = "You must be between {{ min }}cm and {{ max }}cm tall to enter",
      * )
      * @Groups("post:read")
      */
@@ -57,7 +56,7 @@ class Mission
 
     /**
      * @ORM\Column(type="float")
-     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\NotBlank(message="Veuillez saisir le prix par heure")
      * @Assert\Range(
      *      min = 1,
      *      max = 1000,
@@ -82,6 +81,21 @@ class Mission
      * @ORM\OneToMany(targetEntity=Question::class, mappedBy="mission", cascade={"remove"})
      */
     private $question;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $longitude;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $latitude;
 
     public function __construct()
     {
@@ -222,6 +236,42 @@ class Mission
                 $question->setMission(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(string $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(string $latitude): self
+    {
+        $this->latitude = $latitude;
 
         return $this;
     }

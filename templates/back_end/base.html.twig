@@ -29,7 +29,6 @@
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
                href="{{ asset('back_end/accueil_societe') }}">
@@ -38,81 +37,99 @@
                 </div>
             </a>
 
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ asset('back_end/societe/'~app.user.societe.id~'/profil') }}">
+                    <i class="fas fa-fw fa-building"></i>
+                    <span>Votre profil societe</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+            <!-- Offres - Heading -->
+            <div class="sidebar-heading text-white">
+                Vos offres
+            </div>
+
+            <!-- Nav Item - OffresDeTravail -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Evenement</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOffresDeTravail"
+                   aria-expanded="false" aria-controls="collapseOffresDeTravail">
+                    <i class="fa fa-briefcase text-white"></i>
+                    <span>Vos offres de travail</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapseOffresDeTravail" class="collapse" aria-labelledby="headingOffresDeTravail"
+                     data-parent="#accordionSidebar" style="">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Gestion Evenement:</h6>
-                        <a class="collapse-item" href={{ asset('back_end/evenement') }}>Afficher calendrier</a>
-                        <a class="collapse-item" href={{ asset('back_end/evenement/ajouter') }}>Nouveau Evenement</a>
+                        <h6 class="collapse-header">Offres de travail</h6>
+                        <a class="collapse-item" href="{{ asset('back_end/offre_de_travail') }}">Afficher tout</a>
+                        <a class="collapse-item" href="#">Autre lien</a>
                     </div>
                 </div>
             </li>
 
+            <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Formation</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMissions"
+                   aria-expanded="false" aria-controls="collapseMissions">
+                    <i class="fa fa-biking text-white"></i>
+                    <span>Vos missions</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapseMissions" class="collapse" aria-labelledby="headingMissions"
+                     data-parent="#accordionSidebar" style="">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Gestion Formation:</h6>
-                        <a class="collapse-item" href={{ asset('back_end/formation') }}>Afficher tout Formation</a>
-                        <a class="collapse-item" href={{ asset('back_end/formation/ajouter') }}>Ajouter Formation</a>
+                        <h6 class="collapse-header">Missions</h6>
+                        <a class="collapse-item" href="{{ asset('back_end/mission') }}">Afficher tout</a>
+                        <a class="collapse-item" href="#">Autre lien</a>
                     </div>
                 </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/candidat') }}">
-                    <span>Afficher tout candidats</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/mission') }}">
-                    <span>Afficher tout missions</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/mission/ajouter') }}">
-                    <span>Ajouter mission</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/categorie') }}">
-                    <span>Afficher tout categorie</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/categorie/ajouter') }}">
-                    <span>Ajouter categorie</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/offre_de_travail') }}">
-                    <span>Afficher tout offres</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ asset('back_end/offre_de_travail/ajouter') }}">
-                    <span>Ajout offre</span></a>
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            <hr class="sidebar-divider">
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            <!-- Vos activités - Heading -->
+            <div class="sidebar-heading text-white">
+                Vos activités
             </div>
+
+            <!-- Nav Item - Evenements -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEvenements"
+                   aria-expanded="false" aria-controls="collapseEvenements">
+                    <i class="fa fa-calendar text-white"></i>
+                    <span>Vos evenements</span>
+                </a>
+                <div id="collapseEvenements" class="collapse" aria-labelledby="headingEvenements"
+                     data-parent="#accordionSidebar" style="">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Evenements</h6>
+                        <a class="collapse-item" href="{{ asset('back_end/evenement') }}">Afficher tout</a>
+                        <a class="collapse-item" href="{{ asset('back_end/evenement') }}">Calendrier</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFormations"
+                   aria-expanded="false" aria-controls="collapseFormations">
+                    <i class="fa fa-book text-white"></i>
+                    <span>Vos formations</span>
+                </a>
+                <div id="collapseFormations" class="collapse" aria-labelledby="headingFormations"
+                     data-parent="#accordionSidebar" style="">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Formations</h6>
+                        <a class="collapse-item" href="{{ asset('back_end/mission') }}">Afficher tout</a>
+                        <a class="collapse-item" href="#">Autre lien</a>
+                    </div>
+                </div>
+            </li>
 
         </ul>
         <!-- End of Sidebar -->
@@ -319,7 +336,8 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ asset('back_end/societe/'~app.user.societe.id~'/profil') }}">
+                                <a class="dropdown-item"
+                                   href="{{ asset('back_end/societe/'~app.user.societe.id~'/profil') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profil
                                 </a>

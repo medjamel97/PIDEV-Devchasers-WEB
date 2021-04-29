@@ -1,0 +1,34 @@
+{% extends '/admin/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid">
+        <div class="row align-content-center">
+            <div class="col-md-6">
+                <p class="h1 m-5">Liste des categories</p>
+            </div>
+            <div class="col-md-5 m-auto">
+                <a class="btn btn-primary float-right" href="{{ asset('admin/categorie/ajouter') }}">Ajouter une categorie</a>
+            </div>
+        </div>
+        <table class="table border text-center">
+            <tr class="text-uppercase text-dark font-weight-bold">
+                <td>Id</td>
+                <td>Nom</td>
+                <td>Actions</td>
+            </tr>
+            {% for categorie in categories %}
+                <tr>
+                    <td>{{ categorie.id }}</td>
+                    <td>{{ categorie.nom }}</td>
+                    <td>
+                        <a class="btn btn-dark m-1" href="{{ asset('admin/categorie/'~categorie.id~'/modifier') }}">
+                            Modifier
+                        </a>
+                        <a class="btn btn-danger m-1" href="{{ asset('admin/categorie/'~categorie.id~'/supprimer') }}">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock %}

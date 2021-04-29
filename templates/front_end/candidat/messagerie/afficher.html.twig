@@ -356,6 +356,7 @@
         });
 
         function rafraichirFenetreConversation(recherche) {
+            let contenaireConversation = $("#contenaire-conversations");
             $.ajax({
                 type: 'GET',
                 url: 'recuperer_conversations',
@@ -366,7 +367,7 @@
                             rechercheChanged = false;
                             retourConversation = retour;
                             if (recherche !== "") {
-                                $("#contenaire-conversations").append(
+                                contenaireConversation.append(
                                     "<div id='resultat-label' class='text-center bg-white'>" +
                                     "<p class='p-3 m-0 text-dark'>Resultats de recherche</p>" +
                                     "</div>");
@@ -393,8 +394,7 @@
                                 "</a>" +
                                 "</div>'+"
                             );
-
-                            $("#contenaire-conversations").empty()
+                            contenaireConversation.empty();
                             $.each(JSON.parse(retour), function (i, obj) {
                                     let clone = conversation.clone().attr("id", 'conversation' + i).show();
                                     clone.find('#image-conversation').attr("src", obj.idPhoto);
@@ -415,13 +415,13 @@
                                     clone.find('#supprimer-conversation')
                                         .attr("id", "supprimer-conversation" + i)
                                         .attr("href", "javascript:openSuppModal(" + obj.idConversation + ",'" + obj.nomConversation + "');");
-                                    $('#contenaire-conversations').append(clone);
+                                    $contenaireConversation.append(clone);
                                 },
                             );
                             console.log('changes in conversations');
                         }
                     } else {
-                        $("#contenaire-conversations").empty().append(
+                        contenaireConversation.empty().append(
                             "<div class='text-center'>" +
                             "<p class='pt-5'>Aucune conversation</p>" +
                             "</div>");

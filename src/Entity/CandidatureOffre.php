@@ -20,12 +20,12 @@ class CandidatureOffre
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=Interview::class, mappedBy="candidatureOffre")
+     * @ORM\OneToMany(targetEntity=Interview::class, mappedBy="candidatureOffre", cascade={"remove"})
      */
     private $interview;
 
     /**
-     * @ORM\OneToMany(targetEntity=Revue::class, mappedBy="candidatureOffre")
+     * @ORM\OneToMany(targetEntity=Revue::class, mappedBy="candidatureOffre", cascade={"remove"})
      */
     private $revue;
 
@@ -39,6 +39,11 @@ class CandidatureOffre
      * @ORM\JoinColumn(nullable=false)
      */
     private $offreDeTravail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $etat;
 
     public function __construct()
     {
@@ -131,6 +136,18 @@ class CandidatureOffre
     public function setOffreDeTravail(?OffreDeTravail $offreDeTravail): self
     {
         $this->offreDeTravail = $offreDeTravail;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

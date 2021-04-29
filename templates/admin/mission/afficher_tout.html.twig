@@ -1,0 +1,49 @@
+{% extends '/admin/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid">
+        <div class="row align-content-center">
+            <div class="col-md-6">
+                <p class="h1 m-5">Liste des missions</p>
+            </div>
+            <div class="col-md-5 m-auto">
+                <a class="btn btn-primary float-right" href="{{ asset('admin/mission/ajouter') }}">Ajouter une
+                    mission</a>
+            </div>
+        </div>
+        <table class="table border text-center">
+            <tr class="text-uppercase text-dark font-weight-bold">
+                <td>Societe</td>
+                <td>Nom</td>
+                <td>Description</td>
+                <td>Date</td>
+                <td>NombreHeures</td>
+                <td>PrixHeure</td>
+                <td>Ville</td>
+                <td>Longitude</td>
+                <td>Latitude</td>
+                <td>Actions</td>
+            </tr>
+            {% for mission in missions %}
+                <tr>
+                    <td>{{ mission.societe.nom }}</td>
+                    <td>{{ mission.nom }}</td>
+                    <td>{{ mission.description }}</td>
+                    <td>{{ mission.date|date("d-m-Y") }}</td>
+                    <td>{{ mission.nombreHeures }}</td>
+                    <td>{{ mission.prixHeure }}</td>
+                    <td>{{ mission.ville }}</td>
+                    <td>{{ mission.longitude }}</td>
+                    <td>{{ mission.latitude }}</td>
+                    <td>
+                        <a class="btn btn-dark m-1" href="{{ asset('admin/mission/'~mission.id~'/modifier') }}">
+                            Modifier
+                        </a>
+                        <a class="btn btn-danger m-1" href="{{ asset('admin/mission/'~mission.id~'/supprimer') }}">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock %}

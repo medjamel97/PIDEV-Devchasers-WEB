@@ -21,7 +21,7 @@ class OffreDeTravailController extends AbstractController
     public function afficherToutOffreDeTravail(Request $request, PaginatorInterface $paginator)
     {
         return $this->render('front_end/societe/offre_de_travail/afficher_tout.html.twig', [
-            'offreDeTravails' => $paginator->paginate(
+            'offresDeTravail' => $paginator->paginate(
                 $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll(),
                 $request->query->getInt('page', 1), 3
             ),
@@ -50,8 +50,8 @@ class OffreDeTravailController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(OffreDeTravail::class);
         $requestString = $request->get('valeurRecherche');
-        $offreDeTravails = $repository->findOffreByNsc($requestString);
-        $jsonContent = $Normalizer->normalize($offreDeTravails, 'json', ['groups' => 'get:read']);
+        $offresDeTravail = $repository->findOffreByNsc($requestString);
+        $jsonContent = $Normalizer->normalize($offresDeTravail, 'json', ['groups' => 'get:read']);
 
         return new Response(json_encode($jsonContent));
     }

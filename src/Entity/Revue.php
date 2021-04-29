@@ -31,10 +31,15 @@ class Revue
     private $objet;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=5000)
      * @Assert\NotBlank(message="is required")
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateCreation;
 
     /**
      * @ORM\ManyToOne(targetEntity=CandidatureOffre::class, inversedBy="revue")
@@ -78,6 +83,18 @@ class Revue
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
 
         return $this;
     }

@@ -18,28 +18,45 @@ class Interview
     private $id;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $difficulte;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $objet;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=5000)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateCreation;
 
     /**
      * @ORM\ManyToOne(targetEntity=CandidatureOffre::class, inversedBy="interview")
      */
     private $candidatureOffre;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $difficulte;
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDifficulte(): ?int
+    {
+        return $this->difficulte;
+    }
+
+    public function setDifficulte(int $difficulte): self
+    {
+        $this->difficulte = $difficulte;
+
+        return $this;
     }
 
     public function getObjet(): ?string
@@ -66,6 +83,18 @@ class Interview
         return $this;
     }
 
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
     public function getCandidatureOffre(): ?CandidatureOffre
     {
         return $this->candidatureOffre;
@@ -74,18 +103,6 @@ class Interview
     public function setCandidatureOffre(?CandidatureOffre $candidatureOffre): self
     {
         $this->candidatureOffre = $candidatureOffre;
-
-        return $this;
-    }
-
-    public function getDifficulte(): ?string
-    {
-        return $this->difficulte;
-    }
-
-    public function setDifficulte(string $difficulte): self
-    {
-        $this->difficulte = $difficulte;
 
         return $this;
     }

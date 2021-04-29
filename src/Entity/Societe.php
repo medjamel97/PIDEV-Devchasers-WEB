@@ -35,27 +35,27 @@ class Societe
     private $tel;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $idPhoto;
 
     /**
-     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="societe", cascade={"remove"})
      */
     private $mission;
 
     /**
-     * @ORM\OneToMany(targetEntity=OffreDeTravail::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=OffreDeTravail::class, mappedBy="societe", cascade={"remove"})
      */
     private $offreDeTravail;
 
     /**
-     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=Evenement::class, mappedBy="societe", cascade={"remove"})
      */
     private $evenement;
 
     /**
-     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="societe")
+     * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="societe", cascade={"remove"})
      */
     private $formation;
 

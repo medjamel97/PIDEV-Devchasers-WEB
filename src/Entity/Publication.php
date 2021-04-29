@@ -23,30 +23,24 @@ class Publication
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
+     * @Groups("post:read")
+     */
+    private $titre;
+
+    /**
+     * @ORM\Column(type="string", length=5000)
      * @Assert\NotBlank(message="Veuillez saisir une description")
-     * @Assert\Length(min=10, max=200, minMessage="Taille minimale (10)", maxMessage="Taille maximale (100) depassé")
+     * @Assert\Length(min=10, max=5000, minMessage="Taille minimale (10)", maxMessage="Taille maximale (5000) depassé")
      * @Groups("post:read")
      */
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="publication")
+     * @ORM\Column(type="datetime",nullable=true)
      * @Groups("post:read")
      */
-    private $candidat;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="publication", cascade={"remove"})
-     * @Groups("post:read")
-     */
-    private $commentaire;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="publication",cascade={"remove"})
-     * @Groups("post:read")
-     */
-    private $likeid;
+    private $date;
 
     /**
      * @ORM\Column(type="integer",nullable=true)
@@ -55,16 +49,22 @@ class Publication
     private $pourcentageLike;
 
     /**
-     * @ORM\Column(type="date",nullable=true)
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="publication",cascade={"remove"})
      * @Groups("post:read")
      */
-    private $date;
+    private $likeid;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="publication", cascade={"remove"})
      * @Groups("post:read")
      */
-    private $titre;
+    private $commentaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="publication")
+     * @Groups("post:read")
+     */
+    private $candidat;
 
     public function __construct()
     {
@@ -75,6 +75,18 @@ class Publication
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(string $titre): self
+    {
+        $this->titre = $titre;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -89,44 +101,26 @@ class Publication
         return $this;
     }
 
-    public function getCandidat(): ?candidat
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->candidat;
+        return $this->date;
     }
 
-    public function setCandidat(?candidat $candidat): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->candidat = $candidat;
+        $this->date = $date;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Commentaire[]
-     */
-    public function getCommentaire(): Collection
+    public function getPourcentageLike(): ?int
     {
-        return $this->commentaire;
+        return $this->pourcentageLike;
     }
 
-    public function addCommentaire(Commentaire $commentaire): self
+    public function setPourcentageLike(int $pourcentageLike): self
     {
-        if (!$this->commentaire->contains($commentaire)) {
-            $this->commentaire[] = $commentaire;
-            $commentaire->setPublication($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaire $commentaire): self
-    {
-        if ($this->commentaire->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getPublication() === $this) {
-                $commentaire->setPublication(null);
-            }
-        }
+        $this->pourcentageLike = $pourcentageLike;
 
         return $this;
     }
@@ -161,38 +155,44 @@ class Publication
         return $this;
     }
 
-    public function getPourcentageLike(): ?int
+    /**
+     * @return Collection|Commentaire[]
+     */
+    public function getCommentaire(): Collection
     {
-        return $this->pourcentageLike;
+        return $this->commentaire;
     }
 
-    public function setPourcentageLike(int $pourcentageLike): self
+    public function addCommentaire(Commentaire $commentaire): self
     {
-        $this->pourcentageLike = $pourcentageLike;
+        if (!$this->commentaire->contains($commentaire)) {
+            $this->commentaire[] = $commentaire;
+            $commentaire->setPublication($this);
+        }
 
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function removeCommentaire(Commentaire $commentaire): self
     {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
+        if ($this->commentaire->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getPublication() === $this) {
+                $commentaire->setPublication(null);
+            }
+        }
 
         return $this;
     }
 
-    public function getTitre(): ?string
+    public function getCandidat(): ?candidat
     {
-        return $this->titre;
+        return $this->candidat;
     }
 
-    public function setTitre(string $titre): self
+    public function setCandidat(?candidat $candidat): self
     {
-        $this->titre = $titre;
+        $this->candidat = $candidat;
 
         return $this;
     }

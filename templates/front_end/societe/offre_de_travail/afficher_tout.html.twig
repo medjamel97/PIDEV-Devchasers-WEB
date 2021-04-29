@@ -1,95 +1,71 @@
 {% extends '/front_end/base.html.twig' %}
 {% block content %}
+    <!-- blog start -->
     <section class="bg-home"
-             style="background-image: url({{ asset('images/backgrounds/offres-de-travail-BG.jpg') }})">
+             style="background: url({{ asset('/frontEnd/images/BG-offres.jpg') }}) center center;">
         <div class="bg-overlay"></div>
-        <div class="home-center">
-            <div class="home-desc-center">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div class="title-heading text-center text-white">
-                                <h1 class="heading font-weight-bold mb-4">Offres de travail</h1>
-                            </div>
-                        </div>
+    </section>
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="section-title text-center mb-4 pb-2">
+                        <h4 class="title title-line pb-5">Offres de travail</h4>
+                        <p class="text-muted para-desc mx-auto mb-1">Post a job to tell us about your project. We'll
+                            quickly match you with the right freelancers.</p>
                     </div>
                 </div>
             </div>
+            <div id="body2" class="row">
+            </div>
+            <div class="row" id="body1">
+                {% for offre in offresDeTravail %}
+                    <div class="col-lg-4 col-md-6 mt-4 pt-2">
+                        <div class="blog position-relative overflow-hidden shadow rounded bg-white">
+                            <div class="position-relative overflow-hidden">
+                                <img src="{{ asset('/frontEnd/images/how-it-work/img-1.png') }}"
+                                     class="img-fluid rounded-top mx-auto d-block" alt="" height="50">
+                                <div class="overlay rounded-top bg-dark"></div>
+                                <div class="likes">
+                                    <ul class="list-unstyled mb-0">
+                                        <li class="list-inline-item mr-2"><a
+                                                    href="{{ asset('#') }}"
+                                                    class="text-white like"><i class="mdi mdi-heart-outline mr-1"></i>33</a>
+                                        </li>
+                                        <li class="list-inline-item"><a
+                                                    href="{{ asset('#') }}"
+                                                    class="text-white comments"><i
+                                                        class="mdi mdi-comment-outline mr-1"></i>08</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="content p-4">
+                                <h4><a href="{{ asset('#') }}"
+                                       class="title text-dark">
+
+                                        {{ offre.nom }}
+                                    </a></h4>
+                                <p class="text-muted">
+                                    {{ offre.description }}
+                                </p>
+                                <a href="{{ asset('#') }}" class="text-dark readmore">Read
+                                    more <i class="mdi mdi-chevron-right"></i></a>
+                            </div>
+                            <div class="author">
+                                <p class=" mb-0"><i class="mdi mdi-account text-light"></i> <a
+                                            href="{{ asset('#') }}"
+                                            class="text-light user">{{ offre.societe.nom }}</a></p>
+                                <p class="text-light mb-0 date"><i class="mdi mdi-calendar-check"></i>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                <!--end col-->
+            </div>
         </div>
     </section>
-    <div class="col-md-10 p-5">
-        <table border="2" class="table">
-            <tr>
-                {% set labels =["ID", "Description", "Societe", "Categorie","Candidatures"] %}
-                {% for i in 0..labels|length-1 %}
-                    <td><b>{{ labels[i] }}</b></td>
-                {% endfor %}
-                <td><b>Operations</b></td>
-                {% for offreDeTravail in offreDeTravails %}
-            <tr>
-                <td>{{ offreDeTravail.id }}</td>
-                <td>{{ offreDeTravail.description }}</td>
-                <td>{{ offreDeTravail.societe.id }}</td>
-                {% if offreDeTravail.categorie %}
-                    <td>{{ offreDeTravail.categorie.nomCategorie }}</td>
-                {% else %}
-                    <td>
-                        Aucune categorie
-                    </td>
-                {% endif %}
-                {% if offreDeTravail.candidatureOffre %}
-                    <td>
-                        {% for candidature in offreDeTravail.candidatureOffre %}
-                            Candidature {{ candidature.id }} : {{ candidature.candidat.prenom }} /
-                            offre : {{ candidature.offreDeTravail.description }} a {{ candidature.offreDeTravail.societe.nom }}
-                            <br>
-                        {% endfor %}
-                    </td>
-                {% else %}
-                    <td>
-                        Aucune candidature
-                    </td>
-                {% endif %}
-                <td>
-                    {% set hasCandidatures = false %}
-                    {% if app.user %}
-                        {% if offreDeTravail.candidatureOffre %}
-                            {% for candidatureOffre in offreDeTravail.candidatureOffre %}
-                                {% if app.user.candidat.id == candidatureOffre.candidat.id %}
-                                    {% set hasCandidatures = true %}
-                                    <p>
-                                        Vous avez candidaté pour cette offre
-                                    </p>
-                                    <a href="{{ asset('candidature_offre/'~candidatureOffre.id~'/supprimer') }}">
-                                        Supprimer candidature</a>
-                                    <br>------------<br>
-                                    <a href="{{ asset('revue/'~candidatureOffre.id~'/ajouter') }}">
-                                        Ajouter une revue pour cette offre</a><br>
-                                    <a href="{{ asset('#') }}">
-                                        Ajouter une interview pour cette offre</a>
-                                    <br>------------<br>
-                                {% else %}
-                                    {% set hasCandidatures = false %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        {% if not hasCandidatures %}
-                            <a href="{{ asset('candidature_offre/'~offreDeTravail.id~'/ajouter') }}">
-                                Candidater pour cette offre
-                            </a>
-                            <br>
-                        {% endif %}
-                    {% else %}
-                        Veuillez vous connecter pour candidater
-                        <br>------------<br>
-                    {% endif %}
-                    <a href="{{ asset('revue') }}">
-                        Voir les revues pour cette offre</a><br>
-                    <a href="{{ asset('interview') }}">
-                        Voir les interviews pour cette offre</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    <!-- blog end -->
 {% endblock %}
+
