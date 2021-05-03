@@ -1,11 +1,16 @@
 {% extends '/back_end/base.html.twig' %}
 {% block content %}
     <section class="container-fluid bg-light">
-        <h1 class="h3 mb-2 text-gray-800 text-center mt-4">Vos offres de travail</h1>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ asset('back_end/offre_de_travail/ajouter') }}">
-                <span>Nouvelle offre</span></a>
-        </li>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="h2 text-dark p-2">Vos offres de travail</p>
+            </div>
+            <div class="col-md-5 p-2">
+                <a class="btn btn-primary float-right" href="{{ asset('back_end/offre_de_travail/ajouter') }}">
+                    <span>Nouvelle offre de travail</span>
+                </a>
+            </div>
+        </div>
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="section-title text-center mb-4 py-4">

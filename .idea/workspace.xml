@@ -2,91 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d323fb44-377a-498c-b2bd-41132104e339" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/backEnd/img/admin-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/AdminController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/CandidatController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/CategorieController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/EvenementController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/FormationController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/InterviewController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/MissionController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/OffreDeTravailController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/PublicationController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/RevueController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/back_end_admin/SocieteController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/base.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/candidat/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/candidat/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/categorie/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/categorie/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/evenement/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/evenement/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/formation/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/formation/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/interview/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/interview/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/mission/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/mission/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/offre_de_travail/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/offre_de_travail/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/publication/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/publication/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/revue/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/revue/manipuler.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/societe/afficher_tout.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin/societe/manipuler.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/InterviewController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/RevueController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/backEnd/vendor/fontawesome-free/metadata/icons.yml" beforeDir="false" afterPath="$PROJECT_DIR$/public/backEnd/vendor/fontawesome-free/metadata/icons.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/app-download-img.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/apple.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/backgrounds/revue-background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/frontEnd/images/google.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/backgrounds/inscription-BG.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/backgrounds/offres-de-travail-BG.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/candidat/default.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/candidat/uploads/09d362e575aca482b7c6f81060383825.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/candidat/uploads/a868de41a9d9e5f34b0ee259dc45671d.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/candidat/uploads/addb9a4cb9b94cb42aba155c245a3df2.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/societe/default.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/societe/uploads/51f8ef39cf9307372967112d9f3b9899.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/societe/uploads/6765d345458cafc6d92a9129d1b0e0f0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/societe/uploads/a91be80803a1ed88527a64cad7a1c1a7.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/back_end/AdminController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/front_end/OffreDeTravailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/front_end/OffreDeTravailController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/front_end/SocieteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/front_end/SocieteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Candidat.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Candidat.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/CandidatureOffre.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/CandidatureOffre.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Commentaire.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Commentaire.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Education.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Education.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Evenement.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Evenement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/ExperienceDeTravail.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/ExperienceDeTravail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Interview.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Interview.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Mission.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Mission.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/OffreDeTravail.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/OffreDeTravail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Publication.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Publication.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Question.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Revue.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Revue.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Societe.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Societe.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_connexion/connexion.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_connexion/connexion.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_inscription/candidat.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_inscription/candidat.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_inscription/societe.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_inscription/societe.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/back_end/administrateur/admin_dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/admin_dashboard.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/back_end/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/back_end/base.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/back_end/societe/offre_de_travail/afficher_tout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/back_end/societe/offre_de_travail/afficher_tout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/candidat/_profile/afficher.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/candidat/_profile/afficher.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/candidat/messagerie/afficher.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/candidat/messagerie/afficher.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/candidat/publication/afficher_tout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/candidat/publication/afficher_tout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/societe/afficher.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/societe/afficher.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/societe/afficher_tout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/societe/afficher_tout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/societe/mission/afficher_tout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/societe/mission/afficher_tout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/afficher_tout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/afficher_tout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/categorie/liens.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/categorie/liens.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/revue/afficher_par_societe.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/revue/afficher_par_societe.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/revue/afficher_tout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/revue/afficher_tout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/revue/manipuler.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/front_end/societe/offre_de_travail/revue/manipuler.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -245,26 +164,26 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/admin/societe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Controller/Mobile" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/templates/frontEnd/revue/afficherRevueSociete.html.twig" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\src\Controller\Mobile" />
+      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\src\Controller" />
+      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin\societe" />
+      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin\revue" />
+      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin\publication" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\src\Controller\Mobile" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\backEnd\img" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\images\backgrounds" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public" />
-      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\back_end\societe\offre_de_travail\categorie" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin\societe" />
-      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin\revue" />
-      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin\publication" />
-      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin\offre_de_travail" />
-      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\admin\mission" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -339,7 +258,12 @@
       <workItem from="1619669069002" duration="15000" />
       <workItem from="1619675770831" duration="643000" />
       <workItem from="1619682364282" duration="677000" />
-      <workItem from="1619721981984" duration="11247000" />
+      <workItem from="1619721981984" duration="13216000" />
+      <workItem from="1619814254052" duration="4531000" />
+      <workItem from="1619914594847" duration="5841000" />
+      <workItem from="1620001564146" duration="773000" />
+      <workItem from="1620004194235" duration="2364000" />
+      <workItem from="1620014004180" duration="4000" />
     </task>
     <servers />
   </component>
