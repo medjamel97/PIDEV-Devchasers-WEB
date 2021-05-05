@@ -88,15 +88,15 @@ class RevueController extends AbstractController
         $i = 0;
         $societe = new Societe();
         foreach ($societes as $societe) {
-            $jsonContent[$i]['id'] = $societe->getId();
-            $jsonContent[$i]['nom'] = $societe->getNom();
-            $jsonContent[$i]['idPhoto'] = $societe->getIdPhoto();
-            $jsonContent[$i]['tel'] = $societe->getTel();
+            $jsonContent[$i]['idSociete'] = $societe->getId();
+            $jsonContent[$i]['nomSociete'] = $societe->getNom();
+            $jsonContent[$i]['idPhotoSociete'] = $societe->getIdPhoto();
+            $jsonContent[$i]['telSociete'] = "T".$societe->getTel();
 
             $j = 0;
             foreach ($societe->getOffreDeTravail() as $offreDeTravail) {
-                $jsonContent[$i]['offres'][$j]['id'] = $offreDeTravail->getId();
-                $jsonContent[$i]['offres'][$j]['nom'] = $offreDeTravail->getNom();
+                $jsonContent[$i]['offres'][$j]['idOffre'] = $offreDeTravail->getId();
+                $jsonContent[$i]['offres'][$j]['nomOffre'] = $offreDeTravail->getNom();
                 $j++;
             }
 
