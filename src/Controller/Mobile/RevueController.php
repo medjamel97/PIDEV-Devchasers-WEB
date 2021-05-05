@@ -2,10 +2,14 @@
 
 namespace App\Controller\Mobile;
 
+use App\Entity\Candidat;
 use App\Entity\CandidatureOffre;
 use App\Entity\Revue;
+use App\Entity\OffreDeTravail;
+use App\Entity\Societe;
 use DateTime;
 use DateTimeZone;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +33,7 @@ class RevueController extends AbstractController
         $revue = new Revue();
         foreach ($revues as $revue) {
             $jsonContent[$i]['id'] = $revue->getId();
+            $jsonContent[$i]['idCandidatureOffre'] = $revue->getCandidatureOffre()->getId();
             $jsonContent[$i]['nomCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getNom();
             $jsonContent[$i]['prenomCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getPrenom();
             $jsonContent[$i]['idPhotoCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getIdPhoto();
@@ -51,11 +56,12 @@ class RevueController extends AbstractController
      */
     public function recupererRevueParId(Request $request)
     {
-        $idRevue = (int)$request->get("idRevue");
+        $idRevue = (int)$request->get("id");
 
         $revue = $this->getDoctrine()->getRepository(Revue::class)->find($idRevue);
 
         $jsonContent['id'] = $revue->getId();
+        $jsonContent['idCandidatureOffre'] = $revue->getCandidatureOffre()->getId();
         $jsonContent['nomCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getNom();
         $jsonContent['prenomCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getPrenom();
         $jsonContent['idPhotoCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getIdPhoto();
@@ -72,48 +78,71 @@ class RevueController extends AbstractController
     }
 
     /**
-     * @Route("manipuler_revue")
-     * @param Request $request
+     * @Route("recuperer_societe_offre_pour_revue")
      * @return Response
+     */
+    public function recupererSocietePourRevue()
+    {
+        $societes = $this->getDoctrine()->getRepository(Societe::class)->findAll();
+        $jsonContent = null;
+        $i = 0;
+        $societe = new Societe();
+        foreach ($societes as $societe) {
+            $jsonContent[$i]['id'] = $societe->getId();
+            $jsonContent[$i]['nom'] = $societe->getNom();
+            $jsonContent[$i]['idPhoto'] = $societe->getIdPhoto();
+            $jsonContent[$i]['tel'] = $societe->getTel();
+
+            $j = 0;
+            foreach ($societe->getOffreDeTravail() as $offreDeTravail) {
+                $jsonContent[$i]['offres'][$j]['id'] = $offreDeTravail->getId();
+                $jsonContent[$i]['offres'][$j]['nom'] = $offreDeTravail->getNom();
+                $j++;
+            }
+
+            $i++;
+        }
+        $json = json_encode($jsonContent);
+        return new Response($json);
+    }
+
+    /**
+     * @Route("manipuler_revue")
+     * @throws Exception
      */
     public function manipulerRevue(Request $request)
     {
-        try {
-            $idRevue = (int)$request->get("idRevue");
+        $idRevue = (int)$request->get("id");
 
-            if ($idRevue == null) {
-                $revue = new Revue();
-                $candidatureOffre = (int)$request->get("candidatureOffre");
-                $revue->setCandidatureOffre(
-                    $this->getDoctrine()->getRepository(CandidatureOffre::class)->find($candidatureOffre)
-                );
-            } else {
-                $revue = $this->getDoctrine()->getRepository(Revue::class)->find($idRevue);
-            }
-
-            $nbEtoiles = (int)$request->get("nbEtoiles");
-            $objet = $request->get("objet");
-            $description = $request->get("description");
-
-            $revue
-                ->setNbEtoiles($nbEtoiles)
-                ->setObjet($objet)
-                ->setDescription($description)
-                ->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
-            try {
-                $manager = $this->getDoctrine()->getManager();
-                $manager->persist($revue);
-                $manager->flush();
-                return new Response(0);
-            } catch (\Exception $e) {
-                return new Response(1);
-            }
-
-        } catch (\Error $e) {
-            return new Response(-1);
-        } catch (\Exception $e) {
-            return new Response(9);
+        if ($idRevue == null) {
+            $revue = new Revue();
+            $idCandidat = (int)$request->get("candidatId");
+            $idOffre = (int)$request->get("offreDeTravailId");
+            $revue->setCandidatureOffre(
+                $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
+                    "candidat" => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
+                    "offreDeTravail" => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffre)
+                ])
+            );
+        } else {
+            $revue = $this->getDoctrine()->getRepository(Revue::class)->find($idRevue);
         }
+
+        $nbEtoiles = (int)$request->get("nbEtoiles");
+        $objet = $request->get("objet");
+        $description = $request->get("description");
+
+        $revue
+            ->setNbEtoiles($nbEtoiles)
+            ->setObjet($objet)
+            ->setDescription($description)
+            ->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($revue);
+        $manager->flush();
+
+        return new Response("Ajout/Modification effectué");
     }
 
     /**
@@ -123,16 +152,13 @@ class RevueController extends AbstractController
      */
     public function supprimerRevue(Request $request)
     {
-        try {
-            $idRevue = (int)$request->get("idRevue");
+        $idRevue = (int)$request->get("id");
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->remove($this->getDoctrine()->getRepository(Revue::class)->find($idRevue));
-            $manager->flush();
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($this->getDoctrine()->getRepository(Revue::class)->find($idRevue));
+        $manager->flush();
 
-            return new Response(0);
-        } catch (\Exception $e) {
-            return new Response(-1);
-        }
+        return new Response("Suppression effectué");
     }
+
 }

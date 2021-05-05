@@ -2,10 +2,13 @@
 
 namespace App\Controller\Mobile;
 
+use App\Entity\Candidat;
 use App\Entity\CandidatureOffre;
 use App\Entity\Interview;
+use App\Entity\OffreDeTravail;
 use DateTime;
 use DateTimeZone;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +32,7 @@ class InterviewController extends AbstractController
         $interview = new Interview();
         foreach ($interviews as $interview) {
             $jsonContent[$i]['id'] = $interview->getId();
+            $jsonContent[$i]['idCandidatureOffre'] = $interview->getCandidatureOffre()->getId();
             $jsonContent[$i]['nomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getNom();
             $jsonContent[$i]['prenomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getPrenom();
             $jsonContent[$i]['idPhotoCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getIdPhoto();
@@ -51,11 +55,12 @@ class InterviewController extends AbstractController
      */
     public function recupererInterviewParId(Request $request)
     {
-        $idInterview = (int)$request->get("idInterview");
+        $idInterview = (int)$request->get("id");
 
         $interview = $this->getDoctrine()->getRepository(Interview::class)->find($idInterview);
 
         $jsonContent['id'] = $interview->getId();
+        $jsonContent['idCandidatureOffre'] = $interview->getCandidatureOffre()->getId();
         $jsonContent['nomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getNom();
         $jsonContent['prenomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getPrenom();
         $jsonContent['idPhotoCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getIdPhoto();
@@ -73,47 +78,41 @@ class InterviewController extends AbstractController
 
     /**
      * @Route("manipuler_interview")
-     * @param Request $request
-     * @return Response
+     * @throws Exception
      */
     public function manipulerInterview(Request $request)
     {
-        try {
-            $idInterview = (int)$request->get("idInterview");
+        $idInterview = (int)$request->get("id");
 
-            if ($idInterview == null) {
-                $interview = new Interview();
-                $candidatureOffre = (int)$request->get("candidatureOffre");
-                $interview->setCandidatureOffre(
-                    $this->getDoctrine()->getRepository(CandidatureOffre::class)->find($candidatureOffre)
-                );
-            } else {
-                $interview = $this->getDoctrine()->getRepository(Interview::class)->find($idInterview);
-            }
-
-            $difficulte = (int)$request->get("difficulte");
-            $objet = $request->get("objet");
-            $description = $request->get("description");
-
-            $interview
-                ->setDifficulte($difficulte)
-                ->setObjet($objet)
-                ->setDescription($description)
-                ->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
-            try {
-                $manager = $this->getDoctrine()->getManager();
-                $manager->persist($interview);
-                $manager->flush();
-                return new Response(0);
-            } catch (\Exception $e) {
-                return new Response(1);
-            }
-
-        } catch (\Error $e) {
-            return new Response(-1);
-        } catch (\Exception $e) {
-            return new Response(9);
+        if ($idInterview == null) {
+            $interview = new Interview();
+            $idCandidat = (int)$request->get("candidatId");
+            $idOffre = (int)$request->get("offreDeTravailId");
+            $interview->setCandidatureOffre(
+                $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
+                    "candidat" => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
+                    "offreDeTravail" => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffre)
+                ])
+            );
+        } else {
+            $interview = $this->getDoctrine()->getRepository(Interview::class)->find($idInterview);
         }
+
+        $difficulte = (int)$request->get("difficulte");
+        $objet = $request->get("objet");
+        $description = $request->get("description");
+
+        $interview
+            ->setDifficulte($difficulte)
+            ->setObjet($objet)
+            ->setDescription($description)
+            ->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($interview);
+        $manager->flush();
+
+        return new Response("Ajout/Modification effectué");
     }
 
     /**
@@ -123,16 +122,12 @@ class InterviewController extends AbstractController
      */
     public function supprimerInterview(Request $request)
     {
-        try {
-            $idInterview = (int)$request->get("idInterview");
+        $idInterview = (int)$request->get("id");
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->remove($this->getDoctrine()->getRepository(Interview::class)->find($idInterview));
-            $manager->flush();
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($this->getDoctrine()->getRepository(Interview::class)->find($idInterview));
+        $manager->flush();
 
-            return new Response(0);
-        } catch (\Exception $e) {
-            return new Response(-1);
-        }
+        return new Response("Suppression effectué");
     }
 }
