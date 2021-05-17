@@ -7,6 +7,9 @@ use App\Entity\Commentaire;
 use App\Entity\Like;
 use App\Entity\User;
 use App\Form\PublicationType;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,10 +24,12 @@ class PublicationController extends AbstractController
     /**
      * @Route("accueil", name="accueil")
      */
-    public function afficherToutPublication()
+    public function afficherToutPublication(): Response
     {
-        return $this->render('front_end/candidat/publication/afficher_tout.html.twig', [
-            'publications' => $this->getDoctrine()->getRepository(Publication::class)->findAll(),
+        return $this->render('front_end/publication/afficher_tout.html.twig', [
+            'publications' => $this->getDoctrine()->getRepository(Publication::class)->findBy([],[
+                'date' => 'DESC'
+            ]),
             'commentaires' => $this->getDoctrine()->getManager()->getRepository(Commentaire::class)->findAll(),
         ]);
     }
@@ -32,14 +37,14 @@ class PublicationController extends AbstractController
     /**
      * @Route("publication/{idPublication}/afficher", name="afficher_publication")
      */
-    public function afficherPublication($idPublication)
+    public function afficherPublication($idPublication): Response
     {
         $em = $this->getDoctrine()->getManager();
         $publication = $em->getRepository(Publication::class)->find($idPublication);
         $nombreLikesTrue = $em->getRepository(Like::class)->nombreObjets($idPublication);
         $nombreLikes = $em->getRepository(Like::class)->nombreLikes($idPublication);
 
-        return $this->render('front_end/candidat/publication/afficher_tout.html.twig', [
+        return $this->render('front_end/publication/afficher_tout.html.twig', [
             'publication' => $publication,
             'nombreLikesTrue' => $nombreLikesTrue,
             'nombreLikes' => $nombreLikes,
@@ -50,8 +55,9 @@ class PublicationController extends AbstractController
 
     /**
      * @Route("publication/ajouter", name="ajouter_publication")
+     * @throws Exception
      */
-    public function ajouterPublication(Request $request)
+    public function ajouterPublication(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -61,12 +67,13 @@ class PublicationController extends AbstractController
         $publication = new Publication();
 
         $form = $this->createForm(PublicationType::class, $publication)
-            ->add('Ajouter', SubmitType::class)
+            ->add('submit', SubmitType::class)
             ->handleRequest($request);
 
         if ($form->isSubmitted()) {
             $publication = $form->getData();
-            $publication->setCandidat($user->getCandidat());
+            $publication->setUser($user);
+            $publication->setDate(new DateTime('now', new DateTimeZone('Africa/Tunis')));
 
             $publicationRepository = $this->getDoctrine()->getManager();
             $publicationRepository->persist($publication);
@@ -75,16 +82,16 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('accueil');
         }
 
-        return $this->render('front_end/candidat/publication/manipuler.html.twig', [
+        return $this->render('front_end/publication/manipuler.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Ajouter",
+            'manipulation' => "Ajouter une",
         ]);
     }
 
     /**
      * @Route("publication/{idPublication}/modifier", name="modifier_publication")
      */
-    public function modifierPublication(Request $request, $idPublication)
+    public function modifierPublication(Request $request, $idPublication): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -92,7 +99,7 @@ class PublicationController extends AbstractController
         $publication = $publicationRepository->getRepository(Publication::class)->find($idPublication);
 
         $form = $this->createForm(PublicationType::class, $publication);
-        $form->add('Modifier', SubmitType::class);
+        $form->add('submit', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -100,16 +107,16 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('accueil');
         }
 
-        return $this->render('front_end/candidat/publication/manipuler.html.twig', [
+        return $this->render('front_end/publication/manipuler.html.twig', [
             'form' => $form->createView(),
-            'manipulation' => "Modifier",
+            'manipulation' => "Modifier votre",
         ]);
     }
 
     /**
      * @Route("publication/{idPublication}/supprimer", name="supprimer_publication")
      */
-    public function supprimerPublication($idPublication)
+    public function supprimerPublication($idPublication): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -124,7 +131,7 @@ class PublicationController extends AbstractController
      * @Route("publication/rechreche ", name="recherche_publication")
      * @throws ExceptionInterface
      */
-    public function recherchePublication(Request $request, NormalizerInterface $normalizer)
+    public function recherchePublication(Request $request, NormalizerInterface $normalizer): Response
     {
         $recherche = $request->get("valeurRecherche");
         $titre = $this->getDoctrine()->getRepository(Publication::class)->findStudentByTitre($recherche);

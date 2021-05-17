@@ -27,10 +27,9 @@ class MissionType extends AbstractType
             ->add('nombreHeures', IntegerType::class)
             ->add('prixHeure', IntegerType::class)
             ->add('description', TextareaType::class)
-            ->add("question", CollectionType::class, [
-                'entry_type' => QuestionType::class,
-                'entry_options' => ['label' => false],
-            ]);
+            ->add('ville')
+            ->add('longitude')
+            ->add('latitude');
     }
 
     public function configureOptions(OptionsResolver $resolver)

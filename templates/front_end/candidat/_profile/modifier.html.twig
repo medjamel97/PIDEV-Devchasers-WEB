@@ -1,21 +1,21 @@
 {% extends '/front_end/base.html.twig' %}
-
+{% block title %}Khedemti | Profil{% endblock %}
 {% block css %}
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ asset('/frontEnd/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('/front-end/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/materialdesignicons.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/materialdesignicons.min.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/fontawesome.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/fontawesome.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/nice-select.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/nice-select.css') }}"/>
 
     <!-- selectize css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/selectize.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/selectize.css') }}"/>
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/style.css') }}"/>
 {% endblock %}
 {% block content %}
     <script>
@@ -32,129 +32,110 @@
                             </div>
                             <div class="p-4">
                                 {{ form_start(form) }}
-                                {% do form.nom.setRendered() %}
-                                {% do form.prenom.setRendered() %}
-                                {% do form.dateNaissance.setRendered() %}
-                                {% do form.sexe.setRendered() %}
-                                {% do form.tel.setRendered() %}
-                                {% do form.idPhoto.setRendered() %}
-                                {% do form.submit.setRendered() %}
 
                                 <form name="candidat" method="post">
-
-                                    {{ form_errors(form.idPhoto) }}
-                                    <input type="file" id="candidat_idPhoto" name="candidat[idPhoto]">
-
                                     <div class="row">
-                                        {{ form_errors(form.nom) }}
                                         <div class="col-md-6">
+                                            {{ form_errors(form.nom) }}
                                             <div class="form-group position-relative">
-                                                <label for="candidat_nom" class="required">Nom</label>
-                                                <input type="text"
-                                                       id="candidat_nom"
-                                                       name="candidat[nom]"
-                                                       maxlength="255"
-                                                       value="{{ candidat.nom }}"
-                                                       class="form-control"
-                                                       placeholder="">
+                                                {{ form_label(form.nom) }}<span class="text-danger">*</span> :
+                                                {{ form_widget( form.nom, {
+                                                    'attr': {
+                                                        'class': 'form-control',
+                                                        'placeholder': 'Tapez votre nom',
+                                                    }}) }}
                                             </div>
                                         </div>
                                         {{ form_errors(form.prenom) }}
                                         <div class="col-md-6">
                                             <div class="form-group position-relative">
-                                                <label for="candidat_prenom" class="required">Prenom</label>
-                                                <input type="text"
-                                                       id="candidat_prenom"
-                                                       name="candidat[prenom]"
-                                                       maxlength="255"
-                                                       value="{{ candidat.prenom }}"
-                                                       class="form-control"
-                                                       placeholder="">
+                                                {{ form_label(form.prenom) }}
+                                                <span class="text-danger">*</span> :
+                                                {{ form_widget( form.prenom, {
+                                                    'attr': {
+                                                        'class': 'form-control',
+                                                        'placeholder': 'Tapez votre prenom',
+                                                    }}) }}
                                             </div>
                                         </div>
                                         {{ form_errors(form.dateNaissance) }}
                                         <div class="col-md-12">
                                             <div class="form-group mb-0">
                                                 <label for="date-de-naissance" class="required">Date de naissance
-                                                    :</label>
+                                                    <span class="text-danger">*</span> :
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group position-relative">
-                                                <label for="candidat_dateNaissance_day" class="required ml-2"
-                                                       style="color: grey; font-size : 12px">Jour</label>
-                                                <input type="text" id="candidat_dateNaissance_day"
-                                                       name="candidat[dateNaissance][day]"
-                                                       maxlength="255"
-                                                       value="{{ candidat.dateNaissance|date('d') }}"
-                                                       class="form-control"
-                                                       placeholder="">
+                                                <label class="text-muted">Jour :</label>
+                                                {{ form_widget( form.dateNaissance.day, {
+                                                    'attr': {
+                                                        'class': 'form-control'
+                                                    }}) }}
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group position-relative">
-                                                <label for="candidat_dateNaissance_month" class="required ml-2"
-                                                       style="color: grey; font-size : 12px">Mois</label>
-                                                <div class="form-group">
-                                                    <select id="candidat_dateNaissance_month"
-                                                            name="candidat[dateNaissance][month]"
-                                                            class="nice-select rounded w-100">
-                                                        {% set mois=["Janvier","Fevrier","Mars","Avril","May","Juin",
-                                                            "Juillet","Aout","Septembre","Octobre","Novembre","Decembre"] %}
-                                                        {% for i in 1..12 %}
-                                                            <option value="{{ i }}"
-                                                                    {% if i == candidat.dateNaissance|date('m') %}
-                                                                        selected="selected"
-                                                                    {% endif %}
-                                                            >{{ mois[i-1] }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                                <label class="text-muted">Mois :</label>
+                                                {{ form_widget( form.dateNaissance.month, {
+                                                    'attr': {
+                                                        'class': 'form-control'
+                                                    }}) }}
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group position-relative">
-                                                <label for="candidat_dateNaissance_year" class="required ml-2"
-                                                       style="color: grey; font-size : 12px">Année</label>
-                                                <input type="text" id="candidat_dateNaissance_year"
-                                                       name="candidat[dateNaissance][year]"
-                                                       maxlength="255"
-                                                       value="{{ candidat.dateNaissance|date('Y') }}"
-                                                       class="form-control"
-                                                       placeholder="">
+                                                <label class="text-muted">Année :</label>
+                                                {{ form_widget( form.dateNaissance.year, {
+                                                    'attr': {
+                                                        'class': 'form-control'
+                                                    }}) }}
                                             </div>
                                         </div>
                                         {{ form_errors(form.sexe) }}
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="form-group position-relative">
-                                                <label for="candidat_sexe" class="required">Sexe</label>
-                                                <input type="text" id="candidat_sexe"
-                                                       name="candidat[sexe]"
-                                                       maxlength="255"
-                                                       value="{{ candidat.sexe }}"
-                                                       class="form-control"
-                                                       placeholder="">
+                                                {{ form_label(form.sexe) }}
+                                                <span class="text-danger">*</span> :
+                                                {{ form_widget( form.sexe, {
+                                                    'attr': {
+                                                        'class': 'nice-select rounded w-100',
+                                                    }}) }}
                                             </div>
                                         </div>
                                         {{ form_errors(form.tel) }}
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="form-group position-relative">
-                                                <label for="candidat_tel" class="required">Numero tel</label>
-                                                <input type="text" id="candidat_tel"
-                                                       name="candidat[tel]"
-                                                       maxlength="8"
-                                                       value="{{ candidat.tel }}"
-                                                       class="form-control"
-                                                       placeholder="">
+                                                {{ form_label(form.tel) }}
+                                                <span class="text-danger">*</span> :
+                                                {{ form_widget( form.tel, {
+                                                    'attr': {
+                                                        'class': 'form-control',
+                                                        'placeholder': 'Tapez votre numero',
+                                                    }}) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{ form_errors(form.idPhoto) }}
+                                            <div class="form-group position-relative">
+                                                <label>Photo</label><span class="text-danger">*</span> :
+                                                {{ form_row(form.idPhoto, {
+                                                    'attr': {
+                                                        'class': 'btn btn-light w-100',
+                                                    }
+                                                }) }}
                                             </div>
                                         </div>
                                     </div><!--end row-->
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            <button type="submit" id="candidat_submit"
-                                                    class="btn btn-primary"
-                                                    name="candidat[submit]">Modifier
-                                            </button>
+                                        <div class="col-md-3 m-auto">
+                                            {{ form_widget( form.submit, {
+                                                'label' : manipulation,
+                                                'attr': {
+                                                    'placeholder': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+                                                    'class': 'btn btn-primary w-100 m-auto'
+                                                }}) }}
                                         </div><!--end col-->
                                     </div><!--end row-->
                                 </form><!--end form-->
@@ -172,7 +153,7 @@
     </a>
 
     <!-- selectize js -->
-    <script src="frontEnd/js/selectize.min.js"></script>
-    <script src="frontEnd/js/jquery.nice-select.min.js"></script>
-    <script src="frontEnd/js/app.js"></script>
+    <script src="front-end/js/selectize.min.js"></script>
+    <script src="front-end/js/jquery.nice-select.min.js"></script>
+    <script src="front-end/js/app.js"></script>
 {% endblock %}

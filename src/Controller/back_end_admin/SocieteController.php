@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class SocieteController extends AbstractController
 {
@@ -22,7 +22,7 @@ class SocieteController extends AbstractController
      */
     public function afficherToutSociete()
     {
-        return $this->render('admin/societe/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/societe/afficher_tout.html.twig', [
             'societes' => $this->getDoctrine()->getRepository(Societe::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class SocieteController extends AbstractController
                 $entityManager->persist($societe);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/societe');
+                return $this->redirect('/espace_admin/societe');
             }
 
-            return $this->render('/admin/societe/manipuler.html.twig', [
+            return $this->render('/back_end_admin/societe/manipuler.html.twig', [
                 'societe' => $societe,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class SocieteController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(Societe::class)->find($idSociete));
         $entityManager->flush();
 
-        return $this->redirect('/admin/societe');
+        return $this->redirect('/espace_admin/societe');
     }
 }

@@ -1,26 +1,27 @@
 {% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Profil{% endblock %}
 {% block css %}
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ asset('frontEnd/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/materialdesignicons.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/materialdesignicons.min.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/fontawesome.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/fontawesome.css') }}"/>
 
     <!-- selectize css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/selectize.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/selectize.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/nice-select.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/nice-select.css') }}"/>
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/style.css') }}"/>
 {% endblock %}
 
 {% block content %}
     <!-- Start home -->
     <section class="bg-half page-next-level"
-             style="background-image: url({{ asset('/frontEnd/images/BG-entre.jpg') }});">
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-profil.jpg') }})">
         <div class="bg-overlay"></div>
         <div class="container">
             <div class="row justify-content-center">
@@ -29,33 +30,31 @@
                         <img src="{{ asset(candidat.idPhoto) }}"
                              height="150" alt="" class="d-block mx-auto shadow rounded-pill mb-4">
                         <h5 class="text-white mb-2">{{ candidat.prenom }} {{ candidat.nom }}  </h5>
-                        <p class="text-white-50 h6 mb-2"><i class="mdi mdi-bank mr-2"></i>Web Themes.pvt.Ltd</p>
-                        <p class="text-white-50 h6 mb-2">PHP Developer</p>
-                        <ul class="candidates-profile-icons list-inline mb-3">
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="text-warning"><i
-                                            class="mdi mdi-star"></i></a></li>
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="text-warning"><i
-                                            class="mdi mdi-star"></i></a></li>
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="text-warning"><i
-                                            class="mdi mdi-star"></i></a></li>
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="text-warning"><i
-                                            class="mdi mdi-star"></i></a></li>
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="text-warning"><i
-                                            class="mdi mdi-star"></i></a></li>
-                        </ul>
-
-                        <ul class="list-unstyled social-icon social mb-0">
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="rounded"><i
-                                            class="mdi mdi-facebook"></i></a></li>
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="rounded"><i
-                                            class="mdi mdi-twitter"></i></a>
-                            </li>
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="rounded"><i
-                                            class="mdi mdi-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="{{ asset('#') }}" class="rounded"><i
-                                            class="mdi mdi-google-plus"></i></a>
-                            </li>
-                        </ul>
+                        <p class="text-white-50 h6 mb-2">
+                            <i class="mdi mdi-calendar mr-2"></i>
+                            {{ candidat.dateNaissance|date('d/m/Y') }}
+                        </p>
+                        <p class="text-white-50 h6 mb-2">
+                            <i class="mdi mdi-cellphone-iphone mr-2"></i>
+                            {{ candidat.tel }}
+                        </p>
+                        {% if app.user %}
+                            {% if app.user.candidat %}
+                                {% if not(app.user.candidat == candidat) %}
+                                    <a href="{{ asset('messagerie/'~candidat.user.id~'/afficher') }}"
+                                       class="btn btn-light mt-3"><i class="mdi mdi-message-bulleted"></i>&nbsp&nbspContacter
+                                    </a>
+                                {% endif %}
+                            {% elseif app.user.societe %}
+                                <a href="{{ asset('espace_societe/messagerie/'~candidat.user.id~'/afficher') }}"
+                                   class="btn btn-light mt-3"><i class="mdi mdi-message-bulleted"></i>&nbsp&nbspContacter
+                                </a>
+                            {% else %}
+                                <a href="{{ asset('espace_admin/messagerie/'~candidat.user.id~'/afficher') }}"
+                                   class="btn btn-light mt-3"><i class="mdi mdi-message-bulleted"></i>&nbsp&nbspContacter
+                                </a>
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -68,26 +67,27 @@
         <div class="container">
             {% if app.user == candidat.user %}
                 <div class="row text-center">
+                    {#
+                    <div class="col-lg-3 border p-2">
+                        <i class="mdi mdi-checkbook"></i><a class="text-dark" href="#">
+                            Génerer un CV</a>
+                    </div>
+                    #}
                     <div class="col-lg-3 border p-2">
                         <i class="mdi mdi-pencil"></i>
-                        <a class="text-dark" href="{{ asset('candidat/'~candidat.id~'/modifier') }}">Modifier profil</a>
+                        <a class="text-dark" href="{{ asset('candidat/'~candidat.id~'/modifier') }}">Modifier mon
+                            profil</a>
                     </div>
+                    {#
                     <div class="col-lg-3 border p-2">
                         <i class="mdi mdi-email"></i><a class="text-dark" href="#">
-                            Changer email</a>
+                            Changer mon email</a>
                     </div>
                     <div class="col-lg-3 border p-2">
                         <i class="mdi mdi-key-variant"></i><a class="text-dark" href="#">
-                            Changer mot de passe</a>
+                            Changer mon mot de passe</a>
                     </div>
-                    <div class="col-lg-3 border p-2">
-                        <i class="mdi mdi-settings"></i><a class="text-dark" href="#">
-                            Parametres du compte</a>
-                    </div>
-                    <div class="col-lg-3 border p-2">
-                        <i class="mdi mdi-settings"></i><a class="text-dark" href="#">
-                            Génerer un CV</a>
-                    </div>
+                    #}
                 </div>
             {% endif %}
             <div class="row">
@@ -145,7 +145,7 @@
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="company-brand-logo text-center mb-4">
-                                        <img src="{{ asset('frontEnd/images/featured-job/img-2.png') }}" alt=""
+                                        <img src="{{ asset('front-end/images/featured-job/img-2.png') }}" alt=""
                                              class="img-fluid mx-auto d-block">
                                     </div>
                                 </div>
@@ -231,14 +231,14 @@
 {% endblock %}
 {% block js %}
     <!-- javascript -->
-    <script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
+    <script src="{{ asset('front-end/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/plugins.js') }}"></script>
 
     <!-- selectize js -->
-    <script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/selectize.min.js') }}"></script>
 
-    <script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/jquery.nice-select.min.js') }}"></script>
 
-    <script src="{{ asset('frontEnd/js/app.js') }}"></script>
+    <script src="{{ asset('front-end/js/app.js') }}"></script>
 {% endblock %}

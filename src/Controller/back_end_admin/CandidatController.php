@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class CandidatController extends AbstractController
 {
@@ -22,7 +22,7 @@ class CandidatController extends AbstractController
      */
     public function afficherToutCandidat()
     {
-        return $this->render('admin/candidat/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/candidat/afficher_tout.html.twig', [
             'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class CandidatController extends AbstractController
                 $entityManager->persist($candidat);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/candidat');
+                return $this->redirect('/espace_admin/candidat');
             }
 
-            return $this->render('/admin/candidat/manipuler.html.twig', [
+            return $this->render('/back_end_admin/candidat/manipuler.html.twig', [
                 'candidat' => $candidat,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class CandidatController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat));
         $entityManager->flush();
 
-        return $this->redirect('/admin/candidat');
+        return $this->redirect('/espace_admin/candidat');
     }
 }

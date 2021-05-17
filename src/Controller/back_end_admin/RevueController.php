@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class RevueController extends AbstractController
 {
@@ -22,7 +22,7 @@ class RevueController extends AbstractController
      */
     public function afficherToutRevue()
     {
-        return $this->render('admin/revue/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/revue/afficher_tout.html.twig', [
             'revues' => $this->getDoctrine()->getRepository(Revue::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class RevueController extends AbstractController
                 $entityManager->persist($revue);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/revue');
+                return $this->redirect('/espace_admin/revue');
             }
 
-            return $this->render('/admin/revue/manipuler.html.twig', [
+            return $this->render('/back_end_admin/revue/manipuler.html.twig', [
                 'revue' => $revue,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class RevueController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(Revue::class)->find($idRevue));
         $entityManager->flush();
 
-        return $this->redirect('/admin/revue');
+        return $this->redirect('/espace_admin/revue');
     }
 }

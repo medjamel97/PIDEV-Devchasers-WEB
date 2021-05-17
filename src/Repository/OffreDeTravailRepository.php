@@ -62,11 +62,13 @@ class OffreDeTravailRepository extends ServiceEntityRepository
 
         return $query->getOneOrNullResult();
     }
-    public function findOffreByNsc($job){
+
+    public function findOffreByNsc($job)
+    {
         return $this->createQueryBuilder('OffreDeTravail')
-        ->where('OffreDeTravail.job LIKE :job')
-        ->setParameter('job', '%'.$job.'%')
-        ->getQuery()
-        ->getResult();
-        }
+            ->where('OffreDeTravail.job LIKE :job')
+            ->setParameter('job', '%' . $job . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

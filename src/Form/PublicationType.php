@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Publication;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +14,7 @@ class PublicationType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('description');
+            ->add('description', TextareaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

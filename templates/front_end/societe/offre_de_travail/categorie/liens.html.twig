@@ -1,6 +1,7 @@
 {% if categories %}
     {% for categorie in categories %}
-        <li class="text-center"><a href="{{ asset('#') }}">{{ categorie.nom }}</a></li>
+        <li class="text-center"><a
+                    href="{{ asset('offre_de_travail/categorie='~categorie.id) }}">{{ categorie.nom }}</a></li>
     {% endfor %}
 {% else %}
     <li class="text-center">Aucune categorie</li>

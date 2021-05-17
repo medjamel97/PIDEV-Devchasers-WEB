@@ -20,6 +20,16 @@ class CandidatureOffre
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $etat = "non traité";
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $date;
+
+    /**
      * @ORM\OneToMany(targetEntity=Interview::class, mappedBy="candidatureOffre", cascade={"remove"})
      */
     private $interview;
@@ -40,11 +50,6 @@ class CandidatureOffre
      */
     private $offreDeTravail;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $etat;
-
     public function __construct()
     {
         $this->interview = new ArrayCollection();
@@ -54,6 +59,30 @@ class CandidatureOffre
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
     }
 
     /**
@@ -136,18 +165,6 @@ class CandidatureOffre
     public function setOffreDeTravail(?OffreDeTravail $offreDeTravail): self
     {
         $this->offreDeTravail = $offreDeTravail;
-
-        return $this;
-    }
-
-    public function getEtat(): ?string
-    {
-        return $this->etat;
-    }
-
-    public function setEtat(?string $etat): self
-    {
-        $this->etat = $etat;
 
         return $this;
     }

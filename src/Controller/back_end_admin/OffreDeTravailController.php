@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class OffreDeTravailController extends AbstractController
 {
@@ -22,7 +22,7 @@ class OffreDeTravailController extends AbstractController
      */
     public function afficherToutOffreDeTravail()
     {
-        return $this->render('admin/offre_de_travail/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/offre_de_travail/afficher_tout.html.twig', [
             'offreDeTravails' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class OffreDeTravailController extends AbstractController
                 $entityManager->persist($offreDeTravail);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/offre_de_travail');
+                return $this->redirect('/espace_admin/offre_de_travail');
             }
 
-            return $this->render('/admin/offre_de_travail/manipuler.html.twig', [
+            return $this->render('/back_end_admin/offre_de_travail/manipuler.html.twig', [
                 'offreDeTravail' => $offreDeTravail,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class OffreDeTravailController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail));
         $entityManager->flush();
 
-        return $this->redirect('/admin/offre_de_travail');
+        return $this->redirect('/espace_admin/offre_de_travail');
     }
 }

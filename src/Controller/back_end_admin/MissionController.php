@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class MissionController extends AbstractController
 {
@@ -22,7 +22,7 @@ class MissionController extends AbstractController
      */
     public function afficherToutMission()
     {
-        return $this->render('admin/mission/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/mission/afficher_tout.html.twig', [
             'missions' => $this->getDoctrine()->getRepository(Mission::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class MissionController extends AbstractController
                 $entityManager->persist($mission);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/mission');
+                return $this->redirect('/espace_admin/mission');
             }
 
-            return $this->render('/admin/mission/manipuler.html.twig', [
+            return $this->render('/back_end_admin/mission/manipuler.html.twig', [
                 'mission' => $mission,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class MissionController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(Mission::class)->find($idMission));
         $entityManager->flush();
 
-        return $this->redirect('/admin/mission');
+        return $this->redirect('/espace_admin/mission');
     }
 }

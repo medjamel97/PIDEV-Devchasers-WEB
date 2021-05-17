@@ -1,72 +1,266 @@
 {% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Revues{% endblock %}
 {% block css %}
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ asset('/frontEnd/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('/front-end/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/materialdesignicons.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/materialdesignicons.min.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/fontawesome.css') }}"/>
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/nice-select.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/fontawesome.css') }}"/>
 
     <!-- selectize css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/selectize.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/selectize.css') }}"/>
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/frontEnd/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/style.css') }}"/>
+
+    <!-- Review rating css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/rating.css') }}"/>
 {% endblock %}
+{% set hasMessage = false %}
+{% set hasErrorMessage = false %}
 {% block content %}
     <!-- Start home -->
     <section class="bg-half page-next-level"
-             style="background-image: url({{ asset('/frontEnd/images/BG-revue.png') }});">
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-revue.jpg') }})">
         <div class="bg-overlay"></div>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="text-center text-white">
-                        <h4 class="text-uppercase title mb-4">Toutes les revues</h4>
-                        <ul class="page-next d-inline-block mb-0">
-                            <li><a href="{{ asset('/societe') }}" class="text-uppercase font-weight-bold">Societes</a>
-                            </li>
-                            <li><a href="#" class="text-uppercase font-weight-bold">nom societe</a>
-                            </li>
-                            <li><a href="#" class="text-uppercase font-weight-bold">nom offre</a>
-                            </li>
-                            <li><span class="text-uppercase text-white font-weight-bold">Revues</span></li>
-                        </ul>
+                        {% if societe %}
+                            <p class="display-4 text-uppercase title mb-4">Revues</p>
+                            <ul class="page-next d-inline-block mb-0">
+                                <li><a href="{{ asset('/societe') }}"
+                                       class="text-uppercase font-weight-bold">Societes</a>
+                                </li>
+                                <li><a href="{{ asset('/societe/'~societe.id~'/afficher') }}"
+                                       class="text-uppercase font-weight-bold">{{ societe.nom }}</a>
+                                </li>
+                                <li><span class="text-uppercase text-white font-weight-bold">Revues</span></li>
+                            </ul>
+                        {% endif %}
+                        {% if offreDeTravail %}
+                            <p class="display-4 text-uppercase title mb-4">Revues</p>
+                            <ul class="page-next d-inline-block mb-0">
+                                <li><a href="{{ asset('/societe') }}"
+                                       class="text-uppercase font-weight-bold">Societes</a>
+                                </li>
+                                <li><a href="{{ asset('/offre_de_travail') }}"
+                                       class="text-uppercase font-weight-bold">Offres</a>
+                                </li>
+                                <li><a href="{{ asset('/offre_de_travail/'~offreDeTravail.societe.id) }}"
+                                       class="text-uppercase font-weight-bold">{{ offreDeTravail.societe.nom }}</a>
+                                </li>
+                                <li><span class="text-uppercase text-white font-weight-bold">Revues</span></li>
+                            </ul>
+                        {% endif %}
+                        {% if (not offreDeTravail) and (not societe) %}
+                            <p class="display-4 text-uppercase title mb-4">Revues</p>
+                            <ul class="page-next d-inline-block mb-0">
+                                <li><a href="{{ asset('/societe') }}"
+                                       class="text-uppercase font-weight-bold">Societes</a>
+                                </li>
+                                <li><a href="{{ asset('/offre_de_travail') }}"
+                                       class="text-uppercase font-weight-bold">Offres</a>
+                                </li>
+                                <li><span class="text-uppercase text-white font-weight-bold">Revues</span></li>
+                            </ul>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- end home -->
-    <!-- CANDIDATES LISTING START -->
-    <section class="section pt-4">
+    <section class="bg-light">
+        <div class="container">
+            <div class="home-form-position ">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="home-registration-form job-list-reg-form bg-white shadow-lg p-4 mb-3">
+                            <form class="registration-form">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-6">
+                                        <div class="registration-form-box">
+                                            <i class="mdi mdi-magnify"></i>
+                                            <input type="text" id="recherche"
+                                                   class="form-control rounded registration-input-box"
+                                                   placeholder="Recherche une revue par societe ...">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contenaire-revues-for-search" class="section pt-4 bg-light">
+        <div class="container">
+            <div class="col-md-12 mt-3">
+                <div id="contenu-revues-recherche" class="candidates-listing-item">
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contenaire-revues" class="section pt-4 bg-light">
+        <div class="section py-3  bg-light">
+            <div class="text-center my-5">
+                {% for message in app.flashes('success') %}
+                    {% set hasMessage = true %}
+                    <div id="flash-message" class="col-md-3 my-5 mx-auto position-sticky">
+                        <div class="alert bg-success rounded text-center text-white">
+                            {{ message }}
+                            <a onclick="$('#flash-message').remove()" class="btn btn-sm btn-light ml-3">
+                                OK
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    {% set hasErrorMessage = true %}
+                    <div id="flash-message-error" class="col-md-3 my-5 mx-auto position-sticky">
+                        <div class="alert bg-danger rounded text-center text-white">
+                            {{ message }}
+                            <a onclick="$('#flash-message-error').remove()" class="btn btn-sm btn-light ml-3">
+                                OK
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if offreDeTravail %}
+                    {% if form %}
+                        {% set revue = null %}
+                        {% set manipulation = "Publier une nouvelle revue" %}
+                        <div class="faq-content">
+                            <div class="card accordion container border rounded bg-white shadow-lg"
+                                 id="accordionExample">
+                                <a data-toggle="collapse" href="#collapseOne" class="faq position-relative collapsed"
+                                   aria-expanded="false" aria-controls="collapseOne">
+                                    <div class=" p-3" id="headingOne">
+                                        <p class="h3 font-weight-lighter">
+                                            Publier une nouvelle revue sur l'offre {{ offreDeTravail.nom }}
+                                            de la societe {{ offreDeTravail.societe.nom }}
+                                        </p>
+                                    </div>
+                                </a>
+                                <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                     data-parent="#accordionExample">
+                                    <div class="card-body border-top ">
+                                        {% include'/front_end/societe/offre_de_travail/revue/modele_manipuler.html.twig' %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% if app.user %}
+                            {% if app.user.candidat %}
+                                <div class="row justify-content-center">
+                                    <p class="col-md-5 h2 font-weight-lighter">
+                                        Pour publier une revue vous devez avoir candidaté a cette offre
+                                    </p>
+                                    <div class="col-md-2">
+                                        <a href="{{ asset('offre_de_travail/'~offreDeTravail.id~'/afficher') }}"
+                                           class="font-weight-lighter btn btn-primary my-3">
+                                            Afficher l'offre
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="row justify-content-center">
+                                <p class="col-md-6 h2 font-weight-lighter">
+                                    Pour publier une revue vous devez vous connecter
+                                </p>
+                                <a href="{{ asset('connexion') }}"
+                                   class="col-md-2 h2 font-weight-lighter btn btn-primary">
+                                    Connexion
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    {% if app.user %}
+                        {% if app.user.candidat %}
+                            <div class="row justify-content-center">
+                                <p class="col-md-6 h2 font-weight-lighter">
+                                    Pour publier une revue vous devez choisir une offre
+                                </p>
+                                <a href="{{ asset('offre_de_travail') }}"
+                                   class="col-md-2 h2 font-weight-lighter btn btn-primary">
+                                    Afficher toutes les offres
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="row justify-content-center">
+                            <p class="col-md-6 h2 font-weight-lighter">
+                                Pour publier une revue vous devez vous connecter
+                            </p>
+                            <a href="{{ asset('connexion') }}"
+                               class="col-md-2 h2 font-weight-lighter btn btn-primary">
+                                Connexion
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <div class="show-results">
-                        <div class="float-left">
-                            <h5 class="text-dark mb-0 pt-2"> Affichage des revues :</h5>
+                        <div id="labels-to-hide" class="float-left">
+                            <div class="ml-5 pt-2">
+                                <div class="h3 text-dark">
+                                    {% if societe %}
+                                        <p class="font-weight-lighter">Revues sur la societe {{ societe.nom }} :</p>
+                                    {% elseif offreDeTravail %}
+                                        <p class="font-weight-lighter">Revues sur l'offre
+                                            <a href="{{ asset('offre_de_travail/'~offreDeTravail.id~'/afficher') }}"
+                                               class="text-primary">{{ offreDeTravail.nom }}
+                                            </a>
+                                            de la societe
+                                            <a href="{{ asset('societe/'~offreDeTravail.societe.id~'/afficher') }}"
+                                               class="text-primary">{{ offreDeTravail.societe.nom }}
+                                            </a>
+                                            :
+                                        </p>
+                                    {% else %}
+                                        <p class="font-weight-lighter">Toutes les revues :</p>
+                                    {% endif %}
+                                </div>
+                                <div class="h4 text-dark">
+                                    <p id class="font-weight-light">
+                                        {% if revues|length > 0 %}
+                                            {% if revues|length == totalRevues %}
+                                                {% if totalRevues == 1 %}
+                                                    Affichage d'une revue en total :
+                                                {% else %}
+                                                    Affichage de {{ totalRevues }} revues en total :
+                                                {% endif %}
+                                            {% else %}
+                                                Affichage de {{ revues|length }} de {{ totalRevues }} revues en total :
+                                            {% endif %}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                         <div class="sort-button text-center float-sm-right">
                             <ul class="list-unstyled mb-0">
-                                <li class="list-inline-item mb-0 mr-3">
-                                    <select class="nice-select">
-                                        <option data-display="Sort By">Nothing</option>
-                                        <option value="1">Web Developer</option>
-                                        <option value="2">PHP Developer</option>
-                                        <option value="3">Web Designer</option>
-                                    </select>
-                                </li>
-
-                                <li class="list-inline-item">
-                                    <select class="nice-select">
-                                        <option data-display="Default">Nothing</option>
-                                        <option value="1">Web Developer</option>
-                                        <option value="2">PHP Developer</option>
-                                        <option value="3">Web Designer</option>
+                                <li class="list-inline-item mb-0 mr-5 shadow-sm">
+                                    <select id="tri-select" class="p-2">
+                                        <option value="" disabled selected>Trier par note</option>
+                                        <option value="0">Afficher tout</option>
+                                        <option value="1">⭐ 1 etoile</option>
+                                        <option value="2">⭐ 2 etoiles</option>
+                                        <option value="3">⭐ 3 etoiles</option>
+                                        <option value="4">⭐ 4 etoiles</option>
+                                        <option value="5">⭐ 5 etoiles</option>
                                     </select>
                                 </li>
                             </ul>
@@ -74,129 +268,372 @@
                     </div>
                 </div>
             </div>
-
-            <div class="">
-                <div class="col-md-10">
-                    <div class="candidates-listing-item">
-                        <!-- Single review Start-->
+            <div class="col-md-12 mt-3">
+                <div id="revues-container" class="candidates-listing-item">
+                    {% if revues|length > 0 %}
                         {% for revue in revues %}
-                            <div class="border mt-3 rounded p-3">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="candidates-list-fav-btn text-left">
-                                            <a href="#">
-                                                <div class="candidates-listing-btn overflow-hidden">
-                                                    <div class="text-dark mb-2">
-                                                        <h6>{{ revue.candidatureOffre.candidat.prenom }}</h6>
-                                                        <h6>{{ revue.candidatureOffre.candidat.nom }}</h6>
-                                                    </div>
-                                                    <img src="{{ revue.candidatureOffre.candidat.idPhoto }}"
-                                                         alt="" class="d-block rounded" height="90">
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="candidates-list-desc overflow-hidden job-single-meta  pt-2">
-                                            <h5 class="mb-2 text-dark">{{ revue.objet }}</h5>
-                                            <div style="font-size: 20px;">
-                                                {% for i in 0..4 %}
-                                                    {% if revue.nbetoiles > i %}
-                                                        <a class="mdi mdi-star"
-                                                           style=" -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #ffc700 ;"></a>
-                                                    {% else %}
-                                                        <a class="mdi mdi-star"
-                                                           style=" -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #FFFFFF ;"></a>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </div>
-                                            <ul class="list-unstyled">
-                                                <li class="text-dark">
-                                                    <i class="mdi mdi-office-building mr-1"></i>
-                                                    Societe :
-                                                    <a href="{{ asset('/societe='~revue.candidatureOffre.offreDeTravail.societe.id) }}">
-                                                        {{ revue.candidatureOffre.offreDeTravail.societe.nom }}</a>
-                                                </li>
-                                                <li class="text-dark">
-                                                    <i class="mdi mdi-briefcase mr-1"></i>
-                                                    Offre :
-                                                    <a href="{{ asset('/societe='~revue.candidatureOffre.offreDeTravail.societe.id~'/offreDeTravail') }}">
-                                                        {{ revue.candidatureOffre.offreDeTravail.description }}</a>
-                                                </li>
-                                                <li class="text-muted">
-                                                    <i class="mdi mdi-currency-usd mr-1"></i>
-                                                    $700 - $900/month
-                                                </li>
-                                            </ul>
-                                            <div class="text-break">
-                                                <p>{{ revue.description }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="candidates-list-fav-btn text-right">
-                                            <div class="fav-icon">
-                                                <i class="mdi mdi-heart"></i>
-                                            </div>
-                                            {% if app.user %}
-                                                {% if revue.candidatureOffre.candidat.user.email == app.user.email %}
-                                                    <div class="candidates-listing-btn mt-2">
-                                                        <a href="{{ asset('revue/'~revue.id~'/modifier') }}"
-                                                           class="btn btn-primary-outline btn-sm mt-1">Modifier
-                                                            revue</a>
-                                                        <a href="{{ asset('revue/'~revue.id~'/supprimer') }}"
-                                                           class="btn btn-primary-outline btn-sm mt-1">Supprimer
-                                                            revue</a>
-                                                    </div>
-                                                {% endif %}
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% include '/front_end/societe/offre_de_travail/revue/modele_revue.html.twig' %}
                         {% endfor %}
-                        <!-- Single review END-->
-                        {% if false %}
-                            <!-- Pagination START-->
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination job-pagination justify-content-center mb-0 mt-4 pt-2">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="{{ asset('#') }}" aria-disabled="true">
-                                            <i class="mdi mdi-chevron-double-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active">
-                                    <li class="page-item">
-                                        <a class="page-link"
-                                           href="{{ asset('#') }}"</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="{{ asset('#') }}">
-                                            <i class="mdi mdi-chevron-double-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!-- Pagination END -->
-                        {% endif %}
-                    </div>
+                        <div class="mt-5">
+                            {{ knp_pagination_render(revues, '/front_end/template_pagination.html.twig') }}
+                        </div>
+                    {% else %}
+                        <div class="text-center mt-5">
+                            <p class="h2 font-weight-lighter">Aucune revue</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div id="revues-container-sort" class="candidates-listing-item">
                 </div>
             </div>
         </div>
     </section>
     <!-- REVIEWS LISTING END -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let release = null;
 
-{% endblock %}
-{% block js %}
-    <!-- javascript -->
-    <script src="{{ asset('/frontEnd/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('/frontEnd/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('/frontEnd/js/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('/frontEnd/js/plugins.js') }}"></script>
+        let revuesContainer = $('#revues-container');
+        let labelsToHide = $('#labels-to-hide');
+        let revuesContainerSort = $('#revues-container-sort');
+        let triSelect = $('#tri-select');
 
-    <!-- selectize js -->
-    <script src="{{ asset('/frontEnd/js/selectize.min.js') }}"></script>
+        revuesContainerSort.show().empty().append(
+            "<div class='content justify-content-center' style='display: flex'>" +
+            "   <img class='m-auto' src='{{ asset('/front-end/images/loading-icon.gif') }}'" +
+            "       alt='loading' height='100' width='100'>" +
+            "</div>"
+        );
 
-    <script src="{{ asset('/frontEnd/js/jquery.nice-select.min.js') }}"></script>
-    <script src="{{ asset('/frontEnd/js/app.js') }}"></script>
+        revuesContainerSort.hide();
+
+        $('document').ready(function () {
+            triSelect.on('change', function () {
+                if (triSelect.val() !== "0") {
+                    revuesContainer.hide();
+                    labelsToHide.hide();
+                    revuesContainerSort.show().empty().append(
+                        "<div class='content justify-content-center' style='display: flex'>" +
+                        "   <img class='m-auto' src='{{ asset('/front-end/images/loading-icon.gif') }}'" +
+                        "       alt='loading' height='100' width='100'>" +
+                        "</div>"
+                    );
+                    $.ajax({
+                        type: 'GET',
+                        url: "/revue/recherche_par_nb_etoiles",
+                        data: {
+                            {% if societe %}
+                            'societeId': {{ societe.id }},
+                            {% elseif offreDeTravail %}
+                            'offreDeTravailId': {{ offreDeTravail.id }},
+                            {% else %}
+                            {% endif %}
+                            'valeurRecherche': $('#tri-select').val()
+                        },
+                        success: function (retour) {
+                            revuesContainerSort.show().empty();
+                            if (retour) {
+                                $.each(JSON.parse(retour), function (i, obj) {
+                                        revuesContainerSort.append(
+                                            "<div class='border rounded bg-white shadow-lg m-4 p-3'>" +
+                                            "    <div id='main-container" + obj.id + "' class='row'>" +
+                                            "        <div class='col-md-2 border-right'>" +
+                                            "            <div class='candidates-list-fav-btn'>" +
+                                            "                <div class='candidates-listing-btn overflow-hidden'>" +
+                                            "                    <div class='text-dark m-auto text-center'>" +
+                                            "                        <h6>" + obj.nomCandidat + "</h6>" +
+                                            "                        <h6>" + obj.prenomCandidat + "</h6>" +
+                                            "                    </div>" +
+                                            "                </div>" +
+                                            "                <img src='" + obj.idPhotoCandidat + "'" +
+                                            "                     alt='' class='d-block rounded m-auto' height='90'>" +
+                                            "                <a href='candidat/" + obj.idCandidat + "/profil'" +
+                                            "                   class='btn btn-primary-outline w-100 mt-4'>" +
+                                            "                    Consulter" +
+                                            "                </a>" +
+                                            "            </div>" +
+                                            "        </div>" +
+                                            "        <div class='col-md-10'>" +
+                                            "            <div class='candidates-list-desc overflow-hidden job-single-meta ml-3 pt-2'>" +
+                                            "                <ul class='list-unstyled'>" +
+                                            "                    <li class='float-right' id='contenaire-droite-col2-" + obj.id + "'>" +
+                                            "                       <p class='alert-primary py-1 px-2 rounded shadow'>" +
+                                            obj.dateCreation +
+                                            "                       </p>" +
+                                            "                    </li>" +
+                                            "                    <li class='text-dark'>" +
+                                            "                        <i class='mdi mdi-office-building mr-1'></i>" +
+                                            "                        Societe :" +
+                                            "                        <a href='societe/" + obj.idSociete + "/afficher'" +
+                                            "                           class='text-primary'>" +
+                                            "                            " + obj.nomSociete +
+                                            "                        </a>" +
+                                            "                    </li>" +
+                                            "                    <li class='text-dark'>" +
+                                            "                        <i class='mdi mdi-briefcase mr-1'></i>" +
+                                            "                        Offre :" +
+                                            "                        <a href='offre_de_travail/" + obj.idSociete + "/afficher'" +
+                                            "                           class='text-primary'>" +
+                                            "                            " + obj.nomOffre +
+                                            "                        </a>" +
+                                            "                    </li>" +
+                                            "                    <li class='text-muted'>" +
+                                            "                        <i class='mdi mdi-cash-100 mr-1'></i>" +
+                                            "                        " + obj.salaire +
+                                            "                    </li>" +
+                                            "                </ul>" +
+                                            "                <div id='contenaire-etoiles-" + obj.id + "' style='font-size: 20px;'>" +
+                                            "                </div>" +
+                                            "                <h5 class='mb-2 text-dark'>" + obj.objet + "</h5>" +
+                                            "                <div id='contenaire-description-" + obj.id + "' class='text-break'>" +
+                                            "                </div>" +
+                                            "            </div>" +
+                                            "        </div>" +
+                                            "    </div>" +
+                                            "</div>"
+                                        );
+                                        for (i = 0; i < 5; i++) {
+                                            if (obj.nbEtoiles > i) {
+                                                $("#contenaire-etoiles-" + obj.id).append(
+                                                    "<a class='mdi mdi-star'" +
+                                                    "   style=' -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #ffc700 ;'>" +
+                                                    "</a>"
+                                                );
+                                            } else {
+                                                $("#contenaire-etoiles-" + obj.id).append(
+                                                    "<a class='mdi mdi-star'" +
+                                                    "   style=' -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #FFFFFF ;'>" +
+                                                    "</a>"
+                                                );
+                                            }
+                                        }
+                                        $("#contenaire-description-" + obj.id).append(
+                                            "<p>" + obj.description + "</p>"
+                                        );
+                                        if (obj.isProperty) {
+                                            $("#contenaire-droite-col2-" + obj.id).append(
+                                                "<div class='candidates-listing-btn float-right'>" +
+                                                "   <a href='revue/" + obj.id + "/modifier'" +
+                                                "       class='btn btn-primary-outline mr-2 px-3'>" +
+                                                "       <i class='mdi mdi-pencil'></i>" +
+                                                "   </a>" +
+                                                "   <a href='revue/" + obj.id + "/supprimer'" +
+                                                "       class='btn btn-primary-outline mr-2 px-3'>" +
+                                                "       <i class='mdi mdi-trash-can'></i>" +
+                                                "   </a>" +
+                                                "</div>"
+                                            );
+                                        } else {
+                                            if (obj.isAdmin) {
+                                                $("#contenaire-droite-col2-" + obj.id).append(
+                                                    "<a href='revue/" + obj.id + "/supprimer'" +
+                                                    "   class='btn btn-primary-outline mr-2 px-3 float-right'>" +
+                                                    "   <i class='mdi mdi-trash-can'></i>" +
+                                                    "</a>"
+                                                );
+                                            }
+                                        }
+                                    }
+                                )
+                            } else {
+                                revuesContainerSort.append(
+                                    "   <div class='section py-3'>" +
+                                    "       <div class='text-center my-5'>" +
+                                    "           <p class='font-weight-light'>Aucun resultat</p>" +
+                                    "       </div>" +
+                                    "   </div>" +
+                                    "<div style='height: 500px' class='bg-light'></div>"
+                                );
+                            }
+                        }
+                    });
+                } else {
+                    labelsToHide.show()
+                    revuesContainer.show();
+                    revuesContainerSort.empty().hide();
+                }
+            });
+
+        });
+
+        $("#contenaire-revues-for-search").hide();
+        $("#recherche").keyup(function (e) {
+            $("#contenaire-revues").hide();
+            $("#contenaire-revues-for-search").show();
+            $("#contenu-revues-recherche").empty().append(
+                "<div class='content justify-content-center' style='display: flex'>" +
+                "   <img class='m-auto' src='/front-end/images/loading-icon.gif'" +
+                "       alt='loading' height='100' width='100'>" +
+                "</div>"
+            );
+            clearInterval(release);
+            release = setInterval(function () {
+                let value = $("#recherche").val();
+                if (value !== "") {
+                    $.ajax({
+                        type: 'GET',
+                        url: "/revue/recherche_par_societe",
+                        data: {
+                            'valeurRecherche': value
+                        },
+                        success: function (retour) {
+                            if (retour) {
+                                $("#contenaire-revues-for-search").show();
+                                $("#contenu-revues-recherche").empty()
+                                $.each(JSON.parse(retour), function (i, obj) {
+                                        $("#contenu-revues-recherche").append(
+                                            "<div class='border rounded bg-white shadow-lg m-4 p-3'>" +
+                                            "    <div id='main-container" + obj.id + "' class='row'>" +
+                                            "        <div class='col-md-2 border-right'>" +
+                                            "            <div class='candidates-list-fav-btn'>" +
+                                            "                <div class='candidates-listing-btn overflow-hidden'>" +
+                                            "                    <div class='text-dark m-auto text-center'>" +
+                                            "                        <h6>" + obj.nomCandidat + "</h6>" +
+                                            "                        <h6>" + obj.prenomCandidat + "</h6>" +
+                                            "                    </div>" +
+                                            "                </div>" +
+                                            "                <img src='" + obj.idPhotoCandidat + "'" +
+                                            "                     alt='' class='d-block rounded m-auto' height='90'>" +
+                                            "                <a href='candidat/" + obj.idCandidat + "/profil'" +
+                                            "                   class='btn btn-primary-outline w-100 mt-4'>" +
+                                            "                    Consulter" +
+                                            "                </a>" +
+                                            "            </div>" +
+                                            "        </div>" +
+                                            "        <div class='col-md-10'>" +
+                                            "            <div class='candidates-list-desc overflow-hidden job-single-meta ml-3 pt-2'>" +
+                                            "                <ul class='list-unstyled'>" +
+                                            "                    <li class='float-right' id='contenaire-droite-col2-" + obj.id + "'>" +
+                                            "                       <p class='alert-primary py-1 px-2 rounded shadow'>" +
+                                            obj.dateCreation +
+                                            "                       </p>" +
+                                            "                    </li>" +
+                                            "                    <li class='text-dark'>" +
+                                            "                        <i class='mdi mdi-office-building mr-1'></i>" +
+                                            "                        Societe :" +
+                                            "                        <a href='societe/" + obj.idSociete + "/afficher'" +
+                                            "                           class='text-primary'>" +
+                                            "                            " + obj.nomSociete +
+                                            "                        </a>" +
+                                            "                    </li>" +
+                                            "                    <li class='text-dark'>" +
+                                            "                        <i class='mdi mdi-briefcase mr-1'></i>" +
+                                            "                        Offre :" +
+                                            "                        <a href='offre_de_travail/" + obj.idSociete + "/afficher'" +
+                                            "                           class='text-primary'>" +
+                                            "                            " + obj.nomOffre +
+                                            "                        </a>" +
+                                            "                    </li>" +
+                                            "                    <li class='text-muted'>" +
+                                            "                        <i class='mdi mdi-cash-100 mr-1'></i>" +
+                                            "                        " + obj.salaire +
+                                            "                    </li>" +
+                                            "                </ul>" +
+                                            "                <div id='contenaire-etoiles-" + obj.id + "' style='font-size: 20px;'>" +
+                                            "                </div>" +
+                                            "                <h5 class='mb-2 text-dark'>" + obj.objet + "</h5>" +
+                                            "                <div id='contenaire-description-" + obj.id + "' class='text-break'>" +
+                                            "                </div>" +
+                                            "            </div>" +
+                                            "        </div>" +
+                                            "    </div>" +
+                                            "</div>"
+                                        );
+                                        for (i = 0; i < 5; i++) {
+                                            if (obj.nbEtoiles > i) {
+                                                $("#contenaire-etoiles-" + obj.id).append(
+                                                    "<a class='mdi mdi-star'" +
+                                                    "   style=' -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #ffc700 ;'>" +
+                                                    "</a>"
+                                                );
+                                            } else {
+                                                $("#contenaire-etoiles-" + obj.id).append(
+                                                    "<a class='mdi mdi-star'" +
+                                                    "   style=' -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #FFFFFF ;'>" +
+                                                    "</a>"
+                                                );
+                                            }
+                                        }
+                                        $("#contenaire-description-" + obj.id).append(
+                                            "<p>" + obj.description + "</p>"
+                                        );
+                                        if (obj.isProperty) {
+                                            $("#contenaire-droite-col2-" + obj.id).append(
+                                                "<div class='candidates-listing-btn float-right'>" +
+                                                "   <a href='revue/" + obj.id + "/modifier'" +
+                                                "       class='btn btn-primary-outline mr-2 px-3'>" +
+                                                "       <i class='mdi mdi-pencil'></i>" +
+                                                "   </a>" +
+                                                "   <a href='revue/" + obj.id + "/supprimer'" +
+                                                "       class='btn btn-primary-outline mr-2 px-3'>" +
+                                                "       <i class='mdi mdi-trash-can'></i>" +
+                                                "   </a>" +
+                                                "</div>"
+                                            );
+                                        } else {
+                                            if (obj.isAdmin) {
+                                                $("#contenaire-droite-col2-" + obj.id).append(
+                                                    "<a href='revue/" + obj.id + "/supprimer'" +
+                                                    "   class='btn btn-primary-outline mr-2 px-3 float-right'>" +
+                                                    "   <i class='mdi mdi-trash-can'></i>" +
+                                                    "</a>"
+                                                );
+                                            }
+                                        }
+                                    }
+                                )
+                            } else {
+                                $("#contenaire-revues-for-search").show();
+                                $("#contenu-revues-recherche").empty().append(
+                                    "   <div class='section py-3'>" +
+                                    "       <div class='text-center my-5'>" +
+                                    "           <p class='font-weight-light'>Aucun resultat</p>" +
+                                    "       </div>" +
+                                    "   </div>"
+                                );
+                            }
+                        }
+                    });
+                } else {
+                    $("#contenu-revues-recherche").empty();
+                    $("#contenaire-revues-for-search").hide();
+                    $("#contenaire-revues").show();
+                }
+                clearInterval(release)
+            }, 500);
+            return false;
+        });
+
+        {% if not hasErrorMessage and not hasMessage %}
+        {% if revueId != "" %}
+        $(window).on('load', function () {
+            let element = $("#revue-{{ revueId }}");
+            $('html, body').animate({
+                scrollTop: element.offset().top - parseInt(element.css('margin-top'), 10) - element.outerHeight()
+            }, 2000);
+        });
+        {% endif %}
+        {% endif %}
+
+        {% if hasMessage and not hasErrorMessage %}
+        $(window).on('load', function () {
+            let element = $('#flash-message')
+            $('html, body').animate({
+                scrollTop: element.offset().top - 350
+            }, 1000);
+        });
+        {% endif %}
+
+
+
+        {% if hasErrorMessage %}
+        $(window).on('load', function () {
+            let element = $('#flash-message-error')
+            $('html, body').animate({
+                scrollTop: element.offset().top - 350
+            }, 1000);
+        });
+        {% endif %}
+
+    </script>
 {% endblock %}

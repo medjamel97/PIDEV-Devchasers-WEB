@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class InterviewController extends AbstractController
 {
@@ -22,7 +22,7 @@ class InterviewController extends AbstractController
      */
     public function afficherToutInterview()
     {
-        return $this->render('admin/interview/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/interview/afficher_tout.html.twig', [
             'interviews' => $this->getDoctrine()->getRepository(Interview::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class InterviewController extends AbstractController
                 $entityManager->persist($interview);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/interview');
+                return $this->redirect('/espace_admin/interview');
             }
 
-            return $this->render('/admin/interview/manipuler.html.twig', [
+            return $this->render('/back_end_admin/interview/manipuler.html.twig', [
                 'interview' => $interview,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class InterviewController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(Interview::class)->find($idInterview));
         $entityManager->flush();
 
-        return $this->redirect('/admin/interview');
+        return $this->redirect('/espace_admin/interview');
     }
 }

@@ -45,6 +45,11 @@ class OffreDeTravail
     private $description;
 
     /**
+     * @ORM\Column(type="string", length=255 , nullable=true)
+     */
+    private $salaire;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="offreDeTravail")
      * @ORM\JoinColumn(name="categorie_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -154,6 +159,18 @@ class OffreDeTravail
                 $candidatureOffre->setOffreDeTravail(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSalaire(): ?string
+    {
+        return $this->salaire;
+    }
+
+    public function setSalaire(string $salaire): self
+    {
+        $this->salaire = $salaire;
 
         return $this;
     }

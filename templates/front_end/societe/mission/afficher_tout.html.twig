@@ -1,158 +1,114 @@
 {% extends '/front_end/base.html.twig' %}
 {% block content %}
-    <section class="bg-home"
-             style="background: url({{ asset('/frontEnd/images/BG-Missions.jpg') }}) center center;">
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-missions.jpg') }})">
         <div class="bg-overlay"></div>
-        <div class="home-center">
-            <div class="home-desc-center">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div class="title-heading text-center text-white">
-                                <h1 class="heading font-weight-bold mb-4">Missions</h1>
-                                <div class="row home-registration-form p-4 mb-3">
-                                    <div class="mx-auto" style="width: 500px;">
-                                        <div class="registration-form-box">
-                                            <i class="fa fa-briefcase"></i>
-                                            <input type="text" id="search"
-                                                   class="form-control rounded registration-input-box"
-                                                   placeholder="Job keybords...">
-                                        </div>
-                                    </div>
-                                    <div class="mx-auto" style="width: 150px;">
-                                        <div class="registration-form-box">
-                                            <input type="button" id="submit" name="send"
-                                                   class="submitBnt btn btn-primary btn-block"
-                                                   value="recherche">
-                                        </div>
-                                    </div>
-                                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-                                    <script>
-                                        $("#submit").click(function () {
-                                            var value = $("#search").val();
-                                            console.log(value);
-                                            $.ajax({
-                                                    type: 'GET',
-                                                    url: 'missionsearch',
-                                                    data: {'valeurRecherche': value},
-                                                    success: function (retour) {
-                                                        if (retour) {
-                                                            $.each(JSON.parse(retour), function (i, obj) {
-                                                                console.log(obj.description);
-                                                                console.log(obj.nom);
-                                                                var soc = obj.societe;
-                                                                console.log(soc);
-                                                                $('#body1').hide();
-                                                                $('#body2').append(" <div class=\"col-lg-4 col-md-6 mt-4 pt-2\">" +
-                                                                    "<div class=\"blog position-relative overflow-hidden shadow rounded\">" +
-                                                                    "<div class=\"position-relative overflow-hidden\">" +
-                                                                    "<img src=\"{{ asset('/frontEnd/images/how-it-work/img-1.png') }}\" class=\"img-fluid rounded-top mx-auto d-block\"  height=\"50\">" +
-                                                                    " <div class=\"overlay rounded-top bg-dark\"></div>" +
-                                                                    "<div class=\"likes\">" +
-                                                                    "<ul class=\"list-unstyled mb-0\">" +
-                                                                    " <li class=\"list-inline-item mr-2\"><a href=\"condidatureMission/" + obj.id + "\" class=\"text-white like\"><i class=\"mdi mdi-heart-outline mr-1\"></i>33</a></li>" +
-                                                                    " <li class=\"list-inline-item\"><a href=\"condidatureMission/" + obj.id + "\" class=\"text-white comments\"><i class=\"mdi mdi-comment-outline mr-1\"></i>08</a></li>" +
-                                                                    " </ul>" +
-                                                                    " </div>" +
-                                                                    "</div>" +
-                                                                    "<div class=\"content p-4\">" +
-                                                                    "<h4><a href=\"condidatureMission/" + obj.id + "\" class=\"title text-dark\">" +
-
-                                                                    obj.nom +
-                                                                    " </a></h4>" +
-                                                                    "<p class=\"text-muted\"> " +
-                                                                    obj.description +
-                                                                    "</p>" +
-                                                                    "<a href=\"condidatureMission/" + obj.id + "\" class=\"text-dark readmore\">Read more <i class=\"mdi mdi-chevron-right\"></i></a>" +
-                                                                    "</div>" +
-                                                                    " <div class=\"author\">" +
-                                                                    "<p class=\" mb-0\"><i class=\"mdi mdi-account text-light\"></i> <a href=\"condidatureMission/" + obj.id + "\" class=\"text-light user\">" + soc.nom + "</a></p>" +
-                                                                    " <p class=\"text-light mb-0 date\"><i class=\"mdi mdi-calendar-check\"></i> " +
-                                                                    obj.date +
-                                                                    "</p>" +
-                                                                    "</div>" +
-                                                                    "</div>" +
-                                                                    "</div>");
-                                                            });
-                                                        }
-                                                    },
-                                                }
-                                            );
-                                        })
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <h4 class="display-4 text-uppercase mb-4">Missions</h4>
+                        <ul class="page-next d-inline-block mb-5">
+                            <li>
+                                <a href="{{ asset('accueil') }}" class="text-uppercase font-weight-bold">Accueil</a>
+                            </li>
+                            <li>
+                                <a href="{{ asset('societe') }}" class="text-uppercase font-weight-bold">Societes</a>
+                            </li>
+                            <li>
+                                <span class="text-uppercase text-white font-weight-bold">Missions</span>
+                            </li>
+                        </ul>
+                        <p class="text-light para-desc mx-auto mb-1">
+                            Quel est le but des missions? c'est simple,
+                            l'entreprise a besoin de quelqu'un pour un travail temporaire,
+                            celui ci sera payé pour le nombre d'heures qu'il a travaillées.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- blog start -->
-    <section class="section bg-light">
+    <section class="section bg-light pt-5">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="section-title text-center mb-4 pb-2">
-                        <h4 class="title title-line pb-5">Career advice</h4>
-                        <p class="text-muted para-desc mx-auto mb-1">Post a job to tell us about your project. We'll
-                            quickly match you with the right freelancers.</p>
+                <div class="col-12 text-center ">
+                    <p class="display-4 mb-0">
+                        Affichage de {{ missions|length }}
+                        missions de {{ totalMissions }} au total
+                    </p>
+                    <div class="section-title">
+                        <p class="title title-line p-5"></p>
                     </div>
                 </div>
             </div>
-            <div id="body2" class="row">
-            </div>
-            <div class="row" id="body1">
+            <div class="row">
                 {% for mission in missions %}
-                    <div class="col-lg-4 col-md-6 mt-4 pt-2">
-                        <div class="blog position-relative overflow-hidden shadow rounded bg-white">
-                            <div class="position-relative overflow-hidden">
-                                <img src="{{ asset('/frontEnd/images/how-it-work/img-1.png') }}"
-                                     class="img-fluid rounded-top mx-auto d-block" alt="" height="50">
-                                <div class="overlay rounded-top bg-dark"></div>
-                                <div class="likes">
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="list-inline-item mr-2"><a
-                                                    href="{{ asset('#') }}"
-                                                    class="text-white like"><i class="mdi mdi-heart-outline mr-1"></i>33</a>
-                                        </li>
-                                        <li class="list-inline-item"><a
-                                                    href="{{ asset('#') }}"
-                                                    class="text-white comments"><i
-                                                        class="mdi mdi-comment-outline mr-1"></i>08</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="content p-4">
-                                <h4><a href="{{ asset('#') }}"
-                                       class="title text-dark">
-
-                                        {{ mission.nom }}
-                                    </a></h4>
-                                <p class="text-muted">
-                                    {{ mission.description }}
-                                </p>
-                                <a href="{{ asset('#') }}" class="text-dark readmore">Read
-                                    more <i class="mdi mdi-chevron-right"></i></a>
-                            </div>
-                            <div class="author">
-                                <p class=" mb-0"><i class="mdi mdi-account text-light"></i> <a
-                                            href="{{ asset('#') }}"
-                                            class="text-light user">{{ mission.societe.nom }}</a></p>
-                                <p class="text-light mb-0 date"><i class="mdi mdi-calendar-check"></i>
-                                    {{ mission.date|date("d/m/Y") }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    {% include '/front_end/societe/mission/modele_mission.html.twig' %}
                 {% endfor %}
                 <!--end col-->
-                <div class="navigation">
-                    {{ knp_pagination_render(missions) }}
-                </div>
+            </div>
+            <div class="mt-5">
+                {{ knp_pagination_render(missions, '/front_end/template_pagination.html.twig') }}
             </div>
         </div>
     </section>
     <!-- blog end -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $("#search").keyup(function () {
+            var value = $("#search").val();
+            console.log(value);
+            $.ajax({
+                    type: 'GET',
+                    url: 'missionsearch',
+                    data: {'valeurRecherche': value},
+                    success: function (retour) {
+                        if (retour) {
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                console.log(obj.description);
+                                console.log(obj.nom);
+                                var soc = obj.societe;
+                                console.log(soc);
+                                $('#body1').hide();
+                                $('#body2').append(" <div class=\"col-lg-4 col-md-6 mt-4 pt-2\">" +
+                                    "<div class=\"blog position-relative overflow-hidden shadow rounded\">" +
+                                    "<div class=\"position-relative overflow-hidden\">" +
+                                    "<img src=\"{{ asset('/front-end/images/how-it-work/img-1.png') }}\" class=\"img-fluid rounded-top mx-auto d-block\"  height=\"50\">" +
+                                    " <div class=\"overlay rounded-top bg-dark\"></div>" +
+                                    "<div class=\"likes\">" +
+                                    "<ul class=\"list-unstyled mb-0\">" +
+                                    " <li class=\"list-inline-item mr-2\"><a href=\"condidatureMission/" + obj.id + "\" class=\"text-white like\"><i class=\"mdi mdi-heart-outline mr-1\"></i>33</a></li>" +
+                                    " <li class=\"list-inline-item\"><a href=\"condidatureMission/" + obj.id + "\" class=\"text-white comments\"><i class=\"mdi mdi-comment-outline mr-1\"></i>08</a></li>" +
+                                    " </ul>" +
+                                    " </div>" +
+                                    "</div>" +
+                                    "<div class=\"content p-4\">" +
+                                    "<h4><a href=\"condidatureMission/" + obj.id + "\" class=\"title text-dark\">" +
+
+                                    obj.nom +
+                                    " </a></h4>" +
+                                    "<p class=\"text-muted\"> " +
+                                    obj.description +
+                                    "</p>" +
+                                    "<a href=\"condidatureMission/" + obj.id + "\" class=\"text-dark readmore\">Read more <i class=\"mdi mdi-chevron-right\"></i></a>" +
+                                    "</div>" +
+                                    " <div class=\"author\">" +
+                                    "<p class=\" mb-0\"><i class=\"mdi mdi-account text-light\"></i> <a href=\"condidatureMission/" + obj.id + "\" class=\"text-light user\">" + soc.nom + "</a></p>" +
+                                    " <p class=\"text-light mb-0 date\"><i class=\"mdi mdi-calendar-check\"></i> " +
+                                    obj.date +
+                                    "</p>" +
+                                    "</div>" +
+                                    "</div>" +
+                                    "</div>");
+                            });
+                        }
+                    },
+                }
+            );
+        })
+    </script>
 {% endblock %}
 

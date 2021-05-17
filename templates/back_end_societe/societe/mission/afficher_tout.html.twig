@@ -1,0 +1,84 @@
+{% extends '/back_end_societe/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-md-9">
+                <h1 class="h1 mb-2 text-gray-800 mt-4">Vos missions</h1>
+            </div>
+            <div class="col-md-3 my-auto">
+                <a href="{{ asset('espace_societe/mission/ajouter') }}" class="btn btn-primary w-75 mt-3">Ajouter une
+                    mission</a>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="section-title text-center mb-4 py-4">
+                    <table class="table border bg-white">
+                        {% set hasData = false %}
+
+                        {% if not missions %}
+                            {% set hasData = false %}
+                        {% endif %}
+
+                        {% set initialized = false %}
+                        {% for mission in missions %}
+                            {% if app.user == mission.societe.user %}
+                                {% set hasData = true %}
+                                {% if not initialized %}
+                                    {% set initialized = true %}
+                                    <tr>
+                                        <td><b>Nom</b></td>
+                                        <td><b>Description</b></td>
+                                        <td><b>Date</b></td>
+                                        <td><b>Questions</b></td>
+                                        <td><b>Réponses</b></td>
+                                        <td><b>Actions</b></td>
+                                    </tr>
+                                {% endif %}
+                                <tr>
+                                    <td>{{ mission.nom }}</td>
+                                    <td class="text-break">{{ mission.description }}</td>
+                                    <td>{{ mission.date|date("d/m/Y") }}</td>
+                                    {% if mission.question %}
+                                        {% set i = 1 %}
+                                        <td>
+                                            {% for question in mission.question %}
+                                                <div class="text-left">
+                                                    Question {{ i }} : {{ question.description }}
+                                                </div>
+                                                {% set i = i+1 %}
+                                            {% endfor %}
+                                        </td>
+                                        {% set i = 1 %}
+                                        <td>
+                                            {% for question in mission.question %}
+                                                <div class="text-left">
+                                                    Réponse {{ i }} : {{ question.reponse }}
+                                                </div>
+                                                {% set i = i+1 %}
+                                            {% endfor %}
+                                        </td>
+                                    {% else %}
+                                        <td>Aucune question</td>
+                                        <td>-</td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="{{ asset('espace_societe/mission/'~mission.id~'/modifier') }}"
+                                           class="btn btn-outline-dark" role="button"
+                                           aria-pressed="true"><i class="fa fa-pen"></i></a>
+                                        <a href="{{ asset('espace_societe/mission/'~mission.id~'/supprimer') }}"
+                                           class="btn btn-outline-danger " role="button"
+                                           aria-pressed="true"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        {% if not hasData %}
+                            <td>Aucune mission</td>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

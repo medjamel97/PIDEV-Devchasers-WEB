@@ -5,6 +5,9 @@ namespace App\Controller\front_end;
 use App\Entity\CandidatureOffre;
 use App\Entity\OffreDeTravail;
 use App\Entity\User;
+use DateTime;
+use DateTimeZone;
+use Error;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,25 +31,15 @@ class CandidatureOffreController extends AbstractController
 
         if (!$checkCandidature) {
             $candidatureOffre = new CandidatureOffre();
-            $candidatureOffre->setCandidat($user->getCandidat())->setOffreDeTravail($offreDeTravail);
+            $candidatureOffre
+                ->setCandidat($user->getCandidat())
+                ->setOffreDeTravail($offreDeTravail)
+                ->setDate(new DateTime('now', new DateTimeZone('Africa/Tunis')));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($candidatureOffre);
             $entityManager->flush();
         }
 
-        return $this->redirect('/offre_de_travail');
-    }
-
-    /**
-     * @Route("candidature_offre/{idCandidatureOffre}/supprimer")
-     */
-    public function supprimerRevue($idCandidatureOffre)
-    {
-        $manager = $this->getDoctrine()->getManager();
-        $CandidatureOffre = $manager->getRepository(CandidatureOffre::class)->find($idCandidatureOffre);
-        $manager->remove($CandidatureOffre);
-        $manager->flush();
-
-        return $this->redirect('/offre_de_travail');
+        return $this->redirect('/offre_de_travail/'.$idOffreDeTravail.'/afficher');
     }
 }

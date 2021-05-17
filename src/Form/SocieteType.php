@@ -20,6 +20,7 @@ class SocieteType extends AbstractType
                 'years' => range(date('Y') - 250, date('Y')),
             ])
             ->add('tel', IntegerType::class)
+            ->add('adresse')
             ->add('idPhoto', FileType::class, [
                 'label' => false,
                 'mapped' => false,

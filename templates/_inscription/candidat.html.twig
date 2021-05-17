@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -9,20 +9,20 @@
     <meta name="keywords" content=""/>
     <meta name="author" content="Themesdesign"/>
 
-    <link rel="shortcut icon" href="{{ asset('frontEnd/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('front-end/images/favicon.ico') }}">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ asset('frontEnd/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/materialdesignicons.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/materialdesignicons.min.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/selectize.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/selectize.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/nice-select.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/nice-select.css') }}"/>
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/style.css') }}"/>
 
 </head>
 
@@ -45,7 +45,7 @@
 
 <!-- Hero Start -->
 <section class="vh-100"
-         style="background: url({{ asset('app/images/backgrounds/inscription-BG.jpg') }}) center center;">
+         style="background-image: url({{ asset('/images/backgrounds/BG-inscription.jpg') }})">
     <div class="home-center">
         <div class="home-desc-center">
             <div class="container">
@@ -53,7 +53,7 @@
                     <div class="col-md-9">
                         <div class="login_page bg-white shadow rounded p-4">
                             <div class="text-center">
-                                <p class="h3 text-uppercase pb-4 mb-4 border-bottom" style="color: #16116b">
+                                <p class="h2 text-uppercase text-primary pb-4 mb-4 border-bottom">
                                     Inscription en tant que candidat</p>
                             </div>
                             {% for flashError in app.flashes('verify_email_error') %}
@@ -64,8 +64,9 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group position-relative">
+                                        <label>Email</label><span class="text-danger">*</span> :
                                         {{ form_row(registrationForm.email, {
-                                            label: 'Email',
+                                            label: false,
                                             'attr': {
                                                 'class': 'form-control',
                                                 'placeholder': 'Exemple@mail.com',
@@ -75,8 +76,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group position-relative">
+                                        <label>Mot de passe</label><span class="text-danger">*</span> :
                                         {{ form_row(registrationForm.plainPassword, {
-                                            label: 'Mot de passe',
+                                            label: false,
                                             'attr': {
                                                 'class': 'form-control',
                                                 'placeholder': 'Créer votre mot de passe',
@@ -86,8 +88,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group position-relative">
+                                        {{ form_label(registrationForm.candidat.nom) }}
+                                        <span class="text-danger">*</span> :
                                         {{ form_row(registrationForm.candidat.nom, {
-                                            label: 'Nom',
+                                            label : false,
                                             'attr': {
                                                 'class': 'form-control',
                                                 'placeholder': 'Tapez votre nom',
@@ -97,8 +101,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group position-relative">
+                                        {{ form_label(registrationForm.candidat.prenom) }}
+                                        <span class="text-danger">*</span> :
                                         {{ form_row(registrationForm.candidat.prenom, {
-                                            label: 'prenom',
+                                            label : false,
                                             'attr': {
                                                 'class': 'form-control',
                                                 'placeholder': 'Tapez votre prenom',
@@ -109,8 +115,10 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group position-relative">
+                                        {{ form_label(registrationForm.candidat.sexe) }}
+                                        <span class="text-danger">*</span> :
                                         {{ form_row(registrationForm.candidat.sexe, {
-                                            label: 'Sexe',
+                                            label : false,
                                             'attr': {
                                                 'class': 'nice-select rounded w-100',
                                             },
@@ -119,8 +127,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group position-relative">
+                                        {{ form_label(registrationForm.candidat.tel) }}
+                                        <span class="text-danger">*</span> :
                                         {{ form_row(registrationForm.candidat.tel, {
-                                            label: 'Tel',
+                                            label : false,
                                             'attr': {
                                                 'class': 'form-control',
                                                 'placeholder': 'Tapez votre numero',
@@ -132,13 +142,16 @@
                                 <div class="row col-md-6">
                                     <div class="col-md-12">
                                         <div class="form-group mb-0">
-                                            <label for="date-de-naissance" class="required">Date de naissance</label>
+                                            <label for="date-de-naissance" class="required">Date de naissance
+                                                <span class="text-danger">*</span> :
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Jour :</label>
                                             {{ form_row(registrationForm.candidat.dateNaissance.day, {
-                                                'label' : 'Jour',
+                                                label : false,
                                                 'attr': {
                                                     'class': 'form-control',
                                                 },
@@ -147,8 +160,9 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Mois :</label>
                                             {{ form_row(registrationForm.candidat.dateNaissance.month, {
-                                                'label' : ' Mois',
+                                                label : false,
                                                 'attr': {
                                                     'class': 'form-control',
                                                 },
@@ -157,8 +171,9 @@
                                     </div>
                                     <div class="col-md-4" id="year">
                                         <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Année :</label>
                                             {{ form_row(registrationForm.candidat.dateNaissance.year, {
-                                                'label' : ' Année',
+                                                label : false,
                                                 'attr': {
                                                     'class': 'form-control',
                                                 },
@@ -170,8 +185,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group position-relative mb-0">
                                         <div class="col-md-12">
+                                            <label>Photo</label><span class="text-danger">*</span> :
                                             {{ form_row(registrationForm.candidat.idPhoto, {
-                                                label: "Photo de profil",
+                                                label: false,
                                                 'attr': {
                                                     'class': 'mt-4 btn btn-light',
                                                 }
@@ -219,17 +235,17 @@
 <!-- Hero End -->
 
 <!-- javascript -->
-<script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
-<script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('frontEnd/js/jquery.easing.min.js') }}"></script>
-<script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
+<script src="{{ asset('front-end/js/jquery.min.js') }}"></script>
+<script src="{{ asset('front-end/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('front-end/js/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('front-end/js/plugins.js') }}"></script>
 
 <!-- selectize js -->
-<script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
+<script src="{{ asset('front-end/js/selectize.min.js') }}"></script>
 
-<script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ asset('front-end/js/jquery.nice-select.min.js') }}"></script>
 
-<script src="{{ asset('frontEnd/js/app.js') }}"></script>
+<script src="{{ asset('front-end/js/app.js') }}"></script>
 
 </body>
 </html>

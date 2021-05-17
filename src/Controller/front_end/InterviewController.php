@@ -3,165 +3,416 @@
 namespace App\Controller\front_end;
 
 use App\Entity\CandidatureOffre;
-use App\Entity\Interview;
 use App\Entity\OffreDeTravail;
+use App\Entity\Interview;
 use App\Entity\Societe;
+use App\Entity\User;
 use App\Form\InterviewType;
+use DateTime;
+use DateTimeZone;
+use Error;
+use Exception;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("interview/")
+ */
 class InterviewController extends AbstractController
 {
+
     /**
-     * @Route("/societe={idSociete}/interview/activePage={activePage}", name="afficher_tout_interview")
+     * @Route("")
      */
-    public function afficherToutInterview($idSociete, $activePage)
+    public function afficherToutInterview(Request $request, PaginatorInterface $paginator): Response
     {
-        $interviewRepository = $this->getDoctrine()->getRepository(Interview::class);
-        $countItems = $interviewRepository->countItemNumber();
+        $interviews = $this->getDoctrine()->getRepository(Interview::class)->findBy([], [
+            'dateCreation' => 'DESC',
+        ]);
 
-        if ($countItems > 0) {
-            $itemPerPage = 6;
-            $nbPages = intdiv($countItems, $itemPerPage);
-            if (($countItems % 6) != 0) $nbPages++;
-            $firstItem = ($activePage - 1) * ($itemPerPage);
-            if ($activePage > $nbPages || $activePage < 1) return $this->redirect('/societe=' . $idSociete . '/interview/activePage=1');
-        } else {
-            if ($activePage != 0) return $this->redirect('/societe=' . $idSociete . '/interview/activePage=0');
-            $firstItem = 0;
-            $itemPerPage = 0;
-            $nbPages = 0;
-        }
-
-        return $this->render('front_end/societe/offreDeTravail/interview/afficher.html.twig', [
-            'interviews' => $interviewRepository->findSinglePageResults($firstItem, $itemPerPage),
-            'nbResults' => $countItems,
-            'nbPages' => $nbPages,
-            'itemPerPage' => $itemPerPage,
-            'activePage' => $activePage,
-            'firstItem' => $firstItem,
-            'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
+        return $this->render('front_end/societe/offre_de_travail/interview/afficher_tout.html.twig', [
+            'offreDeTravail' => null,
+            'societe' => null,
+            'totalInterviews' => count($interviews),
+            'interviews' => $paginator->paginate(
+                $interviews,
+                $request->query->getInt('page', 1), 6
+            ),
+            'form' => null,
+            'interviewId' => null
         ]);
     }
 
     /**
-     * @Route("addInterviewsDebug/{candidatureOffreId}/", name="addInterviewsDebug")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               /offreDeTravail={idOffreDeTravail}/candidatureOffre={idCandidatureOffre}/interview/ajouter", name="ajouterMultipleInterview")
+     * @Route("offre_de_travail/{offreDeTravailId}", name="interview_par_offre")
      */
-    public function ajouterMultipleInterview($candidatureOffreId)
+    public function afficherInterviewParOffre(Request $request, PaginatorInterface $paginator): Response
     {
-        $manager = $this->getDoctrine()->getManager();
-        for ($i = 0; $i < 20; $i++) {
-            $interview = new Interview();
-            $interview->setNbEtoiles(random_int(1, 5))
-                ->setObjet("Objet " . $i)
-                ->setDescription("Description " . $i)
-                ->setCandidatureOffre($manager->getRepository(CandidatureOffre::class)->find($candidatureOffreId));
-            $manager->persist($interview);
-            $manager->flush();
+        $page = $request->get('page');
+        $interviewId = $request->get('interviewId');
+        $offreDeTravailId = $request->get('offreDeTravailId');
+
+        $interviews = $this->getDoctrine()->getRepository(Interview::class)->findByOffre($offreDeTravailId);
+
+        if ($page) {
+            if ($interviewId) {
+                $index = 1;
+                foreach ($interviews as $interview) {
+                    if ($interview->getId() == $interviewId) {
+                        break;
+                    }
+                    $index++;
+                }
+                $pageAct = intdiv($index - 1, 6) + 1;
+
+                if ($page != $pageAct) {
+                    return $this->redirectToRoute('interview_par_offre', [
+                        'offreDeTravailId' => $offreDeTravailId,
+                        'page' => $page
+                    ]);
+                }
+            }
         }
-        return $this->redirectToRoute('accueil');
+
+        if ($interviewId) {
+            if (!$page) {
+                $index = 1;
+                foreach ($interviews as $interview) {
+                    if ($interview->getId() == $interviewId) {
+                        break;
+                    }
+                    $index++;
+                }
+                $page = intdiv($index - 1, 6) + 1;
+
+                return $this->redirectToRoute('interview_par_offre', [
+                    'offreDeTravailId' => $offreDeTravailId,
+                    'interviewId' => $interviewId,
+                    'page' => $page
+                ]);
+            }
+        }
+
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        if ($user) {
+            $candidatureOffre = $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
+                'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($offreDeTravailId),
+                'candidat' => $user->getCandidat()
+            ]);
+
+            if ($candidatureOffre) {
+                $interview = new Interview();
+                $form = $this->createForm(InterviewType::class, $interview)
+                    ->add('submit', SubmitType::class)
+                    ->handleRequest($request);
+
+                if ($form->isSubmitted() && !$form->isValid()) {
+                    $this->addFlash("error", "Erreur de saisie");
+                }
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $interview = $form->getData();
+                    if ($candidatureOffre) $interview->setCandidatureOffre($candidatureOffre);
+
+                    $interview->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($interview);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('interview_par_offre', [
+                        'offreDeTravailId' => $offreDeTravailId,
+                        'interviewId' => $interview->getId(),
+                    ]);
+                }
+            } else {
+                $form = null;
+            }
+        } else {
+            $form = null;
+        }
+
+        if ($form) {
+            $formView = $form->createView();
+        } else {
+            $formView = null;
+        }
+
+        return $this->render('front_end/societe/offre_de_travail/interview/afficher_tout.html.twig', [
+            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($offreDeTravailId),
+            'societe' => null,
+            'totalInterviews' => count($interviews),
+            'interviews' => $paginator->paginate(
+                $interviews,
+                $request->query->getInt('page', 1), 6
+            ),
+            'form' => $formView,
+            'interviewId' => $interviewId
+        ]);
     }
 
     /**
-     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/candidatureOffre={idCandidatureOffre}/interview/ajouter", name="ajouterInterview")
+     * @Route("societe/{societeId}", name="afficher_interview_par_societe")
      */
-    public function ajouterInterview(Request $request, $idSociete, $idOffreDeTravail, $idCandidatureOffre)
+    public function afficherInterviewParSociete($societeId, Request $request, PaginatorInterface $paginator): Response
     {
+        $interviews = $this->getDoctrine()->getRepository(Interview::class)->findBySociete($societeId);
+
+        return $this->render('front_end/societe/offre_de_travail/interview/afficher_tout.html.twig', [
+            'offreDeTravail' => null,
+            'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($societeId),
+            'totalInterviews' => count($interviews),
+            'interviews' => $paginator->paginate(
+                $interviews,
+                $request->query->getInt('page', 1), 6
+            ),
+            'form' => null,
+            'interviewId' => null
+        ]);
+    }
+
+    /**
+     * @Route("{candidatureOffreId}/ajouter")
+     * @throws Exception
+     */
+    public function ajouterInterview(Request $request, $candidatureOffreId)
+    {
+
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+        $candidatureOffre = $this->getDoctrine()->getRepository(CandidatureOffre::class)->find($candidatureOffreId);
+
         $interview = new Interview();
 
-        $form = $this->createForm(InterviewType::class, $interview)
-            ->add('submit', SubmitType::class)
-            ->handleRequest($request);
+        if (($user == $candidatureOffre->getCandidat()->getUser()) && ($candidatureOffre->getEtat() == "accepté")) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            $form = $this->createForm(InterviewType::class, $interview)
+                ->add('submit', SubmitType::class)
+                ->handleRequest($request);
 
-            $manager = $this->getDoctrine()->getManager();
-            $interview = $form->getData();
-            $candidatureOffre = $manager->getRepository(CandidatureOffre::class)->find($idCandidatureOffre);
-            $interview->setCandidatureOffre($candidatureOffre);
-            $manager->persist($interview);
-            $manager->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $interview = $form->getData();
 
-            return $this->redirectToRoute('afficher_tout_interview', [
-                'idSociete' => $idSociete,
-                'idOffreDeTravail' => $idOffreDeTravail,
-                'activePage' => 1,
+                if ($candidatureOffre) $interview->setCandidatureOffre($candidatureOffre);
+                $interview->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($interview);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('interview_par_offre', [
+                    'offreDeTravailId' => $candidatureOffre->getOffreDeTravail()->getId(),
+                    'interviewId' => $interview->getId(),
+                ]);
+            }
+
+            return $this->render('front_end/societe/offre_de_travail/interview/manipuler.html.twig', [
+                'candidatureOffre' => $candidatureOffre,
+                'interview' => $interview,
+                'form' => $form->createView(),
+                'manipulation' => "Ajouter"
             ]);
+        } else {
+            throw new Error("Access denied");
         }
-
-        return $this->render('front_end/societe/offreDeTravail/interview/manipuler.html.twig', [
-            'manipulation' => "Ajouter",
-            'form' => $form->createView(),
-            'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
-            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
-            'interview' => null,
-        ]);
     }
 
     /**
-     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/interview={idInterview}/modifier", name="modifierInterview")
+     * @Route("{idInterview}/modifier")
      */
-    public function modifierInterview(Request $request, $idSociete, $idOffreDeTravail, $idInterview)
+    public function modifierInterview(Request $request, $idInterview)
     {
-        $manager = $this->getDoctrine()->getManager();
-        $interview = $manager->getRepository(Interview::class)->find($idInterview);
 
-        $form = $this->createForm(InterviewType::class, $interview);
-        $form->add('submit', SubmitType::class);
-        $form->handleRequest($request);
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->flush();
-            return $this->redirectToRoute('afficher_tout_interview', [
-                'idSociete' => $idSociete,
-                'idOffreDeTravail' => $idOffreDeTravail,
-                'activePage' => 1,
-            ]);
+        $interview = $this->getDoctrine()->getRepository(Interview::class)->find($idInterview);
+        $candidatureOffre = $interview->getCandidatureOffre();
+
+        if ($user) {
+            if ($user == $interview->getCandidatureOffre()->getCandidat()->getUser()) {
+
+                $form = $this->createForm(InterviewType::class, $interview)
+                    ->add('submit', SubmitType::class)
+                    ->handleRequest($request);
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $interview = $form->getData();
+                    if ($candidatureOffre) $interview->setCandidatureOffre($candidatureOffre);
+
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($interview);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('interview_par_offre', [
+                        'offreDeTravailId' => $candidatureOffre->getOffreDeTravail()->getId(),
+                        'interviewId' => $interview->getId(),
+                    ]);
+                }
+
+                return $this->render('front_end/societe/offre_de_travail/interview/manipuler.html.twig', [
+                    'candidatureOffre' => $candidatureOffre,
+                    'interview' => $interview,
+                    'form' => $form->createView(),
+                    'manipulation' => "Modifier"
+                ]);
+            } else {
+                throw new Error("Vous ne pouvez pas modifier les interviews des autres candidats !");
+            }
+        } else {
+            return $this->redirect('/connexion');
         }
-
-        return $this->render('front_end/societe/offreDeTravail/interview/manipuler.html.twig', [
-            'manipulation' => "Modifier",
-            'form' => $form->createView(),
-            'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
-            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
-            'interview' => $interview,
-        ]);
     }
 
     /**
-     * @Route("/societe={idSociete}/offreDeTravail={idOffreDeTravail}/interview={idInterview}/supprimer", name="supprimerInterview")
+     * @Route("{idInterview}/supprimer", name="supprimer_interview")
      */
-    public function supprimerInterview($idSociete, $idOffreDeTravail, $idInterview)
+    public function supprimerInterview($idInterview): Response
     {
         $manager = $this->getDoctrine()->getManager();
         $interview = $manager->getRepository(Interview::class)->find($idInterview);
         $manager->remove($interview);
         $manager->flush();
-        return $this->redirectToRoute('afficher_tout_interview', [
-            'idSociete' => $idSociete,
-            'idOffreDeTravail' => $idOffreDeTravail,
-            'activePage' => 1,
-        ]);
+
+        $this->addFlash('success', 'Votre interview a été supprimé.');
+        return $this->redirect('/interview/offre_de_travail/' . $interview->getCandidatureOffre()->getOffreDeTravail()->getId());
     }
 
     /**
-     * @Route("/interview/recherche", name="recherche")
-     * @throws ExceptionInterface
+     * @Route("recherche_par_societe")
      */
-    public
-    function recherche(Request $request, NormalizerInterface $normalizer)
+    public function rechercheParSociete(Request $request): Response
     {
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+
         $valeurRecherche = $request->get('valeurRecherche');
         if ($valeurRecherche != null) {
-            $interviews = $this->getDoctrine()->getRepository(Interview::class)->findInterviewByNbEtoiles($valeurRecherche);
-            $jsonContent = $normalizer->normalize($interviews, 'json', ['groups' => 'post:read']);
-            $retour = json_encode($jsonContent);
-            return new Response($retour);
+            $societe = $this->getDoctrine()->getRepository(Societe::class)->findStartingWith($valeurRecherche);
+            if ($societe) {
+                $interviews = $this->getDoctrine()->getRepository(Interview::class)->findBySociete($societe->getId());
+            } else {
+                return new Response(null);
+            }
+            if ($interviews) {
+                $i = 0;
+                $jsonContent = null;
+                foreach ($interviews as $interview) {
+                    $jsonContent[$i]['id'] = $interview->getId();
+                    $jsonContent[$i]['idCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getId();
+                    $jsonContent[$i]['nomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getNom();
+                    $jsonContent[$i]['prenomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getPrenom();
+                    $jsonContent[$i]['idPhotoCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getIdPhoto();
+                    $jsonContent[$i]['idSociete'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getSociete()->getId();
+                    $jsonContent[$i]['nomSociete'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getSociete()->getNom();
+                    $jsonContent[$i]['idOffre'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getId();
+                    $jsonContent[$i]['nomOffre'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getNom();
+                    $jsonContent[$i]['salaire'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getSalaire();
+                    $jsonContent[$i]['difficulte'] = $interview->getDifficulte();
+                    $jsonContent[$i]['description'] = $interview->getDescription();
+                    $jsonContent[$i]['dateCreation'] = $interview->getDateCreation()->format('H:i - d/M/Y');
+
+                    if ($interview->getCandidatureOffre()->getCandidat()->getUser() == $user) {
+                        $jsonContent[$i]['isProperty'] = true;
+                    } else {
+                        $jsonContent[$i]['isProperty'] = false;
+                    }
+
+                    $jsonContent[$i]['isAdmin'] = false;
+                    if ($user) {
+                        foreach ($user->getRoles() as $role) {
+                            if ($role == "ROLE_ADMIN") {
+                                $jsonContent[$i]['isAdmin'] = true;
+                            }
+                        }
+                    }
+
+                    $i++;
+                }
+                return new Response(json_encode($jsonContent));
+            } else {
+                return new Response(null);
+            }
+        } else {
+            return new Response(null);
+        }
+    }
+
+    /**
+     * @Route("recherche_par_difficulte")
+     */
+    public function rechercheParDifficulte(Request $request): Response
+    {
+        $email = $request->getSession()->get(Security::LAST_USERNAME);
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        $societeId = (int)$request->get('societeId');
+        $offreDeTravailId = (int)$request->get('offreDeTravailId');
+        $difficulte = (int)$request->get('valeurRecherche');
+
+        $interviews = null;
+
+        if ($societeId) {
+            $interviews = $this->getDoctrine()->getRepository(Interview::class)->findBySocieteAndDifficulte(
+                $societeId, $difficulte
+            );
+        } elseif ($offreDeTravailId) {
+            $interviews = $this->getDoctrine()->getRepository(Interview::class)->findByOffreAndDifficulte(
+                $offreDeTravailId, $difficulte
+            );
+        } else {
+            $interviews = $this->getDoctrine()->getRepository(Interview::class)->findBy([
+                'difficulte' => $difficulte
+            ], [
+                'dateCreation' => 'DESC'
+            ]);
+        }
+
+        if ($interviews) {
+            $i = 0;
+            $jsonContent = null;
+            foreach ($interviews as $interview) {
+                $jsonContent[$i]['id'] = $interview->getId();
+                $jsonContent[$i]['idCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getId();
+                $jsonContent[$i]['nomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getNom();
+                $jsonContent[$i]['prenomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getPrenom();
+                $jsonContent[$i]['idPhotoCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getIdPhoto();
+                $jsonContent[$i]['idSociete'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getSociete()->getId();
+                $jsonContent[$i]['nomSociete'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getSociete()->getNom();
+                $jsonContent[$i]['idOffre'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getId();
+                $jsonContent[$i]['nomOffre'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getNom();
+                $jsonContent[$i]['salaire'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getSalaire();
+                $jsonContent[$i]['difficulte'] = $interview->getDifficulte();
+                $jsonContent[$i]['description'] = $interview->getDescription();
+                $jsonContent[$i]['dateCreation'] = $interview->getDateCreation()->format('H:i - d/M/Y');
+
+                if ($interview->getCandidatureOffre()->getCandidat()->getUser() == $user) {
+                    $jsonContent[$i]['isProperty'] = true;
+                } else {
+                    $jsonContent[$i]['isProperty'] = false;
+                }
+
+                $jsonContent[$i]['isAdmin'] = false;
+                if ($user) {
+                    foreach ($user->getRoles() as $role) {
+                        if ($role == "ROLE_ADMIN") {
+                            $jsonContent[$i]['isAdmin'] = true;
+                        }
+                    }
+                }
+
+                $i++;
+            }
+            return new Response(json_encode($jsonContent));
         } else {
             return new Response(null);
         }

@@ -17,7 +17,11 @@ class RevueType extends AbstractType
         $builder
             ->add('nbEtoiles')
             ->add('objet')
-            ->add('description', TextareaType::class);
+            ->add('description', TextareaType::class)
+            ->add('candidatureOffre', EntityType::class, [
+                'class' => CandidatureOffre::class,
+                'choice_label' => 'id',
+                'multiple' => false]);;
     }
 
     public function configureOptions(OptionsResolver $resolver)

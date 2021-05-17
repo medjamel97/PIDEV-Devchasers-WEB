@@ -1,0 +1,158 @@
+{% if commentaire.user.candidat %}
+    {% set nom = commentaire.user.candidat.prenom~' '~commentaire.user.candidat.nom %}
+    {% set idPhoto = commentaire.user.candidat.idPhoto %}
+{% elseif commentaire.user.societe %}
+    {% set nom = commentaire.user.societe.nom %}
+    {% set idPhoto = commentaire.user.societe.idPhoto %}
+{% else %}
+    {% set nom = 'Admin' %}
+    {% set idPhoto = '/back-end/images/admin-icon.png' %}
+{% endif %}
+
+<div id="contenaire-commentaire-{{ commentaire.id }}"
+     class="flex-wrap border rounded bg-white p-2 my-2"
+     style="display: flex">
+    <div class="col-md-1">
+        <img src="{{ idPhoto }}"
+             alt=""
+             class="rounded-circle shadow" height="50" width="50">
+    </div>
+    <div class="col-md-10 text-dark">
+        <b class="col-md-12 m-0">
+            {{ nom }} :
+        </b>
+        <p id="description-commentaire-{{ commentaire.id }}"
+           class="m-0 col-md-12 text-break">{{ commentaire.description }}</p>
+    </div>
+    {% if commentaire.user == app.user %}
+        <div class="col-md-1 my-auto text-dark">
+            <a href="#"
+               onclick="modifierCommentaire({{ commentaire.id }});return false;"><i
+                        class="mdi mdi-pencil"></i></a>
+            <a href="#"
+               onclick="supprimerCommentaire({{ commentaire.id }});return false;"><i
+                        class="mdi mdi-trash-can"></i>
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+
+<script id="ajax-ajouter-commentaire">
+    function ajouterCommentaire(idPublication) {
+        value = $('#input-commentaire-' + idPublication).val();
+        $('#input-commentaire-' + idPublication).val("");
+        $.ajax({
+            type: 'GET',
+            url: 'commentaire/ajouter',
+            data: {
+                'idPublication': idPublication,
+                'description': value,
+            },
+            success: function (retour) {
+                if (retour) {
+                    obj = JSON.parse(retour);
+                    $("#contenaire-commentaires-" + idPublication).append(
+                        "<div id='contenaire-commentaire-" + obj.id + "'" +
+                        " class='flex-wrap border rounded bg-white p-2' style='display: flex'>" +
+                        "   <div class='col-md-1'>" +
+                        "       <img src='" + obj.idPhoto + "' alt='' " +
+                        "           class='rounded-circle shadow' height='50' width='50'>" +
+                        "   </div>" +
+                        "   <div class='col-md-10'>" +
+                        "       <b class='col-md-12 m-0'>" + obj.nom + "</b>" +
+                        "       <p id='description-commentaire-" + obj.id + "' class='m-0 col-md-12'>" + obj.description + "</p>" +
+                        "   </div>" +
+                        "   <div class='col-md-1 my-auto text-dark'>" +
+                        "       <a href='#' onclick='modifierCommentaire(" + obj.id + ");return false;'><i" +
+                        "           class='mdi mdi-pencil'></i></a>" +
+                        "       <a href='#' onclick='supprimerCommentaire(" + obj.id + ");return false;'><i" +
+                        "           class='mdi mdi-trash-can'></i></a>" +
+                        "   </div>" +
+                        "</div>");
+                }
+            },
+            error: function () {
+                alert("Connectez vous d'abord");
+            }
+        });
+    }
+</script>
+<script id="ajax-modifier-commentaire">
+    function modifierCommentaire(idCommentaire) {
+
+        let commentaire = $('#contenaire-commentaire-' + idCommentaire);
+        let descriptionCommentaire = $("#description-commentaire-" + idCommentaire);
+
+
+        commentaire.empty().append(
+            "<label for='modification-commentaire-" + idCommentaire + "' class='col-md-3 my-auto'>" +
+            "   modifier le commentaire : " +
+            "</label>" +
+            "<form class='row col-md-9 pr-0' action='#'>" +
+            "   <input id='modification-commentaire-" + idCommentaire + "' type='text' class='form-control col-md-10' " +
+            "           value='" + descriptionCommentaire.text() + "'>" +
+            "   <a onclick='confirmerModificationCommentaire(" + idCommentaire + "," + true + ");return false;' " +
+            "               class='col-md-1 my-auto' href='#'><i class='mdi mdi-check'></i></a>" +
+            "   <a onclick='confirmerModificationCommentaire(" + idCommentaire + "," + false + ");return false;' " +
+            "               class='col-md-1 my-auto' href='#'><i class='mdi mdi-close'></i></a>" +
+            "</form>"
+        );
+    }
+
+    function confirmerModificationCommentaire(idCommentaire, isModified) {
+        let modifiedComment = "";
+        if (isModified) {
+            modifiedComment = $('#modification-commentaire-' + idCommentaire).val();
+            $("#contenaire-commentaire-" + idCommentaire).empty().append('commentaire modifié');
+        }
+        setTimeout(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'commentaire/' + idCommentaire + '/modifier',
+                data: {
+                    'modifiedComment': modifiedComment,
+                },
+                success: function (retour) {
+                    obj = JSON.parse(retour);
+                    $('#contenaire-commentaire-' + idCommentaire).empty().append(
+                        "<div class='col-md-1'>" +
+                        "<img src='" + obj.idPhoto + "' alt='' " +
+                        "     class='rounded-circle shadow' height='50' width='50'>" +
+                        "</div>" +
+                        "<div class='col-md-10'>" +
+                        "    <b class='col-md-12 m-0'>" + obj.nom + "</b>" +
+                        "    <p id='description-commentaire-" + obj.id + "' class='m-0 col-md-12'>" + obj.description + "</p>" +
+                        "</div>" +
+                        "<div class='col-md-1 my-auto text-dark'>" +
+                        "   <a href='#' onclick='modifierCommentaire(" + obj.id + ");return false;'><i" +
+                        "           class='mdi mdi-pencil'></i></a>" +
+                        "   <a href='#' onclick='supprimerCommentaire(" + obj.id + ");return false;'><i" +
+                        "           class='mdi mdi-trash-can'></i></a>" +
+                        "</div>"
+                    );
+                },
+                error: function () {
+                    alert('Erreur ajax modification commentaire');
+                }
+            });
+        }, 1000);
+    }
+</script>
+<script id="ajax-supprimer-commentaire">
+    function supprimerCommentaire(idCommentaire) {
+        $("#contenaire-commentaire-" + idCommentaire).empty().append('commentaire supprimé');
+        $.ajax({
+            type: 'GET',
+            url: 'commentaire/' + idCommentaire + '/supprimer',
+            success: function () {
+                setTimeout(function () {
+                    $("#contenaire-commentaire-" + idCommentaire).remove();
+                }, 1000)
+            },
+            error: function () {
+                alert('Erreur ajax suppression commentaire');
+            }
+        });
+    }
+</script>

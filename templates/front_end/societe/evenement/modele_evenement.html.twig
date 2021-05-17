@@ -1,0 +1,30 @@
+<div class="card border rounded shadow my-2">
+    <a data-toggle="collapse" href="#collapse-{{ evenement.id }}"
+       class="faq position-relative collapsed" aria-expanded="false"
+       aria-controls="collapse-{{ evenement.id }}">
+        <div class="card-header row bg-white p-3" id="headingOne">
+            <h4 class="col-md-6 title mb-0 faq-question">
+                {{ evenement.titre }}
+            </h4>
+            <h4 class="col-md-6 title mb-0 faq-question text-right">
+                {{ evenement.debut ? evenement.debut|date('Y-m-d') : '' }}
+                &nbsp-&nbsp
+                {{ evenement.fin ? evenement.fin|date('Y-m-d') : '' }}&nbsp&nbsp
+            </h4>
+        </div>
+    </a>
+
+    <div id="collapse-{{ evenement.id }}" class="collapse" aria-labelledby="headingOne"
+         data-parent="#accordionExample" style="">
+        <div class="card-body">
+            <p class="text-dark mb-0 faq-ans">
+                Toute la journée : {{ evenement.allDay ? 'Oui' : 'Non' }}
+            </p>
+            <br>
+            <p class="text-dark mb-0 faq-ans">
+                Description :
+            </p>
+            <p class="text-muted mb-0 faq-ans">{{ evenement.description }}</p>
+        </div>
+    </div>
+</div>

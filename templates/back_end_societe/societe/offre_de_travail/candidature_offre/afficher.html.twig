@@ -1,0 +1,55 @@
+{% extends '/back_end_societe/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid">
+        <div class="row">
+            <div class="row col-md-10 shadow border rounded mx-auto my-3 p-3">
+                <div class="col-md-2 border-right">
+                    {% if candidatureOffre.etat == "accepté" %}
+                        <div class="icon-circle bg-success p-5 mx-auto my-3">
+                            <i class="fas fa-check text-white"></i>
+                        </div>
+                    {% elseif candidatureOffre.etat == "refusé" %}
+                        <div class="icon-circle bg-danger p-5 mx-auto my-3">
+                            <i class="fas fa-times text-white"></i>
+                        </div>
+                    {% else %}
+                        <div class="icon-circle bg-warning p-5 mx-auto my-3">
+                            <i class="fas fa-exclamation text-white"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-5 my-auto border-right">
+                    <p class="text-center text-dark">
+                        Offre : {{ candidatureOffre.offreDeTravail.nom }}
+                    </p>
+                    <p class="text-center text-dark">
+                        Candidat : {{ candidatureOffre.candidat.prenom }} {{ candidatureOffre.candidat.nom }}
+                    </p>
+                    <p class="text-center text-gray-700">
+                        Date : {{ candidatureOffre.date|date("H:i - d/M/Y") }}
+                    </p>
+                </div>
+                <div class="col-md-5">
+                    <div class="col-md-12 w-100">
+                        <div class="float-right mr-5 mt-5">
+                            {% if candidatureOffre.etat == "non traité" %}
+                                <a class="btn btn-danger mx-3"
+                                   href="{{ asset('espace_societe/candidature_offre/'~candidatureOffre.id~'/modifier_etat/etat=refusé') }}">
+                                    Refuser
+                                </a>
+                                <a class="btn btn-success mx-3"
+                                   href="{{ asset('espace_societe/candidature_offre/'~candidatureOffre.id~'/modifier_etat/etat=accepté') }}">
+                                    Accepter
+                                </a>
+                            {% else %}
+                                <p class="text-dark mx-3">
+                                    Vous avez {{ candidatureOffre.etat }} cette candidature
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

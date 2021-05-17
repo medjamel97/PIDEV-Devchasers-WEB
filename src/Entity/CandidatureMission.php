@@ -18,6 +18,16 @@ class CandidatureMission
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $etat = "non traité";
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $date;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Mission::class, inversedBy="candidatureMission")
      * @ORM\JoinColumn(name="mission_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -32,6 +42,30 @@ class CandidatureMission
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
     }
 
     public function getMission(): ?Mission

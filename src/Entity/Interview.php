@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\InterviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=InterviewRepository::class)
@@ -19,16 +20,18 @@ class Interview
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Veuillez choisir une difficulte")
      */
     private $difficulte;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $objet;
-
-    /**
      * @ORM\Column(type="string", length=5000)
+     * @Assert\NotBlank(message="Veuillez saisir une description")
+     * @Assert\Length(
+     *     min=10,
+     *     max=5000,
+     *     minMessage="Votre description doit avoir au minimum 10 caractères.",
+     *     maxMessage="Votre description doit avoir au maximum 5000 caractères.")
      */
     private $description;
 
@@ -55,18 +58,6 @@ class Interview
     public function setDifficulte(int $difficulte): self
     {
         $this->difficulte = $difficulte;
-
-        return $this;
-    }
-
-    public function getObjet(): ?string
-    {
-        return $this->objet;
-    }
-
-    public function setObjet(string $objet): self
-    {
-        $this->objet = $objet;
 
         return $this;
     }

@@ -20,6 +20,13 @@ class UserController extends AbstractController
     public function recupererUsers()
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+
+        if ($users == null) {
+            $response = new Response();
+            $response->setStatusCode(400);
+            return $response;
+        }
+
         $jsonContent = null;
         $i = 0;
         $user = new User();

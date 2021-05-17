@@ -1,0 +1,75 @@
+<div id="interview-{{ interview.id }}" class="border rounded bg-white shadow-lg m-4 p-3">
+    <div class="row">
+        <div class="col-md-2 border-right">
+            <div class="candidates-list-fav-btn">
+                <div class="candidates-listing-btn overflow-hidden">
+                    <div class="text-dark m-auto text-center">
+                        <h6>{{ interview.candidatureOffre.candidat.prenom }}</h6>
+                        <h6>{{ interview.candidatureOffre.candidat.nom }}</h6>
+                    </div>
+                </div>
+                <img src="{{ interview.candidatureOffre.candidat.idPhoto }}"
+                     alt="" class="d-block rounded m-auto" height="90">
+                <a href="{{ asset('candidat/'~interview.candidatureOffre.candidat.id~'/profil') }}"
+                   class="btn btn-primary-outline w-100 mt-4">
+                    Consulter
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="candidates-list-desc overflow-hidden job-single-meta ml-3 pt-2">
+                <ul class="list-unstyled">
+                    <li class="float-right">
+                        <p class="alert-primary py-1 px-2 rounded shadow-sm">
+                            {{ interview.dateCreation|date("H:i - d/M/Y") }}
+                        </p>
+                    </li>
+                    <li class="text-dark">
+                        <i class="fa fa-building mr-1"></i>
+                        Societe :
+                        <a href="{{ asset('societe/'~interview.candidatureOffre.offreDeTravail.societe.id~'/afficher') }}"
+                           class="text-primary">
+                            {{ interview.candidatureOffre.offreDeTravail.societe.nom }}</a>
+                    </li>
+                    <li class="text-dark">
+                        <i class="fa fa-briefcase mr-1"></i>
+                        Offre :
+                        <a href="{{ asset('offre_de_travail/'~interview.candidatureOffre.offreDeTravail.id~'/afficher') }}"
+                           class="text-primary">
+                            {{ interview.candidatureOffre.offreDeTravail.nom }}</a>
+                    </li>
+                    <li class="text-muted">
+                        <i class="fa fa-money-bill mr-1"></i>
+                        {{ interview.candidatureOffre.offreDeTravail.salaire }}
+                    </li>
+                </ul>
+                <div style="font-size: 20px;">
+                    {% if interview.difficulte == 0 %}
+                        <p class="text-primary">
+                            Très facile
+                        </p>
+                    {% elseif interview.difficulte == 1 %}
+                        <p class="text-success">
+                            Facile
+                        </p>
+                    {% elseif interview.difficulte == 2 %}
+                        <p class="text-info">
+                            Moyen
+                        </p>
+                    {% elseif interview.difficulte == 3 %}
+                        <p class="text-warning">
+                            Difficile
+                        </p>
+                    {% elseif interview.difficulte == 4 %}
+                        <p class="text-danger">
+                            Très difficile
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="text-break">
+                    <p>{{ interview.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

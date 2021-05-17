@@ -13,16 +13,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class EvenementController extends AbstractController
 {
     /**
      * @Route("evenement")
      */
-    public function afficherToutEvenement()
+    public function afficherToutEvenement(): Response
     {
-        return $this->render('admin/evenement/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/evenement/afficher_tout.html.twig', [
             'evenements' => $this->getDoctrine()->getRepository(Evenement::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class EvenementController extends AbstractController
                 $entityManager->persist($evenement);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/evenement');
+                return $this->redirect('/espace_admin/evenement');
             }
 
-            return $this->render('/admin/evenement/manipuler.html.twig', [
+            return $this->render('/back_end_admin/evenement/manipuler.html.twig', [
                 'evenement' => $evenement,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class EvenementController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(Evenement::class)->find($idEvenement));
         $entityManager->flush();
 
-        return $this->redirect('/admin/evenement');
+        return $this->redirect('/espace_admin/evenement');
     }
 }

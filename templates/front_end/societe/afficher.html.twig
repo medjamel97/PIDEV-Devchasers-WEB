@@ -1,148 +1,188 @@
 {% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Societe{% endblock %}
 {% block content %}
-    <script>
-        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
-    </script>
-    <div style="height: 50px"></div>
-    <!-- EMPLOYERS DETAILS START -->
-    <section class="section">
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('front-end/images/backgrounds/2000x1100/BG-societe.jpg') }});">
+        <div class="bg-overlay"></div>
+        <div class="col-lg-12">
+            <div class="text-sm-center">
+                <img src="{{ asset(societe.idPhoto) }}" alt=""
+                     class="img-fluid mx-md-auto d-block shadow rounded" height="90" width="90">
+                <h4 class="mt-3 text-light">{{ societe.nom }}</h4>
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item mr-3">
+                        <p class="text-light mb-0"><i class="mdi mdi-map-marker mr-2"></i>{{ societe.adresse }}
+                        </p>
+                    </li>
+                    <li class="list-inline-item">
+                        <p class="text-success mb-0"><i class="mdi mdi-bookmark-check mdi-18px mr-2"></i>Vérifiée
+                        </p>
+                    </li>
+                </ul>
+                <ul class="list-inline mb-2">
+                    <li class="list-inline-item mr-3 ">
+                        <a href="http://www.{{ societe.nom|lower }}.tn" class="text-light">
+                            <i class="mdi mdi-earth mr-2 text-light"></i>
+                            www.{{ societe.nom|lower }}.tn</a>
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <p class="text-light"><i class="mdi mdi-email mr-2"></i>{{ societe.user.email }}</p>
+                    </li>
+
+                    <li class="list-inline-item">
+                        <p class="text-light"><i class="mdi mdi-cellphone-iphone mr-2"></i>{{ societe.tel }}</p>
+                    </li>
+                </ul>
+                {% if app.user %}
+                    {% if app.user.candidat %}
+                        <a href="{{ asset('messagerie/'~societe.user.id~'/afficher') }}"
+                           class="btn btn-light mt-3"><i class="mdi mdi-message-bulleted"></i>&nbsp&nbspContacter
+                        </a>
+                    {% elseif app.user.societe %}
+                        {% if not(app.user.societe == societe) %}
+                            <a href="{{ asset('espace_societe/messagerie/'~societe.user.id~'/afficher') }}"
+                               class="btn btn-light mt-3"><i class="mdi mdi-message-bulleted"></i>&nbsp&nbspContacter
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ asset('espace_admin/messagerie/'~societe.user.id~'/afficher') }}"
+                           class="btn btn-light mt-3"><i class="mdi mdi-message-bulleted"></i>&nbsp&nbspContacter
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <section class="section bg-light">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-sm-center">
-                        <img src="{{ asset(societe.idPhoto) }}" alt=""
-                             class="img-fluid mx-md-auto d-block shadow" height="90" width="90">
-                        <h4 class="mt-3 text-dark">{{ societe.nom }}</h4>
-                        <ul class="list-inline mb-0">
-                            <li class="list-inline-item mr-3">
-                                <p class="text-muted mb-0"><i class="mdi mdi-map-marker mr-2"></i>Location</p>
-                            </li>
-
-                            <li class="list-inline-item">
-                                <p class="text-success mb-0"><i class="mdi mdi-bookmark-check mdi-18px mr-2"></i>Verified
-                                </p>
-                            </li>
-                        </ul>
-
-                        <ul class="list-inline mb-2">
-                            <li class="list-inline-item mr-3 ">
-                                <p class="text-muted"><i class="mdi mdi-earth mr-2"></i>Website</p>
-                            </li>
-
-                            <li class="list-inline-item mr-3">
-                                <p class="text-muted"><i class="mdi mdi-email mr-2"></i>{{ societe.user.email }}</p>
-                            </li>
-
-                            <li class="list-inline-item">
-                                <p class="text-muted"><i class="mdi mdi-cellphone-iphone mr-2"></i>{{ societe.tel }}</p>
-                            </li>
-                        </ul>
+            <div class="col-md-12 mt-4 pt-2">
+                <ul class="nav nav-pills nav nav-pills bg-white shadow rounded nav-justified flex-column flex-sm-row"
+                    id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link rounded active" id="tout-offre-de-travail-tab" data-toggle="pill"
+                           href="#tout-offre-de-travail" role="tab" aria-controls="tout-offre-de-travail"
+                           aria-selected="true">Offres
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rounded" id="tout-mission-tab" data-toggle="pill"
+                           href="#tout-mission"
+                           role="tab" aria-controls="tout-mission"
+                           aria-selected="false">Missions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rounded" id="tout-evenement-tab" data-toggle="pill" href="#tout-evenement"
+                           role="tab" aria-controls="tout-evenement"
+                           aria-selected="false">Evenements
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rounded" id="tout-formation-tab" data-toggle="pill" href="#tout-formation"
+                           role="tab" aria-controls="tout-formation"
+                           aria-selected="false">Formations
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rounded" id="tout-revue-tab" data-toggle="pill" href="#tout-revue"
+                           role="tab" aria-controls="tout-revue"
+                           aria-selected="false">Revues
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rounded" id="tout-interview-tab" data-toggle="pill" href="#tout-interview"
+                           role="tab" aria-controls="tout-interview"
+                           aria-selected="false">Interviews
+                        </a>
+                    </li>
+                </ul>
+                <!--tab content-->
+                <div class="tab-content p-3" id="pills-tabContent">
+                    <!-- tab pane 1 -->
+                    <div class="tab-pane fade show active" id="tout-offre-de-travail" role="tabpanel"
+                         aria-labelledby="tout-offre-de-travail-tab">
+                        <div class="row">
+                            {% for offreDeTravail in societe.offreDeTravail %}
+                                {% include 'front_end/societe/offre_de_travail/modele_offre_de_travail.html.twig' %}
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="border-top border-bottom pt-4 pb-4">
-                        <div class="row justify-content-sm-center">
-                            <div class="col-lg-2 col-md-3 col-6">
-                                <div class="text-sm-center m-14">
-                                    <h5 class="text-dark mb-2">Offres de travail</h5>
-                                    <a href="" >Consulter</a>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-6">
-                                <div class="text-sm-center m-14">
-                                    <h5 class="text-dark mb-2">Formations</h5>
-                                    <a href="" >Consulter</a>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-6">
-                                <div class="text-sm-center m-14">
-                                    <h5 class="text-dark mb-2">Missions</h5>
-                                    <a href="" >Consulter</a>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-3 col-6">
-                                <div class="text-sm-center m-14">
-                                    <h5 class="text-dark mb-2">Evenements</h5>
-                                    <a href="" >Consulter</a>
-                                </div>
+                    <!-- end tab pane 1 -->
+                    <!-- tab pane 2 -->
+                    <div class="tab-pane fade" id="tout-mission" role="tabpanel"
+                         aria-labelledby="tout-mission-tab">
+                        <div class="row">
+                            {% for mission in societe.mission %}
+                                {% include '/front_end/societe/mission/modele_mission.html.twig' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- end tab pane 2 -->
+                    <!-- tab pane 3 -->
+                    <div class="tab-pane fade" id="tout-formation" role="tabpanel"
+                         aria-labelledby="tout-formation-tab">
+                        <div class="col-md-12 faq-content">
+                            <div class="accordion" id="accordionExample">
+                                {% for formation in societe.formation %}
+                                    {% include '/front_end/societe/formation/modele_formation.html.twig' %}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12 mt-4 pt-2">
-                    <h4>Company Overview :</h4>
-                    <div class="rounded border p-4 mt-3">
-                        <p class="text-muted">At vero eos accusamus iusto odio dignissimos ducimus blanditiis
-                            praesentium voluptatum deleniti that is atque corrupti dolores et quas molestias excepturi
-                            sint occaecati cupiditate non at provident similique sunt in culpa qui officia deserunt
-                            mollitia animi id est laboru at dolorum fuga Nam libero tempore cum soluta nobis est
-                            eligendi optio cumque nihil impedit quo minus quod maxime placeat facere possimus omnis
-                            voluptas assumenda est omnis dolor repellendus at enim ipsam voluptatem quia voluptas aut
-                            odit aut fugit Cum sociis natoque penatibus magnis dis parturient montes nascetur ridiculus
-                            mus donec quam felis ultricies nec pellentesque eu pretium quis sem that phasellus viverra
-                            nulla ut metus varius laoreet.</p>
-                        <p class="text-muted">Nobis est eligendi optio cumque nihil impedit quo minus quod maxime at
-                            placeat facere possimus omnis voluptas assumenda est omnis dolor repellendus at enim ipsam
-                            eligendi optio cumque nihil impedit quo minus quod maxime placeat voluptatem quia that
-                            voluptas aut odit aut fugit Cum sociis natoque penatibus magnis dis parturient montes,
-                            nascetur ridiculus mus. Donec quam felis, ultricies nec this pellentesque eu pretium quis
-                            sem hasellus viverra nulla ut metus varius laoreet uisque rutrum enean imperdie tiam
-                            ultricies nisi vel augue.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12 mt-4 pt-2">
-                    <h4>Company Review :</h4>
-                </div>
-
-                <div class="col-lg-12 col-md-7">
-                    <div class="shadow rounded p-4 mt-4">
-                        <img src="{{ asset('https://via.placeholder.com/400X400//88929f/5a6270C/O https://placeholder.com/') }}"
-                             alt="" height="90" class="float-left shadow rounded-pill mr-3">
-                        <div class="d-block overflow-hidden">
-                            <h6 class="text-muted font-weight-light float-right mb-0"><i
-                                        class="mdi mdi-clock-outline mr-1"></i>32 minutes ago</h6>
-                            <h5 class="mb-1"><a href="{{ asset('#') }}" class="text-dark">Mario Thomas</a></h5>
-                            <small class="text-muted font-weight-bold">Web Developer</small>
-                            <ul class="employers-icons list-inline mb-1">
-                                <li class="list-inline-item mr-0 text-success"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item mr-0 text-success"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item mr-0 text-success"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item mr-0 text-success"><i class="mdi mdi-star"></i></li>
-                                <li class="list-inline-item mr-0 text-success"><i class="mdi mdi-star"></i></li>
-                            </ul>
-                            <p class="text-muted mb-0">Phasellus viverra nulla ut metus varius laoreet quisque rutrum
-                                aenean imperdiet etiam ultricies nisi avel augue curabitur ullamcorper ultricies nisi
-                                nam eget dui.</p>
+                    <!-- end tab pane 3 -->
+                    <!-- tab pane 4 -->
+                    <div class="tab-pane fade" id="tout-evenement" role="tabpanel"
+                         aria-labelledby="tout-evenement-tab">
+                        <div class="col-md-12 faq-content">
+                            <div class="accordion" id="accordionExample">
+                                {% for evenement in societe.evenement %}
+                                    {% include '/front_end/societe/evenement/modele_evenement.html.twig' %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
+                    <!-- end tab pane 4 -->
+                    <!-- tab pane 5 -->
+                    <div class="tab-pane fade" id="tout-revue" role="tabpanel"
+                         aria-labelledby="tout-revue-tab">
+                        {% for offreDeTravail in societe.offreDeTravail %}
+                            {% for candidatureOffre in offreDeTravail.candidatureOffre %}
+                                {% for revue in candidatureOffre.revue %}
+                                    {% include '/front_end/societe/offre_de_travail/revue/modele_revue.html.twig' %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <!-- end tab pane 5 -->
+                    <!-- tab pane 6 -->
+                    <div class="tab-pane fade" id="tout-interview" role="tabpanel"
+                         aria-labelledby="tout-interview-tab">
+                        {% for offreDeTravail in societe.offreDeTravail %}
+                            {% for candidatureOffre in offreDeTravail.candidatureOffre %}
+                                {% for interview in candidatureOffre.interview %}
+                                    {% include '/front_end/societe/offre_de_travail/interview/modele_interview.html.twig' %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <!-- end tab pane 6 -->
                 </div>
+                <!--end tab content-->
             </div>
         </div>
     </section>
     <!-- EMPLOYERS DETAILS END -->
 
     <!-- javascript -->
-    <script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('frontEnd/js/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
+    <script src="{{ asset('front-end/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/plugins.js') }}"></script>
 
     <!-- selectize js -->
-    <script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/selectize.min.js') }}"></script>
 
-    <script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('front-end/js/jquery.nice-select.min.js') }}"></script>
 
-    <script src="{{ asset('frontEnd/js/app.js') }}"></script>
+    <script src="{{ asset('front-end/js/app.js') }}"></script>
 {% endblock %}

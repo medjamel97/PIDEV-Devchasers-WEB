@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Societe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,10 +23,14 @@ class SocieteRepository extends ServiceEntityRepository
 
     public function findStartingWith($recherche)
     {
-        return $this->createQueryBuilder('s')
-            ->where('s.nomSociete LIKE :val')
-            ->setParameter("val", $recherche . '%')
-            ->getQuery()
-            ->getResult();
+        try {
+            return $this->createQueryBuilder('s')
+                ->where('s.nom LIKE :val')
+                ->setParameter("val", $recherche . '%')
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException | NonUniqueResultException $e) {
+            return null;
+        }
     }
 }

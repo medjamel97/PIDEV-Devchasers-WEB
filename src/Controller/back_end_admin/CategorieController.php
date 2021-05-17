@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class CategorieController extends AbstractController
 {
@@ -22,7 +22,7 @@ class CategorieController extends AbstractController
      */
     public function afficherToutCategorie()
     {
-        return $this->render('admin/categorie/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/categorie/afficher_tout.html.twig', [
             'categories' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class CategorieController extends AbstractController
                 $entityManager->persist($categorie);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/categorie');
+                return $this->redirect('/espace_admin/categorie');
             }
 
-            return $this->render('/admin/categorie/manipuler.html.twig', [
+            return $this->render('/back_end_admin/categorie/manipuler.html.twig', [
                 'categorie' => $categorie,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class CategorieController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(Categorie::class)->find($idCategorie));
         $entityManager->flush();
 
-        return $this->redirect('/admin/categorie');
+        return $this->redirect('/espace_admin/categorie');
     }
 }

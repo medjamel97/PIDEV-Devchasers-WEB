@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class AdminController extends AbstractController
 {
@@ -15,7 +15,6 @@ class AdminController extends AbstractController
      */
     public function dashboard()
     {
-        return $this->render('admin/admin_dashboard.html.twig', [
-        ]);
+        return $this->redirect("/espace_admin/candidat");
     }
 }

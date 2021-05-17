@@ -1,0 +1,45 @@
+{% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Publication{% endblock %}
+{% block content %}
+    <section class="page-next-level pb-5"
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-publication.jpg') }});
+                     padding-top: 20vh">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="text-center text-white">
+                        <p class="display-4 text-uppercase title mb-4">{{ manipulation }} publication</p>
+                    </div>
+                </div>
+            </div>
+            {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+            <div class="row col-md-8 mx-auto m-3 p-2 rounded bg-white text-dark">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_label(form.titre) }}
+                        {{ form_widget(form.titre, {'attr': {'placeholder': 'Tapez le titre de votre publication','class': 'form-control'}}) }}
+                        {{ form_errors(form.titre) }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {{ form_label(form.description) }}
+                        {{ form_widget(form.description, {'attr': {'placeholder': 'Tapez votre description','class': 'form-control'}}) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                </div>
+                <div class="col-md-12 pt-2">
+                    <div class="form-group">
+                        {{ form_widget(form.submit, {
+                            'label' : 'Envoyer',
+                            'attr': {
+                                'class': 'submitBnt btn btn-primary btn-block mx-auto','style':'width: 300px;'
+                            }}) }}
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}

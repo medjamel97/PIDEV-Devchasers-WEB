@@ -16,7 +16,7 @@ class CommentaireController extends AbstractController
     /**
      * @Route("commentaire/ajouter", name="ajouterCommentaire")
      */
-    public function ajouterCommentaire(Request $request)
+    public function ajouterCommentaire(Request $request): Response
     {
         $idUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' =>
             $request->getSession()->get(Security::LAST_USERNAME)])->getId();
@@ -32,11 +32,20 @@ class CommentaireController extends AbstractController
         $commentaireRepository->persist($commentaire);
         $commentaireRepository->flush();
 
+
         $jsonContent['id'] = $commentaire->getId();
-        $jsonContent['nomPrenom'] =
-            $commentaire->getUser()->getCandidat()->getPrenom() . " " .
-            $commentaire->getUser()->getCandidat()->getNom() . " :";
-        $jsonContent['idPhoto'] = $commentaire->getUser()->getCandidat()->getIdPhoto();
+        if ($commentaire->getUser()->getCandidat()) {
+            $jsonContent['nom'] =
+                $commentaire->getUser()->getCandidat()->getPrenom() . " " .
+                $commentaire->getUser()->getCandidat()->getNom() . " :";
+            $jsonContent['idPhoto'] = $commentaire->getUser()->getCandidat()->getIdPhoto();
+        } elseif ($commentaire->getUser()->getSociete()) {
+            $jsonContent['nom'] = $commentaire->getUser()->getSociete()->getNom() . " :";
+            $jsonContent['idPhoto'] = $commentaire->getUser()->getSociete()->getIdPhoto();
+        } else {
+            $jsonContent['nom'] = "Admin :";
+            $jsonContent['idPhoto'] = "/back-end/images/admin-icon.png";
+        }
         $jsonContent['description'] = $commentaire->getDescription();
 
         return new Response(json_encode($jsonContent));
@@ -45,7 +54,7 @@ class CommentaireController extends AbstractController
     /**
      * @Route("commentaire/{idCommentaire}/modifier", name="modifierCommentaire")
      */
-    public function modifierCommentaire(Request $request, $idCommentaire)
+    public function modifierCommentaire(Request $request, $idCommentaire): Response
     {
         $modifiedCommentDescription = $request->get('modifiedComment');
         $commentaireRepository = $this->getDoctrine()->getManager();
@@ -56,10 +65,18 @@ class CommentaireController extends AbstractController
         $commentaireRepository->flush();
 
         $jsonContent['id'] = $commentaire->getId();
-        $jsonContent['nomPrenom'] =
-            $commentaire->getUser()->getCandidat()->getPrenom() . " " .
-            $commentaire->getUser()->getCandidat()->getNom() . " :";
-        $jsonContent['idPhoto'] = $commentaire->getUser()->getCandidat()->getIdPhoto();
+        if ($commentaire->getUser()->getCandidat()) {
+            $jsonContent['nom'] =
+                $commentaire->getUser()->getCandidat()->getPrenom() . " " .
+                $commentaire->getUser()->getCandidat()->getNom() . " :";
+            $jsonContent['idPhoto'] = $commentaire->getUser()->getCandidat()->getIdPhoto();
+        } elseif ($commentaire->getUser()->getSociete()) {
+            $jsonContent['nom'] = $commentaire->getUser()->getSociete()->getNom() . " :";
+            $jsonContent['idPhoto'] = $commentaire->getUser()->getSociete()->getIdPhoto();
+        } else {
+            $jsonContent['nom'] = "Admin :";
+            $jsonContent['idPhoto'] = "/back-end/images/admin-icon.png";
+        }
         $jsonContent['description'] = $commentaire->getDescription();
 
         return new Response(json_encode($jsonContent));
@@ -68,7 +85,7 @@ class CommentaireController extends AbstractController
     /**
      * @Route("commentaire/{idCommentaire}/supprimer", name="supprimerCommentaire")
      */
-    public function supprimerCommentaire($idCommentaire)
+    public function supprimerCommentaire($idCommentaire): Response
     {
         $commentaireManager = $this->getDoctrine()->getManager();
         $commentaire = $commentaireManager->getRepository(Commentaire::class)->find($idCommentaire);

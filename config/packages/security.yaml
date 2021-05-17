@@ -37,7 +37,7 @@ security:
     # - { path: ^/back_end_admin, roles: ROLE_ADMIN }
     # - { path: ^/profile, roles: ROLE_USER }
     # require ROLE_ADMIN for /back_end_admin*
-    - { path: '^/back_end', roles: [ROLE_SOCIETE] }
+    - { path: '^/espace_societe', roles: [ROLE_SOCIETE] }
 
     # or require ROLE_ADMIN or IS_AUTHENTICATED_FULLY for /back_end_admin*
-    - { path: '^/back_end_admin', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN] }
+    - { path: '^/back_end_admin', roles: [ROLE_ADMIN] }

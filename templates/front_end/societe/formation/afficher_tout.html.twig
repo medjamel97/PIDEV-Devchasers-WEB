@@ -1,74 +1,168 @@
 {% extends 'front_end/base.html.twig' %}
-{% block title %}Formation index{% endblock %}
-
+{% block title %}Khedemti | Formations{% endblock %}
 {% block content %}
-    <script>
-        document.getElementById("topnav").setAttribute("class", "scroll-active scroll");
-    </script>
-    <div style="height:100px"></div>
-
-<!-- Begin Page Content -->
-<div class="container-fluid">
-
-    <!-- Page Heading -->
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-
-                        <th>Nom</th>
-                        <th>Filiere</th>
-                        <th>Debut</th>
-                        <th>Fin</th>
-
-
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    {% for formation in formations %}
-                        <tr>
-
-                            <td>{{ formation.nom }}</td>
-                            <td>{{ formation.filiere }}</td>
-                            <td>{{ formation.debut ? formation.debut|date('Y-m-d') : '' }}</td>
-                            <td>{{ formation.fin ? formation.fin|date('Y-m-d') : '' }}</td>
-
-
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="7">no records found</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-formation.jpg') }})">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <p class="display-4 text-uppercase title mb-4">Formations</p>
+                        <ul class="page-next d-inline-block mb-0">
+                            <li><a href="{{ asset('/societe') }}"
+                                   class="text-uppercase font-weight-bold">Societes</a>
+                            </li>
+                            <li><span class="text-uppercase text-white font-weight-bold">Formations</span></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        <br>
-
-        {# display navigation #}
-        <div class="navigation text-center">
-            <h3>  <b>  {{ knp_pagination_render(formations) }}</b> </h3>
-            <style>
-                .text-center {
-                    text-align: center!important;
-                    margin-left: 530px;
-                }
-            </style>
+    </section>
+    <section class="bg-light">
+        <div class="container">
+            <div class="home-form-position ">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="home-registration-form job-list-reg-form bg-white shadow-lg p-4 mb-3">
+                            <form class="registration-form">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-6">
+                                        <div class="registration-form-box">
+                                            <i class="mdi mdi-magnify"></i>
+                                            <input type="text" id="recherche"
+                                                   class="form-control rounded registration-input-box"
+                                                   placeholder="Rechercher une formation ...">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
+    <section id="contenaire-sans-recherche" class="section bg-light p-1">
+        {% set societeActuelle = 0 %}
+        <div>
+            <div>
+                <div>
+                    {% for formation in formations %}
+                    {% if societeActuelle != formation.societe.id %}
+                </div>
+            </div>
+        </div>
+        <div class="row col-md-8 mx-auto my-3 py-4 border rounded shadow-lg bg-white">
+            {% set societeActuelle = formation.societe.id %}
+            <div class="row col-md-12 px-0 mb-4">
+                <div class="col-md-2 px-1">
+                    <img alt="societe" src="{{ asset(formation.societe.idPhoto) }}"
+                         height="100" width="100" class="border shadow rounded mx-4">
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <a class="col-md-12 h4">{{ formation.societe.nom }}</a>
+                        <p class="col-md-12 text-muted my-0"><i class="mdi mdi-phone"></i>
+                            {{ formation.societe.tel }}
+                        </p>
+                        <p class="col-md-12 text-muted my-0"><i class="mdi mdi-map-marker"></i>
+                            {{ formation.societe.adresse }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 faq-content">
+                <div class="accordion" id="accordionExample">
+                    {% include "front_end/societe/formation/modele_formation.html.twig" %}
+                    {% else %}
+                        {% include "front_end/societe/formation/modele_formation.html.twig" %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contenaire-recherche-formation" class="section bg-light p-1">
+        <div id="resultat-formation" class="row col-md-6 mx-auto my-3 py-2 border rounded shadow-lg bg-white">
 
+        </div>
+    </section>
 
-        <br> <br>
-    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $("#contenaire-recherche-formation").hide()
 
-</div>
-    <div style="height:100px"></div>
+        let release = null;
+        $("#recherche").keyup(function (e) {
+            clearInterval(release);
+            release = setInterval(function () {
+                if (value !== "") {
+                    $.ajax({
+                            type: 'GET',
+                            url: "/formation/recherche",
+                            data: {
+                                'valeurRecherche': value
+                            },
+                            success: function (retour) {
+
+                                $("#contenaire-recherche-formation").show()
+                                $("#contenaire-sans-recherche").hide()
+                                if (retour) {
+                                    $("#resultat-formation").empty();
+                                    $.each(JSON.parse(retour), function (i, obj) {
+                                        $("#resultat-formation").append(
+                                            "<div class='d-block bg-light mx-auto my-2 border rounded'>" +
+                                            "   <div class='row'>" +
+                                            "       <div class='row col-md-6'>"+
+                                            "           <div class='col-md-4'>" +
+                                            "               <img alt='formation' src='" + obj.idPhotoSociete + "'" +
+                                            "                 width='70' height='70'" +
+                                            "                 class='shadow m-5'>" +
+                                            "           </div>" +
+                                            "           <div class='col-md-8 my-auto text-dark'>" +
+                                            "               <p class='col-md-12 my-auto'>" + obj.nomSociete + "</p>" +
+                                            "               <p class='col-md-12 my-auto'>" +
+                                            "               <i class='mdi mdi-map-marker'></i>" +
+                                            "                   &nbsp&nbsp&nbsp&nbsp" + obj.adresseSociete +
+                                            "               </p>" +
+                                            "           </div>" +
+                                            "       </div>"+
+                                            "       <div class='row col-md-6 my-2'>"+
+                                            "           <div class='col-md-12 my-auto text-dark'>" +
+                                            "               <b class='col-md-12 my-auto'>Formation : " + obj.nom + "</b>" +
+                                            "               <p class='col-md-12 my-auto'>Filiere : " + obj.filiere + "</p>" +
+                                            "           </div>" +
+                                            "           <div class='col-md-12 my-auto text-muted'>" +
+                                            "               <p class='col-md-12 my-auto'>Debut : " + obj.debut + "</p>" +
+                                            "               <p class='col-md-12 my-auto'>Fin : " + obj.fin + "</p>" +
+                                            "           </div>" +
+                                            "       </div>" +
+                                            "   </div>" +
+                                            "</div>"
+                                        );
+                                    })
+                                } else {
+                                    $("#resultat-formation").empty().append(
+                                        "<p class='text-center p-3 m-0'>" +
+                                        "Aucun resultat " +
+                                        "</p>"
+                                    );
+                                }
+                            }
+                        }
+                    );
+                } else {
+                    $("#contenaire-sans-recherche").show();
+                }
+                clearInterval(release)
+            }, 200);
+            let value = $("#recherche").val();
+
+            return false;
+        })
+        ;
+    </script>
+
 {% endblock %}

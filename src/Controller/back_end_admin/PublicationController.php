@@ -13,16 +13,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class PublicationController extends AbstractController
 {
     /**
      * @Route("publication")
      */
-    public function afficherToutPublication()
+    public function afficherToutPublication(): Response
     {
-        return $this->render('admin/publication/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/publication/afficher_tout.html.twig', [
             'publications' => $this->getDoctrine()->getRepository(Publication::class)->findAll()
         ]);
     }
@@ -30,7 +30,7 @@ class PublicationController extends AbstractController
     /**
      * @Route("publication/ajouter")
      */
-    public function ajouterPublication(Request $request)
+    public function ajouterPublication(Request $request): Response
     {
         return $this->manipulerPublication($request, 'Ajouter', new Publication());
     }
@@ -38,7 +38,7 @@ class PublicationController extends AbstractController
     /**
      * @Route("publication/{idPublication}/modifier")
      */
-    public function modifierPublication(Request $request, $idPublication)
+    public function modifierPublication(Request $request, $idPublication): Response
     {
         return $this->manipulerPublication($request, 'Modifier',
             $this->getDoctrine()->getRepository(Publication::class)->find($idPublication));
@@ -60,10 +60,10 @@ class PublicationController extends AbstractController
                 $entityManager->persist($publication);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/publication');
+                return $this->redirect('/espace_admin/publication');
             }
 
-            return $this->render('/admin/publication/manipuler.html.twig', [
+            return $this->render('/back_end_admin/publication/manipuler.html.twig', [
                 'publication' => $publication,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -76,12 +76,12 @@ class PublicationController extends AbstractController
     /**
      * @Route("publication/{idPublication}/supprimer")
      */
-    public function supprimerPublication($idPublication)
+    public function supprimerPublication($idPublication): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Publication::class)->find($idPublication));
         $entityManager->flush();
 
-        return $this->redirect('/admin/publication');
+        return $this->redirect('/espace_admin/publication');
     }
 }

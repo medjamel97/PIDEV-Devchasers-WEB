@@ -61,10 +61,10 @@ class Publication
     private $commentaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="publication")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="publication")
      * @Groups("post:read")
      */
-    private $candidat;
+    private $user;
 
     public function __construct()
     {
@@ -185,14 +185,14 @@ class Publication
         return $this;
     }
 
-    public function getCandidat(): ?candidat
+    public function getUser(): ?user
     {
-        return $this->candidat;
+        return $this->user;
     }
 
-    public function setCandidat(?candidat $candidat): self
+    public function setUser(?user $user): self
     {
-        $this->candidat = $candidat;
+        $this->user = $user;
 
         return $this;
     }

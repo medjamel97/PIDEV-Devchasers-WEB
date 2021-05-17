@@ -1,0 +1,71 @@
+<div class="col-lg-3 col-md-6 mt-4 pt-2">
+    <div class="blog position-relative overflow-hidden shadow-lg rounded bg-white">
+        <div class="position-relative overflow-hidden border-bottom p-3">
+            <img src="{{ asset(offreDeTravail.societe.idPhoto) }}"
+                 class="img-fluid rounded-top mx-auto d-block" alt="" height="50">
+            <div class="overlay rounded-top bg-dark"></div>
+            <div class="likes">
+                <ul class="list-unstyled mb-0">
+                    <li class="list-inline-item mr-2">
+                        <a href="{{ asset('#') }}" class="text-white like">
+                            <i class="mdi mdi-heart-outline mr-1"></i>33
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="{{ asset('#') }}" class="text-white comments">
+                            <i class="mdi mdi-comment-outline mr-1"></i>08
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content p-4">
+            <div class="author">
+                <p class=" mb-0">
+                    <i class="mdi mdi-office-building text-light"></i>
+                    <a href="{{ asset('#') }}" class="text-light user">{{ offreDeTravail.societe.nom }}</a>
+                </p>
+                <p class="text-light mb-0 date">
+                    <i class="mdi mdi-map-marker"></i>
+                    {{ offreDeTravail.societe.adresse }}
+                </p>
+            </div>
+            <h4>
+                <a href="{{ asset('#') }}"
+                   class="title text-dark">
+                    {{ offreDeTravail.nom }}
+                </a>
+            </h4>
+            <p class="text-muted h-100 text-truncate">
+                {{ offreDeTravail.description }}
+            </p>
+            <div class="row">
+                <a href="{{ asset('offre_de_travail/'~offreDeTravail.id~'/afficher') }}"
+                   class="btn btn-primary w-75 m-auto">
+                    Consulter <i class="mdi mdi-chevron-right"></i>
+                </a>
+                {% if app.user %}
+                    {% if app.user.candidat %}
+                        {% for candidatureOffre in offreDeTravail.candidatureOffre %}
+                            {% if candidatureOffre.candidat == app.user.candidat %}
+                                {% if candidatureOffre.etat == "accepté" %}
+                                    <p class="alert alert-success text-center w-75 mx-auto mt-3">
+                                        Candidature accepté
+                                    </p>
+                                {% elseif candidatureOffre.etat == "refusé" %}
+                                    <p class="alert alert-danger text-center w-75 mx-auto mt-3">
+                                        Candidature refusé
+                                    </p>
+                                {% else %}
+                                    <p class="alert alert-warning text-center w-75 mx-auto mt-3">
+                                        Candidature en cours de traitement
+                                    </p>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="card border rounded shadow my-2">
+    <div class="card-header row bg-white p-3" id="headingOne">
+        <h4 class="col-md-4 title text-primary mb-0 faq-question">
+            {{ formation.nom }}
+        </h4>
+        <h4 class="col-md-4 title mb-0 faq-question">
+            {{ formation.filiere }}
+        </h4>
+        <h4 class="col-md-4 title mb-0 faq-question text-right">
+            {{ formation.debut ? formation.debut|date('Y-m-d') : '' }}
+            &nbsp-&nbsp
+            {{ formation.fin ? formation.fin|date('Y-m-d') : '' }}&nbsp&nbsp
+        </h4>
+    </div>
+</div>

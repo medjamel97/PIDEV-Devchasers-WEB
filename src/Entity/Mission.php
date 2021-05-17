@@ -78,7 +78,7 @@ class Mission
     private $candidatureMission;
 
     /**
-     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="mission", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="mission", cascade={"persist", "remove"})
      */
     private $question;
 

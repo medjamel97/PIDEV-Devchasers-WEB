@@ -1,0 +1,51 @@
+{% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Offres{% endblock %}
+{% block content %}
+    <!-- blog start -->
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-offres.jpg') }})">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <p class="display-4 text-uppercase title mb-4">Offres par categorie</p>
+                        <ul class="page-next d-inline-block mb-0">
+                            <li>
+                                <a href="{{ asset('accueil') }}" class="text-uppercase font-weight-bold">Accueil</a>
+                            </li>
+                            <li>
+                                <a href="{{ asset('offres_de_travail') }}" class="text-uppercase font-weight-bold">Offres
+                                    de travail</a>
+                            </li>
+                            <li>
+                                <span class="text-uppercase text-white font-weight-bold">Categorie : {{ categorie.nom }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center ">
+                    <p class="display-4 mb-0">Offres de travail avec categorie : {{ categorie.nom }}</p>
+                    <div class="section-title">
+                        <p class="title title-line p-5"></p>
+                    </div>
+                </div>
+            </div>
+            <div id="body2" class="row">
+            </div>
+            <div class="row" id="body1">
+                {% for offreDeTravail in offresDeTravail %}
+                    {% include '/front_end/societe/offre_de_travail/modele_offre_de_travail.html.twig' %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- blog end -->
+{% endblock %}
+

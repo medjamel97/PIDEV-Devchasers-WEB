@@ -1,0 +1,41 @@
+{% extends '/back_end_admin/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid">
+        <div class="row align-content-center">
+            <div class="col-md-6">
+                <p class="h1 m-5">Liste des formations</p>
+            </div>
+            <div class="col-md-5 m-auto">
+                <a class="btn btn-primary float-right" href="{{ asset('espace_admin/formation/ajouter') }}">Ajouter une
+                    formation</a>
+            </div>
+        </div>
+        <table class="table bg-white border text-center">
+            <tr class="text-uppercase text-dark font-weight-bold">
+                <td>Societe</td>
+                <td>Nom</td>
+                <td>Date de debut</td>
+                <td>Date de fin</td>
+                <td>Filière</td>
+                <td>Actions</td>
+            </tr>
+            {% for formation in formations %}
+                <tr>
+                    <td>{{ formation.societe.nom }}</td>
+                    <td>{{ formation.nom }}</td>
+                    <td>{{ formation.debut|date("d-m-Y") }}</td>
+                    <td>{{ formation.fin|date("d-m-Y") }}</td>
+                    <td>{{ formation.filiere }}</td>
+                    <td>
+                        <a class="btn btn-dark m-1" href="{{ asset('espace_admin/formation/'~formation.id~'/modifier') }}">
+                            Modifier
+                        </a>
+                        <a class="btn btn-danger m-1" href="{{ asset('espace_admin/formation/'~formation.id~'/supprimer') }}">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock %}

@@ -1,0 +1,683 @@
+{% extends '/back_end_societe/base.html.twig' %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('back-end/css/modal.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('back-end/css/chat.css') }}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <div id="contenaire-principal" class="row justify-content-center ml-5 mr-5">
+        <!-- contenaire conversations -->
+        <div id="contenaire-principal-conversations" class="col-lg-4 mb-5">
+            <p class="display-4 mb-3 text-center">Messagerie</p>
+            <div class="component-wrapper rounded bg-white"
+                 style="box-shadow: 0 0 0.5rem 1px rgba(54,54,54,0.14);">
+                <div class="border-bottom rounded-top bg-white p-3">
+                    <div class="form-group m-0">
+                        <div class="input-group">
+                            <label for="recherche-conversation"></label>
+                            <input id="recherche-conversation" class="form-control pt-1" type="text"
+                                   placeholder="Rechercher dans mes conversations" autocomplete="off"
+                                   aria-describedby="button-recherche-user">
+                            <div class="input-group-append">
+                                <button id="button-recherche-user" class="btn btn-primary submitBnt pt-1"
+                                        type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="contenaire-conversations" class="conversation-container border-bottom">
+                </div>
+                <div class="p-3 m-auto">
+                    <a id="nouvelle-conversation" href="#" class="btn btn-primary-outline w-100"> + Nouvelle
+                        conversation </a>
+                </div>
+            </div>
+        </div>
+        <!-- contenaire chat -->
+        <div id="contenaire-chat" class="col-lg-7 animation-contenaire-chat pb-5">
+            <div class="component-wrapper rounded" style="box-shadow: 0 0 0.5rem 1px rgba(54,54,54,0.14);">
+                <div class="border-bottom rounded-top bg-white p-3" style="z-index: 150;">
+                    <div class="contact bar bg-white">
+                        <img id="contenaire-chat-destinataire-photo"
+                             src="{{ asset('images/candidat-default.jpg') }}" height="65" width="65"
+                             class="shadow-sm border rounded-circle mt-auto mb-auto mr-2 ml-2">
+                        <div id="topbar-infos" class=""
+                             style="display: flex;justify-content: center;align-items: center;">
+                            <div>
+                                <div id="contenaire-chat-destinataire" class="name">
+                                    NaN
+                                </div>
+                                <div id="contenaire-chat-destinataire-dernier-message" class="seen">
+                                    NaN
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id='outside-shadow-top' class="position-relative" style="z-index: 77"></div>
+                <div id="chat" class="messages">
+                    <div class="time">time here</div>
+                    <div class="message destinataire">
+                        NaN
+                    </div>
+                    <div class="message expediteur">
+                        NaN
+                    </div>
+                    {% if "person" == "is typing" %}
+                        <div class="message">
+                            <div class="typing typing-1"></div>
+                            <div class="typing typing-2"></div>
+                            <div class="typing typing-3"></div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div id='outside-shadow-bot' class="position-relative"></div>
+                <div class="border-top rounded-bottom bg-white p-4 position-relative" style="z-index: 100;">
+                    <form>
+                        <div class="form-group m-0">
+                            <div class="input-group">
+                                <input id="message-contenu" class="form-control pt-1" type="text"
+                                       placeholder="Nouveau message" aria-describedby="message_Envoyer"
+                                       autocomplete="off">
+                                <div class="input-group-append">
+                                    <button id="message-envoyer" class="btn btn-primary submitBnt pt-1"
+                                            type="submit">
+                                        <i class="fa fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="nouvmodal" class="modal">
+        <div id="nouvmodal-background" class="modal-background"></div>
+        <div id="nouvmodal-content" class="modal-content component-wrapper rounded shadow-sm">
+            <div class="border-bottom rounded-top bg-white p-3 position-relative" style="z-index: 80">
+                <div class="form-group m-0">
+                    <div class="input-group">
+                        <input id="recherche-user" class="form-control pt-1" type="text"
+                               placeholder="Rechercher des users" autocomplete="off"
+                               aria-describedby="buttonRechercheUser">
+                        <div class="input-group-append">
+                            <button id="button-recherche-user"
+                                    class="btn btn-primary submitBnt pt-1"
+                                    type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="contenaire-users" class="my-modal-body custom-scroll rounded-bottom">
+            </div>
+        </div>
+    </div>
+    <!-- Modal supprimer conversation -->
+    <div id="suppmodal" class="modal">
+        <div id="suppmodal-background" class="modal-background"></div>
+        <div id="suppmodal-content" class="modal-content-supp">
+            <div class="my-modal-supp-body custom-scroll border-bottom rounded-top">
+                <p id="suppmodal-body" class="m-0 p-3 text-center"></p>
+            </div>
+            <div id="suppmodal-footer" class="my-modal-footer rounded-bottom">
+                <a id="suppmodal-confirmer" href="#" class="m-auto text-blue">Confirmer</a>
+                <a id="suppmodal-annuler" href="#" class="m-auto text-blue">Annuler</a>
+            </div>
+        </div>
+    </div>
+    <script id="general">
+        document.body.style.overflow = 'hidden';
+
+        const idUserExpediteurActuel = {{ app.user.id }}+0;
+        let idUserDestinataireActuel = 0;
+        let idConversationActuelle = 0;
+        let nomConversationActuelle = "";
+        let idPhotoConversationActuelle = "";
+        let rechercheChanged = false;
+        let chatContainerIsHidden = true;
+        let retourConversation = "";
+        let retourChat = "";
+        let messagesPageIndex;
+        let rebootChat = false;
+
+        let chatInitialized = false;
+        let endOfChat = false;
+
+        let chatWindow = $('#chat');
+
+        $('#user').hide();
+        $('#conversation').hide();
+        $('#contenaire-chat').hide();
+
+        chatWindow.scroll(function () {
+            if ($(this).scrollTop() === 0) {
+                $('#outside-shadow-top').removeClass("outside-shadow-top");
+            } else {
+                $('#outside-shadow-top').addClass("outside-shadow-top");
+            }
+            if ($(this).scrollTop() + $(this).innerHeight() >= ($(this)[0].scrollHeight - 20)) {
+                $('#outside-shadow-bot').removeClass("outside-shadow-bot")
+            } else {
+                $('#outside-shadow-bot').addClass("outside-shadow-bot");
+            }
+            chatWindow.stop();
+        });
+
+        {% if conversation %}
+        setTimeout(function () {
+            {% if conversation.userDestinataire.candidat %}
+            rafraichirFenetreChat(
+                    {{ conversation.id }}
+                , "{{ conversation.nom }}"
+                , "{{ conversation.userDestinataire.candidat.idPhoto }}"
+            )
+            {% elseif conversation.userDestinataire.societe %}
+            rafraichirFenetreChat(
+                    {{ conversation.id }}
+                , "{{ conversation.nom }}"
+                , "{{ conversation.userDestinataire.societe.idPhoto }}"
+            )
+            {% else %}
+            rafraichirFenetreChat(
+                    {{ conversation.id }}
+                , "admin"
+                , "{{ asset('/images/admin-icon.png') }}"
+            )
+            {% endif %}
+            console.log('chose');
+        }, 2000);
+        {% endif %}
+    </script>
+    <script id="modal-nouvelle-conversation">
+        let nouvModal = document.getElementById("nouvmodal");
+        let nouvModalContent = document.getElementById("nouvmodal-content");
+
+        $(window).keyup(function (e) {
+            if (e.keyCode === 27) {
+                closeNouvModal()
+            }
+        });
+
+        $("#nouvmodal-background").click(function () {
+            closeNouvModal();
+        });
+
+        $("#nouvelle-conversation").click(function () {
+            nouvModal.style.display = "block";
+        });
+
+        function closeNouvModal() {
+            nouvModal.style.display = "none";
+            $("#recherche-user").val("");
+        }
+
+        $('#nouvelle-conversation').click(function () {
+            rafraichirModalNouvelleConversation("");
+        });
+
+        let userLoadingPrepended = false;
+        $('#recherche-user').keydown(function () {
+            if (!userLoadingPrepended) {
+                $('#contenaire-users').empty().prepend(
+                    "<div id='loading-user' class='justify-content-center'>" +
+                    "<img id='loading-image' src='{{ asset('front-end/images/loading-icon.gif') }}' alt='loading'" +
+                    "height='50' width='50' class='loading-img'>" +
+                    "</div>"
+                );
+                userLoadingPrepended = true;
+            }
+            clearInterval(release);
+            release = setInterval(function () {
+                rechercheChanged = true;
+                rafraichirModalNouvelleConversation($('#recherche-user').val());
+                clearInterval(release)
+            }, 500);
+        });
+    </script>
+    <script id="modal-supprimer-conversation">
+        suppModal = document.getElementById("suppmodal");
+        suppModalContent = document.getElementById("suppmodal-content");
+        idConv = null;
+        $(window).keyup(function (e) {
+            if (e.keyCode === 27) {
+                closeSuppModal();
+            }
+        });
+
+        $('#suppmodal-background').click(function () {
+            closeSuppModal();
+        });
+
+        $('#suppmodal-confirmer').click(function () {
+            supprimerConversation(idConv);
+            closeSuppModal();
+            if (idConv === idConversationActuelle) {
+                idConversationActuelle = 0;
+            }
+        });
+
+        $('#suppmodal-annuler').click(function () {
+            closeSuppModal();
+        });
+
+        function openSuppModal(id, nom) {
+            idConv = id;
+            suppModal.style.display = "block";
+
+            suppModalBody = $('#suppmodal-body');
+            suppModalBody.empty();
+            suppModalBody.append('Supprimer la conversation avec ' + nom + ' ?');
+        }
+
+        function closeSuppModal() {
+            supModalIsOpen = false;
+            suppModal.style.display = "none";
+        }
+    </script>
+    <script id="ajax-rafraichir-modal-nouvelle-conversation">
+        function rafraichirModalNouvelleConversation(recherche) {
+            $.ajax({
+                type: 'GET',
+                url: '/messagerie/recuperer_users',
+                data: {'recherche': recherche},
+                success: function (retour) {
+                    if (retour) {
+                        $("#contenaire-users").children(":not(#user)").remove();
+                        let user = $("<a id='user'>" +
+                            "<div class='modal-contact-list position-relative border rounded p-2 mb-2'>" +
+                            "<img id='photo-user' src='{{ asset('images/candidat-default.jpg') }}' " +
+                            "alt='' class='shadow-sm border rounded-circle' height='90' width='90'>" +
+                            "<div class='ml-3'>" +
+                            "<h5 id='prenom-nom-user' class='text-dark m-0'>" +
+                            "</h5>" +
+                            "<p class='text-muted m-0'>" +
+                            "<i class='fa fa-briefcase'></i> Travail" +
+                            "</p>" +
+                            "<p class='text-muted m-0'>" +
+                            "<i class='fa fa-map-marker'></i> Localisation" +
+                            "</p>" +
+                            "</div>" +
+                            "</div>" +
+                            "</a>");
+                        if (retour) {
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                    let clone = user.clone().show()
+                                        .attr("id", 'user' + i)
+                                        .attr("href", "javascript:closeNouvModal();" +
+                                            "ajouterConversation(" + obj.idUserExpediteur + "," + obj.idUserDestinataire + ");");
+                                    clone.find('#photo-user').attr("id", "photo-user" + i)
+                                        .attr("src", obj.idPhoto);
+                                    clone.find('#prenom-nom-user').attr("id", "prenom-nom-user" + i).append(obj.nom);
+
+                                    $('#contenaire-users').append(clone);
+                                },
+                            );
+                        }
+                    } else {
+                        $('#contenaire-users').empty().append("<p class='text-center p-5'>Aucun resultat</p>")
+                    }
+                    userLoadingPrepended = false;
+                    $('#loading-user').remove();
+                },
+                error: function () {
+                    console.log('Erreur ajax rafraichir users');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-rafraichir-fenetre-conversations">
+        let release = null;
+        let conversationLoadingPrepended = false;
+
+        $('#recherche-conversation').keydown(function () {
+
+            if (!conversationLoadingPrepended) {
+                $('#contenaire-conversations').empty().prepend(
+                    "<div id='loading-conversation' class='justify-content-center'>" +
+                    "<img id='loading-image' src='{{ asset('front-end/images/loading-icon.gif') }}' alt='loading'" +
+                    "height='50' width='50' class='loading-img'>" +
+                    "</div>"
+                );
+                conversationLoadingPrepended = true;
+            }
+            clearInterval(release);
+            release = setInterval(function () {
+                rechercheChanged = true;
+                rafraichirFenetreConversation($('#recherche-conversation').val());
+                clearInterval(release)
+            }, 500);
+        });
+
+        function rafraichirFenetreConversation(recherche) {
+            let contenaireConversation = $("#contenaire-conversations");
+            $.ajax({
+                type: 'GET',
+                url: '/messagerie/recuperer_conversations',
+                data: {'recherche': recherche},
+                success: function (retour) {
+                    if (retour) {
+                        if ((retourConversation !== retour) || (rechercheChanged)) {
+                            rechercheChanged = false;
+                            retourConversation = retour;
+                            if (recherche !== "") {
+                                contenaireConversation.append(
+                                    "<div id='resultat-label' class='text-center bg-white'>" +
+                                    "<p class='p-3 m-0 text-dark'>Resultats de recherche</p>" +
+                                    "</div>");
+                            } else {
+                                $("#resultat-label").remove();
+                            }
+
+                            let conversation = $(
+                                "<div id='conversation' class='conversation border hover-anim'>" +
+                                "<a id='afficher-conversation' href='#' class='conversation-infos col-lg-10'>" +
+                                "<div class='conversation-image-padding'>" +
+                                "<img id='image-conversation' alt='' src='{{ asset('images/candidat-default.jpg') }}'" +
+                                "class='shadow-sm border rounded-circle' height='65' width='65'>" +
+                                "<div id='messages-non-lus-conversation' class='notification-badge'></div>" +
+                                "</div>" +
+                                "<div class='conversation-infos-inside'>" +
+                                "<h5 id='nom-conversation' class='text-label m-0'>" +
+                                "</h5>" +
+                                "<p id='dernier-message-conversation'></p>" +
+                                "</div>" +
+                                "</a>" +
+                                "<a id='supprimer-conversation' href='#' class='m-auto'>" +
+                                "<i class='fa fa-trash p-2'></i>" +
+                                "</a>" +
+                                "</div>'+"
+                            );
+                            contenaireConversation.empty();
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                    let clone = conversation.clone().attr("id", 'conversation' + i).show();
+                                    clone.find('#image-conversation').attr("src", obj.idPhoto);
+                                    clone.find('#nom-conversation').append(obj.nom);
+                                    clone.find('#dernier-message-conversation').append(obj.dernierMessage);
+                                    if (obj.dernierMessageEstVu === "0") {
+                                        clone.find('#messages-non-lus-conversation').append(obj.nombreNotifications);
+                                        clone.find('#dernier-message-conversation').addClass("text-unread");
+                                    } else {
+                                        clone.find('#messages-non-lus-conversation').remove();
+                                        clone.find('#dernier-message-conversation').addClass("text-read");
+                                    }
+                                    clone.find('#afficher-conversation')
+                                        .attr("id", "afficher-conversation" + i)
+                                        .attr("href",
+                                            "javascript:rafraichirFenetreChat(" + obj.id + ",'" + obj.nom + "'," +
+                                            "'" + obj.idPhoto + "');");
+                                    console.log("id photo is " + obj.idPhoto);
+                                    clone.find('#supprimer-conversation')
+                                        .attr("id", "supprimer-conversation" + i)
+                                        .attr("href", "javascript:openSuppModal(" + obj.id + ",'" + obj.nom + "');");
+                                    contenaireConversation.append(clone);
+                                },
+                            );
+                            console.log('changes in conversations');
+                        }
+                    } else {
+                        contenaireConversation.empty().append(
+                            "<div class='text-center'>" +
+                            "<p class='pt-5'>Aucune conversation</p>" +
+                            "</div>");
+                    }
+                    $('#loading-conversation').remove();
+                    conversationLoadingPrepended = false;
+                },
+                error: function () {
+                    console.log('Erreur ajax rafraichir conversation');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-rafraichir-fenetre-chat">
+        function rafraichirFenetreChat(id, nom, idPhotoConversation) {
+            if (idConversationActuelle !== id) {
+
+                idConversationActuelle = id;
+                nomConversationActuelle = nom;
+                idPhotoConversationActuelle = idPhotoConversation;
+                messagesPageIndex = 1;
+                console.log("form rafraichirFenetreChat instantiation : set messagesPageIndex to " + messagesPageIndex)
+                endOfChat = false;
+                chatInitialized = false;
+
+                console.log("resetting chat setting messagesPageIndex=" + messagesPageIndex + " / endOfChat=" + endOfChat);
+
+                $('#contenaire-chat-destinataire').empty().append(nom);
+                $('#contenaire-chat-destinataire-photo')
+                    .attr("src", idPhotoConversation);
+                $('#contenaire-chat-destinataire-dernier-message').empty();
+                chatWindow.empty();
+
+                if (chatContainerIsHidden) {
+                    chatContainerIsHidden = false;
+                    $('#contenaire-chat').show();
+                    $('#contenaire-principal-conversations').addClass('animation-contenaire-conversations');
+                }
+            }
+
+            if ((!endOfChat) || (rebootChat)) {
+                rebootChat = false;
+                $.ajax({
+                    type: 'GET',
+                    url: '/messagerie/recuperer_messages',
+                    data: {
+                        'id': id,
+                        'page': 1,
+                    },
+                    success: function (retour) {
+                        if (retour) {
+                            if ((retourChat !== retour) && (!chatContainerIsHidden)) {
+                                retourChat = retour;
+                                let date = null;
+                                let stillInExp = false;
+                                let stillInDest = false;
+                                chatWindow.empty();
+                                $.each(JSON.parse(retour), function (i, obj) {
+                                    date = obj.dateCreation;
+                                    if (obj.estProprietaire) {
+                                        if (stillInDest) {
+                                            stillInExp = false;
+                                            chatWindow.append("<div class='message destinataire' style="
+                                                + "'border-radius : 1.125rem 0.2rem 0.2rem 1.125rem;'>" + obj.contenu + "</div>");
+                                        } else {
+                                            chatWindow.append("<div class='message destinataire'>" + obj.contenu + "</div>");
+                                            stillInDest = true;
+                                        }
+                                    } else {
+                                        if (stillInExp) {
+                                            stillInDest = false;
+                                            chatWindow.append("<div class='message expediteur' style="
+                                                + "'border-radius : 0.2rem 1.125rem 1.125rem 0.2rem;'>" + obj.contenu + "</div>");
+                                        } else {
+                                            chatWindow.append("<div class='message expediteur'>" + obj.contenu + "</div>");
+                                            stillInExp = true;
+                                        }
+                                    }
+                                });
+
+                                $('#contenaire-chat-destinataire-dernier-message').empty().append(date);
+                                let chatWindowForJS = document.getElementById("chat");
+                                if (chatWindowForJS.offsetHeight === chatWindowForJS.scrollHeight) {
+                                    chatWindow.prepend("<p id='ancien-message" + messagesPageIndex + "' class='time mt-3 mb-3'>" + date + "</p>");
+                                    chatWindow.prepend("<p id='debut-to-delete' class='time mt-3 mb-3'>Debut chat</p>");
+                                }
+                                chatWindowForJS.scrollTop = chatWindowForJS.scrollHeight;
+                            }
+                            chatInitialized = true;
+                        }
+                    },
+                    error: function () {
+                        console.log('Erreur ajax refresh chat');
+                    }
+                });
+                return false;
+            }
+        }
+    </script>
+    <script id="ajax-rafraichir-fenetre-chat-ancien">
+        chatWindow.scroll(function () {
+            console.log("end of chat = " + endOfChat)
+            if (($(this).scrollTop() === 0) && (!endOfChat) && (chatInitialized)) {
+                chatWindow.prepend("<p id='ancien-message" + (messagesPageIndex + 1) + "' class='time'>recuperation ...</p>");
+                console.log("scolled to the top ! incrementing messagesPageIndex initial value = " + messagesPageIndex)
+                messagesPageIndex++;
+                console.log("messagesPageIndex new value = " + messagesPageIndex)
+                rafraichirFenetreChatAncien(messagesPageIndex);
+            } else {
+                $("#ancien-message" + (messagesPageIndex + 1)).attr("class", "Debut chat");
+            }
+        });
+
+        function rafraichirFenetreChatAncien(pageIndex) {
+            $.ajax({
+                type: 'GET',
+                url: '/messagerie/recuperer_messages',
+                data: {
+                    'id': idConversationActuelle,
+                    'page': pageIndex,
+                },
+                success: function (retour) {
+                    if (retour) {
+                        let date = null;
+                        let stillInExp = false;
+                        let stillInDest = false;
+                        let addedChat = $("<div id='added-chat'></div>");
+                        $.each(JSON.parse(retour), function (i, obj) {
+                            date = obj.dateCreation;
+                            if (obj.estProprietaire) {
+                                if (stillInDest) {
+                                    stillInExp = false;
+                                    addedChat.append("<div class='message destinataire' style="
+                                        + "'border-radius : 1.125rem 0.2rem 0.2rem 1.125rem;'>" + obj.contenu + "</div>");
+                                } else {
+                                    addedChat.append("<div class='message destinataire'>" + obj.contenu + "</div>");
+                                    stillInDest = true;
+                                }
+                            } else {
+                                if (stillInExp) {
+                                    stillInDest = false;
+                                    addedChat.append("<div class='message expediteur' style="
+                                        + "'border-radius : 0.2rem 1.125rem 1.125rem 0.2rem;'>" + obj.contenu + "</div>");
+                                } else {
+                                    addedChat.append("<div class='message expediteur'>" + obj.contenu + "</div>");
+                                    stillInExp = true;
+                                }
+                            }
+                        });
+                        chatWindow.prepend(addedChat);
+                        let addedChatHeight = addedChat.height();
+                        chatWindow.find("#added-chat").remove();
+                        chatWindow.prepend(addedChat.html());
+
+                        $("#ancien-message" + pageIndex).empty().addClass("time mt-3 mb-3").append(date);
+                        document.getElementById("chat").scrollTop = addedChatHeight;
+
+                        console.log("Chargement ancien chat page = " + pageIndex);
+                    } else {
+                        console.log("Aucun retour ancien chat");
+                        $("#ancien-message" + pageIndex).empty().addClass("time mt-3 mb-3").append("Debut chat");
+                        $('#debut-to-delete').remove();
+                        endOfChat = true;
+                    }
+                },
+                error: function () {
+                    console.log('Erreur ajax refresh chat');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-ajouter-conversation">
+        function ajouterConversation(idUserExpediteur, idUserDestinataire) {
+            $.ajax({
+                type: 'GET',
+                url: '/messagerie/ajouter_conversation',
+                data: {
+                    'idUserExpediteur': idUserExpediteur,
+                    'idUserDestinataire': idUserDestinataire
+                },
+                success: function (retour) {
+                    if (retour) {
+                        obj = JSON.parse(retour);
+                        rafraichirFenetreChat(obj.id, obj.nom, obj.idPhoto);
+                    }
+                },
+                error: function () {
+                    console.log('Erreur ajax suppression conversation');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-supprimer-conversation">
+        function supprimerConversation(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/messagerie/supprimer_conversation',
+                data: {
+                    'id': id
+                },
+                success: function (retour) {
+                    if (retour) {
+                        rafraichirFenetreConversation('');
+                        chatContainerIsHidden = true;
+                        $("#contenaire-chat").hide();
+                    }
+                },
+                error: function () {
+                    console.log('Erreur ajax suppression conversation');
+                }
+            });
+            return false;
+        }
+    </script>
+    <script id="ajax-nouveau-message">
+        $("#message-envoyer").click(function () {
+            let contenu = $('#message-contenu').val();
+            chatWindow.append("<div class='message destinataire' style='background: rgba(47,85,212,0.64)'>" + contenu + "</div>");
+            let chatWindowScrollBottom = document.getElementById("chat");
+            chatWindowScrollBottom.scrollTop = chatWindowScrollBottom.scrollHeight;
+            $('#message-contenu').val("");
+            $.ajax({
+                type: 'GET',
+                url: '/messagerie/nouveau_message',
+                data: {
+                    'id': idConversationActuelle,
+                    'contenu': contenu,
+                },
+                success: function () {
+                    rebootChat = true;
+                    endOfChat = false;
+                    messagesPageIndex = 1;
+                    console.log("Rebooting chat : messagesPageIndex set to " + messagesPageIndex)
+                    rafraichirFenetreChat(idConversationActuelle, nomConversationActuelle, idPhotoConversationActuelle);
+                    rafraichirFenetreConversation('');
+                },
+                error: function () {
+                    console.log('Erreur ajax envoyer message');
+                }
+            });
+            return false;
+        });
+    </script>
+    <script id="rafraichir-messagerie">
+        rafraichirFenetreConversation("");
+
+        setInterval(function () {
+            rafraichirFenetreChat(idConversationActuelle, nomConversationActuelle, idPhotoConversationActuelle);
+            if ($('#recherche-conversation').val() === "") {
+                rafraichirFenetreConversation("");
+            }
+        }, 5000);
+    </script>
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

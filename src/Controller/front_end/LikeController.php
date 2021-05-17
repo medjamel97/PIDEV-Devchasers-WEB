@@ -22,14 +22,19 @@ class LikeController extends AbstractController
             $request->getSession()->get(Security::LAST_USERNAME)])->getId();
 
         $likeType = (int)$request->get('typeLike');
-        $idPublication = $request->get('idPub');
+        $idPublication = (int)$request->get('idPub');
+
+        $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)
+            ->find($idPublication);
 
         $haveLike = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
             'idUser' => $idUser,
+            'publication' => $publication,
             'typeLike' => true,
         ]);
         $haveDislike = $this->getDoctrine()->getRepository(Like::class)->findOneBy([
             'idUser' => $idUser,
+            'publication' => $publication,
             'typeLike' => false,
         ]);
 
@@ -50,7 +55,6 @@ class LikeController extends AbstractController
             $pourcentage = 0;
         }
 
-        $publication = $this->getDoctrine()->getManager()->getRepository(Publication::class)->find($idPublication);
         $publication->setPourcentageLike($pourcentage);
 
         $repository = $this->getDoctrine()->getManager();

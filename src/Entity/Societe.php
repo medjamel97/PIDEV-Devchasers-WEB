@@ -64,6 +64,11 @@ class Societe
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $adresse;
+
     public function __construct()
     {
         $this->mission = new ArrayCollection();
@@ -259,6 +264,18 @@ class Societe
         }
 
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

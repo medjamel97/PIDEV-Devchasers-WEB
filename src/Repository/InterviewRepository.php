@@ -19,58 +19,58 @@ class InterviewRepository extends ServiceEntityRepository
         parent::__construct($registry, Interview::class);
     }
 
-    // /**
-    //  * @return InterviewController[] Returns an array of InterviewController objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?InterviewController
+    public function findByOffre($idOffre)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
-    public function findSinglePageResults($firstResult, $maxResults)
-    {
-        return $this->createQueryBuilder('i')
-            ->setFirstResult($firstResult)
-            ->setMaxResults($maxResults)
+            ->join('i.candidatureOffre', 'c')
+            ->where('c.id = i.candidatureOffre')
+            ->andWhere('c.offreDeTravail = :val')
+            ->setParameter('val', $idOffre)
+            ->orderBy('i.dateCreation', 'DESC')
             ->getQuery()
             ->getResult();
     }
 
-    public function countItemNumber()
+    public function findBySociete($idSociete)
     {
         return $this->createQueryBuilder('i')
-            ->select('count(i.id)')
+            ->join('i.candidatureOffre', 'c')
+            ->join('c.offreDeTravail', 'o')
+            ->where('c.id = i.candidatureOffre')
+            ->andWhere('o.id = c.offreDeTravail')
+            ->andWhere('o.societe = :val')
+            ->setParameter('val', $idSociete)
+            ->orderBy('i.dateCreation', 'DESC')
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getResult();
     }
 
-    public function findFirst()
+    public function findByOffreAndDifficulte($offreDeTravailId, $difficulte)
     {
         return $this->createQueryBuilder('i')
-            ->setFirstResult(0)
-            ->setMaxResults(1)
+            ->join('i.candidatureOffre', 'c')
+            ->where('c.id = i.candidatureOffre')
+            ->andWhere('c.offreDeTravail = :val')
+            ->andWhere('i.difficulte = :val2')
+            ->setParameters(['val' => $offreDeTravailId, 'val2' => $difficulte])
+            ->orderBy('i.dateCreation', 'DESC')
             ->getQuery()
-            ->getSingleResult();
+            ->getResult();
+    }
+
+    public function findBySocieteAndDifficulte($societeId, $difficulte)
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.candidatureOffre', 'c')
+            ->join('c.offreDeTravail', 'o')
+            ->where('c.id = i.candidatureOffre')
+            ->andWhere('o.id = c.offreDeTravail')
+            ->andWhere('o.societe = :val')
+            ->andWhere('i.difficulte = :val2')
+            ->setParameters(['val' => $societeId, 'val2' => $difficulte])
+            ->orderBy('i.dateCreation', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

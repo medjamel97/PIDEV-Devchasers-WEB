@@ -1,0 +1,139 @@
+{% extends '/back_end_societe/base.html.twig' %}
+{% block content %}
+    <!-- Loader -->
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Loader -->
+
+    <div class="back-to-home rounded d-none d-sm-block">
+        <a href="{{ asset('accueil') }}" class="text-dark bg-light rounded d-inline-block text-center"><i
+                    class="mdi mdi-home"></i></a>
+    </div>
+
+    <!-- Hero Start -->
+    <section class="container-fluid">
+        <div class="home-center">
+            <div class="home-desc-center">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-9">
+                            <div class="login_page bg-white shadow rounded p-4">
+                                <div class="text-center">
+                                    <p class="h2 text-uppercase text-primary pb-4 mb-4 border-bottom">
+                                        Modifier votre profil
+                                    </p>
+                                </div>
+                                {% for flashError in app.flashes('verify_email_error') %}
+                                    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                                {% endfor %}
+
+                                {{ form_start(form) }}
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative">
+                                            {{ form_row(form.nom, {
+                                                label: 'Nom de la societe',
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                    'placeholder': 'Tapez le nom de votre société',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group position-relative">
+                                            {{ form_row(form.adresse, {
+                                                label: 'Addresse',
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                    'placeholder': 'Tapez l adresse de votre societe',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group position-relative">
+                                            {{ form_row(form.tel, {
+                                                label: 'Tel',
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                    'placeholder': 'Tapez le numero de votre societe',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-6">
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-0">
+                                                <label class="required">Date de fondation de société</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group position-relative" style="color: grey">
+                                                {{ form_row(form.dateCreation.day, {
+                                                    'label' : 'Jour',
+                                                    'attr': {
+                                                        'class': 'form-control',
+                                                    },
+                                                }) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group position-relative" style="color: grey">
+                                                {{ form_row(form.dateCreation.month, {
+                                                    'label' : ' Mois',
+                                                    'attr': {
+                                                        'class': 'form-control',
+                                                    },
+                                                }) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" id="year">
+                                            <div class="form-group position-relative" style="color: grey">
+                                                {{ form_row(form.dateCreation.year, {
+                                                    'label' : ' Année',
+                                                    'attr': {
+                                                        'class': 'form-control',
+                                                    },
+                                                }) }}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group position-relative mb-0">
+                                            <div class="col-md-12">
+                                                {{ form_row(form.idPhoto, {
+                                                    label: "Photo du profil de la société",
+                                                    'attr': {
+                                                        'class': 'mt-4 btn btn-light',
+                                                    }
+                                                }) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 m-auto">
+                                        {{ form_row(form.submit, {
+                                            label: "S'inscrire",
+                                            'attr': {
+                                                'class': 'btn btn-primary w-100',
+                                            }
+                                        }) }}
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </div>
+    </section>
+{% endblock %}

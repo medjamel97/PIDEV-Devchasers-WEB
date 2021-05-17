@@ -4,8 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-  uploads_directory_candidat: '%kernel.project_dir%/public/images/candidat/uploads/'
-  uploads_directory_societe: '%kernel.project_dir%/public/images/societe/uploads/'
+  uploads_directory_candidat: 'C:\wamp64\www\khedemti\images\candidat'
+  uploads_directory_societe: 'C:\wamp64\www\khedemti\images\societe'
 
 services:
   # default configuration for services in *this* file

@@ -1,0 +1,303 @@
+{% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Accueil{% endblock %}
+{% if app.user %}
+    {% set idUser = app.user.id %}
+{% else %}
+    {% set idUser = null %}
+{% endif %}
+
+{% block mainStylesheet %}
+    <link id="main-style" rel="stylesheet" type="text/css" href="{{ asset('/front-end/css/style.css') }}"/>
+    <link id="main-style-override" rel="stylesheet" type="text/css"
+          href="{{ asset('/front-end/css/style-publication-override.css') }}"/>
+{% endblock %}
+
+{% block adminLabel %}
+    <p class="text-dark mt-3 mr-3">
+        <i class="mdi mdi-account-alert mr-2"></i> ADMIN
+    </p>
+{% endblock %}
+
+{% block btnEspaceSociete %}
+    <button class="btn btn-dark px-2 py-1 mt-2">
+        Espace societe
+        <i class="mdi mdi-arrow-right"></i>
+    </button>
+{% endblock %}
+
+{% block btnEspaceAdmin %}
+    <button class="btn btn-dark px-2 py-1 mt-2">
+        Espace administrateur
+        <i class="mdi mdi-arrow-right"></i>
+    </button>
+{% endblock %}
+
+{% block btnConnexion %}
+    <button class="btn btn-dark px-2 py-1 mt-2"><i class="mdi mdi-login"></i>
+        Connexion
+    </button>
+{% endblock %}
+
+{% block btnInscription %}
+    <a href="{{ asset('inscription/candidat') }}">
+        <button class="btn btn-dark px-2 py-1 mt-2"><i
+                    class="mdi mdi-account-plus"></i>
+            inscription
+        </button>
+    </a>
+{% endblock %}
+
+{% block btnDeconnexion %}
+    <button class="btn btn-danger px-2 py-1 mt-2"><i class="mdi mdi-logout"></i>
+        Deconnexion
+    </button>
+{% endblock %}
+
+{% block logo %}
+    <img src="{{ asset('/front-end/images/logo-dark.png') }}" alt="" class="logo-light"
+         height="35"/>
+    <img src="{{ asset('/front-end/images/logo-dark.png') }}" alt="" class="logo-dark" height="35"/>
+{% endblock %}
+
+{% block content %}
+    <section class="section pt-0 bg-light min-vh-100">
+        <div class="bg-light" style="height: 8rem;"></div>
+        <div class="container col-md-10">
+            <div class="row">
+                <!-- LeftBar Start -->
+                <div class="col-md-3 pt-2">
+                    <div class="left-sidebar">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card mt-4 rounded shadow-lg border-bottom-0">
+                                <a data-toggle="collapse" href="#collapseOne" class="job-list" aria-expanded="true"
+                                   aria-controls="collapseOne">
+                                    <div class="card-header" id="headingOne">
+                                        <h6 class="mb-0 text-dark">
+                                            Dernière Activité
+                                        </h6>
+                                    </div>
+                                </a>
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                                    <div class="card-body p-0">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio1" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio1">Last
+                                                Hour</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio2" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio2">Last
+                                                24
+                                                hours</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio3" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio3">Last
+                                                7
+                                                days</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio4" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio4">Last
+                                                14
+                                                days</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio5" name="customRadio"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio5">Last
+                                                30
+                                                days</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- collapse one end -->
+                            <div class="card mt-4 rounded shadow-lg border-bottom-0">
+                                <a data-toggle="collapse" href="#collapsetwo" class="job-list" aria-expanded="true"
+                                   aria-controls="collapsetwo">
+                                    <div class="card-header" id="headingtwo">
+                                        <h6 class="mb-0 text-dark">Population</h6>
+                                    </div>
+                                </a>
+                                <div id="collapsetwo" class="collapse show" aria-labelledby="headingtwo">
+                                    <div class="card-body p-0">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck7">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck7">1 To
+                                                50</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck8">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck8">51 To
+                                                100</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck3">101
+                                                To
+                                                150</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck4">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck4">151
+                                                To
+                                                200</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck5">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck5">201
+                                                To
+                                                250</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck6">
+                                            <label class="custom-control-label ml-1 text-muted" for="customCheck6">251
+                                                To
+                                                300</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- collapse one end -->
+                            <div class="card mt-4 rounded shadow-lg border-bottom-0">
+                                <a data-toggle="collapse" href="#collapsethree" class="job-list" aria-expanded="true"
+                                   aria-controls="collapsethree">
+                                    <div class="card-header" id="headingthree">
+                                        <h6 class="mb-0 text-dark">Categories</h6>
+                                    </div>
+                                </a>
+                                <div id="collapsethree" class="collapse show" aria-labelledby="headingthree">
+                                    <div class="card-body p-0">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio7" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio7">Web
+                                                Designer</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio8" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio8">Graphic
+                                                Designer</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio9" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio9">PHP
+                                                Developer</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio10" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio10">UI/UX
+                                                Designer</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio11" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted"
+                                                   for="customRadio11">Banking</label>
+                                        </div>
+
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio12" name="customRadio1"
+                                                   class="custom-control-input">
+                                            <label class="custom-control-label ml-1 text-muted" for="customRadio12">Accountancy</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- collapse one end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- LeftBar End -->
+                <!-- RightBar Start -->
+                <div class="col-md-9 mt-4 pt-2">
+                    <ul class="nav nav-pills bg-white shadow-lg rounded nav-justified flex-column flex-sm-row"
+                        id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link rounded active" id="tout-publication-tab" data-toggle="pill"
+                               href="#tout-publication" role="tab" aria-controls="tout-publication"
+                               aria-selected="true">Toutes les publications
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link rounded" id="vos-publication-tab" data-toggle="pill"
+                               href="#vos-publication"
+                               role="tab" aria-controls="vos-publication" aria-selected="false">Vos publications
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link rounded" id="publier-tab" data-toggle="pill" href="#publier"
+                               role="tab" aria-controls="publier" aria-selected="false">Ajouter une publication
+                            </a>
+                        </li>
+                    </ul>
+                    <!--tab content-->
+                    <div class="tab-content p-3" id="pills-tabContent">
+                        <!-- tab pane 1 -->
+                        <div class="tab-pane fade show active mt-4" id="tout-publication" role="tabpanel"
+                             aria-labelledby="tout-publication-tab">
+                            {% for publication in publications %}
+                                {% include 'front_end/publication/modele_publication.html.twig' %}
+                            {% endfor %}
+                        </div>
+                        <!-- end tab pane 1 -->
+                        <!-- tab pane 2 -->
+                        <div class="tab-pane fade mt-4" id="vos-publication" role="tabpanel"
+                             aria-labelledby="vos-publication-tab">
+                            {% set hasPublication = false %}
+                            {% for publication in publications %}
+                                {% if publication.user.id == idUser %}
+                                    {% set hasPublication = true %}
+                                    {% include 'front_end/publication/modele_publication.html.twig' %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if not hasPublication %}
+                                <p class="h4 text-center text-dark m-5">
+                                    {% if idUser %}
+                                        Vous n'avez pas de publications
+                                    {% else %}
+                                        Connectez vous <a href="{{ asset('/connexion') }}" class="text-primary">ici</a>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        </div>
+                        <!-- end tab pane 2 -->
+                        <!-- tab pane 3 -->
+                        <div class="tab-pane fade" id="publier" role="tabpanel"
+                             aria-labelledby="publier-tab">
+                            <div class="row col-md-5 mx-auto my-5">
+                                <a href="{{ asset('publication/ajouter') }}" class="mx-auto">
+                                    <button class="btn btn-dark-outline shadow-lg px-5">Publier</button>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- end tab pane 3 -->
+                    </div>
+                    <!--end tab content-->
+                </div>
+                <!-- RightBar End -->
+            </div>
+        </div>
+    </section>
+{% endblock %}

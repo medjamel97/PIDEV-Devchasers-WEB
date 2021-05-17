@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class InscriptionController extends AbstractController
@@ -34,6 +35,10 @@ class InscriptionController extends AbstractController
      */
     public function inscriptionCandidat(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        if ($request->getSession()->get(Security::LAST_USERNAME)){
+            return $this->redirect("/accueil");
+        }
+
         $user = new User();
         $candidat = new Candidat();
 
@@ -70,7 +75,7 @@ class InscriptionController extends AbstractController
                 ->setTel($request->get('registration_form')['candidat']['tel'])
                 ->setSexe($request->get('registration_form')['candidat']['sexe'])
                 ->setDateNaissance($dateNaissance)
-                ->setIdPhoto('images/candidat/uploads/'.$filename);
+                ->setIdPhoto('http://localhost/khedemti/images/candidat/' . $filename);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($candidat);
@@ -87,7 +92,7 @@ class InscriptionController extends AbstractController
             );
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('accueil');
+            return $this->redirectToRoute('connexion');
         }
 
         $this->addFlash('success', 'Veuillez verifier votre email.');
@@ -103,6 +108,10 @@ class InscriptionController extends AbstractController
      */
     public function inscriptionSociete(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        if ($request->getSession()->get(Security::LAST_USERNAME)){
+            return $this->redirect("/accueil");
+        }
+
         $user = new User();
         $societe = new Societe();
 
@@ -137,7 +146,7 @@ class InscriptionController extends AbstractController
                 ->setNom($request->get('registration_form')['societe']['nom'])
                 ->setTel($request->get('registration_form')['societe']['tel'])
                 ->setDateCreation($dateCreation)
-                ->setIdPhoto('images/societe/uploads/'.$filename);
+                ->setIdPhoto('http://localhost/khedemti/images/societe/' . $filename);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($societe);
@@ -154,7 +163,7 @@ class InscriptionController extends AbstractController
             );
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('accueil');
+            return $this->redirectToRoute('connexion');
         }
 
         $this->addFlash('success', 'Veuillez verifier votre email.');

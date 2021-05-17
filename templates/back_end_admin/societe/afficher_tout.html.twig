@@ -1,0 +1,42 @@
+{% extends '/back_end_admin/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid">
+        <div class="row align-content-center">
+            <div class="col-md-6">
+                <p class="h1 m-5">Liste des societes</p>
+            </div>
+            <div class="col-md-5 m-auto">
+                <a class="btn btn-primary float-right" href="{{ asset('espace_admin/societe/ajouter') }}">Ajouter une
+                    societe</a>
+            </div>
+        </div>
+        <table class="table bg-white border text-center">
+            <tr class="text-uppercase text-dark font-weight-bold">
+                <td>Nom</td>
+                <td>Date de creation</td>
+                <td>Tel</td>
+                <td>Ville</td>
+                <td>id photo</td>
+            </tr>
+            {% for societe in societes %}
+                <tr>
+                    <td>{{ societe.nom }}</td>
+                    <td>{{ societe.dateCreation|date("d-m-Y") }}</td>
+                    <td>{{ societe.tel }}</td>
+                    <td>{{ societe.adresse }}</td>
+                    <td class="text-break">{{ societe.idPhoto }}</td>
+                    <td>
+                        <a class="btn btn-dark m-1"
+                           href="{{ asset('espace_admin/societe/'~societe.id~'/modifier') }}">
+                            Modifier
+                        </a>
+                        <a class="btn btn-danger m-1"
+                           href="{{ asset('espace_admin/societe/'~societe.id~'/supprimer') }}">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends AbstractController
@@ -12,16 +13,16 @@ class BaseController extends AbstractController
      * @Route("publication")
      * @Route("front_end", name="front_end")
      */
-    public function accueil()
+    public function accueil(): RedirectResponse
     {
         return $this->redirectToRoute('accueil');
     }
 
     /**
-     * @Route("back_end/publication")
-     * @Route("back_end", name="back_end")
+     * @Route("espace_societe/publication")
+     * @Route("espace_societe", name="espace_societe")
      */
-    public function backEnd()
+    public function espaceSociete(): RedirectResponse
     {
         return $this->redirectToRoute('accueil_societe');
     }

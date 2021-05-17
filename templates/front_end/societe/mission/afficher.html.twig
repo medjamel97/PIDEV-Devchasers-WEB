@@ -1,0 +1,212 @@
+{% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Missions{% endblock %}
+{% set candidatureMissionActuelle = null %}
+{% if app.user %}
+    {% for candidatureMission in  mission.candidatureMission %}
+        {% if candidatureMission.candidat == app.user.candidat %}
+            {% set candidatureMissionActuelle = candidatureMission %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% block content %}
+    <!-- blog start -->
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-missions.jpg') }})">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <h4 class="title mb-4">
+                            Mission :
+                            <b class="text-uppercase">{{ mission.nom }}</b>
+                            à
+                            <b class="text-uppercase">{{ mission.societe.nom }}</b>
+                        </h4>
+                        <ul class="page-next d-inline-block mb-0">
+                            <li>
+                                <a href="{{ asset('societe') }}" class="text-uppercase font-weight-bold">Societes</a>
+                            </li>
+                            <li>
+                                <a href="{{ asset('societe/'~mission.societe.id~'/afficher') }}"
+                                   class="text-uppercase font-weight-bold">{{ mission.societe.nom }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ asset('mission') }}"
+                                   class="text-uppercase font-weight-bold">Missions</a>
+                            </li>
+                            <li>
+                                <span class="text-uppercase text-white font-weight-bold">{{ mission.nom }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="section-title text-center mb-4 pb-2">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert bg-success rounded text-center text-white">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert bg-danger rounded text-center text-white">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-7">
+                    <div class="row job-detail bg-white border shadow rounded p-4">
+                        <div class="col-md-4 job-detail-content">
+                            <img src="{{ asset(mission.societe.idPhoto) }}" alt="" height="100" width="100"
+                                 class="img-fluid float-left mr-md-3 mr-2 mx-auto d-block shadow border">
+                            <div class="job-detail-com-desc overflow-hidden d-block">
+                                <div class="mb-2">
+                                    <p class="h4 text-dark">{{ mission.societe.nom }}</p>
+                                </div>
+                                <p class="text-muted mb-0">
+                                    <i class="mdi mdi-office-building mr-2"></i>
+                                    {{ mission.societe.nom }}
+                                </p>
+                                <p class="text-muted mb-0"><i class="mdi mdi-map-marker mr-2"></i>
+                                    {{ mission.ville }}
+                                </p>
+                                <p class="text-muted mb-0"><i class="mdi mdi-email mr-2"></i>
+                                    {{ mission.societe.user.email }}
+                                </p>
+                            </div>
+                            <div class="row job-detail-com-desc overflow-hidden d-block pt-2 m-auto">
+                                <a class="btn btn-primary px-2 mx-3 mt-2"
+                                   href="{{ asset('societe/'~mission.societe.id~'/afficher') }}">
+                                    <i class="mdi mdi-office-building"></i> Consulter
+                                </a>
+                                {% if app.user %}
+                                    <a class="btn btn-primary px-2 mx-3 mt-2"
+                                       href="{{ asset('messagerie/'~mission.societe.user.id~'/afficher') }}">
+                                        <i class="mdi mdi-message"></i> Contacter
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-5 job-detail-location border-left">
+
+                            <div class="job-details-desc-item">
+                                <p class="text-dark mb-2 ml-3 h4">Mission : {{ mission.nom }}</p>
+                            </div>
+
+                            <div class="job-details-desc-item">
+                                <div class="float-left mx-4">
+                                    <i class="mdi mdi-clock text-muted"></i>
+                                </div>
+                                <p class="text-muted mb-2">Nombre d'heures :
+                                    <b class="text-dark">
+                                        {{ mission.nombreHeures }}
+                                    </b>
+                                </p>
+                            </div>
+
+                            <div class="job-details-desc-item">
+                                <div class="float-left mx-4">
+                                    <i class="mdi mdi-cash-100 text-muted"></i>
+                                </div>
+                                <p class="text-muted mb-2">Prix/heure :
+                                    <b class="text-dark">{{ mission.prixHeure }} DT</b>
+                                </p>
+                            </div>
+
+                            <div class="job-details-desc-item">
+                                <div class="float-left mx-4">
+                                    <i class="mdi mdi-calendar text-muted"></i>
+                                </div>
+                                <p class="text-muted mb-2">Date :
+                                    <b class="text-dark">{{ mission.date|date('d/m/Y') }}</b>
+                                </p>
+                            </div>
+
+                            <div class="job-details-desc-item">
+                                <div class="float-left mx-4">
+                                    <i class="mdi mdi-city text-muted"></i>
+                                </div>
+                                <p class="text-muted mb-2">Ville :
+                                    <b class="text-dark">{{ mission.ville }}</b>
+                                </p>
+                            </div>
+
+                        </div>
+                        {% if app.user %}
+                            {% if app.user.candidat %}
+                                {% if candidatureMissionActuelle %}
+                                    <div class="col-md-3">
+                                        <p class="text-center mt-3 p-2 border rounded shadow">
+                                            Votre candidature a été accepté
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="col-md-3">
+                                        <a href="{{ asset('mission/'~mission.id~'/postuler') }}"
+                                           class="btn btn-primary btn-block">
+                                            Postuler à cette mission
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                            <div class="col-md-3">
+                                <a href="{{ asset('connexion') }}" class="btn btn-primary btn-block">
+                                    Connectez vous pour postuler
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="text-dark mt-4">Description :</h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="border bg-white shadow rounded pt-3">
+                                <p class="text-muted mx-3">{{ mission.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="text-dark mt-4">Quiz :</h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="job-detail border bg-white shadow rounded mt-2 p-4">
+                                <div class="job-detail-desc">
+                                    {% for question in mission.question %}
+                                        <div class="job-details-desc-item">
+                                            <div class="float-left mr-3">
+                                                <i class="mdi mdi-comment-question text-primary"></i>
+                                            </div>
+                                            <p class="text-dark mb-2">{{ question.description }}</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- blog end -->
+{% endblock %}

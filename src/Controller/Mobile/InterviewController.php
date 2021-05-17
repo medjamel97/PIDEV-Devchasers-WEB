@@ -39,9 +39,8 @@ class InterviewController extends AbstractController
             $jsonContent[$i]['nomSociete'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getSociete()->getNom();
             $jsonContent[$i]['nomOffre'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getNom();
             $jsonContent[$i]['difficulte'] = $interview->getDifficulte();
-            $jsonContent[$i]['objet'] = $interview->getObjet();
             $jsonContent[$i]['description'] = $interview->getDescription();
-            $jsonContent[$i]['dateCreation'] = $interview->getDateCreation()->format('Y-m-d H:i:s');
+            $jsonContent[$i]['dateCreation'] = $interview->getDateCreation()->format('H:i - d/M/Y');
             $i++;
         }
         $json = json_encode($jsonContent);
@@ -68,9 +67,8 @@ class InterviewController extends AbstractController
         $jsonContent['nomOffre'] = $interview->getCandidatureOffre()->getOffreDeTravail()->getNom();
         $jsonContent['candidatureOffre'] = $interview->getCandidatureOffre()->getId();
         $jsonContent['difficulte'] = $interview->getDifficulte();
-        $jsonContent['objet'] = $interview->getObjet();
         $jsonContent['description'] = $interview->getDescription();
-        $jsonContent['dateCreation'] = $interview->getDateCreation()->format('Y-m-d H:i:s');
+        $jsonContent['dateCreation'] = $interview->getDateCreation()->format('H:i - d/M/Y');
 
         $json = json_encode($jsonContent);
         return new Response($json);
@@ -99,12 +97,10 @@ class InterviewController extends AbstractController
         }
 
         $difficulte = (int)$request->get("difficulte");
-        $objet = $request->get("objet");
         $description = $request->get("description");
 
         $interview
             ->setDifficulte($difficulte)
-            ->setObjet($objet)
             ->setDescription($description)
             ->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
 

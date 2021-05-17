@@ -1,0 +1,54 @@
+{% extends '/back_end_societe/base.html.twig' %}
+{% block content %}
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h5 class="m-0 font-weight-bold text-primary">Formation</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ evenement.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Titre</th>
+                            <td>{{ evenement.titre }}</td>
+                        </tr>
+                        <tr>
+                            <th>Debut</th>
+                            <td>{{ evenement.debut ? evenement.debut|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Fin</th>
+                            <td>{{ evenement.fin ? evenement.fin|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ evenement.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>All_day</th>
+                            <td>{{ evenement.allDay ? 'Yes' : 'No' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="{{ asset('espace_societe/evenement/') }}"
+                       class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Retour</a>
+                    <a href="{{ asset('espace_societe/evenement/'~evenement.id~'/modifier') }}"
+                       class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">Modifier</a>
+                    <form method="post" action="{{ asset('espace_societe/evenement/'~evenement.id~'/supprimer') }}"
+                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ evenement.id) }}">
+                        <button class="btn">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

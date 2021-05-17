@@ -18,12 +18,14 @@ class OffreDeTravailController extends AbstractController
     /**
      * @Route("offre_de_travail", name="afficher_tout_offre_de_travail")
      */
-    public function afficherToutOffreDeTravail(Request $request, PaginatorInterface $paginator)
+    public function afficherToutOffreDeTravail(Request $request, PaginatorInterface $paginator): Response
     {
+        $offresDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll();
+
         return $this->render('front_end/societe/offre_de_travail/afficher_tout.html.twig', [
-            'offresDeTravail' => $paginator->paginate(
-                $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll(),
-                $request->query->getInt('page', 1), 3
+            'totalOffresDeTravail' => count($offresDeTravail),
+            'offresDeTravail' => $paginator->paginate($offresDeTravail,
+                $request->query->getInt('page', 1), 8
             ),
         ]);
     }
@@ -31,14 +33,23 @@ class OffreDeTravailController extends AbstractController
     /**
      * @Route("offre_de_travail/categorie={idCategorie}", name="afficher_offre_de_travail_par_categorie")
      */
-    public function afficherOffreDeTravailParCategorie($idCategorie, Request $request, PaginatorInterface $paginator)
+    public function afficherOffreDeTravailParCategorie($idCategorie): Response
     {
         $categorie = $this->getDoctrine()->getRepository(Categorie::class)->find($idCategorie);
-        return $this->render('front_end/offreDeTravail/listoffres.html.twig', [
-            'Offre' => $paginator->paginate(
-                $this->getDoctrine()->getRepository(OffreDeTravail::class)->findBy(['categorie' => $categorie]),
-                $request->query->getInt('page', 1), 3
-            ),
+        return $this->render('front_end/societe/offre_de_travail/afficher_par_categorie.html.twig', [
+            'categorie' => $categorie,
+            'offresDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)
+                ->findBy(['categorie' => $categorie]),
+        ]);
+    }
+
+    /**
+     * @Route("offre_de_travail/{idOffreDeTravail}/afficher", name="afficher_offre_de_travail")
+     */
+    public function afficherOffreDeTravail($idOffreDeTravail): Response
+    {
+        return $this->render('front_end/societe/offre_de_travail/afficher.html.twig', [
+            'offreDeTravail' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail),
         ]);
     }
 
@@ -46,7 +57,7 @@ class OffreDeTravailController extends AbstractController
      * @Route("offre_de_travail ", name="recherche_offre_de_travail")
      * @throws ExceptionInterface
      */
-    public function rechercheOffreDeTravail(Request $request, NormalizerInterface $Normalizer)
+    public function rechercheOffreDeTravail(Request $request, NormalizerInterface $Normalizer): Response
     {
         $repository = $this->getDoctrine()->getRepository(OffreDeTravail::class);
         $requestString = $request->get('valeurRecherche');

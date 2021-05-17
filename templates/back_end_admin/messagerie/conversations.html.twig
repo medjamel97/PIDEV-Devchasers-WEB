@@ -1,0 +1,104 @@
+<!-- Nav Item - Messages -->
+<li class="nav-item dropdown no-arrow mx-1">
+    <a class="nav-link dropdown-toggle" href="{{ asset('#') }}" id="messagesDropdown"
+       role="button"
+       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-envelope fa-fw"></i>
+        <!-- Counter - Messages -->
+        {% set countUnread = 0 %}
+
+        {% if conversations %}
+            {% for conversation in conversations %}
+                {% for message in conversation.message %}
+                    {% if not message.estVu %}
+                        {% set countUnread = countUnread + 1 %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+        {% if countUnread > 0 %}
+            {% if countUnread > 10 %}
+                <span class="badge badge-danger badge-counter">
+                    9+
+                </span>
+            {% elseif countUnread > 1 %}
+                <span class="badge badge-danger badge-counter">
+                    {{ countUnread }}
+                </span>
+            {% endif %}
+        {% endif %}
+    </a>
+    <!-- Dropdown - Messages -->
+    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+         aria-labelledby="messagesDropdown">
+        <h6 class="dropdown-header">
+            Messagerie
+        </h6>
+
+        {% if conversations %}
+            {% for conversation in conversations %}
+                {% if conversation.message|length > 0 %}
+                    <a class="dropdown-item d-flex align-items-center" href="{{ asset('espace_admin/messagerie') }}">
+                        <div class="dropdown-list-image mr-3">
+                            <img class="rounded-circle shadow-sm"
+                                    {% if conversation.userDestinataire.candidat %}
+                                        src="{{ asset(conversation.userDestinataire.candidat.idPhoto) }}"
+                                    {% endif %}
+                                    {% if conversation.userDestinataire.societe %}
+                                        src="{{ asset(conversation.userDestinataire.societe.idPhoto) }}"
+                                    {% endif %}
+                                    {% if not conversation.userDestinataire.candidat and not conversation.userDestinataire.societe %}
+                                        src="{{ asset('/back-end/images/admin-icon.png') }}"
+                                    {% endif %}
+                                 alt="">
+                            {% set countUnread = 0 %}
+
+                            {% for message in conversation.message %}
+                                {% if not message.estVu %}
+                                    {% set countUnread = countUnread + 1 %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if countUnread > 0 %}
+                                {% if countUnread > 10 %}
+                                    <div id='messages-non-lus-conversation' class='notification-badge-small'>
+                                        9+
+                                    </div>
+                                {% elseif countUnread > 1 %}
+                                    <div id='messages-non-lus-conversation' class='notification-badge-small'>
+                                        {{ countUnread }}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="status-indicator bg-success"></div>
+                        </div>
+                        <div class="font-weight-bold">
+                            <div class="text-truncate">
+                                {{ conversation.nom }}
+                            </div>
+                            <div class="small text-dark">
+                                {% if conversation.message[conversation.message|length -1].estProprietaire %}
+                                    Vous :
+                                {% else %}
+                                    {{ conversation.nom }} :
+                                {% endif %}
+                                {{ conversation.message[conversation.message|length -1].getContenu }}
+                            </div>
+                            <div class="small text-gray-500">
+                                Dernier message : {{ conversation.dateDernierMessage|date('d-m-Y') }}
+                            </div>
+                        </div>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class='text-center'>
+                <p class='pt-5'>Aucune conversation</p>
+            </div>
+        {% endif %}
+
+        <a class="dropdown-item text-center small text-dark" href="{{ asset('espace_admin/messagerie') }}">
+            Plus de messages</a>
+    </div>
+</li>

@@ -31,14 +31,23 @@ class FormationController extends AbstractController
      */
     public function rechercheFormation(Request $request)
     {
-        $formation = $request->get('formation');
-        $em = $this->getDoctrine()->getManager();
-        if ($formation == "") {
-            $formations = $em->getRepository(Formation::class)->findAll();
-        } else {
-            $formations = $em->getRepository(Formation::class)->findBy(
-                ['nom' => $formation]
-            );
+        $recherche = $request->get('valeur-recherche');
+        $formations = $this->getDoctrine()->getRepository(Formation::class)->findStartingWith($recherche);
+
+        if ($formations) {
+            $jsonContent = null;
+            $i = 0;
+            foreach ($formations as $formation) {
+                $jsonContent[$i]['nomSociete'] = $formation->getSociete()->getNom();
+                $jsonContent[$i]['idPhotoSociete'] = $formation->getSociete()->getIdPhoto();
+                $jsonContent[$i]['adresseSociete'] = $formation->getSociete()->getAdresse();
+                $jsonContent[$i]['nom'] = $formation->getNom();
+                $jsonContent[$i]['filiere'] = $formation->getFiliere();
+                $jsonContent[$i]['debut'] = $formation->getDebut()->format('H:i - d/M/Y');
+                $jsonContent[$i]['fin'] = $formation->getFin()->format('H:i - d/M/Y');
+                $i++;
+            }
+            return new Response(json_encode($jsonContent));
         }
 
         return new Response(null);

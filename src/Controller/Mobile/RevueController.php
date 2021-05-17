@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection DuplicatedCode */
 
 namespace App\Controller\Mobile;
 
@@ -25,12 +25,18 @@ class RevueController extends AbstractController
      * @Route("recuperer_revues")
      * @return Response
      */
-    public function recupererRevues()
+    public function recupererRevues(): Response
     {
         $revues = $this->getDoctrine()->getRepository(Revue::class)->findAll();
+
+        if ($revues == null) {
+            $response = new Response();
+            $response->setStatusCode(400);
+            return $response;
+        }
+
         $jsonContent = null;
         $i = 0;
-        $revue = new Revue();
         foreach ($revues as $revue) {
             $jsonContent[$i]['id'] = $revue->getId();
             $jsonContent[$i]['idCandidatureOffre'] = $revue->getCandidatureOffre()->getId();
@@ -42,11 +48,11 @@ class RevueController extends AbstractController
             $jsonContent[$i]['nbEtoiles'] = $revue->getNbEtoiles();
             $jsonContent[$i]['objet'] = $revue->getObjet();
             $jsonContent[$i]['description'] = $revue->getDescription();
-            $jsonContent[$i]['dateCreation'] = $revue->getDateCreation()->format('Y-m-d H:i:s');
+            $jsonContent[$i]['dateCreation'] = $revue->getDateCreation()->format('H:i - d/M/Y');
             $i++;
         }
-        $json = json_encode($jsonContent);
-        return new Response($json);
+
+        return new Response(json_encode($jsonContent));
     }
 
     /**
@@ -54,11 +60,17 @@ class RevueController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function recupererRevueParId(Request $request)
+    public function recupererRevueParId(Request $request): Response
     {
         $idRevue = (int)$request->get("id");
 
         $revue = $this->getDoctrine()->getRepository(Revue::class)->find($idRevue);
+
+        if ($revue == null) {
+            $response = new Response();
+            $response->setStatusCode(400);
+            return $response;
+        }
 
         $jsonContent['id'] = $revue->getId();
         $jsonContent['idCandidatureOffre'] = $revue->getCandidatureOffre()->getId();
@@ -71,7 +83,7 @@ class RevueController extends AbstractController
         $jsonContent['nbEtoiles'] = $revue->getNbEtoiles();
         $jsonContent['objet'] = $revue->getObjet();
         $jsonContent['description'] = $revue->getDescription();
-        $jsonContent['dateCreation'] = $revue->getDateCreation()->format('Y-m-d H:i:s');
+        $jsonContent['dateCreation'] = $revue->getDateCreation()->format('H:i - d/M/Y');
 
         $json = json_encode($jsonContent);
         return new Response($json);
@@ -81,9 +93,16 @@ class RevueController extends AbstractController
      * @Route("recuperer_societe_offre_pour_revue")
      * @return Response
      */
-    public function recupererSocietePourRevue()
+    public function recupererSocietePourRevue(): Response
     {
         $societes = $this->getDoctrine()->getRepository(Societe::class)->findAll();
+
+        if ($societes == null) {
+            $response = new Response();
+            $response->setStatusCode(400);
+            return $response;
+        }
+
         $jsonContent = null;
         $i = 0;
         $societe = new Societe();
@@ -91,7 +110,7 @@ class RevueController extends AbstractController
             $jsonContent[$i]['idSociete'] = $societe->getId();
             $jsonContent[$i]['nomSociete'] = $societe->getNom();
             $jsonContent[$i]['idPhotoSociete'] = $societe->getIdPhoto();
-            $jsonContent[$i]['telSociete'] = "T".$societe->getTel();
+            $jsonContent[$i]['telSociete'] = "T" . $societe->getTel();
 
             $j = 0;
             foreach ($societe->getOffreDeTravail() as $offreDeTravail) {
@@ -108,9 +127,11 @@ class RevueController extends AbstractController
 
     /**
      * @Route("manipuler_revue")
+     * @param Request $request
+     * @return Response
      * @throws Exception
      */
-    public function manipulerRevue(Request $request)
+    public function manipulerRevue(Request $request): Response
     {
         $idRevue = (int)$request->get("id");
 
@@ -118,12 +139,10 @@ class RevueController extends AbstractController
             $revue = new Revue();
             $idCandidat = (int)$request->get("candidatId");
             $idOffre = (int)$request->get("offreDeTravailId");
-            $revue->setCandidatureOffre(
-                $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
-                    "candidat" => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
-                    "offreDeTravail" => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffre)
-                ])
-            );
+            $revue->setCandidatureOffre($this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
+                "candidat" => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
+                "offreDeTravail" => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffre)
+            ]));
         } else {
             $revue = $this->getDoctrine()->getRepository(Revue::class)->find($idRevue);
         }
@@ -150,13 +169,15 @@ class RevueController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function supprimerRevue(Request $request)
+    public function supprimerRevue(Request $request): Response
     {
         $idRevue = (int)$request->get("id");
+
 
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($this->getDoctrine()->getRepository(Revue::class)->find($idRevue));
         $manager->flush();
+
 
         return new Response("Suppression effectué");
     }

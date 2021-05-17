@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("admin/")
+ * @Route("espace_admin/")
  */
 class FormationController extends AbstractController
 {
@@ -22,7 +22,7 @@ class FormationController extends AbstractController
      */
     public function afficherToutFormation()
     {
-        return $this->render('admin/formation/afficher_tout.html.twig', [
+        return $this->render('/back_end_admin/formation/afficher_tout.html.twig', [
             'formations' => $this->getDoctrine()->getRepository(Formation::class)->findAll()
         ]);
     }
@@ -60,10 +60,10 @@ class FormationController extends AbstractController
                 $entityManager->persist($formation);
                 $entityManager->flush();
 
-                return $this->redirect('/admin/formation');
+                return $this->redirect('/espace_admin/formation');
             }
 
-            return $this->render('/admin/formation/manipuler.html.twig', [
+            return $this->render('/back_end_admin/formation/manipuler.html.twig', [
                 'formation' => $formation,
                 'form' => $form->createView(),
                 'manipulation' => $manipulation,
@@ -82,6 +82,6 @@ class FormationController extends AbstractController
         $entityManager->remove($this->getDoctrine()->getRepository(Formation::class)->find($idFormation));
         $entityManager->flush();
 
-        return $this->redirect('/admin/formation');
+        return $this->redirect('/espace_admin/formation');
     }
 }

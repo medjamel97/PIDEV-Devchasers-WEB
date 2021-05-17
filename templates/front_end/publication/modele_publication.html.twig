@@ -1,0 +1,281 @@
+<div class="shadow-lg rounded">
+    <div class="border rounded-top bg-white p-3">
+        <div class="row rounded-top pb-3">
+            <div class="col-md-2 border-right">
+                <div class="candidates-list-fav-btn text-left">
+                    <div class="col-md-12 candidates-listing-btn overflow-hidden">
+                        {% if publication.user.candidat %}
+                            <div class="text-dark text-center my-2">
+                                <h6>{{ publication.user.candidat.prenom }}</h6>
+                                <h6>{{ publication.user.candidat.nom }}</h6>
+                            </div>
+                            <img src="{{ publication.user.candidat.idPhoto }}"
+                                 alt=""
+                                 class="d-block rounded shadow border mx-auto my-2"
+                                 height="90">
+                            <a href="candidat/{{ publication.user.candidat.id }}/profil">
+                                <button class="btn btn-outline-dark my-2 p-2">
+                                    Consulter
+                                </button>
+                            </a>
+
+                        {% elseif publication.user.societe %}
+                            <div class="text-dark text-center my-2">
+                                <h6>{{ publication.user.societe.nom }}</h6>
+                            </div>
+                            <img src="{{ publication.user.societe.idPhoto }}"
+                                 alt=""
+                                 class="d-block rounded shadow border mx-auto my-2"
+                                 height="90">
+                            <a href="societe/{{ publication.user.societe.id }}/afficher">
+                                <button class="btn btn-outline-dark my-2 p-2">
+                                    Consulter
+                                </button>
+                            </a>
+                        {% else %}
+                            <div class="text-dark text-center my-2">
+                                <h6>Admin</h6>
+                            </div>
+                            <img src="{{ asset('/back-end/images/admin-icon.png') }}"
+                                 alt=""
+                                 class="d-block rounded shadow border mx-auto my-2"
+                                 height="90">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div
+                    {% if publication.user == app.user %}
+                        class="col-md-9"
+                    {% else %}
+                        {% if app.user %}
+                            {% if not app.user.candidat and not app.user.societe %}
+                                class="col-md-9"
+                            {% else %}
+                                class="col-md-10"
+                            {% endif %}
+                        {% else %}
+                            class="col-md-10"
+                        {% endif %}
+                    {% endif %}
+            >
+                <div class="col-md-12">
+                    <p class="btn alert-primary float-right">
+                        {{ publication.date|date('H:i - d/M/Y') }}
+                    </p>
+                </div>
+                <div class="col-md-12 candidates-list-desc overflow-hidden job-single-meta pt-2">
+                    <p class="mb-2 h4 text-dark">{{ publication.titre }} </p>
+                    <div style="font-size: 20px;"></div>
+                    <p class="mt-1 mb-0 text-break text-dark"
+                       style="min-height : 6rem">{{ publication.description }}</p>
+                </div>
+                <!-- Like container -->
+                <div class="col-md-12 mt-5">
+                    <div class="text-dark mt-3 row">
+                        {% set nbLikes = 0 %}
+                        {% set nbDislikes = 0 %}
+                        {% set hasLike = false %}
+                        {% set hasDislike = false %}
+
+                        {% for like in publication.likeid %}
+                            {% if like.typelike == 1 %}
+                                {% set nbLikes = nbLikes + 1 %}
+                                {% if like.idUser == idUser %}
+                                    {% set hasLike = true %}
+                                {% endif %}
+                            {% else %}
+                                {% set nbDislikes = nbDislikes + 1 %}
+                                {% if like.idUser == idUser %}
+                                    {% set hasDislike = true %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <a class="col-md-1" href="#"
+                           onclick="likeDislike(0,{{ publication.id }});return false;">
+                            {% if hasDislike %}
+                                <button id="dislike-button-{{ publication.id }}"
+                                        class="btn btn-dark p-2">
+                                    <i id="dislike-button-heart-{{ publication.id }}"
+                                       class="mdi mdi-thumb-down"></i>
+                                </button>
+                            {% else %}
+                                <button id="dislike-button-{{ publication.id }}"
+                                        class="btn btn-outline-dark p-2">
+                                    <i id="dislike-button-heart-{{ publication.id }}"
+                                       class="mdi mdi-thumb-down-outline"></i>
+                                </button>
+                            {% endif %}
+                        </a>
+                        <p id="nb-dislike-{{ publication.id }}"
+                           class="col-md-1 my-auto text-center">{{ nbDislikes }}</p>
+                        <div class="col-md-8 m-auto progress-box">
+                            <div class="progress">
+                                <div id="like-bar-{{ publication.id }}"
+                                     class="progress-bar progress-bar-striped position-relative bg-primary"
+                                     style="width:{{ publication.pourcentageLike }}%">
+                                </div>
+                            </div>
+                        </div>
+                        <p id="nb-like-{{ publication.id }}"
+                           class="col-md-1 my-auto text-center">{{ nbLikes }}</p>
+                        <a class="col-md-1 w-100" href="#"
+                           onclick="likeDislike(1,{{ publication.id }});return false;">
+                            {% if hasLike %}
+                                <button id="like-button-{{ publication.id }}"
+                                        class="btn btn-dark p-2">
+                                    <i id="like-button-heart-{{ publication.id }}"
+                                       class="mdi mdi-thumb-up"></i>
+                                </button>
+                            {% else %}
+                                <button id="like-button-{{ publication.id }}"
+                                        class="btn btn-dark-outline p-2">
+                                    <i id="like-button-heart-{{ publication.id }}"
+                                       class="mdi mdi-thumb-up-outline"></i>
+                                </button>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+                <!-- end like container -->
+            </div>
+            {% if app.user %}
+                {% if publication.user == app.user %}
+                    {% if publication.user.candidat %}
+                        <div class="col-md-1">
+                            <a href="{{ asset('publication/'~publication.id~'/modifier') }}"
+                               class="btn btn-primary py-1 px-2 m-1">
+                                <i class="mdi mdi-pencil"></i>
+                            </a>
+                            <a href="{{ asset('publication/'~publication.id~'/supprimer') }}"
+                               class="btn btn-primary py-1 px-2 m-1">
+                                <i class="mdi mdi-trash-can"></i>
+                            </a>
+                        </div>
+                    {% elseif publication.user.societe %}
+                        <div class="col-md-1">
+                            <a href="{{ asset('publication/'~publication.id~'/modifier') }}"
+                               class="btn btn-primary py-1 px-2 m-1">
+                                <i class="mdi mdi-pencil"></i>
+                            </a>
+                            <a href="{{ asset('publication/'~publication.id~'/supprimer') }}"
+                               class="btn btn-primary py-1 px-2 m-1">
+                                <i class="mdi mdi-trash-can"></i>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="col-md-1">
+                            <a href="{{ asset('publication/'~publication.id~'/modifier') }}"
+                               class="btn btn-primary py-1 px-2 m-1">
+                                <i class="mdi mdi-pencil"></i>
+                            </a>
+                            <a href="{{ asset('publication/'~publication.id~'/supprimer') }}"
+                               class="btn btn-primary py-1 px-2 m-1">
+                                <i class="mdi mdi-trash-can"></i>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {% for role in app.user.roles %}
+                        {% if role == "ROLE_ADMIN" %}
+                            <div class="col-md-1">
+                                <a href="{{ asset('publication/'~publication.id~'/supprimer') }}"
+                                   class="btn btn-primary py-1 px-2 m-1">
+                                    <i class="mdi mdi-trash-can"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="col-md-12 border bg-light rounded-bottom mb-5">
+        <div id="contenaire-commentaires-{{ publication.id }}"
+             class="col-md-12 my-3">
+            {% for commentaire in publication.commentaire %}
+                {% include 'front_end/publication/modele_commentaire.html.twig' %}
+            {% endfor %}
+        </div>
+        <form class="col-md-12 input-group my-3" action="#">
+            <input id="input-commentaire-{{ publication.id }}" type="text"
+                   class="form-control rounded-left"
+                   placeholder="Ecrire un commentaire ...">
+            <div class="input-group-append">
+                <button id="commentaire-pub-{{ publication.id }}" type="submit"
+                        class="btn btn-primary submitBnt pt-1"
+                        onclick="ajouterCommentaire({{ publication.id }});return false;">
+                    <i class="mdi mdi-send"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script id="ajax-like-dislike">
+    function likeDislike(typeLike, idPub) {
+        $.ajax({
+            type: 'GET',
+            url: 'like',
+            data: {
+                'typeLike': typeLike,
+                'idPub': idPub
+            },
+            success: function (retour) {
+
+                obj = JSON.parse(retour);
+                if (typeLike) {
+                    $("#nb-like-" + idPub).empty().append(obj.nbLike);
+                    if (obj.haveLike) {
+                        $('#like-button-' + idPub).attr('class', 'btn btn-outline-dark p-2');
+                        $('#like-button-heart-' + idPub).attr('class', 'mdi mdi-thumb-up');
+                    } else {
+                        $('#like-button-' + idPub).attr('class', 'btn btn-dark p-2');
+                        $('#like-button-heart-' + idPub).attr('class', 'mdi mdi-thumb-up');
+                    }
+                } else {
+                    $("#nb-dislike-" + idPub).empty().append(obj.nbDislike);
+                    if (obj.haveDislike) {
+                        $('#dislike-button-' + idPub).attr('class', 'btn btn-dark p-2');
+                        $('#dislike-button-heart-' + idPub).attr('class', 'mdi mdi-thumb-down');
+                    } else {
+                        $('#dislike-button-' + idPub).attr('class', 'btn btn-outline-dark p-2');
+                        $('#dislike-button-heart-' + idPub).attr('class', 'mdi mdi-thumb-down-outline');
+                    }
+                }
+                $("#like-bar-" + idPub).attr('style', 'width:' + obj.pourcentage + '%');
+            },
+            error: function () {
+                alert("Connectez vous d'abord");
+            }
+        });
+
+    }
+</script>
+<script id="ajax-recherche">
+    $(document).ready(function () {
+        $("#search").keyup(function (e) {
+            var value = $("#search").val();
+            console.log(value);
+            $.ajax({
+                type: 'GET',
+                url: 'publication/recherche',
+                data: {
+                    'valeurRecherche': value
+                },
+                success: function (retour) {
+                    if (retour) {
+                        $.each(JSON.parse(retour), function (i, obj) {
+                            $('#pub1').hide();
+                            $('#tableau').empty().append("<tr><td>" + obj.id + "</td><td>" + obj.titre + "</td><td>" + obj.description + "</td></tr> ");
+
+                            console.log("ay hkeya" + obj.titre);
+                        });
+                    }
+                }
+            });
+        })
+    });
+</script>

@@ -1,0 +1,327 @@
+{% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Offres{% endblock %}
+{% set candidatureOffreActuelle = null %}
+{% if app.user %}
+    {% for candidatureOffre in  offreDeTravail.candidatureOffre %}
+        {% if candidatureOffre.candidat == app.user.candidat %}
+            {% set candidatureOffreActuelle = candidatureOffre %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% block content %}
+    <!-- blog start -->
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-offres.jpg') }})">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <h4 class="title mb-4">
+                            Offre :
+                            <b class="text-uppercase">{{ offreDeTravail.nom }}</b>
+                            à
+                            <b class="text-uppercase">{{ offreDeTravail.societe.nom }}</b>
+                        </h4>
+                        <ul class="page-next d-inline-block mb-0">
+                            <li>
+                                <a href="{{ asset('societe') }}" class="text-uppercase font-weight-bold">Societes</a>
+                            </li>
+                            <li>
+                                <a href="{{ asset('societe/'~offreDeTravail.societe.id~'/afficher') }}"
+                                   class="text-uppercase font-weight-bold">{{ offreDeTravail.societe.nom }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ asset('offre_de_travail') }}"
+                                   class="text-uppercase font-weight-bold">Offres</a>
+                            </li>
+                            <li>
+                                <span class="text-uppercase text-white font-weight-bold">{{ offreDeTravail.nom }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-7">
+                    <div class="row job-detail border rounded p-4">
+                        <div class="col-md-8 job-detail-content">
+                            <img src="{{ asset(offreDeTravail.societe.idPhoto) }}" alt="" height="100" width="100"
+                                 class="img-fluid float-left mr-md-3 mr-2 mx-auto d-block shadow border">
+                            <div class="job-detail-com-desc overflow-hidden d-block">
+                                <div class="mb-2">
+                                    <p class="h4 text-dark">{{ offreDeTravail.nom }}</p>
+                                </div>
+                                <p class="text-muted mb-0">
+                                    <i class="mdi mdi-office-building mr-2"></i>
+                                    {{ offreDeTravail.societe.nom }}
+                                </p>
+                                <p class="text-muted mb-0"><i class="mdi mdi-map-marker mr-2"></i>
+                                    {{ offreDeTravail.societe.adresse }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{ asset('revue/offre_de_travail/'~offreDeTravail.id) }}"
+                               class="btn btn-primary-outline mb-2 p-2 w-100">Revues</a>
+                            <a href="{{ asset('interview/offre_de_travail/'~offreDeTravail.id) }}"
+                               class="btn btn-primary-outline w-100 p-2">Avis sur l'interview</a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="text-dark mt-4">Description :</h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="border rounded pt-3">
+                                <p class="text-muted mx-3">{{ offreDeTravail.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="text-dark mt-4">Qualifications :</h5>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="job-detail border rounded mt-2 p-4">
+                                <div class="job-detail-desc">
+                                    <div class="job-details-desc-item">
+                                        <div class="float-left mr-3">
+                                            <i class="mdi mdi-send text-primary"></i>
+                                        </div>
+                                        <p class="text-muted mb-2">Morbi mattis ullamcorper velit. Phasellus gravida
+                                            semper nisi nullam vel sem.</p>
+                                    </div>
+
+                                    <div class="job-details-desc-item">
+                                        <div class="float-left mr-3">
+                                            <i class="mdi mdi-send text-primary"></i>
+                                        </div>
+                                        <p class="text-muted mb-2">Phasellus viverra nulla ut metus varius laoreet.
+                                            Quisque rutrum. Aenean imperdiet.</p>
+                                    </div>
+
+                                    <div class="job-details-desc-item">
+                                        <div class="float-left mr-3">
+                                            <i class="mdi mdi-send text-primary"></i>
+                                        </div>
+                                        <p class="text-muted mb-2">Etiam ultricies nisi vel augue. Curabitur ullamcorper
+                                            ultricies nisi. Nam eget dui. Etiam rhoncus.</p>
+                                    </div>
+
+                                    <div class="job-details-desc-item">
+                                        <div class="float-left mr-3">
+                                            <i class="mdi mdi-send text-primary"></i>
+                                        </div>
+                                        <p class="text-muted mb-2">Donec mollis hendrerit risus. Phasellus nec sem in
+                                            justo pellentesque facilisis.</p>
+                                    </div>
+
+                                    <div class="job-details-desc-item">
+                                        <div class="float-left mr-3">
+                                            <i class="mdi mdi-send text-primary"></i>
+                                        </div>
+                                        <p class="text-muted mb-2">Praesent congue erat at massa. Sed cursus turpis
+                                            vitae tortor. Donec posuere vulputate arcu.</p>
+                                    </div>
+
+                                    <div class="job-details-desc-item">
+                                        <div class="float-left mr-3">
+                                            <i class="mdi mdi-send text-primary"></i>
+                                        </div>
+                                        <p class="text-muted mb-2">Donec elit libero, sodales nec, volutpat a, suscipit
+                                            non, turpis. Nullam sagittis.</p>
+                                    </div>
+
+                                    <div class="job-details-desc-item">
+                                        <div class="float-left mr-3">
+                                            <i class="mdi mdi-send text-primary"></i>
+                                        </div>
+                                        <p class="text-muted mb-2">Pellentesque auctor neque nec urna. Proin sapien
+                                            ipsum, porta a, auctor quis, euismod ut, mi.</p>
+                                    </div>
+
+                                    <div class="job-details-desc-item">
+                                        <div class="float-left mr-3">
+                                            <i class="mdi mdi-send text-primary"></i>
+                                        </div>
+                                        <p class="text-muted mb-0">Pellentesque habitant morbi tristique senectus et
+                                            netus et malesuada fames ac turpis egestas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-5 mt-4 mt-sm-0">
+
+                    {% if app.user %}
+                        {% if app.user.candidat %}
+                            {% if candidatureOffreActuelle %}
+                                {% if  candidatureOffreActuelle.etat == 'accepté' %}
+                                    <div class="alert-success border rounded">
+                                        <p class=" text-center mt-3">
+                                            Votre candidature a été accepté
+                                        </p>
+                                    </div>
+                                    <a href="{{ asset('revue/'~candidatureOffreActuelle.id~'/ajouter') }}"
+                                       class="btn btn-secondary-outline w-100 mt-3">
+                                        Ecrire une revue
+                                    </a>
+                                    <a href="{{ asset('interview/'~candidatureOffreActuelle.id~'/ajouter') }}"
+                                       class="btn btn-secondary-outline w-100 my-3">
+                                        Donner mon avis sur l'interview
+                                    </a>
+                                {% elseif candidatureOffreActuelle.etat == 'refusé' %}
+                                    <div class="alert-danger border rounded mb-4">
+                                        <p class=" text-center mt-3">
+                                            Votre candidature a été refusé
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="alert-primary border rounded mb-4">
+                                        <p class=" text-center mt-3">
+                                            Votre candidature a été prise en compte
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+
+                                <div class="job-detail border rounded mb-4">
+                                    <a href="{{ asset('/candidature_offre/'~offreDeTravail.id~'/ajouter') }}"
+                                       class="btn btn-primary btn-block">
+                                        Postuler à cette offre
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <div class="job-detail border rounded mb-4">
+                            <a href="{{ asset('connexion') }}" class="btn btn-primary btn-block">
+                                Connectez vous pour postuler
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <div class="job-detail border rounded p-4">
+                        <h5 class="text-muted text-center pb-2"><i
+                                    class="mdi mdi-map-marker mr-2"></i>{{ offreDeTravail.societe.adresse }}</h5>
+
+                        <div class="job-detail-location pt-4 border-top">
+                            <div class="job-details-desc-item">
+                                <div class="float-left mr-2">
+                                    <i class="mdi mdi-bank text-muted"></i>
+                                </div>
+                                <p class="text-muted mb-2">: {{ offreDeTravail.societe.nom }}</p>
+                            </div>
+
+                            <div class="job-details-desc-item">
+                                <div class="float-left mr-2">
+                                    <i class="mdi mdi-email text-muted"></i>
+                                </div>
+                                <p class="text-muted mb-2">: {{ offreDeTravail.societe.user.email }}</p>
+                            </div>
+
+                            <div class="row ml-0">
+                                <div class="float-left mr-2">
+                                    <i class="mdi mdi-web text-muted"></i>
+                                </div>
+                                <a href="{{ asset('https://www.'~offreDeTravail.societe.nom~'.tn') }}"
+                                   class="text-primary text-lowercase mb-2">:
+                                    https://www.{{ offreDeTravail.societe.nom }}.tn
+                                </a>
+                            </div>
+
+                            <div class="job-details-desc-item">
+                                <div class="float-left mr-2">
+                                    <i class="mdi mdi-cellphone-iphone text-muted"></i>
+                                </div>
+                                <p class="text-muted mb-2">: {{ offreDeTravail.societe.tel }}</p>
+                            </div>
+
+                            <div class="job-details-desc-item">
+                                <div class="float-left mr-2">
+                                    <i class="mdi mdi-currency-usd text-muted"></i>
+                                </div>
+                                <p class="text-muted mb-2">: {{ offreDeTravail.salaire }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="job-detail border rounded mt-4 p-4">
+                        <h5 class="text-muted text-center pb-2"><i class="mdi mdi-clock-outline mr-2"></i>Horaires
+                            d'ouverture
+                        </h5>
+
+                        <div class="job-detail-time border-top pt-4">
+                            <ul class="list-inline mb-0">
+                                <li class="clearfix text-muted border-bottom pb-3">
+                                    <div class="float-left">Lundi</div>
+                                    <div class="float-right">
+                                        <h5 class="f-13 mb-0">9AM - 7PM</h5>
+                                    </div>
+                                </li>
+
+                                <li class="clearfix text-muted border-bottom pb-3">
+                                    <div class="float-left">Mardi</div>
+                                    <div class="float-right">
+                                        <h5 class="f-13 mb-0">9AM - 7PM</h5>
+                                    </div>
+                                </li>
+
+                                <li class="clearfix text-muted border-bottom pb-3">
+                                    <div class="float-left">Mercredi</div>
+                                    <div class="float-right">
+                                        <h5 class="f-13 mb-0">9AM - 7PM</h5>
+                                    </div>
+                                </li>
+
+                                <li class="clearfix text-muted border-bottom pb-3">
+                                    <div class="float-left">Jeudi</div>
+                                    <div class="float-right">
+                                        <h5 class="f-13 mb-0">9AM - 7PM</h5>
+                                    </div>
+                                </li>
+
+                                <li class="clearfix text-muted border-bottom pb-3">
+                                    <div class="float-left">Vendredi</div>
+                                    <div class="float-right">
+                                        <h5 class="f-13 mb-0">9AM - 7PM</h5>
+                                    </div>
+                                </li>
+
+                                <li class="clearfix text-muted border-bottom pb-3">
+                                    <div class="float-left">Samedi</div>
+                                    <div class="float-right">
+                                        <h5 class="f-13 mb-0">6:30AM - 1PM</h5>
+                                    </div>
+                                </li>
+
+                                <li class="clearfix text-muted pb-0">
+                                    <div class="float-left">Dimanche</div>
+                                    <div class="float-right">
+                                        <h5 class="f-13 mb-0">Fermé</h5>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- blog end -->
+{% endblock %}

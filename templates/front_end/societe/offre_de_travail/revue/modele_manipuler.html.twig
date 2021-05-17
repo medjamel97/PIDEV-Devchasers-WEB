@@ -1,0 +1,77 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+{% do form.nbEtoiles.setRendered() %}
+{% do form.candidatureOffre.setRendered() %}
+
+{% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
+{% if revue is not null %}
+    {% if revue.nbEtoiles == 1 %}
+        {% set checked1 = "checked" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
+    {% elseif revue.nbEtoiles == 2 %}
+        {% set checked1 = "" %} {% set checked2 = "checked" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
+    {% elseif revue.nbEtoiles == 3 %}
+        {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "checked" %} {% set checked4 = "" %} {% set checked5 = "" %}
+    {% elseif revue.nbEtoiles == 4 %}
+        {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "checked" %} {% set checked5 = "" %}
+    {% elseif revue.nbEtoiles == 5 %}
+        {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "checked" %}
+    {% endif %}
+{% endif %}
+
+<div class="row">
+    <div class="col-md-12 text-left">
+        <label for="revue_nbEtoiles" class="font-weight-bold">Note <b class="text-danger">*</b> :</label>
+        <p class="text-danger">{{ form_errors(form.nbEtoiles) }}</p>
+    </div>
+    <div id="revue_nbEtoiles" class="rate float-left">
+        <input type="radio" id="revue_nbEtoiles_0" name="revue[nbEtoiles]"
+               value="5" {{ checked5 }}/>
+        <label for="revue_nbEtoiles_0" title="text">1 stars</label>
+        <input type="radio" id="revue_nbEtoiles_1" name="revue[nbEtoiles]"
+               value="4" {{ checked4 }}/>
+        <label for="revue_nbEtoiles_1" title="text">2 stars</label>
+        <input type="radio" id="revue_nbEtoiles_2" name="revue[nbEtoiles]"
+               value="3" {{ checked3 }}/>
+        <label for="revue_nbEtoiles_2" title="text">3 stars</label>
+        <input type="radio" id="revue_nbEtoiles_3" name="revue[nbEtoiles]"
+               value="2" {{ checked2 }}/>
+        <label for="revue_nbEtoiles_3" title="text">4 stars</label>
+        <input type="radio" id="revue_nbEtoiles_4" name="revue[nbEtoiles]"
+               value="1" {{ checked1 }}/>
+        <label for="revue_nbEtoiles_4" title="text">5 star</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group app-label mt-2">
+            <div class="text-left">
+                {{ form_label(form.objet) }} <b class="text-danger">*</b> :
+                {{ form_errors(form.objet) }}
+            </div>
+            {{ form_widget(form.objet, {
+                'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group app-label mt-2">
+            <div class="text-left">
+                {{ form_label(form.description) }} <b class="text-danger">*</b> :
+                {{ form_errors(form.description) }}
+            </div>
+            {{ form_widget(form.description, {
+                'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 m-auto">
+        {{ form_widget(form.submit, {
+            'label' : manipulation,
+            'attr': {
+                'class': 'form-control btn btn-primary font-weight-lighter',
+            }
+        }) }}
+    </div>
+</div>
+{{ form_end(form) }}

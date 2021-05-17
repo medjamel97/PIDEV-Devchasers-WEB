@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inscription - Khedemti</title>
+    <title>Connexion - Khedemti</title>
     <meta name="description" content=""/>
     <meta name="keywords" content=""/>
     <meta name="author" content="Themesdesign"/>
 
-    <link rel="shortcut icon" href="{{ asset('frontEnd/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('front-end/images/favicon.ico') }}">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ asset('frontEnd/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/materialdesignicons.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/materialdesignicons.min.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/selectize.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/selectize.css') }}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/nice-select.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/nice-select.css') }}"/>
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/style.css') }}"/>
 
 </head>
 
@@ -45,7 +45,7 @@
 
 <!-- Hero Start -->
 <section class="vh-100"
-         style="background: url({{ asset('app/images/backgrounds/inscription-BG.jpg') }}) center center;">
+         style="background-image: url({{ asset('/images/backgrounds/BG-inscription.jpg') }})">
     <div class="home-center">
         <div class="home-desc-center">
             <div class="container">
@@ -94,7 +94,7 @@
                                                value="{{ csrf_token('authenticate') }}">
                                         <div class="checkbox mb-3 col-md-12">
                                             <label>
-                                                <input type="checkbox" name="_remember_me"> Remember me
+                                                <input type="checkbox" name="_remember_me"> Se rappeler de moi
                                             </label>
                                         </div>
                                         <div class="col-md-8 m-auto">
@@ -105,15 +105,15 @@
                                             <h6>Se connecter avec</h6>
                                             <ul class="list-unstyled social-icon mb-0 mt-3">
                                                 <li class="list-inline-item"><a
-                                                            href="{{ asset('frontEnd/javascript:void(0)') }}"
+                                                            href="{{ asset('front-end/javascript:void(0)') }}"
                                                             class="rounded"><i
                                                                 class="mdi mdi-facebook" title="Facebook"></i></a></li>
                                                 <li class="list-inline-item"><a
-                                                            href="{{ asset('frontEnd/javascript:void(0)') }}"
+                                                            href="{{ asset('front-end/javascript:void(0)') }}"
                                                             class="rounded"><i
                                                                 class="mdi mdi-google-plus" title="Google"></i></a></li>
                                                 <li class="list-inline-item"><a
-                                                            href="{{ asset('frontEnd/javascript:void(0)') }}"
+                                                            href="{{ asset('front-end/javascript:void(0)') }}"
                                                             class="rounded"><i
                                                                 class="mdi mdi-github-circle" title="Github"></i></a>
                                                 </li>
@@ -138,16 +138,16 @@
 <!-- Hero End -->
 
 <!-- javascript -->
-<script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
-<script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('frontEnd/js/jquery.easing.min.js') }}"></script>
-<script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
+<script src="{{ asset('front-end/js/jquery.min.js') }}"></script>
+<script src="{{ asset('front-end/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('front-end/js/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('front-end/js/plugins.js') }}"></script>
 
 <!-- selectize js -->
-<script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
+<script src="{{ asset('front-end/js/selectize.min.js') }}"></script>
 
-<script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ asset('front-end/js/jquery.nice-select.min.js') }}"></script>
 
-<script src="{{ asset('frontEnd/js/app.js') }}"></script>
+<script src="{{ asset('front-end/js/app.js') }}"></script>
 </body>
 </html>

@@ -1,0 +1,167 @@
+{% extends 'front_end/base.html.twig' %}
+{% block title %}Khedemti | Evenements{% endblock %}
+{% block content %}
+    <section class="bg-half page-next-level"
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-evenement.jpg') }})">
+        <div class="bg-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <p class="display-4 text-uppercase title mb-4">Evenements</p>
+                        <ul class="page-next d-inline-block mb-0">
+                            <li><a href="{{ asset('/societe') }}"
+                                   class="text-uppercase font-weight-bold">Societes</a>
+                            </li>
+                            <li><span class="text-uppercase text-white font-weight-bold">Evenements</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-light">
+        <div class="container">
+            <div class="home-form-position ">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="home-registration-form job-list-reg-form bg-white shadow-lg p-4 mb-3">
+                            <form class="registration-form">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-6">
+                                        <div class="registration-form-box">
+                                            <i class="mdi mdi-magnify"></i>
+                                            <input type="text" id="recherche"
+                                                   class="form-control rounded registration-input-box"
+                                                   placeholder="Rechercher une societe pour afficher ses evenements ...">
+                                            <div id="resultat-societe-container"
+                                                 class="position-absolute bg-white border rounded
+                                                            row w-100 shadow mt-2 mx-0"
+                                                 style="z-index: 1000;max-height: 45vh;overflow-y: auto;overflow-x: hidden">
+                                                <div id="resultat-societe" class="col-md-12 p-1">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section bg-light p-1 mb-5">
+        {% set societeActuelle = 0 %}
+        <div>
+            <div>
+                <div>
+                    {% for evenement in evenements %}
+                    {% if societeActuelle != evenement.societe.id %}
+                </div>
+            </div>
+        </div>
+        <div class="row col-md-8 mx-auto my-3 py-4 border rounded shadow-lg bg-white">
+            {% set societeActuelle = evenement.societe.id %}
+            <div class="row col-md-12 px-0 mb-4">
+                <div class="col-md-2 px-1">
+                    <img alt="societe" src="{{ asset(evenement.societe.idPhoto) }}"
+                         height="100" width="100" class="border shadow rounded mx-4">
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <a class="col-md-12 h4">{{ evenement.societe.nom }}</a>
+                        <p class="col-md-12 text-muted my-0"><i class="mdi mdi-phone"></i>
+                            {{ evenement.societe.tel }}
+                        </p>
+                        <p class="col-md-12 text-muted my-0"><i class="mdi mdi-map-marker"></i>
+                            {{ evenement.societe.adresse }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-2 px-0">
+                    <a href="{{ asset('evenement/societe='~evenement.societe.id) }}"
+                       class="btn btn-primary w-100">
+                        <i class="mdi mdi-calendar w-"></i>
+                        Calendrier
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12 faq-content">
+                <div class="accordion" id="accordionExample">
+                    {% include "front_end/societe/evenement/modele_evenement.html.twig" %}
+                    {% else %}
+                        {% include "front_end/societe/evenement/modele_evenement.html.twig" %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $("#resultat-societe-container").hide()
+
+        $(document).mouseup(function (e) {
+            var container = $("#resultat-societe-container");
+
+            // if the target of the click isn't the container nor a descendant of the container
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.hide();
+            }
+        });
+
+        let release = null;
+        $("#recherche").keyup(function (e) {
+            clearInterval(release);
+            release = setInterval(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "/societe/recherche",
+                    data: {
+                        'valeurRecherche': value
+                    },
+                    success: function (retour) {
+                        $("#resultat-societe-container").show();
+                        if (retour) {
+                            $("#resultat-societe").empty();
+                            $.each(JSON.parse(retour), function (i, obj) {
+                                $("#resultat-societe").append(
+                                    "<a href='evenement/societe=" + obj.id + "' class='d-block bg-light m-2 border rounded'>" +
+                                    "   <div class='row'>" +
+                                    "       <div class='col-md-3'>" +
+                                    "           <img alt='societe' src='" + obj.idPhoto + "'" +
+                                    "             width='70' height='70'" +
+                                    "             class='shadow m-2'>" +
+                                    "       </div>" +
+                                    "       <div class='col-md-8 my-auto text-dark'>" +
+                                    "           <p class='col-md-12 my-auto'>" + obj.nom + "</p>" +
+                                    "           <p class='col-md-12 my-auto'>" +
+                                    "           <i class='mdi mdi-map-marker'></i>" +
+                                    "               &nbsp&nbsp&nbsp&nbsp" + obj.adresse +
+                                    "           </p>" +
+                                    "       </div>" +
+                                    "   </div>" +
+                                    "</a>"
+                                );
+                            })
+                        } else {
+                            $("#resultat-societe").empty().append(
+                                "<p class='text-center p-3 m-0'>" +
+                                "Aucun resultat " +
+                                "</p>"
+                            );
+                        }
+                    }
+                });
+                clearInterval(release)
+            }, 200);
+            let value = $("#recherche").val();
+
+            return false;
+        });
+    </script>
+
+{% endblock %}

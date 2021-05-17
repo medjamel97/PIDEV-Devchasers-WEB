@@ -1,0 +1,105 @@
+{# bulma Sliding pagination control implementation #}
+{% if pageCount > 1 %}
+    <nav aria-label="pagination">
+        <ul class="pagination job-pagination justify-content-center mb-0 mt-4 pt-2">
+            <li class="page-item">
+                {% if previous is defined %}
+                    <a rel="prev" class="page-link"
+                       href="{{ path(route, query|merge({(pageParameterName): previous})) }}">
+                        <i class="mdi mdi-chevron-left text-dark"></i>
+                    </a>
+                {% else %}
+                    <p class="page-link disabled bg-light">
+                        <i class="mdi mdi-chevron-left text-muted"></i>
+                    </p>
+                {% endif %}
+            </li>
+
+
+            {% if current == first %}
+                <li class="page-item active">
+                    <a class="page-link" aria-label="Page {{ current }}" aria-current="page"
+                       href="{{ path(route, query|merge({(pageParameterName): first})) }}">1
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path(route, query|merge({(pageParameterName): first})) }}">1</a>
+                </li>
+            {% endif %}
+
+            {% if pagesInRange[0] - first >= 2 %}
+                <li class="page-item">
+                    <span class="pagination-ellipsis">&hellip;</span>
+                </li>
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if first != page and page != last %}
+                    {% if page == current %}
+                        <li class="page-item active">
+                            <a class="page-link" aria-label="Page {{ current }}" aria-current="page"
+                               href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" aria-label="Goto page {{ page }}"
+                               href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if last - pagesInRange[pagesInRange|length - 1] >= 2 %}
+                <li class="page-item">
+                    <span class="pagination-ellipsis">&hellip;</span>
+                </li>
+            {% endif %}
+
+            {% if current == last %}
+                <li class="page-item active">
+                    <a class="page-link " aria-label="Page {{ current }}" aria-current="page"
+                       href="{{ path(route, query|merge({(pageParameterName): last})) }}">{{ last }}</a>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="{{ path(route, query|merge({(pageParameterName): last})) }}">{{ last }}</a>
+                </li>
+            {% endif %}
+
+
+            {% if next is defined %}
+                <li class="page-item">
+                    <a rel="next" class="page-link"
+                       href="{{ path(route, query|merge({(pageParameterName): next})) }}">
+                        <i class="mdi mdi-chevron-right"></i>
+                    </a>
+                </li>
+            {% else %}
+                <p class="page-link disabled bg-light">
+                    <i class="mdi mdi-chevron-right text-muted"></i>
+                </p>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+
+{# <li class="page-item disabled">
+    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+        <i class="mdi mdi-chevron-double-left"></i>
+    </a>
+</li>
+<li class="page-item active"><a class="page-link" href="#">1</a></li>
+<li class="page-item">
+    <a class="page-link" href="#">2</a>
+</li>
+<li class="page-item"><a class="page-link" href="#">3</a></li>
+<li class="page-item"><a class="page-link" href="#">4</a></li>
+<li class="page-item">
+    <a class="page-link" href="#">
+        <i class="mdi mdi-chevron-double-right"></i>
+    </a>
+</li> #}

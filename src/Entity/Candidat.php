@@ -64,11 +64,6 @@ class Candidat
     private $candidatureMission;
 
     /**
-     * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="candidat", cascade={"remove"})
-     */
-    private $publication;
-
-    /**
      * @ORM\OneToMany(targetEntity=ExperienceDeTravail::class, mappedBy="candidat", cascade={"remove"})
      */
     private $experienceDeTravail;
@@ -92,7 +87,6 @@ class Candidat
     {
         $this->candidatureOffre = new ArrayCollection();
         $this->candidatureMission = new ArrayCollection();
-        $this->publication = new ArrayCollection();
         $this->experienceDeTravail = new ArrayCollection();
         $this->education = new ArrayCollection();
         $this->competence = new ArrayCollection();
@@ -229,36 +223,6 @@ class Candidat
             // set the owning side to null (unless already changed)
             if ($candidatureMission->getCandidat() === $this) {
                 $candidatureMission->setCandidat(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Publication[]
-     */
-    public function getPublication(): Collection
-    {
-        return $this->publication;
-    }
-
-    public function addPublication(Publication $publication): self
-    {
-        if (!$this->publication->contains($publication)) {
-            $this->publication[] = $publication;
-            $publication->setCandidat($this);
-        }
-
-        return $this;
-    }
-
-    public function removePublication(Publication $publication): self
-    {
-        if ($this->publication->removeElement($publication)) {
-            // set the owning side to null (unless already changed)
-            if ($publication->getCandidat() === $this) {
-                $publication->setCandidat(null);
             }
         }
 

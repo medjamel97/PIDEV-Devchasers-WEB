@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -47,6 +49,21 @@ class User implements UserInterface
     private $isSetUp = false;
 
     /**
+     * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="user", cascade={"remove"})
+     */
+    private $publication;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="userExpediteur", cascade={"remove"})
+     */
+    private $conversationIsProperty;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="userDestinataire", cascade={"remove"})
+     */
+    private $conversationIsNotProperty;
+
+    /**
      * @ORM\OneToOne(targetEntity=Candidat::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $candidat;
@@ -55,6 +72,15 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity=Societe::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $societe;
+
+
+
+    public function __construct()
+    {
+        $this->publication = new ArrayCollection();
+        $this->conversationIsProperty = new ArrayCollection();
+        $this->conversationIsNotProperty = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -159,6 +185,96 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Publication[]
+     */
+    public function getPublication(): Collection
+    {
+        return $this->publication;
+    }
+
+    public function addPublication(Publication $publication): self
+    {
+        if (!$this->publication->contains($publication)) {
+            $this->publication[] = $publication;
+            $publication->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublication(Publication $publication): self
+    {
+        if ($this->publication->removeElement($publication)) {
+            // set the owning side to null (unless already changed)
+            if ($publication->getUser() === $this) {
+                $publication->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Publication[]
+     */
+    public function getConversationIsProperty(): Collection
+    {
+        return $this->conversationIsProperty;
+    }
+
+    public function addConversationIsProperty(Publication $conversationIsProperty): self
+    {
+        if (!$this->conversationIsProperty->contains($conversationIsProperty)) {
+            $this->conversationIsProperty[] = $conversationIsProperty;
+            $conversationIsProperty->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversationIsProperty(Publication $conversationIsProperty): self
+    {
+        if ($this->conversationIsProperty->removeElement($conversationIsProperty)) {
+            // set the owning side to null (unless already changed)
+            if ($conversationIsProperty->getUser() === $this) {
+                $conversationIsProperty->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Publication[]
+     */
+    public function getConversationIsNotProperty(): Collection
+    {
+        return $this->conversationIsNotProperty;
+    }
+
+    public function addConversationIsNotProperty(Publication $conversationIsNotProperty): self
+    {
+        if (!$this->conversationIsNotProperty->contains($conversationIsNotProperty)) {
+            $this->conversationIsNotProperty[] = $conversationIsNotProperty;
+            $conversationIsNotProperty->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Publication $conversationIsNotProperty): self
+    {
+        if ($this->conversationIsNotProperty->removeElement($conversationIsNotProperty)) {
+            // set the owning side to null (unless already changed)
+            if ($conversationIsNotProperty->getUser() === $this) {
+                $conversationIsNotProperty->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getCandidat(): ?Candidat
     {
         return $this->candidat;
@@ -179,7 +295,6 @@ class User implements UserInterface
     public function setSociete(?Societe $societe): self
     {
         $this->societe = $societe;
-
         return $this;
     }
 }

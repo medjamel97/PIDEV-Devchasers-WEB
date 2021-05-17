@@ -23,9 +23,9 @@ class CandidatType extends AbstractType
             ])
             ->add('sexe', ChoiceType::class, [
                 'choices' => [
-                    'Masculin' => 'M',
-                    'Féminin' => 'F',
-                    'Autre' => 'A'
+                    'Masculin' => 'masculin',
+                    'Féminin' => 'feminin',
+                    'Autre' => 'autre'
                 ]])
             ->add('tel', IntegerType::class)
             ->add('idPhoto', FileType::class, [

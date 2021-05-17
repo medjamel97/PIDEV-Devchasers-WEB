@@ -1,0 +1,47 @@
+{% extends '/back_end_admin/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid">
+        <div class="row align-content-center">
+            <div class="col-md-6">
+                <p class="h1 m-5">Liste des evenements</p>
+            </div>
+            <div class="col-md-5 m-auto">
+                <a class="btn btn-primary float-right" href="{{ asset('espace_admin/evenement/ajouter') }}">Ajouter un
+                    evenement</a>
+            </div>
+        </div>
+        <table class="table bg-white border text-center">
+            <tr class="text-uppercase text-dark font-weight-bold">
+                <td>Societe</td>
+                <td>Titre</td>
+                <td>Date de debut</td>
+                <td>Date de fin</td>
+                <td>Description</td>
+                <td>toute la journée</td>
+                <td>Actions</td>
+            </tr>
+            {% for evenement in evenements %}
+                <tr>
+                    <td>{{ evenement.societe.nom }}</td>
+                    <td>{{ evenement.titre }}</td>
+                    <td>{{ evenement.debut|date("d-m-Y") }}</td>
+                    <td>{{ evenement.fin|date("d-m-Y") }}</td>
+                    <td>{{ evenement.description }}</td>
+                    {% if evenement.allDay == 1 %}
+                        <td>Oui</td>
+                    {% else %}
+                        <td>Non</td>
+                    {% endif %}
+                    <td>
+                        <a class="btn btn-dark m-1" href="{{ asset('espace_admin/evenement/'~evenement.id~'/modifier') }}">
+                            Modifier
+                        </a>
+                        <a class="btn btn-danger m-1" href="{{ asset('espace_admin/evenement/'~evenement.id~'/supprimer') }}">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+{% endblock %}

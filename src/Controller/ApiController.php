@@ -12,15 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiController extends AbstractController
 {
-    /**
-     * @Route("/api", name="api")
-     */
-    public function index()
-    {
-        return $this->render('api/afficher_tout.html.twig', [
-            'controller_name' => 'ApiController',
-        ]);
-    }
 
     /**
      * @Route("api/{id}/edit", name="api_event_edit", methods={"GET"})

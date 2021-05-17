@@ -33,18 +33,22 @@ class Conversation
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="conversation")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="conversationIsProperty")
      */
-    private $candidatExpediteur;
+    private $userExpediteur;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Candidat::class, inversedBy="conversationCandidatDestinataire")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="conversationIsNotProperty")
      */
-    private $candidatDestinataire;
+    private $userDestinataire;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom;
 
     public function __construct()
     {
-        $this->participantConversation = new ArrayCollection();
         $this->message = new ArrayCollection();
     }
 
@@ -95,26 +99,38 @@ class Conversation
         return $this;
     }
 
-    public function getCandidatExpediteur(): ?Candidat
+    public function getUserExpediteur(): ?User
     {
-        return $this->candidatExpediteur;
+        return $this->userExpediteur;
     }
 
-    public function setCandidatExpediteur(?Candidat $candidatExpediteur): self
+    public function setUserExpediteur(?User $userExpediteur): self
     {
-        $this->candidatExpediteur = $candidatExpediteur;
+        $this->userExpediteur = $userExpediteur;
 
         return $this;
     }
 
-    public function getCandidatDestinataire(): ?Candidat
+    public function getUserDestinataire(): ?User
     {
-        return $this->candidatDestinataire;
+        return $this->userDestinataire;
     }
 
-    public function setCandidatDestinataire(?Candidat $candidatDestinataire): self
+    public function setUserDestinataire(?User $userDestinataire): self
     {
-        $this->candidatDestinataire = $candidatDestinataire;
+        $this->userDestinataire = $userDestinataire;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
 
         return $this;
     }

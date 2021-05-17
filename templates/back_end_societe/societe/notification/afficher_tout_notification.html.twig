@@ -1,0 +1,62 @@
+<li class="nav-item dropdown no-arrow mx-1">
+    <a class="nav-link dropdown-toggle" href="{{ asset('#') }}" id="alertsDropdown"
+       role="button"
+       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-bell fa-fw"></i>
+        <!-- Counter - Alerts -->
+        {% if notifications|length > 0 %}
+            <span class="badge badge-danger badge-counter">{{ notifications|length }}</span>
+        {% endif %}
+    </a>
+    <!-- Dropdown - Alerts -->
+    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+         style="overflow-x: hidden; overflow-y: auto; max-height: 59vh;" aria-labelledby="alertsDropdown">
+        <h6 class="dropdown-header">
+            Notifications
+        </h6>
+        {% if notifications|length > 0 %}
+            {% for notification in notifications %}
+                {% if notification.typeCandidature == "mission" %}
+                    {% set isMission = true %}
+                {% else %}
+                    {% set isMission = false %}
+                {% endif %}
+                <a class="dropdown-item d-flex align-items-center"
+                        {% if isMission %}
+                            href="{{ asset('espace_societe/candidature_mission/'~notification.idCandidature~'/afficher') }}"
+                        {% else %}
+                            href="{{ asset('espace_societe/candidature_offre/'~notification.idCandidature~'/afficher') }}"
+                        {% endif %}
+                >
+                    <div class="mr-3">
+                        <div class="icon-circle bg-primary">
+                            {% if isMission %}
+                                <i class="fas fa-biking text-white"></i>
+                            {% else %}
+                                <i class="fas fa-briefcase text-white"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="small text-gray-700">{{ notification.date }}</div>
+                        <span class="font-weight-bold">
+                            Nouvelle candidature non traité
+                            du candidat
+                            <b class="text-primary">{{ notification.candidat }}</b>
+                                {% if isMission %}
+                                    pour votre mission
+                                {% else %}
+                                    pour votre offre de travail
+                                {% endif %}
+                            <b class="text-primary"> {{ notification.offre }}</b>
+                        </span>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <p class="dropdown-item d-flex align-items-center">
+                Aucune notification
+            </p>
+        {% endif %}
+    </div>
+</li>

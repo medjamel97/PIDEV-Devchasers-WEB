@@ -1,0 +1,70 @@
+{% extends '/back_end_societe/base.html.twig' %}
+{% block content %}
+    <section class="container-fluid bg-light">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="h2 text-dark p-2">Vos offres de travail</p>
+            </div>
+            <div class="col-md-5 p-2">
+                <a class="btn btn-primary float-right" href="{{ asset('espace_societe/offre_de_travail/ajouter') }}">
+                    <span>Nouvelle offre de travail</span>
+                </a>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="section-title text-center mb-4 py-4">
+                    <table class="table border bg-white">
+                        {% set hasData = false %}
+
+                        {% if not offreDeTravails %}
+                            {% set hasData = false %}
+                        {% endif %}
+
+                        {% set initialized = false %}
+                        {% for offreDeTravail in offreDeTravails %}
+                            {% if app.user == offreDeTravail.societe.user %}
+                                {% set hasData = true %}
+                                {% if not initialized %}
+                                    {% set initialized = true %}
+                                    <tr>
+                                        <td><b>Nom</b></td>
+                                        <td><b>Description</b></td>
+                                        <td><b>Categorie</b></td>
+                                        <td><b>Actions</b></td>
+                                    </tr>
+                                {% endif %}
+                                <tr>
+                                    <td>{{ offreDeTravail.nom }}</td>
+                                    <td class="text-break">{{ offreDeTravail.description }}</td>
+                                    {% if offreDeTravail.categorie %}
+                                        <td>{{ offreDeTravail.categorie.nom }}</td>
+                                    {% else %}
+                                        <td>-</td>
+                                    {% endif %}
+                                    <td>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4 my-0 mx-auto">
+                                                <a href="{{ asset('espace_societe/offre_de_travail/'~offreDeTravail.id~'/modifier') }}"
+                                                   class="btn btn-outline-dark" role="button"
+                                                   aria-pressed="true"><i class="fa fa-pen"></i></a>
+                                            </div>
+                                            <div class="form-group col-md-4 my-0 mx-auto">
+                                                <a href="{{ asset('espace_societe/offre_de_travail/'~offreDeTravail.id~'/supprimer') }}"
+                                                   class="btn btn-outline-danger " role="button"
+                                                   aria-pressed="true"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        {% if not hasData %}
+                            <td>Aucune offre de travail</td>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

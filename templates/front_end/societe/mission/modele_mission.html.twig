@@ -1,0 +1,45 @@
+<div class="col-lg-4 col-md-6 mt-4 pt-2">
+    <div class="blog position-relative overflow-hidden shadow-lg rounded bg-white">
+        <div class="position-relative overflow-hidden">
+            <img src="{{ asset('/front-end/images/how-it-work/img-1.png') }}"
+                 class="img-fluid rounded-top mx-auto d-block" alt="" height="50">
+            <div class="overlay rounded-top bg-dark"></div>
+            <div class="likes">
+                <ul class="list-unstyled mb-0">
+                    <li class="list-inline-item mr-2">
+                        <a href="{{ asset('#') }}" class="text-white like">
+                            <i class="mdi mdi-heart-outline mr-1"></i>33
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="{{ asset('#') }}" class="text-white comments">
+                            <i class="mdi mdi-comment-outline mr-1"></i>08
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content p-4">
+            <h4>
+                <a href="{{ asset('#') }}" class="title text-dark">
+                    {{ mission.nom }}
+                </a>
+            </h4>
+            <p class="text-muted h-100 text-truncate">
+                {{ mission.description }}
+            </p>
+            <a href="{{ asset('mission/'~mission.id~'/afficher') }}" class="btn btn-primary">
+                Consulter<i class="mdi mdi-chevron-right"></i></a>
+        </div>
+        <div class="author">
+            <p class=" mb-0">
+                <i class="mdi mdi-account text-light"></i>
+                <a href="{{ asset('societe/'~mission.societe.id~'/afficher') }}"
+                   class="text-light user">{{ mission.societe.nom }}</a></p>
+            <p class="text-light mb-0 date">
+                <i class="mdi mdi-map-marker"></i>
+                {{ mission.societe.adresse }}
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="border rounded bg-white shadow-lg m-4 p-3">
+    <div class="row">
+        <div class="col-md-2 border-right">
+            <div class="candidates-list-fav-btn">
+                <div class="candidates-listing-btn overflow-hidden">
+                    <div class="text-dark m-auto text-center">
+                        <h6>{{ revue.candidatureOffre.candidat.prenom }}</h6>
+                        <h6>{{ revue.candidatureOffre.candidat.nom }}</h6>
+                    </div>
+                </div>
+                <img src="{{ revue.candidatureOffre.candidat.idPhoto }}"
+                     alt="" class="d-block rounded m-auto" height="90">
+                <a href="{{ asset('candidat/'~revue.candidatureOffre.candidat.id~'/profil') }}"
+                   class="btn btn-outline-primary w-100 mt-4">
+                    Consulter
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="candidates-list-desc overflow-hidden job-single-meta ml-3 pt-2">
+                <ul class="list-unstyled">
+                    <li class="float-right">
+                        <p class="alert-primary py-1 px-2 rounded shadow-sm">
+                            {{ revue.dateCreation|date("H:i - d/M/Y") }}
+                        </p>
+                    </li>
+                    <li class="text-dark">
+                        <i class="fa fa-building mr-1"></i>
+                        Societe :
+                        <a href="{{ asset('societe/'~revue.candidatureOffre.offreDeTravail.societe.id~'/afficher') }}"
+                           class="text-primary">
+                            {{ revue.candidatureOffre.offreDeTravail.societe.nom }}</a>
+                    </li>
+                    <li class="text-dark">
+                        <i class="fa fa-briefcase mr-1"></i>
+                        Offre :
+                        <a href="{{ asset('offre_de_travail/'~revue.candidatureOffre.offreDeTravail.id~'/afficher') }}"
+                           class="text-primary">
+                            {{ revue.candidatureOffre.offreDeTravail.nom }}</a>
+                    </li>
+                    <li class="text-muted">
+                        <i class="fa fa-money-bill mr-1"></i>
+                        {{ revue.candidatureOffre.offreDeTravail.salaire }}
+                    </li>
+                </ul>
+                <h5 class="mb-2 text-dark">{{ revue.objet }}</h5>
+                <div style="font-size: 20px;">
+                    {% for i in 0..4 %}
+                        {% if revue.nbetoiles > i %}
+                            <a class="fa fa-star"
+                               style=" -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #ffc700 ;"></a>
+                        {% else %}
+                            <a class="fa fa-star"
+                               style=" -webkit-text-stroke: 1px #ffc700; -webkit-text-fill-color: #FFFFFF ;"></a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="text-break">
+                    <p>{{ revue.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

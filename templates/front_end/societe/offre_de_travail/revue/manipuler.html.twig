@@ -1,44 +1,48 @@
 {% extends '/front_end/base.html.twig' %}
+{% block title %}Khedemti | Revue{% endblock %}
 {% block css %}
-    <link rel="shortcut icon" href="{{ asset('frontEnd/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('front-end/images/favicon.ico') }}">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{{ asset('frontEnd/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('front-end/css/bootstrap.min.css') }}" type="text/css">
 
     <!--Material Icon -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/materialdesignicons.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/fontawesome.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/fontawesome.css') }}">
 
     <!-- selectize css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/selectize.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/nice-select.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/selectize.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/nice-select.css') }}">
 
     <!-- Custom  Css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/style.css') }}">
 
     <!-- Review rating css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontEnd/css/rating.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-end/css/rating.css') }}"/>
 {% endblock %}
-{% block topImage %}{% endblock %}
 {% block content %}
     <!-- Start home -->
     <section class="bg-half page-next-level"
-             style="background-image: url({{ asset('/frontEnd/images/BG-revue.png') }});">
+             style="background-image: url({{ asset('/front-end/images/backgrounds/2000x1100/BG-revue.jpg') }})">
         <div class="bg-overlay"></div>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="text-center text-white">
-                        <h4 class="text-uppercase title mb-4">{{ manipulation }} une revue</h4>
+                        <h4 class="text-uppercase title mb-4">{{ manipulation }} votre revue</h4>
                         <ul class="page-next d-inline-block mb-0">
                             <li>
-                                <a href="{{ asset('frontEnd/index.html') }}" class="text-uppercase font-weight-bold">Societes</a>
+                                <a href="{{ asset('societe') }}" class="text-uppercase font-weight-bold">Societes</a>
                             </li>
                             <li>
-                                <a class="text-uppercase font-weight-bold">{{ candidatureOffre.offreDeTravail.societe.nom }}</a>
+                                <a href="{{ asset('societe/'~candidatureOffre.offreDeTravail.societe.id~'/afficher') }}"
+                                   class="text-uppercase font-weight-bold">{{ candidatureOffre.offreDeTravail.societe.nom }}
+                                </a>
                             </li>
                             <li>
-                                <a class="text-uppercase font-weight-bold">{{ candidatureOffre.offreDeTravail.description }}</a>
+                                <a href="{{ asset('offre_de_travail/'~candidatureOffre.offreDeTravail.id~'/afficher') }}"
+                                   class="text-uppercase font-weight-bold">{{ candidatureOffre.offreDeTravail.nom }}
+                                </a>
                             </li>
                             <li>
                                 <span class="text-uppercase text-white font-weight-bold">revues</span>
@@ -58,79 +62,15 @@
                     <div class="rounded shadow bg-white p-4">
                         <div class="custom-form">
                             <div id="message3"></div>
-                            <h4 class="text-dark mb-3">{{ manipulation }} une revue sur
-                                l'offre {{ candidatureOffre.offreDeTravail.description }}
-                                de {{ candidatureOffre.offreDeTravail.societe.nom }} :</h4>
-                            {{ form_start(form) }}
-                            {% do form.nbEtoiles.setRendered() %}
-
-                            {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
-                            {% if revue is not null %}
-                                {% if revue.nbEtoiles == 1 %}
-                                    {% set checked1 = "checked" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
-                                {% elseif revue.nbEtoiles == 2 %}
-                                    {% set checked1 = "" %} {% set checked2 = "checked" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "" %}
-                                {% elseif revue.nbEtoiles == 3 %}
-                                    {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "checked" %} {% set checked4 = "" %} {% set checked5 = "" %}
-                                {% elseif revue.nbEtoiles == 4 %}
-                                    {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "checked" %} {% set checked5 = "" %}
-                                {% elseif revue.nbEtoiles == 5 %}
-                                    {% set checked1 = "" %} {% set checked2 = "" %} {% set checked3 = "" %} {% set checked4 = "" %} {% set checked5 = "checked" %}
-                                {% endif %}
-                            {% endif %}
-
-                            <div class="row">
-                                <!-- <label for="revue_nbEtoiles">Note :</label> -->
-                                <div id="revue_nbEtoiles" class="rate">
-                                    <input type="radio" id="revue_nbEtoiles_0" name="revue[nbEtoiles]"
-                                           value="5" {{ checked5 }}/>
-                                    <label for="revue_nbEtoiles_0" title="text">1 stars</label>
-                                    <input type="radio" id="revue_nbEtoiles_1" name="revue[nbEtoiles]"
-                                           value="4" {{ checked4 }}/>
-                                    <label for="revue_nbEtoiles_1" title="text">2 stars</label>
-                                    <input type="radio" id="revue_nbEtoiles_2" name="revue[nbEtoiles]"
-                                           value="3" {{ checked3 }}/>
-                                    <label for="revue_nbEtoiles_2" title="text">3 stars</label>
-                                    <input type="radio" id="revue_nbEtoiles_3" name="revue[nbEtoiles]"
-                                           value="2" {{ checked2 }}/>
-                                    <label for="revue_nbEtoiles_3" title="text">4 stars</label>
-                                    <input type="radio" id="revue_nbEtoiles_4" name="revue[nbEtoiles]"
-                                           value="1" {{ checked1 }}/>
-                                    <label for="revue_nbEtoiles_4" title="text">5 star</label>
-                                </div>
-                            </div>
-                            {{ form_errors(form.nbEtoiles) }}
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group app-label mt-2">
-                                        {{ form_label(form.objet) }}
-                                        {{ form_widget(form.objet, {
-                                            'attr': {'class': 'form-control'}}) }}
-                                        {{ form_errors(form.objet) }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group app-label mt-2">
-                                        {{ form_label(form.description) }}
-                                        {{ form_widget(form.description, {
-                                            'attr': {'class': 'form-control'}}) }}
-                                        {{ form_errors(form.description) }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-8 m-auto">
-                                    {{ form_widget(form.submit, {
-                                        'attr': {
-                                            'class': 'form-control btn btn-primary',
-                                        }
-                                    }) }}
-                                </div>
-                                <script>document.getElementById('revue_submit').innerText = "{{ manipulation }}"</script>
-                            </div>
-                            {{ form_end(form) }}
+                            <h4 class="text-dark mb-3">{{ manipulation }} votre revue sur
+                                l'offre
+                                <a href="{{ asset('/offre_de_travail/'~candidatureOffre.offreDeTravail.id~'/afficher') }}"
+                                   class="text-primary">{{ candidatureOffre.offreDeTravail.nom }}</a>
+                                de
+                                <a href="{{ asset('/societe/'~candidatureOffre.offreDeTravail.societe.id~'/afficher') }}"
+                                   class="text-primary">{{ candidatureOffre.offreDeTravail.societe.nom }}</a>
+                                :</h4>
+                            {% include'/front_end/societe/offre_de_travail/revue/modele_manipuler.html.twig' %}
                         </div>
                     </div>
                 </div>
@@ -140,22 +80,21 @@
     <!-- POST A JOB END -->
     {% block js %}
         <!-- javascript -->
-        <script src="{{ asset('frontEnd/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('frontEnd/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('frontEnd/js/jquery.easing.min.js') }}"></script>
-        <script src="{{ asset('frontEnd/js/plugins.js') }}"></script>
+        <script src="{{ asset('front-end/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('front-end/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('front-end/js/jquery.easing.min.js') }}"></script>
+        <script src="{{ asset('front-end/js/plugins.js') }}"></script>
 
         <!-- selectize js -->
-        <script src="{{ asset('frontEnd/js/selectize.min.js') }}"></script>
+        <script src="{{ asset('front-end/js/selectize.min.js') }}"></script>
 
-        <script src="{{ asset('frontEnd/js/jquery.nice-select.min.js') }}"></script>
+        <script src="{{ asset('front-end/js/jquery.nice-select.min.js') }}"></script>
 
-        <script src="{{ asset('frontEnd/js/app.js') }}"></script>
+        <script src="{{ asset('front-end/js/app.js') }}"></script>
         <div class="selectize-dropdown single demo-default"
              style="display: none; width: 106px; top: 40.6px; left: 1208.6px;">
             <div class="selectize-dropdown-content"></div>
         </div>
-        <span
-                style="position: absolute; top: -99999px; left: -99999px; width: auto; padding: 0px; white-space: pre; letter-spacing: 0px; font-size: 13px; font-family: Nunito, sans-serif; font-weight: 400; text-transform: none;">Language</span>
+        <span style="position: absolute; top: -99999px; left: -99999px; width: auto; padding: 0px; white-space: pre; letter-spacing: 0px; font-size: 13px; font-family: Nunito, sans-serif; font-weight: 400; text-transform: none;">Language</span>
     {% endblock %}
 {% endblock %}
