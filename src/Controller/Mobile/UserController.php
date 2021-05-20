@@ -40,11 +40,18 @@ class UserController extends AbstractController
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         $jsonContent = null;
         $i = 0;
-        $user = new User();
         foreach ($users as $user) {
             $jsonContent[$i]['id'] = $user->getId();
-            $jsonContent[$i]['candidatId'] = $user->getId();
-            $jsonContent[$i]['societeId'] = $user->getId();
+            if ($user->getCandidat()){
+                $jsonContent[$i]['candidatId'] = $user->getCandidat()->getId();
+            }else{
+                $jsonContent[$i]['candidatId'] = 0;
+            }
+            if ($user->getSociete()){
+                $jsonContent[$i]['societeId'] = $user->getSociete()->getId();
+            }else{
+                $jsonContent[$i]['societeId'] = 0;
+            }
             $jsonContent[$i]['email'] = $user->getEmail();
             $jsonContent[$i]['roles'] = $user->getRoles();
             $jsonContent[$i]['password'] = $user->getPassword();

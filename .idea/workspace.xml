@@ -183,7 +183,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/back_end_societe/societe/offre_de_travail/interview" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Controller/Mobile" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -193,11 +193,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\src\Controller\Mobile" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\back_end_societe\societe\offre_de_travail\interview" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\back_end_societe\societe\offre_de_travail" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\front_end\societe\offre_de_travail\interview" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\back_end_admin\messagerie" />
-      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\front-end\css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\front-end\images\backgrounds\2000x1100" />

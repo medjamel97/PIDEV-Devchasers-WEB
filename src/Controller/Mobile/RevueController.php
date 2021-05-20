@@ -40,6 +40,7 @@ class RevueController extends AbstractController
         foreach ($revues as $revue) {
             $jsonContent[$i]['id'] = $revue->getId();
             $jsonContent[$i]['idCandidatureOffre'] = $revue->getCandidatureOffre()->getId();
+            $jsonContent[$i]['idCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getId();
             $jsonContent[$i]['nomCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getNom();
             $jsonContent[$i]['prenomCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getPrenom();
             $jsonContent[$i]['idPhotoCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getIdPhoto();
@@ -134,15 +135,14 @@ class RevueController extends AbstractController
     public function manipulerRevue(Request $request): Response
     {
         $idRevue = (int)$request->get("id");
+        $idCandidatureOffre = (int)$request->get("idCandidatureOffre");
 
-        if ($idRevue == null) {
+        if ($idRevue == 0) {
             $revue = new Revue();
-            $idCandidat = (int)$request->get("candidatId");
-            $idOffre = (int)$request->get("offreDeTravailId");
-            $revue->setCandidatureOffre($this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
-                "candidat" => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
-                "offreDeTravail" => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffre)
-            ]));
+            $revue->setCandidatureOffre($this->getDoctrine()->getRepository(
+                CandidatureOffre::class)->find($idCandidatureOffre)
+            );
+            $revue->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
         } else {
             $revue = $this->getDoctrine()->getRepository(Revue::class)->find($idRevue);
         }
@@ -154,8 +154,7 @@ class RevueController extends AbstractController
         $revue
             ->setNbEtoiles($nbEtoiles)
             ->setObjet($objet)
-            ->setDescription($description)
-            ->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+            ->setDescription($description);
 
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($revue);
@@ -177,7 +176,6 @@ class RevueController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($this->getDoctrine()->getRepository(Revue::class)->find($idRevue));
         $manager->flush();
-
 
         return new Response("Suppression effectué");
     }

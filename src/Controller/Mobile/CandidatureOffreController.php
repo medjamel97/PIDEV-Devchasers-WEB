@@ -30,15 +30,13 @@ class CandidatureOffreController extends AbstractController
             "candidat" => $this->getDoctrine()->getRepository(Candidat::class)->find($candidatId),
         ]);
         if ($candidatureOffre != null) {
-            $jsonContent['id'] = $candidatureOffre->getId();
-            $jsonContent['offreDeTravailId'] = $candidatureOffre->getOffreDeTravail()->getId();
-            $jsonContent['candidatId'] = $candidatureOffre->getCandidat()->getId();
-            $jsonContent['etat'] = $candidatureOffre->getEtat();
+            $jsonContent[0]['id'] = $candidatureOffre->getId();
+            $jsonContent[0]['offreDeTravailId'] = $candidatureOffre->getOffreDeTravail()->getId();
+            $jsonContent[0]['candidatId'] = $candidatureOffre->getCandidat()->getId();
+            $jsonContent[0]['etat'] = $candidatureOffre->getEtat();
             return new Response(json_encode($jsonContent));
         } else {
-            $response = new Response();
-            $response->setStatusCode(400);
-            return $response;
+            return new Response(null);
         }
     }
 }
