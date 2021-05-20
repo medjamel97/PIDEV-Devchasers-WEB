@@ -153,6 +153,7 @@
         },
         {
             "name": "doctrine/cache",
+<<<<<<< Updated upstream
             "version": "1.11.1",
             "source": {
                 "type": "git",
@@ -163,6 +164,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/cache/zipball/163074496dc7c3c7b8ccbf3d4376c0187424ed81",
                 "reference": "163074496dc7c3c7b8ccbf3d4376c0187424ed81",
+=======
+            "version": "1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "a9c1b59eba5a08ca2770a76eddb88922f504e8e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/a9c1b59eba5a08ca2770a76eddb88922f504e8e0",
+                "reference": "a9c1b59eba5a08ca2770a76eddb88922f504e8e0",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -232,7 +245,11 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
+<<<<<<< Updated upstream
                 "source": "https://github.com/doctrine/cache/tree/1.11.1"
+=======
+                "source": "https://github.com/doctrine/cache/tree/1.11.0"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -248,7 +265,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-18T16:45:32+00:00"
+=======
+            "time": "2021-04-13T14:46:17+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "doctrine/collections",
@@ -1853,6 +1874,7 @@
         },
         {
             "name": "laminas/laminas-code",
+<<<<<<< Updated upstream
             "version": "4.3.0",
             "source": {
                 "type": "git",
@@ -1863,6 +1885,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laminas/laminas-code/zipball/1beb4447f9efd26041eba7eff50614e798c353fd",
                 "reference": "1beb4447f9efd26041eba7eff50614e798c353fd",
+=======
+            "version": "4.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-code.git",
+                "reference": "a1e7f8b6467ac7f277b8e027e8537fa13664a8d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/a1e7f8b6467ac7f277b8e027e8537fa13664a8d8",
+                "reference": "a1e7f8b6467ac7f277b8e027e8537fa13664a8d8",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -1920,7 +1954,11 @@
                     "type": "community_bridge"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-12T12:41:03+00:00"
+=======
+            "time": "2021-04-23T11:54:51+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "laminas/laminas-eventmanager",
@@ -2643,6 +2681,7 @@
         },
         {
             "name": "symfony/cache",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -2653,6 +2692,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/cache/zipball/9084b7312c3de1e6d621d60e00c5d42a4b77cfee",
                 "reference": "9084b7312c3de1e6d621d60e00c5d42a4b77cfee",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/cache.git",
+                "reference": "0da1df9b1a31f328f1711b5cd922c38a15c5fc74"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/0da1df9b1a31f328f1711b5cd922c38a15c5fc74",
+                "reference": "0da1df9b1a31f328f1711b5cd922c38a15c5fc74",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -2716,7 +2767,11 @@
                 "psr6"
             ],
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/cache/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/cache/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -2732,7 +2787,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T21:41:25+00:00"
+=======
+            "time": "2021-04-23T07:09:57+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/cache-contracts",
@@ -2815,6 +2874,7 @@
         },
         {
             "name": "symfony/config",
+<<<<<<< Updated upstream
             "version": "v4.4.23",
             "source": {
                 "type": "git",
@@ -2825,6 +2885,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/config/zipball/be9e601f17fc684ddfd6c675fdfcd04bb51fa928",
                 "reference": "be9e601f17fc684ddfd6c675fdfcd04bb51fa928",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/config.git",
+                "reference": "f6d8318c14e4be81525ae47b30e618f0bed4c7b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/config/zipball/f6d8318c14e4be81525ae47b30e618f0bed4c7b3",
+                "reference": "f6d8318c14e4be81525ae47b30e618f0bed4c7b3",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -2871,7 +2943,11 @@
             "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/config/tree/v4.4.23"
+=======
+                "source": "https://github.com/symfony/config/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -2887,6 +2963,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-07T13:37:51+00:00"
         },
         {
@@ -2901,6 +2978,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/console/zipball/1b15ca1b1bedda86f98064da9ff5d800560d4c6d",
                 "reference": "1b15ca1b1bedda86f98064da9ff5d800560d4c6d",
+=======
+            "time": "2021-04-07T15:47:03+00:00"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "36bbd079b69b94bcc9c9c9e1e37ca3b1e7971625"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/36bbd079b69b94bcc9c9c9e1e37ca3b1e7971625",
+                "reference": "36bbd079b69b94bcc9c9c9e1e37ca3b1e7971625",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -2960,7 +3053,11 @@
             "description": "Eases the creation of beautiful and testable command line interfaces",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/console/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/console/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -2976,7 +3073,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-13T06:28:07+00:00"
+=======
+            "time": "2021-04-16T17:32:19+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/debug",
@@ -3049,6 +3150,7 @@
         },
         {
             "name": "symfony/dependency-injection",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -3059,6 +3161,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/8422396fb0b477ecbbe130907f90a0809b49c835",
                 "reference": "8422396fb0b477ecbbe130907f90a0809b49c835",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dependency-injection.git",
+                "reference": "778b140b3e8f6890f43dc2c978e58e69f188909a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/778b140b3e8f6890f43dc2c978e58e69f188909a",
+                "reference": "778b140b3e8f6890f43dc2c978e58e69f188909a",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -3114,7 +3228,11 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/dependency-injection/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/dependency-injection/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -3130,7 +3248,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T09:52:47+00:00"
+=======
+            "time": "2021-04-07T15:47:03+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3201,6 +3323,7 @@
         },
         {
             "name": "symfony/doctrine-bridge",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -3211,6 +3334,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/3ed56b83120af2bdba31161b2ccc67a70d700a06",
                 "reference": "3ed56b83120af2bdba31161b2ccc67a70d700a06",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/doctrine-bridge.git",
+                "reference": "9d42bb12f287bf2378500f745174aae519a2c922"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/9d42bb12f287bf2378500f745174aae519a2c922",
+                "reference": "9d42bb12f287bf2378500f745174aae519a2c922",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -3286,7 +3421,11 @@
             "description": "Provides integration for Doctrine with various Symfony components",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/doctrine-bridge/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/doctrine-bridge/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -3302,7 +3441,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T21:41:25+00:00"
+=======
+            "time": "2021-04-16T13:04:32+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/dotenv",
@@ -3375,6 +3518,7 @@
         },
         {
             "name": "symfony/error-handler",
+<<<<<<< Updated upstream
             "version": "v4.4.23",
             "source": {
                 "type": "git",
@@ -3385,6 +3529,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/error-handler/zipball/21d75bfbdfdd3581a7f97080deb98926987f14a7",
                 "reference": "21d75bfbdfdd3581a7f97080deb98926987f14a7",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/error-handler.git",
+                "reference": "76603a8df8e001436df80758eb03a8baa5324175"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/76603a8df8e001436df80758eb03a8baa5324175",
+                "reference": "76603a8df8e001436df80758eb03a8baa5324175",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -3424,7 +3580,11 @@
             "description": "Provides tools to manage errors and ease debugging PHP code",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/error-handler/tree/v4.4.23"
+=======
+                "source": "https://github.com/symfony/error-handler/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -3440,7 +3600,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-02T20:47:26+00:00"
+=======
+            "time": "2021-04-02T07:50:12+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3860,6 +4024,7 @@
         },
         {
             "name": "symfony/form",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -3870,6 +4035,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/form/zipball/cad760955dac6b6e4c7ae7c31ffe40844f0e7b8d",
                 "reference": "cad760955dac6b6e4c7ae7c31ffe40844f0e7b8d",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/form.git",
+                "reference": "d77279decdd78157a2a3812bc4a75ec565781019"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/form/zipball/d77279decdd78157a2a3812bc4a75ec565781019",
+                "reference": "d77279decdd78157a2a3812bc4a75ec565781019",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -3937,7 +4114,11 @@
             "description": "Allows to easily create, process and reuse HTML forms",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/form/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/form/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -3953,6 +4134,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-15T14:44:53+00:00"
         },
         {
@@ -3967,6 +4149,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/0e9b5cec25fb3de04fb51d8ec05eb35df1385096",
                 "reference": "0e9b5cec25fb3de04fb51d8ec05eb35df1385096",
+=======
+            "time": "2021-04-23T21:06:14+00:00"
+        },
+        {
+            "name": "symfony/framework-bundle",
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/framework-bundle.git",
+                "reference": "98e855fd35dd2c4614f61d349b1fd7dd3622b9b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/98e855fd35dd2c4614f61d349b1fd7dd3622b9b9",
+                "reference": "98e855fd35dd2c4614f61d349b1fd7dd3622b9b9",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -4082,7 +4280,11 @@
             "description": "Provides a tight integration between Symfony components and the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/framework-bundle/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/framework-bundle/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -4098,7 +4300,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T21:41:25+00:00"
+=======
+            "time": "2021-04-14T13:03:08+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/google-mailer",
@@ -4167,6 +4373,7 @@
         },
         {
             "name": "symfony/http-client",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -4177,6 +4384,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/http-client/zipball/30b901a6e645fde5fd66102e9e0c023a8bfc404a",
                 "reference": "30b901a6e645fde5fd66102e9e0c023a8bfc404a",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-client.git",
+                "reference": "ad1e2d512ec080e78ebd65c01ab92bd78057d007"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/ad1e2d512ec080e78ebd65c01ab92bd78057d007",
+                "reference": "ad1e2d512ec080e78ebd65c01ab92bd78057d007",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -4227,7 +4446,11 @@
             "description": "Provides powerful methods to fetch HTTP resources synchronously or asynchronously",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/http-client/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/http-client/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -4243,7 +4466,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-14T07:58:18+00:00"
+=======
+            "time": "2021-04-12T06:52:04+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/http-client-contracts",
@@ -4325,6 +4552,7 @@
         },
         {
             "name": "symfony/http-foundation",
+<<<<<<< Updated upstream
             "version": "v4.4.23",
             "source": {
                 "type": "git",
@@ -4335,6 +4563,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/http-foundation/zipball/2ffb43bd6c589a274ee1e93a5fd6b7ef1577b9c5",
                 "reference": "2ffb43bd6c589a274ee1e93a5fd6b7ef1577b9c5",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-foundation.git",
+                "reference": "1a6f87ef99d05b1bf5c865b4ef7992263e1cb081"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/1a6f87ef99d05b1bf5c865b4ef7992263e1cb081",
+                "reference": "1a6f87ef99d05b1bf5c865b4ef7992263e1cb081",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -4373,7 +4613,11 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/http-foundation/tree/v4.4.23"
+=======
+                "source": "https://github.com/symfony/http-foundation/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -4389,6 +4633,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-05T07:40:41+00:00"
         },
         {
@@ -4403,6 +4648,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/http-kernel/zipball/59925ee79f2541b4c6e990843e1a42768e898254",
                 "reference": "59925ee79f2541b4c6e990843e1a42768e898254",
+=======
+            "time": "2021-04-30T12:05:50+00:00"
+        },
+        {
+            "name": "symfony/http-kernel",
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-kernel.git",
+                "reference": "cd2e325fc34a4a5bbec91eecf69dda8ee8c5ea4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/cd2e325fc34a4a5bbec91eecf69dda8ee8c5ea4f",
+                "reference": "cd2e325fc34a4a5bbec91eecf69dda8ee8c5ea4f",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -4477,7 +4738,11 @@
             "description": "Provides a structured process for converting a Request into a Response",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/http-kernel/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/http-kernel/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -4493,7 +4758,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-19T12:12:19+00:00"
+=======
+            "time": "2021-05-01T14:38:48+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/inflector",
@@ -4734,6 +5003,7 @@
         },
         {
             "name": "symfony/mime",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -4744,6 +5014,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/mime/zipball/7e8e9192500d0bae9f6aff60c842befc7d887b68",
                 "reference": "7e8e9192500d0bae9f6aff60c842befc7d887b68",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/mime.git",
+                "reference": "36f2e59c90762bb09170553130a4dc1934cada58"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/36f2e59c90762bb09170553130a4dc1934cada58",
+                "reference": "36f2e59c90762bb09170553130a4dc1934cada58",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -4789,7 +5071,11 @@
                 "mime-type"
             ],
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/mime/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/mime/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -4805,7 +5091,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T09:52:47+00:00"
+=======
+            "time": "2021-04-27T14:58:50+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/monolog-bridge",
@@ -5751,6 +6041,7 @@
         },
         {
             "name": "symfony/property-info",
+<<<<<<< Updated upstream
             "version": "v4.4.23",
             "source": {
                 "type": "git",
@@ -5761,6 +6052,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/property-info/zipball/3b6d316b1e007dc637962573e2599eb0b82176f6",
                 "reference": "3b6d316b1e007dc637962573e2599eb0b82176f6",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/property-info.git",
+                "reference": "a910e1a728b90797d9e549737c8fc640b99a2873"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/property-info/zipball/a910e1a728b90797d9e549737c8fc640b99a2873",
+                "reference": "a910e1a728b90797d9e549737c8fc640b99a2873",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -5819,7 +6122,11 @@
                 "validator"
             ],
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/property-info/tree/v4.4.23"
+=======
+                "source": "https://github.com/symfony/property-info/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -5835,7 +6142,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-07T13:22:49+00:00"
+=======
+            "time": "2021-04-13T22:23:01+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/proxy-manager-bridge",
@@ -5906,6 +6217,7 @@
         },
         {
             "name": "symfony/routing",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -5916,6 +6228,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/routing/zipball/b42c3631fd9e3511610afb2ba081ea7e38d9fa38",
                 "reference": "b42c3631fd9e3511610afb2ba081ea7e38d9fa38",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/routing.git",
+                "reference": "049e7c5c41f98511959668791b4adc0898a821b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/049e7c5c41f98511959668791b4adc0898a821b3",
+                "reference": "049e7c5c41f98511959668791b4adc0898a821b3",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -5974,7 +6298,11 @@
                 "url"
             ],
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/routing/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/routing/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -5990,6 +6318,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T09:52:47+00:00"
         },
         {
@@ -6004,6 +6333,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/security-bundle/zipball/a2416b9d4a6c1c8c4b162a9c84c60210fdda5b72",
                 "reference": "a2416b9d4a6c1c8c4b162a9c84c60210fdda5b72",
+=======
+            "time": "2021-04-11T12:59:39+00:00"
+        },
+        {
+            "name": "symfony/security-bundle",
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/security-bundle.git",
+                "reference": "e9cf8e6bd48d1dab8dc223ce4d30ff0d9340e1cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/e9cf8e6bd48d1dab8dc223ce4d30ff0d9340e1cd",
+                "reference": "e9cf8e6bd48d1dab8dc223ce4d30ff0d9340e1cd",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -6069,7 +6414,11 @@
             "description": "Provides a tight integration of the Security component into the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/security-bundle/tree/v4.4.23"
+=======
+                "source": "https://github.com/symfony/security-bundle/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -6085,6 +6434,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-12T12:42:28+00:00"
         },
         {
@@ -6099,6 +6449,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/security-core/zipball/c8b37f1583138cc53edbefe81f0fa274f548129c",
                 "reference": "c8b37f1583138cc53edbefe81f0fa274f548129c",
+=======
+            "time": "2021-04-12T14:25:43+00:00"
+        },
+        {
+            "name": "symfony/security-core",
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/security-core.git",
+                "reference": "e06e67aa97b7bba1d381e3fda1ca7706fef86bff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/security-core/zipball/e06e67aa97b7bba1d381e3fda1ca7706fef86bff",
+                "reference": "e06e67aa97b7bba1d381e3fda1ca7706fef86bff",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -6155,7 +6521,11 @@
             "description": "Symfony Security Component - Core Library",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/security-core/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/security-core/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -6171,7 +6541,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-19T12:06:31+00:00"
+=======
+            "time": "2021-04-30T14:11:22+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/security-csrf",
@@ -6312,6 +6686,7 @@
         },
         {
             "name": "symfony/security-http",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -6322,6 +6697,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/security-http/zipball/3d259bd550b2f059ee4666213d779fe9925bbc9b",
                 "reference": "3d259bd550b2f059ee4666213d779fe9925bbc9b",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/security-http.git",
+                "reference": "2b2e821d414cc5ef6569a006292e0cfe8bd04d3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/security-http/zipball/2b2e821d414cc5ef6569a006292e0cfe8bd04d3f",
+                "reference": "2b2e821d414cc5ef6569a006292e0cfe8bd04d3f",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -6370,7 +6757,11 @@
             "description": "Symfony Security Component - HTTP Integration",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/security-http/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/security-http/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -6386,6 +6777,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T09:52:47+00:00"
         },
         {
@@ -6400,6 +6792,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/serializer/zipball/c9c90ead6a87d5bc76a8c8dc49e6aeceea414707",
                 "reference": "c9c90ead6a87d5bc76a8c8dc49e6aeceea414707",
+=======
+            "time": "2021-04-07T15:47:03+00:00"
+        },
+        {
+            "name": "symfony/serializer",
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/serializer.git",
+                "reference": "9db284ce4b1194797ad2ac6ad5406c5b416a9bb4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/9db284ce4b1194797ad2ac6ad5406c5b416a9bb4",
+                "reference": "9db284ce4b1194797ad2ac6ad5406c5b416a9bb4",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -6463,7 +6871,11 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/serializer/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/serializer/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -6479,7 +6891,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T21:41:25+00:00"
+=======
+            "time": "2021-04-13T06:32:41+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/service-contracts",
@@ -6993,6 +7409,7 @@
         },
         {
             "name": "symfony/validator",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -7003,6 +7420,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/validator/zipball/0a947c69d66d5560f244a754524445b9002b1e4b",
                 "reference": "0a947c69d66d5560f244a754524445b9002b1e4b",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/validator.git",
+                "reference": "65525b93ebc48c2992271f435e1391bbb049367a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/65525b93ebc48c2992271f435e1391bbb049367a",
+                "reference": "65525b93ebc48c2992271f435e1391bbb049367a",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -7078,7 +7507,11 @@
             "description": "Provides tools to validate values",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/validator/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/validator/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -7094,7 +7527,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T21:41:25+00:00"
+=======
+            "time": "2021-04-14T09:41:13+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/var-dumper",
@@ -7187,6 +7624,7 @@
         },
         {
             "name": "symfony/var-exporter",
+<<<<<<< Updated upstream
             "version": "v4.4.23",
             "source": {
                 "type": "git",
@@ -7197,6 +7635,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/var-exporter/zipball/11439b8e3264502293bd5e5ecd6957f70319f526",
                 "reference": "11439b8e3264502293bd5e5ecd6957f70319f526",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-exporter.git",
+                "reference": "ef3054c7e878fe0837ef9ac2c5ecfddfd27dd9e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/ef3054c7e878fe0837ef9ac2c5ecfddfd27dd9e9",
+                "reference": "ef3054c7e878fe0837ef9ac2c5ecfddfd27dd9e9",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -7239,7 +7689,11 @@
                 "serialize"
             ],
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/var-exporter/tree/v4.4.23"
+=======
+                "source": "https://github.com/symfony/var-exporter/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -7255,7 +7709,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-06T19:16:33+00:00"
+=======
+            "time": "2021-04-01T10:24:12+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/web-link",
@@ -7418,6 +7876,7 @@
         },
         {
             "name": "symfony/yaml",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -7428,6 +7887,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/yaml/zipball/8b6d1b97521e2f125039b3fcb4747584c6dfa0ef",
                 "reference": "8b6d1b97521e2f125039b3fcb4747584c6dfa0ef",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "1c2fd24147961525eaefb65b11987cab75adab59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/1c2fd24147961525eaefb65b11987cab75adab59",
+                "reference": "1c2fd24147961525eaefb65b11987cab75adab59",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -7469,7 +7940,11 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/yaml/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/yaml/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -7485,7 +7960,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T09:52:47+00:00"
+=======
+            "time": "2021-04-23T12:09:37+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfonycasts/verify-email-bundle",
@@ -7809,6 +8288,7 @@
         },
         {
             "name": "symfony/browser-kit",
+<<<<<<< Updated upstream
             "version": "v4.4.24",
             "source": {
                 "type": "git",
@@ -7819,6 +8299,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/browser-kit/zipball/7e6a92d5d97d826830924bd8cd22daa452c9e467",
                 "reference": "7e6a92d5d97d826830924bd8cd22daa452c9e467",
+=======
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/browser-kit.git",
+                "reference": "4c8b42b4aae93517e8f67d68c5cbe69413e3e3c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/4c8b42b4aae93517e8f67d68c5cbe69413e3e3c1",
+                "reference": "4c8b42b4aae93517e8f67d68c5cbe69413e3e3c1",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -7860,7 +8352,11 @@
             "description": "Simulates the behavior of a web browser, allowing you to make requests, click on links and submit forms programmatically",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/browser-kit/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/browser-kit/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -7876,6 +8372,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T09:52:47+00:00"
         },
         {
@@ -7890,6 +8387,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/css-selector/zipball/947cacaf1b3a2af6f13a435392873d5ddaba5f70",
                 "reference": "947cacaf1b3a2af6f13a435392873d5ddaba5f70",
+=======
+            "time": "2021-04-08T07:40:10+00:00"
+        },
+        {
+            "name": "symfony/css-selector",
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/css-selector.git",
+                "reference": "01c77324d1d47efbfd7891f62a7c256c69330115"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/01c77324d1d47efbfd7891f62a7c256c69330115",
+                "reference": "01c77324d1d47efbfd7891f62a7c256c69330115",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -7925,7 +8438,11 @@
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/css-selector/tree/v4.4.24"
+=======
+                "source": "https://github.com/symfony/css-selector/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -7941,7 +8458,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T09:52:47+00:00"
+=======
+            "time": "2021-04-07T15:47:03+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "symfony/debug-bundle",
@@ -8096,6 +8617,7 @@
         },
         {
             "name": "symfony/maker-bundle",
+<<<<<<< Updated upstream
             "version": "v1.31.1",
             "source": {
                 "type": "git",
@@ -8106,6 +8628,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/4f57a44cef0b4555043160b8bf223fcde8a7a59a",
                 "reference": "4f57a44cef0b4555043160b8bf223fcde8a7a59a",
+=======
+            "version": "v1.31.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/maker-bundle.git",
+                "reference": "d01a475fb9a96a46d0c75dbc7fae6eb9a8c85ddb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/d01a475fb9a96a46d0c75dbc7fae6eb9a8c85ddb",
+                "reference": "d01a475fb9a96a46d0c75dbc7fae6eb9a8c85ddb",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -8164,7 +8698,11 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/maker-bundle/issues",
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/maker-bundle/tree/v1.31.1"
+=======
+                "source": "https://github.com/symfony/maker-bundle/tree/v1.31.0"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -8180,6 +8718,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-12T14:01:20+00:00"
         },
         {
@@ -8194,6 +8733,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/ea24e42c1ee04792f5d814da6f0814b20ece2907",
                 "reference": "ea24e42c1ee04792f5d814da6f0814b20ece2907",
+=======
+            "time": "2021-05-05T18:41:31+00:00"
+        },
+        {
+            "name": "symfony/phpunit-bridge",
+            "version": "v5.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/phpunit-bridge.git",
+                "reference": "f530f0153f4a871b2c65dd6b295d7b8d03a16eac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/f530f0153f4a871b2c65dd6b295d7b8d03a16eac",
+                "reference": "f530f0153f4a871b2c65dd6b295d7b8d03a16eac",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -8247,7 +8802,11 @@
             "description": "Provides utilities for PHPUnit, especially user deprecation notices management",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/phpunit-bridge/tree/v5.2.9"
+=======
+                "source": "https://github.com/symfony/phpunit-bridge/tree/v5.2.7"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -8263,6 +8822,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-16T13:07:46+00:00"
         },
         {
@@ -8277,6 +8837,22 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/ef4101cbc316b4514b480b8e84e96719f848c282",
                 "reference": "ef4101cbc316b4514b480b8e84e96719f848c282",
+=======
+            "time": "2021-04-11T22:55:21+00:00"
+        },
+        {
+            "name": "symfony/web-profiler-bundle",
+            "version": "v4.4.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/web-profiler-bundle.git",
+                "reference": "a0132156e5ef6dba53d0c5a37f7c138da1194612"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/a0132156e5ef6dba53d0c5a37f7c138da1194612",
+                "reference": "a0132156e5ef6dba53d0c5a37f7c138da1194612",
+>>>>>>> Stashed changes
                 "shasum": ""
             },
             "require": {
@@ -8325,7 +8901,11 @@
             "description": "Provides a development tool that gives detailed information about the execution of any request",
             "homepage": "https://symfony.com",
             "support": {
+<<<<<<< Updated upstream
                 "source": "https://github.com/symfony/web-profiler-bundle/tree/v4.4.23"
+=======
+                "source": "https://github.com/symfony/web-profiler-bundle/tree/v4.4.22"
+>>>>>>> Stashed changes
             },
             "funding": [
                 {
@@ -8341,7 +8921,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< Updated upstream
             "time": "2021-05-10T19:50:57+00:00"
+=======
+            "time": "2021-04-07T15:47:03+00:00"
+>>>>>>> Stashed changes
         }
     ],
     "aliases": [],
