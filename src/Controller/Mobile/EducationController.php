@@ -32,7 +32,7 @@ class EducationController extends AbstractController
         ]);
 
         if (!$educations){
-            throw new Error("Vide");
+            return new Response(null);
         }
 
         $jsonContent = null;

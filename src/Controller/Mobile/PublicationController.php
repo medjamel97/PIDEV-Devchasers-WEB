@@ -25,15 +25,19 @@ class PublicationController extends AbstractController
      * @Route("recuperer_publications")
      * @return Response
      */
-    public function recupererPublications()
+    public function recupererPublications(): Response
     {
         $publications = $this->getDoctrine()->getRepository(Publication::class)->findAll();
+
+        if (!$publications) {
+            return new Response(null);
+        }
+
         $jsonContent = null;
         $i = 0;
-        $publication = new Publication();
         foreach ($publications as $publication) {
             $jsonContent[$i]['id'] = $publication->getId();
-            $jsonContent[$i]['candidat_id'] = $publication->getCandidat()->getId();
+            $jsonContent[$i]['candidat_id'] = $publication->getUser()->getId();
             $jsonContent[$i]['titre'] = $publication->getTitre();
             $jsonContent[$i]['description'] = $publication->getDescription();
             $jsonContent[$i]['date'] = $publication->getDate()->format('Y-m-d H:i:s');
@@ -46,48 +50,24 @@ class PublicationController extends AbstractController
     }
 
     /**
-     * @Route("recuperer_publication_par_id")
-     * @param Request $request
-     * @return Response
-     */
-    public function recupererPublicationParId(Request $request)
-    {
-        $idPublication = (int)$request->get("id");
-
-        $publication = $this->getDoctrine()->getRepository(Publication::class)->find($idPublication);
-
-        $jsonContent['id'] = $publication->getId();
-        $jsonContent['idCandidatureOffre'] = $publication->getCandidatureOffre()->getId();
-        $jsonContent['nomCandidat'] = $publication->getCandidatureOffre()->getCandidat()->getNom();
-        $jsonContent['prenomCandidat'] = $publication->getCandidatureOffre()->getCandidat()->getPrenom();
-        $jsonContent['idPhotoCandidat'] = $publication->getCandidatureOffre()->getCandidat()->getIdPhoto();
-        $jsonContent['nomSociete'] = $publication->getCandidatureOffre()->getOffreDeTravail()->getSociete()->getNom();
-        $jsonContent['nomOffre'] = $publication->getCandidatureOffre()->getOffreDeTravail()->getNom();
-        $jsonContent['candidatureOffre'] = $publication->getCandidatureOffre()->getId();
-        $jsonContent['nbEtoiles'] = $publication->getNbEtoiles();
-        $jsonContent['objet'] = $publication->getObjet();
-        $jsonContent['description'] = $publication->getDescription();
-        $jsonContent['dateCreation'] = $publication->getDateCreation()->format('Y-m-d H:i:s');
-
-        $json = json_encode($jsonContent);
-        return new Response($json);
-    }
-
-    /**
      * @Route("recuperer_societe_offre_pour_publication")
      * @return Response
      */
-    public function recupererSocietePourPublication()
+    public function recupererSocietePourPublication(): Response
     {
         $societes = $this->getDoctrine()->getRepository(Societe::class)->findAll();
         $jsonContent = null;
+
+        if (!$societes) {
+            return new Response(null);
+        }
+
         $i = 0;
-        $societe = new Societe();
         foreach ($societes as $societe) {
             $jsonContent[$i]['idSociete'] = $societe->getId();
             $jsonContent[$i]['nomSociete'] = $societe->getNom();
             $jsonContent[$i]['idPhotoSociete'] = $societe->getIdPhoto();
-            $jsonContent[$i]['telSociete'] = "T".$societe->getTel();
+            $jsonContent[$i]['telSociete'] = "T" . $societe->getTel();
 
             $j = 0;
             foreach ($societe->getOffreDeTravail() as $offreDeTravail) {
@@ -106,17 +86,17 @@ class PublicationController extends AbstractController
      * @Route("manipuler_publication")
      * @throws Exception
      */
-    public function manipulerPublication(Request $request)
+    public function manipulerPublication(Request $request): Response
     {
         $idPublication = (int)$request->get("id");
 
         if ($idPublication == null) {
             $publication = new Publication();
-            $idCandidat = (int)$request->get("candidatId");
+            $userId = (int)$request->get("userId");
             $idOffre = (int)$request->get("offreDeTravailId");
             $publication->setCandidatureOffre(
                 $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
-                    "candidat" => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
+                    "user" => $this->getDoctrine()->getRepository(Candidat::class)->find($userId),
                     "offreDeTravail" => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffre)
                 ])
             );
@@ -146,7 +126,7 @@ class PublicationController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function supprimerPublication(Request $request)
+    public function supprimerPublication(Request $request): Response
     {
         $idPublication = (int)$request->get("id");
 
@@ -159,45 +139,47 @@ class PublicationController extends AbstractController
 
     /**
      * @Route("modifierpub", name="modifierpub")
+     * @throws Exception
      */
-    public function modifierPublication(Request $request)
-    {$idPub = (int)$request->get("id");
-        $idCandidat = (int)$request->get("candidatId");
+    public function modifierPublication(Request $request): Response
+    {
+        $idPub = (int)$request->get("id");
+        $userId = (int)$request->get("userId");
         $titre = $request->get("titre");
         $description = $request->get("description");
-        $date = new DateTime('now', new DateTimeZone('Africa/Tunis'));        
-            $publication = $this->getDoctrine()->getRepository(Publication::class)->find($idPub) ;     
-            $publication->setTitre($titre)->setDescription($description)->setDate($date);
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($publication);
-            $manager->flush();
-            return new Response (null) ;
-    
+        $date = new DateTime('now', new DateTimeZone('Africa/Tunis'));
+        $publication = $this->getDoctrine()->getRepository(Publication::class)->find($idPub);
+        $publication->setTitre($titre)->setDescription($description)->setDate($date);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($publication);
+        $manager->flush();
+        return new Response (null);
+
     }
 
-/**
+    /**
      * @Route("majouterpub", name="majouterpub")
      */
-    public function ajouterPublication(Request $request)
+    public function ajouterPublication(Request $request): Response
     {
         $idCandidat = (int)$request->get("candidatId");
         $titre = $request->get("titre");
         $description = $request->get("description");
         $date = new DateTime('now', new DateTimeZone('Africa/Tunis'));
 
-        
-            $publication = new Publication();
-          
-         
-            $publication->setCandidat(
 
-             $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat)          
-             
-            )->setTitre($titre)->setDescription($description)->setDate($date);
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($publication);
-            $manager->flush();
-            return new Response (null) ;
+        $publication = new Publication();
+
+
+        $publication->setCandidat(
+
+            $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat)
+
+        )->setTitre($titre)->setDescription($description)->setDate($date);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($publication);
+        $manager->flush();
+        return new Response (null);
     }
 
 }

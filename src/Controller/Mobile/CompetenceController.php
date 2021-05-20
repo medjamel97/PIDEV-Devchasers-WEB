@@ -21,7 +21,6 @@ class CompetenceController extends AbstractController
 {
     /**
      * @Route("recuperer_competence")
-     * @return
      */
     public function recupererCompetences(Request $request): Response
     {
@@ -32,7 +31,7 @@ class CompetenceController extends AbstractController
         ]);
 
         if (!$competences){
-            throw new Error("Vide");
+            return new Response(null);
         }
 
         $jsonContent = null;

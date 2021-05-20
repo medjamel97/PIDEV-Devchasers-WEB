@@ -28,7 +28,7 @@ class ExperienceDeTravailController extends AbstractController
         ]);
 
         if (!$experiences_de_travail){
-            throw new Error("Vide");
+            return new Response(null);
         }
 
         $jsonContent = null;

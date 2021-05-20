@@ -26,40 +26,41 @@ class CommentaireController extends AbstractController
      * @Route("recuperer_commentaires_by_pub")
      * @return Response
      */
-    public function recupererCommentaires(Request $request)
+    public function recupererCommentaires(Request $request): Response
     {
         $idPublication = (int)$request->get("id");
 
         $publication = $this->getDoctrine()->getRepository(Publication::class)->find($idPublication);
 
         $commentaires = $this->getDoctrine()->getManager()
-        ->getRepository(Commentaire::class)->findBy(['publication' => $publication]);
-        if($commentaires) {
+            ->getRepository(Commentaire::class)->findBy(['publication' => $publication]);
+        if ($commentaires) {
 
-        
-        $jsonContent = null;
-        $i = 0;
-        foreach ($commentaires as $commentaire) {
-            $jsonContent[$i]['id'] = $commentaire->getId();
-            $jsonContent[$i]['userId'] = $commentaire->getUser()->getId();
-            $jsonContent[$i]['description'] = $commentaire->getDescription();
-            $jsonContent[$i]['publicationId'] = $commentaire->getPublication()->getId();
 
-            $i++;
+            $jsonContent = null;
+            $i = 0;
+            foreach ($commentaires as $commentaire) {
+                $jsonContent[$i]['id'] = $commentaire->getId();
+                $jsonContent[$i]['userId'] = $commentaire->getUser()->getId();
+                $jsonContent[$i]['description'] = $commentaire->getDescription();
+                $jsonContent[$i]['publicationId'] = $commentaire->getPublication()->getId();
+
+                $i++;
+            }
+
+
+            if ($jsonContent != null) {
+                return new Response(json_encode($jsonContent));
+            }
         }
-
-        
-        if ($jsonContent != null){
-        return new Response(json_encode($jsonContent));
-    }
-    }throw new Exception ("Bye") ; 
+        return new Response(null);
     }
 
     /**
      * @Route("manipuler_commentaire")
      * @throws Exception
      */
-    public function manipulerCommentaire(Request $request)
+    public function manipulerCommentaire(Request $request): Response
     {
         $idCommentaire = (int)$request->get("id");
 
@@ -67,26 +68,24 @@ class CommentaireController extends AbstractController
             $commentaire = new Commentaire();
             $idUser = (int)$request->get("idUser");
             $idPub = (int)$request->get("idPub");
-            
+
             $commentaire->setUser(
-           
-                 $this->getDoctrine()->getRepository(User::class)->find($idUser)
-            
-                
-            )->setPublication(   $this->getDoctrine()->getRepository(Publication::class)->find($idPub));
-        }
-        //Modifier commentaire
+
+                $this->getDoctrine()->getRepository(User::class)->find($idUser)
+
+
+            )->setPublication($this->getDoctrine()->getRepository(Publication::class)->find($idPub));
+        } //Modifier commentaire
         else {
             $commentaire = $this->getDoctrine()->getRepository(Commentaire::class)->find($idCommentaire);
         }
 
-  
+
         $description = $request->get("description");
 
         $commentaire
-           
             ->setDescription($description);
-          
+
 
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($commentaire);
@@ -111,7 +110,7 @@ class CommentaireController extends AbstractController
         return new Response("Suppression effectué");
     }
 
- /**
+    /**
      * @Route("ajouter_commentaire")
      * @param Request $request
      * @return Response

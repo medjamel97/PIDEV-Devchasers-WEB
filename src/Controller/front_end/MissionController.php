@@ -122,18 +122,15 @@ class MissionController extends AbstractController
         return new Response($retour);
     }
 
-<<<<<<< Updated upstream
-}
-=======
-    
+
     /**
      * @Route("map/{lat}/{long}", name="map")
      */
-    public function index($lat,$long): Response
+    public function index($lat, $long): Response
     {
         return $this->render('front_end/societe/mission/map.html.twig', [
             'lat' => $lat,
-            'long'=>$long
+            'long' => $long
         ]);
     }
 
@@ -146,4 +143,3 @@ class MissionController extends AbstractController
     // }
 
 }
->>>>>>> Stashed changes

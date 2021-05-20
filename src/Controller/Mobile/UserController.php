@@ -18,16 +18,10 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
  */
 class UserController extends AbstractController
 {
-    private $entityManager;
-    private $urlGenerator;
-    private $csrfTokenManager;
     private $passwordEncoder;
 
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $this->entityManager = $entityManager;
-        $this->urlGenerator = $urlGenerator;
-        $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
     }
 
@@ -35,7 +29,7 @@ class UserController extends AbstractController
      * @Route("recuperer_users")
      * @return Response
      */
-    public function recupererUsers()
+    public function recupererUsers(): Response
     {
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         $jsonContent = null;

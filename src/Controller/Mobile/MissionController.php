@@ -2,6 +2,7 @@
 
 namespace App\Controller\Mobile;
 
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Mission;
 use App\Entity\Societe;
 use DateTime;
-use DateTimeZone;
 
 /**
  * @Route("mobile/")
@@ -26,16 +26,20 @@ class MissionController extends AbstractController
         ]);
     }
 
-      /**
+    /**
      * @Route("recuperer_mission")
      * @return Response
      */
-    public function recupererRevues()
+    public function recupererMissions(): Response
     {
         $missions = $this->getDoctrine()->getRepository(Mission::class)->findAll();
         $jsonContent = null;
         $i = 0;
-        $mission = new Mission();
+
+        if (!$missions) {
+            return new Response(null);
+        }
+
         foreach ($missions as $mission) {
             $jsonContent[$i]['id'] = $mission->getId();
             $jsonContent[$i]['idSociete'] = $mission->getSociete()->getId();
@@ -49,25 +53,29 @@ class MissionController extends AbstractController
             $jsonContent[$i]['latitude'] = $mission->getLatitude();
             $i++;
         }
-        $json = json_encode($jsonContent);
-        return new Response($json);
+
+        return new Response(json_encode($jsonContent));
     }
 
-      /**
+    /**
      * @Route("recuperer_societe_mission")
      * @return Response
      */
-    public function recupererSocieteMission()
+    public function recupererSocieteMission(): Response
     {
         $societes = $this->getDoctrine()->getRepository(Societe::class)->findAll();
         $jsonContent = null;
         $i = 0;
-        $societe = new Societe();
+
+        if (!$societes) {
+            return new Response(null);
+        }
+
         foreach ($societes as $societe) {
             $jsonContent[$i]['idSociete'] = $societe->getId();
             $jsonContent[$i]['nomSociete'] = $societe->getNom();
             $jsonContent[$i]['idPhotoSociete'] = $societe->getIdPhoto();
-            $jsonContent[$i]['telSociete'] = "T".$societe->getTel();
+            $jsonContent[$i]['telSociete'] = "T" . $societe->getTel();
 
             $j = 0;
             foreach ($societe->getOffreDeTravail() as $offreDeTravail) {
@@ -78,41 +86,40 @@ class MissionController extends AbstractController
 
             $i++;
         }
-        $json = json_encode($jsonContent);
-        return new Response($json);
+
+        return new Response(json_encode($jsonContent));
     }
 
-        /**
+    /**
      * @Route("AddMission")
      * @throws Exception
      */
-    public function manipulerRevue(Request $request)
+    public function manipulerMission(Request $request): Response
     {
         $idMission = (int)$request->get("id");
 
         if ($idMission == null) {
             $mission = new Mission();
-        
         } else {
             $mission = $this->getDoctrine()->getRepository(Mission::class)->find($idMission);
         }
         $societe = $this->getDoctrine()->getRepository(Societe::class)->find(1);
-       
+
         $nom = (string)$request->get("nom");
-        
+
         $description = $request->get("description");
         $date = $request->get("date");
-        $nbheure =(int) $request->get("nombreHeures");
-        $prixheure =(float) $request->get("prixHeure");
+        $nbheure = (int)$request->get("nombreHeures");
+        $prixheure = (float)$request->get("prixHeure");
         $ville = $request->get("ville");
-        $longitude =(string) $request->get("longitude");
-        $latitude =(string) $request->get("latitude");
+        $longitude = (string)$request->get("longitude");
+        $latitude = (string)$request->get("latitude");
 
         $mission
             ->setNom($nom)
             ->setSociete($societe)
             ->setDescription($description)
-            ->setDate(DateTime::createFromFormat('d/m/Y',$date))
+            ->setDate(DateTime::createFromFormat('d/m/Y', $date))
             ->setNombreHeures($nbheure)
             ->setPrixHeure($prixheure)
             ->setVille($ville)
@@ -126,12 +133,12 @@ class MissionController extends AbstractController
         return new Response("Ajout/Modification effectué");
     }
 
-       /**
+    /**
      * @Route("supprimer_mission")
      * @param Request $request
      * @return Response
      */
-    public function supprimerRevue(Request $request)
+    public function supprimerMission(Request $request): Response
     {
         $idMission = (int)$request->get("id");
 

@@ -27,9 +27,7 @@ class MessagerieController extends AbstractController
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
         if ($users == null) {
-            $response = new Response();
-            $response->setStatusCode(400);
-            return $response;
+            return new Response(null);
         }
 
         $jsonContent = null;
@@ -51,8 +49,7 @@ class MessagerieController extends AbstractController
             }
             $i++;
         }
-        $json = json_encode($jsonContent);
-        return new Response($json);
+        return new Response(json_encode($jsonContent));
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Controller\Mobile;
 use App\Entity\Candidat;
 use App\Entity\CandidatureOffre;
 use App\Entity\OffreDeTravail;
+use App\Entity\Societe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,14 +105,22 @@ class CandidatureOffreController extends AbstractController
      * @Route("recuperer_MesCandidatureOffre")
      * @return Response
      */
-    public function recupererOffreParSociete(Request $request)
+    public function recupererOffreParSociete(Request $request): Response
     {
         $societeId = (int)$request->get("societeId");
 
         $societe = $this->getDoctrine()->getRepository(Societe::class)->find($societeId);
 
+        if (!$societe){
+            return new Response(null);
+        }
+
         $offresDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)
             ->findBy(['societe' => $societe]);
+
+        if (!$offresDeTravail){
+            return new Response(null);
+        }
 
         $candidaturesoffre = $this->getDoctrine()->getRepository(CandidatureOffre::class)->findBy(
             ["offreDeTravail" => $offresDeTravail]

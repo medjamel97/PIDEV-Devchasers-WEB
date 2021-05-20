@@ -30,9 +30,7 @@ class RevueController extends AbstractController
         $revues = $this->getDoctrine()->getRepository(Revue::class)->findAll();
 
         if ($revues == null) {
-            $response = new Response();
-            $response->setStatusCode(400);
-            return $response;
+            return new Response(null);
         }
 
         $jsonContent = null;
@@ -68,9 +66,7 @@ class RevueController extends AbstractController
         $revue = $this->getDoctrine()->getRepository(Revue::class)->find($idRevue);
 
         if ($revue == null) {
-            $response = new Response();
-            $response->setStatusCode(400);
-            return $response;
+            return new Response(null);
         }
 
         $jsonContent['id'] = $revue->getId();
@@ -99,9 +95,7 @@ class RevueController extends AbstractController
         $societes = $this->getDoctrine()->getRepository(Societe::class)->findAll();
 
         if ($societes == null) {
-            $response = new Response();
-            $response->setStatusCode(400);
-            return $response;
+            return new Response(null);
         }
 
         $jsonContent = null;

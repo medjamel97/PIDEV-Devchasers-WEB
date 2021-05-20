@@ -27,7 +27,7 @@ class CandidatController extends AbstractController
      * @Route("recuperer_mes_candidats")
      * @return Response
      */
-    public function recupererMesCandidats(Request $request)
+    public function recupererMesCandidats(Request $request): Response
     {
         $societeId = (int)$request->get('societeId');
 
@@ -43,7 +43,7 @@ class CandidatController extends AbstractController
         $i = 0;
 
         if (!$candidatureOffres){
-            Throw new Error("vide");
+            return new Response(null);
         }
 
         foreach ($candidatureOffres as $candidatureOffre) {
@@ -76,7 +76,7 @@ class CandidatController extends AbstractController
         $candidats = $this->getDoctrine()->getRepository(Candidat::class)->findAll();
 
         if (!$candidats){
-            Throw new Error("vide");
+            return new Response(null);
         }
 
         foreach ($candidats as $candidat) {
