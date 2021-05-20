@@ -39,4 +39,97 @@ class CandidatureOffreController extends AbstractController
             return new Response(null);
         }
     }
+
+
+    /**
+     * @Route("ajouter_Candidature")
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
+    public function ajouterCandidature(Request $request)
+    {
+        $idCandidat = (int)$request->get("candidatId");
+        $idOffre = (int)$request->get("offreDeTravailId");
+        $etat = $request->get("etat");
+
+        $offreDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffre);
+        $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat);
+
+        $can = (
+        $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
+            "candidat" => $candidat,
+            "offreDeTravail" => $offreDeTravail,
+        ])
+        );
+        if ($can == null) {
+            $can = new CandidatureOffre();
+            $can
+                ->setCandidat($candidat)
+                ->setOffreDeTravail($offreDeTravail)
+                ->setEtat($etat);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($can);
+            $manager->flush();
+        } else {
+        }
+
+        return new Response("Ajout effectué");
+    }
+
+    /**
+     * @Route("modifier_CandidatureOffre")
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
+    public function modifierEtatCandidature(Request $request)
+    {
+        $candidatureOffreId = (int)$request->get("candidatureOffreId");
+        $etat = $request->get("etat");
+
+        $candidatureOffre = $this->getDoctrine()->getRepository(CandidatureOffre::class)->find($candidatureOffreId);
+
+        $candidatureOffre->setEtat($etat);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($candidatureOffre);
+        $manager->flush();
+
+        return new Response("Modification effectué");
+    }
+
+    /**
+     * @Route("recuperer_MesCandidatureOffre")
+     * @return Response
+     */
+    public function recupererOffreParSociete(Request $request)
+    {
+        $societeId = (int)$request->get("societeId");
+
+        $societe = $this->getDoctrine()->getRepository(Societe::class)->find($societeId);
+
+        $offresDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)
+            ->findBy(['societe' => $societe]);
+
+        $candidaturesoffre = $this->getDoctrine()->getRepository(CandidatureOffre::class)->findBy(
+            ["offreDeTravail" => $offresDeTravail]
+        );
+
+        $jsonContent = null;
+        if ($candidaturesoffre) {
+            $j = 0;
+            foreach ($candidaturesoffre as $candidatureoffre) {
+                $jsonContent[$j]['id'] = $candidatureoffre->getId();
+                $jsonContent[$j]['nomOffre'] = $candidatureoffre->getOffreDeTravail()->getNom();
+                $jsonContent[$j]['nomPrenomCandidat'] =
+                    $candidatureoffre->getCandidat()->getPrenom() . ' ' . $candidatureoffre->getCandidat()->getNom();
+                $jsonContent[$j]['etat'] = $candidatureoffre->getEtat();
+                $j++;
+            }
+            return new Response(json_encode($jsonContent));
+        }
+        return new Response(null);
+    }
 }

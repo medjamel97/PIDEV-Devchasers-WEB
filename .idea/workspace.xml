@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6c444103-9815-43e1-b710-bb95fe27ed85" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/CandidatController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/CompetenceController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/EducationController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/ExperienceDeTravailController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/InscriptionController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/OffreDeTravailController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PIDEV-Devchasers.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PIDEV-Devchasers.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/CandidatureOffreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/CandidatureOffreController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +97,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/options-resolver" />
       <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
       <path value="$PROJECT_DIR$/vendor/symfony/monolog-bundle" />
-      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
       <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client" />
@@ -108,7 +104,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/framework-bundle" />
       <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-migrations-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/form" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/intl" />
       <path value="$PROJECT_DIR$/vendor/doctrine/orm" />
       <path value="$PROJECT_DIR$/vendor/symfony/inflector" />
@@ -117,7 +112,6 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
       <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
@@ -170,6 +164,9 @@
       <path value="$PROJECT_DIR$/vendor/dompdf/dompdf" />
       <path value="$PROJECT_DIR$/vendor/phenx/php-svg-lib" />
       <path value="$PROJECT_DIR$/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-bundle" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
     </include_path>
   </component>
   <component name="ProjectId" id="1p1TMoaw0Mpm1xS0N7HBv8WOIVK" />
@@ -200,11 +197,11 @@
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\templates\back_end_admin\messagerie" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\src\Controller\Mobile" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\front-end\images\backgrounds\2000x1100" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\front-end\css" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\front-end\scss" />
       <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\front-end\js" />
-      <recent name="D:\Projects\PIDEV-2021\PIDEV-SYMFONY\public\front-end" />
     </key>
   </component>
   <component name="RunManager">
@@ -292,6 +289,7 @@
       <workItem from="1621164286597" duration="34173000" />
       <workItem from="1621207450068" duration="13048000" />
       <workItem from="1621453558585" duration="414000" />
+      <workItem from="1621516193698" duration="1541000" />
     </task>
     <servers />
   </component>
