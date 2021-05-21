@@ -1,11 +1,10 @@
-<?php
+<?php /** @noinspection DuplicatedCode */
 
 namespace App\Controller\Mobile;
 
-use App\Entity\Candidat;
 use App\Entity\CandidatureOffre;
 use App\Entity\Interview;
-use App\Entity\OffreDeTravail;
+use App\Entity\Societe;
 use DateTime;
 use DateTimeZone;
 use Exception;
@@ -24,15 +23,20 @@ class InterviewController extends AbstractController
      * @Route("recuperer_interviews")
      * @return Response
      */
-    public function recupererInterviews()
+    public function recupererInterviews(): Response
     {
         $interviews = $this->getDoctrine()->getRepository(Interview::class)->findAll();
+
+        if ($interviews == null) {
+            return new Response(null);
+        }
+
         $jsonContent = null;
         $i = 0;
-        $interview = new Interview();
         foreach ($interviews as $interview) {
             $jsonContent[$i]['id'] = $interview->getId();
             $jsonContent[$i]['idCandidatureOffre'] = $interview->getCandidatureOffre()->getId();
+            $jsonContent[$i]['idCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getId();
             $jsonContent[$i]['nomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getNom();
             $jsonContent[$i]['prenomCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getPrenom();
             $jsonContent[$i]['idPhotoCandidat'] = $interview->getCandidatureOffre()->getCandidat()->getIdPhoto();
@@ -43,8 +47,7 @@ class InterviewController extends AbstractController
             $jsonContent[$i]['dateCreation'] = $interview->getDateCreation()->format('H:i - d/M/Y');
             $i++;
         }
-        $json = json_encode($jsonContent);
-        return new Response($json);
+        return new Response(json_encode($jsonContent));
     }
 
     /**
@@ -52,11 +55,15 @@ class InterviewController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function recupererInterviewParId(Request $request)
+    public function recupererInterviewParId(Request $request): Response
     {
         $idInterview = (int)$request->get("id");
 
         $interview = $this->getDoctrine()->getRepository(Interview::class)->find($idInterview);
+
+        if ($interview == null) {
+            return new Response(null);
+        }
 
         $jsonContent['id'] = $interview->getId();
         $jsonContent['idCandidatureOffre'] = $interview->getCandidatureOffre()->getId();
@@ -75,23 +82,56 @@ class InterviewController extends AbstractController
     }
 
     /**
+     * @Route("recuperer_societe_offre_pour_interview")
+     * @return Response
+     */
+    public function recupererSocietePourInterview(): Response
+    {
+        $societes = $this->getDoctrine()->getRepository(Societe::class)->findAll();
+
+        if ($societes == null) {
+            return new Response(null);
+        }
+
+        $jsonContent = null;
+        $i = 0;
+        $societe = new Societe();
+        foreach ($societes as $societe) {
+            $jsonContent[$i]['idSociete'] = $societe->getId();
+            $jsonContent[$i]['nomSociete'] = $societe->getNom();
+            $jsonContent[$i]['idPhotoSociete'] = $societe->getIdPhoto();
+            $jsonContent[$i]['telSociete'] = "T" . $societe->getTel();
+
+            $j = 0;
+            foreach ($societe->getOffreDeTravail() as $offreDeTravail) {
+                $jsonContent[$i]['offres'][$j]['idOffre'] = $offreDeTravail->getId();
+                $jsonContent[$i]['offres'][$j]['nomOffre'] = $offreDeTravail->getNom();
+                $j++;
+            }
+
+            $i++;
+        }
+        $json = json_encode($jsonContent);
+        return new Response($json);
+    }
+
+    /**
      * @Route("manipuler_interview")
+     * @param Request $request
+     * @return Response
      * @throws Exception
      */
-    public function manipulerInterview(Request $request)
+    public function manipulerInterview(Request $request): Response
     {
         $idInterview = (int)$request->get("id");
+        $idCandidatureOffre = (int)$request->get("idCandidatureOffre");
 
-        if ($idInterview == null) {
+        if ($idInterview == 0) {
             $interview = new Interview();
-            $idCandidat = (int)$request->get("candidatId");
-            $idOffre = (int)$request->get("offreDeTravailId");
-            $interview->setCandidatureOffre(
-                $this->getDoctrine()->getRepository(CandidatureOffre::class)->findOneBy([
-                    "candidat" => $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat),
-                    "offreDeTravail" => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffre)
-                ])
+            $interview->setCandidatureOffre($this->getDoctrine()->getRepository(
+                CandidatureOffre::class)->find($idCandidatureOffre)
             );
+            $interview->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
         } else {
             $interview = $this->getDoctrine()->getRepository(Interview::class)->find($idInterview);
         }
@@ -101,8 +141,7 @@ class InterviewController extends AbstractController
 
         $interview
             ->setDifficulte($difficulte)
-            ->setDescription($description)
-            ->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+            ->setDescription($description);
 
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($interview);
@@ -116,9 +155,10 @@ class InterviewController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function supprimerInterview(Request $request)
+    public function supprimerInterview(Request $request): Response
     {
         $idInterview = (int)$request->get("id");
+
 
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($this->getDoctrine()->getRepository(Interview::class)->find($idInterview));
@@ -126,4 +166,5 @@ class InterviewController extends AbstractController
 
         return new Response("Suppression effectué");
     }
+
 }

@@ -4,6 +4,7 @@
 namespace App\Controller\Mobile;
 
 
+use App\Entity\Categorie;
 use App\Entity\OffreDeTravail;
 use App\Entity\Societe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +25,11 @@ class OffreDeTravailController extends AbstractController
     public function recupererOffres(): Response
     {
         $offresDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll();
+
+        if (!$offresDeTravail) {
+            return new Response(null);
+        }
+
         $jsonContent = null;
         $i = 0;
         foreach ($offresDeTravail as $offreDeTravail) {
@@ -38,34 +44,6 @@ class OffreDeTravailController extends AbstractController
 
             $i++;
         }
-        $json = json_encode($jsonContent);
-        return new Response($json);
-    }
-
-    /**
-     * @Route("recuperer_revue_par_id")
-     * @param Request $request
-     * @return Response
-     */
-    public function recupererOffreDeTravailParId(Request $request): Response
-    {
-        $idOffreDeTravail = (int)$request->get("id");
-
-        $revue = $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
-
-        $jsonContent['id'] = $revue->getId();
-        $jsonContent['idCandidatureOffre'] = $revue->getCandidatureOffre()->getId();
-        $jsonContent['nomCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getNom();
-        $jsonContent['prenomCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getPrenom();
-        $jsonContent['idPhotoCandidat'] = $revue->getCandidatureOffre()->getCandidat()->getIdPhoto();
-        $jsonContent['nomSociete'] = $revue->getCandidatureOffre()->getOffreDeTravail()->getSociete()->getNom();
-        $jsonContent['nomOffre'] = $revue->getCandidatureOffre()->getOffreDeTravail()->getNom();
-        $jsonContent['candidatureOffre'] = $revue->getCandidatureOffre()->getId();
-        $jsonContent['nbEtoiles'] = $revue->getNbEtoiles();
-        $jsonContent['objet'] = $revue->getObjet();
-        $jsonContent['description'] = $revue->getDescription();
-        $jsonContent['dateCreation'] = $revue->getDateCreation()->format('Y-m-d H:i:s');
-
         $json = json_encode($jsonContent);
         return new Response($json);
     }
@@ -79,32 +57,55 @@ class OffreDeTravailController extends AbstractController
 
         $societe = $this->getDoctrine()->getRepository(Societe::class)->find($societeId);
 
+        if (!$societe) {
+            return new Response(null);
+        }
+
         $offresDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)->findBy(["societe" => $societe]);
+
+        if (!$offresDeTravail) {
+            return new Response(null);
+        }
 
         $jsonContent = null;
         $i = 0;
         foreach ($offresDeTravail as $offreDeTravail) {
             $jsonContent[$i]['id'] = $offreDeTravail->getId();
+            $jsonContent[$i]['societeId'] = $offreDeTravail->getSociete()->getId();
             $jsonContent[$i]['nom'] = $offreDeTravail->getNom();
             $jsonContent[$i]['description'] = $offreDeTravail->getDescription();
+            $jsonContent[$i]['nomSociete'] = $offreDeTravail->getSociete()->getNom();
+
             if ($offreDeTravail->getCategorie()) {
+                $jsonContent[$i]['categorieId'] = $offreDeTravail->getCategorie()->getId();
                 $jsonContent[$i]['nomCategorie'] = $offreDeTravail->getCategorie()->getNom();
             } else {
+                $jsonContent[$i]['categorieId'] = 0;
                 $jsonContent[$i]['nomCategorie'] = "aucune categorie";
             }
 
             $i++;
         }
-        $json = json_encode($jsonContent);
-        return new Response($json);
+
+        return new Response(json_encode($jsonContent));
     }
 
     /**
      * @Route("ajouter_offre")
      */
-    public function ajouterOffre(): Response
+    public function ajouterOffre(Request $request): Response
     {
+        $nom = $request->get('nom');
+        $description = $request->get('description');
+        $societeId = $request->get('societeId');
+
         $offre = new OffreDeTravail();
+        $offre->setNom($nom);
+        $offre->setDescription($description);
+        $offre->setCategorie($this->getDoctrine()->getRepository(Categorie::class)->find(1));
+        $offre->setSociete($this->getDoctrine()->getRepository(Societe::class)->find($societeId));
+        $offre->setSalaire("1000");
+
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($offre);
         $manager->flush();
@@ -147,6 +148,4 @@ class OffreDeTravailController extends AbstractController
 
         return new Response("Suppression effectué");
     }
-
-
 }

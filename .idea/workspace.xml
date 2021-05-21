@@ -2,20 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6c444103-9815-43e1-b710-bb95fe27ed85" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/Mobile/EspritApiController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/CandidatController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/CandidatController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/CandidatureOffreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/CandidatureOffreController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/CommentaireController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/CommentaireController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/CompetenceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/CompetenceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/EducationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/EducationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/ExperienceDeTravailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/ExperienceDeTravailController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/MessagerieController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/MessagerieController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/MissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/MissionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/PublicationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/PublicationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/RevueController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/RevueController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/front_end/MissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/front_end/MissionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/InterviewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/InterviewController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Mobile/OffreDeTravailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Mobile/OffreDeTravailController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,7 +289,7 @@
       <workItem from="1621516193698" duration="1541000" />
       <workItem from="1621531351999" duration="1266000" />
       <workItem from="1621534568102" duration="3312000" />
-      <workItem from="1621539239843" duration="3331000" />
+      <workItem from="1621539239843" duration="7629000" />
     </task>
     <servers />
   </component>
