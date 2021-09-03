@@ -36,14 +36,14 @@ class UserController extends AbstractController
         $i = 0;
         foreach ($users as $user) {
             $jsonContent[$i]['id'] = $user->getId();
-            if ($user->getCandidat()){
+            if ($user->getCandidat()) {
                 $jsonContent[$i]['candidatId'] = $user->getCandidat()->getId();
-            }else{
+            } else {
                 $jsonContent[$i]['candidatId'] = 0;
             }
-            if ($user->getSociete()){
+            if ($user->getSociete()) {
                 $jsonContent[$i]['societeId'] = $user->getSociete()->getId();
-            }else{
+            } else {
                 $jsonContent[$i]['societeId'] = 0;
             }
             $jsonContent[$i]['email'] = $user->getEmail();

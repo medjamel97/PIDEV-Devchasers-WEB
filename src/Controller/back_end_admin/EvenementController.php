@@ -76,7 +76,7 @@ class EvenementController extends AbstractController
     /**
      * @Route("evenement/{idEvenement}/supprimer")
      */
-    public function supprimerEvenement($idEvenement)
+    public function supprimerEvenement($idEvenement): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Evenement::class)->find($idEvenement));

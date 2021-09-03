@@ -6,7 +6,8 @@
                 <p class="h1 m-5">Liste des candidats</p>
             </div>
             <div class="col-md-5 m-auto">
-                <a class="btn btn-primary float-right" href="{{ asset('espace_admin/candidat/ajouter') }}">Ajouter un candidat</a>
+                <a class="btn btn-primary float-right" href="{{ asset('espace_admin/candidat/ajouter') }}">Ajouter un
+                    candidat</a>
             </div>
         </div>
         <table class="table bg-white border text-center">
@@ -30,13 +31,16 @@
                     <td>{{ candidat.tel }}</td>
                     <td class="text-break">{{ candidat.idPhoto }}</td>
                     <td>
-                        <a class="btn btn-dark m-1" href="{{ asset('espace_admin/messagerie/'~candidat.user.id~'/afficher') }}">
+                        <a class="btn btn-dark m-1"
+                           href="{{ asset('espace_admin/messagerie/'~candidat.user.id~'/afficher') }}">
                             Contacter
                         </a>
-                        <a class="btn btn-dark m-1" href="{{ asset('espace_admin/candidat/'~candidat.id~'/modifier') }}">
+                        <a class="btn btn-dark m-1"
+                           href="{{ asset('espace_admin/candidat/'~candidat.id~'/modifier') }}">
                             Modifier
                         </a>
-                        <a class="btn btn-danger m-1" href="{{ asset('espace_admin/candidat/'~candidat.id~'/supprimer') }}">
+                        <a class="btn btn-danger m-1"
+                           href="{{ asset('espace_admin/candidat/'~candidat.id~'/supprimer') }}">
                             Supprimer
                         </a>
                     </td>

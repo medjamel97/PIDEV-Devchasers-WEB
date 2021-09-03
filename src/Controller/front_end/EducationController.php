@@ -63,7 +63,7 @@ class EducationController extends AbstractController
     /**
      * @Route("education/{idEducation}/supprimer", name="supprimer_education")
      */
-    public function supprimerEducation($idEducation)
+    public function supprimerEducation($idEducation): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $manager = $this->getDoctrine()->getManager();
         $education = $manager->getRepository(Education::class)->find($idEducation);

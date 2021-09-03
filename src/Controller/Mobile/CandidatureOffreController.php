@@ -21,7 +21,7 @@ class CandidatureOffreController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function recupererCandidatureOffreParId(Request $request)
+    public function recupererCandidatureOffreParId(Request $request): Response
     {
         $offreDeTravailId = (int)$request->get("offreDeTravailId");
         $candidatId = (int)$request->get("candidatId");
@@ -48,7 +48,7 @@ class CandidatureOffreController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function ajouterCandidature(Request $request)
+    public function ajouterCandidature(Request $request): Response
     {
         $idCandidat = (int)$request->get("candidatId");
         $idOffre = (int)$request->get("offreDeTravailId");
@@ -85,7 +85,7 @@ class CandidatureOffreController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function modifierEtatCandidature(Request $request)
+    public function modifierEtatCandidature(Request $request): Response
     {
         $candidatureOffreId = (int)$request->get("candidatureOffreId");
         $etat = $request->get("etat");
@@ -111,14 +111,14 @@ class CandidatureOffreController extends AbstractController
 
         $societe = $this->getDoctrine()->getRepository(Societe::class)->find($societeId);
 
-        if (!$societe){
+        if (!$societe) {
             return new Response(null);
         }
 
         $offresDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)
             ->findBy(['societe' => $societe]);
 
-        if (!$offresDeTravail){
+        if (!$offresDeTravail) {
             return new Response(null);
         }
 

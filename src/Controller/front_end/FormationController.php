@@ -16,7 +16,7 @@ class FormationController extends AbstractController
     /**
      * @Route("formation", name="afficher_tout_formation")
      */
-    public function afficherToutFormation(Request $request, PaginatorInterface $paginator)
+    public function afficherToutFormation(Request $request, PaginatorInterface $paginator): Response
     {
         return $this->render('front_end/societe/formation/afficher_tout.html.twig', [
             'formations' => $paginator->paginate(
@@ -29,7 +29,7 @@ class FormationController extends AbstractController
     /**
      * @Route("formation/recherche", name="recherche_formation")
      */
-    public function rechercheFormation(Request $request)
+    public function rechercheFormation(Request $request): Response
     {
         $recherche = $request->get('valeur-recherche');
         $formations = $this->getDoctrine()->getRepository(Formation::class)->findStartingWith($recherche);

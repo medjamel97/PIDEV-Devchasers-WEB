@@ -42,8 +42,7 @@ class CompetenceRepository extends ServiceEntityRepository
             ->andWhere('e.candidat = :val')
             ->setParameter('val', $idCandidat)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
 }

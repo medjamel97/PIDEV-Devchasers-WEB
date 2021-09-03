@@ -32,7 +32,7 @@ class CandidatureOffreController extends AbstractController
                     'societe' => $this->getDoctrine()->getRepository(Societe::class)
                         ->find($user->getSociete()->getId())
                 ])
-            ],[
+            ], [
                 'date' => 'DESC'
             ])
         ]);

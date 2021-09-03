@@ -20,7 +20,7 @@ class FormationController extends AbstractController
     /**
      * @Route("formation")
      */
-    public function afficherToutFormation()
+    public function afficherToutFormation(): Response
     {
         return $this->render('/back_end_admin/formation/afficher_tout.html.twig', [
             'formations' => $this->getDoctrine()->getRepository(Formation::class)->findAll()
@@ -76,7 +76,7 @@ class FormationController extends AbstractController
     /**
      * @Route("formation/{idFormation}/supprimer")
      */
-    public function supprimerFormation($idFormation)
+    public function supprimerFormation($idFormation): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Formation::class)->find($idFormation));

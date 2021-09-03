@@ -5,6 +5,9 @@ namespace App\Form;
 use App\Entity\Evenement;
 use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,10 +17,10 @@ class EvenementType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('debut')
-            ->add('fin')
-            ->add('description')
-            ->add('all_day')
+            ->add('debut', DateTimeType::class)
+            ->add('fin', DateTimeType::class)
+            ->add('description', TextareaType::class)
+            ->add('allDay', CheckboxType::class)
             ->add('captcha', CaptchaType::class);
     }
 

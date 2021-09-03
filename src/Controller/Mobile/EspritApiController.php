@@ -30,14 +30,14 @@ class EspritApiController extends AbstractController
     /**
      * @Route("/allFormation", methods={"GET"})
      */
-    public function allFormation()
+    public function allFormation(): Response
     {
 
         $formations = $this->getDoctrine()
             ->getRepository(Formation::class)
             ->findAll();
         $jsonContent = null;
-   //     id`, `societe_id`, `nom`, `filiere`, `debut`, `fin`
+        //     id`, `societe_id`, `nom`, `filiere`, `debut`, `fin`
         $i = 0;
         $formation = new Formation();
         foreach ($formations as $formation) {
@@ -60,7 +60,7 @@ class EspritApiController extends AbstractController
     /**
      * @Route("/allEvent", methods={"GET"})
      */
-    public function allEvent()
+    public function allEvent(): Response
     {
 
         $evenements = $this->getDoctrine()

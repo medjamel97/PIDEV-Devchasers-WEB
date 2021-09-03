@@ -42,18 +42,16 @@ class SocieteController extends AbstractController
      */
     public function rechercheSociete(Request $request): Response
     {
-        $recherche = $request->get('valeurRecherche');
-        $societes = $this->getDoctrine()->getRepository(Societe::class)->findStartingWith($recherche);
+        $recherche = $request->get('valeur-recherche');
+        $societes = $this->getDoctrine()->getRepository(Societe::class)->findSocieteByName($recherche);
 
-        if ($societes != null){
+        if ($societes) {
             $jsonContent = null;
-            $i = 0;
-            foreach ($societes as $societe) {
-                $jsonContent[$i]['id'] = $societe->getId();
-                $jsonContent[$i]['idPhoto'] = $societe->getIdPhoto();
-                $jsonContent[$i]['nom'] = $societe->getNom();
-                $jsonContent[$i]['adresse'] = $societe->getAdresse();
-                $i++;
+            foreach ($societes as $key => $societe) {
+                $jsonContent[$key]['id'] = $societe->getId();
+                $jsonContent[$key]['idPhoto'] = $societe->getIdPhoto();
+                $jsonContent[$key]['nom'] = $societe->getNom();
+                $jsonContent[$key]['adresse'] = $societe->getAdresse();
             }
             return new Response(json_encode($jsonContent));
         }

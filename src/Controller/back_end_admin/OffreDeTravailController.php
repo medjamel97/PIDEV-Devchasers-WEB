@@ -20,7 +20,7 @@ class OffreDeTravailController extends AbstractController
     /**
      * @Route("offre_de_travail")
      */
-    public function afficherToutOffreDeTravail()
+    public function afficherToutOffreDeTravail(): Response
     {
         return $this->render('/back_end_admin/offre_de_travail/afficher_tout.html.twig', [
             'offreDeTravails' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll()
@@ -76,7 +76,7 @@ class OffreDeTravailController extends AbstractController
     /**
      * @Route("offre_de_travail/{idOffreDeTravail}/supprimer")
      */
-    public function supprimerOffreDeTravail($idOffreDeTravail)
+    public function supprimerOffreDeTravail($idOffreDeTravail): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail));

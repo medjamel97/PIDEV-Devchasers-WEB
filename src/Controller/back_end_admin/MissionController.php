@@ -20,7 +20,7 @@ class MissionController extends AbstractController
     /**
      * @Route("mission")
      */
-    public function afficherToutMission()
+    public function afficherToutMission(): Response
     {
         return $this->render('/back_end_admin/mission/afficher_tout.html.twig', [
             'missions' => $this->getDoctrine()->getRepository(Mission::class)->findAll()
@@ -76,7 +76,7 @@ class MissionController extends AbstractController
     /**
      * @Route("mission/{idMission}/supprimer")
      */
-    public function supprimerMission($idMission)
+    public function supprimerMission($idMission): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Mission::class)->find($idMission));

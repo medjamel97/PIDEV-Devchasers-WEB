@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class ConversationController extends AbstractController
 {
-    public function afficherToutConversation(Request $request)
+    public function afficherToutConversation(Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $email = $request->getSession()->get(Security::LAST_USERNAME);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);

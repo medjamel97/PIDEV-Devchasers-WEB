@@ -20,7 +20,7 @@ class CategorieController extends AbstractController
     /**
      * @Route("categorie")
      */
-    public function afficherToutCategorie()
+    public function afficherToutCategorie(): Response
     {
         return $this->render('/back_end_admin/categorie/afficher_tout.html.twig', [
             'categories' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
@@ -76,7 +76,7 @@ class CategorieController extends AbstractController
     /**
      * @Route("categorie/{idCategorie}/supprimer")
      */
-    public function supprimerCategorie($idCategorie)
+    public function supprimerCategorie($idCategorie): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Categorie::class)->find($idCategorie));

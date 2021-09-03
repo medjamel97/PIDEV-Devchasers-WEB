@@ -63,7 +63,7 @@ class ExperienceDeTravailController extends AbstractController
     /**
      * @Route("experience_de_travail/{idExperienceDeTravail}/supprimer", name="supprimer_experience_de_travail")
      */
-    public function supprimerExperienceDeTravail($idExperienceDeTravail)
+    public function supprimerExperienceDeTravail($idExperienceDeTravail): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $manager = $this->getDoctrine()->getManager();
         $experienceDeTravail = $manager->getRepository(ExperienceDeTravail::class)->find($idExperienceDeTravail);

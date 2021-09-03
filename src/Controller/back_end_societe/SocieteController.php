@@ -20,7 +20,7 @@ class SocieteController extends AbstractController
     /**
      * @Route("societe/{idSociete}/profil", name="profil_societe")
      */
-    public function profile($idSociete)
+    public function profile($idSociete): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('back_end_societe/societe/_profile/afficher.html.twig', [
             'societe' => $this->getDoctrine()->getRepository(Societe::class)->find($idSociete),
@@ -89,7 +89,7 @@ class SocieteController extends AbstractController
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirect('/back_end_societe/societe/' . $societe->getId() . '/profil');
+            return $this->render('/espace_societe/societe/' . $societe->getId() . '/profil');
         }
 
         return $this->render('back_end_societe/societe/modification_email.html.twig', [
@@ -117,7 +117,7 @@ class SocieteController extends AbstractController
             $manager->persist($societe);
             $manager->flush();
 
-            return $this->redirect('/back_end_societe/societe/' . $societe->getId() . '/profil');
+            return $this->render('/espace_societe/societe/' . $societe->getId() . '/profil');
         }
 
         return $this->render('back_end_societe/societe/modification_mot_de_passe.html.twig', [

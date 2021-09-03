@@ -51,7 +51,7 @@ class MissionController extends AbstractController
      */
     public function rechercheMission(Request $request, NormalizerInterface $normalizer): Response
     {
-        $recherche = $request->get("valeurRecherche");
+        $recherche = $request->get("valeur-recherche");
         $mission = $this->getDoctrine()->getRepository(Mission::class)->findOneByMissionName($recherche);
 
         $jsonContent = $normalizer->normalize($mission, 'json', ['groups' => 'post:read',]);
@@ -112,7 +112,7 @@ class MissionController extends AbstractController
                 $entityManager->persist($mission);
                 $entityManager->flush();
 
-                return $this->redirect('/back_end_societe/mission');
+                return $this->render('/espace_societe/mission');
             }
 
             return $this->render('back_end_societe/societe/mission/manipuler.html.twig', [
@@ -135,6 +135,6 @@ class MissionController extends AbstractController
         $entityManager->remove($mission);
         $entityManager->flush();
 
-        return $this->redirect('/back_end_societe/mission');
+        return $this->render('/espace_societe/mission');
     }
 }

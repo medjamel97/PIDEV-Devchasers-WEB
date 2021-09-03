@@ -36,15 +36,14 @@ class MissionRepository extends ServiceEntityRepository
     }
     */
 
-    
+
     public function findOneByMissionName($missionName)
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.mission_name LIKE :val')
             ->setParameter('val', $missionName)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
+
 }

@@ -27,7 +27,7 @@ class ConversationController extends AbstractController
             'conversations' => $this->getDoctrine()->getRepository(Conversation::class)
                 ->findBy([
                     'userExpediteur' => $user
-                ],[
+                ], [
                     'dateDernierMessage' => 'DESC'
                 ]),
         ]);

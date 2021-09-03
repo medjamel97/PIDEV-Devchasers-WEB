@@ -5,11 +5,11 @@ namespace App\Controller\back_end_societe;
 use App\Entity\Formation;
 use App\Entity\User;
 use App\Form\FormationType;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -21,7 +21,7 @@ class FormationController extends AbstractController
     /**
      * @Route("formation")
      */
-    public function afficherToutFormation(Request $request, PaginatorInterface $paginator)
+    public function afficherToutFormation(Request $request, PaginatorInterface $paginator): Response
     {
         return $this->render('back_end_societe/societe/formation/afficher_tout.html.twig', [
             'formations' => $paginator->paginate(
@@ -34,7 +34,7 @@ class FormationController extends AbstractController
     /**
      * @Route("formation/{idFormation}/afficher")
      */
-    public function afficherFormation($idFormation)
+    public function afficherFormation($idFormation): Response
     {
         return $this->render('back_end_societe/societe/formation/afficher.html.twig', [
             'formation' => $this->getDoctrine()->getRepository(Formation::class)->find($idFormation),
@@ -44,7 +44,7 @@ class FormationController extends AbstractController
     /**
      * @Route("formation/recherche")
      */
-    public function rechercheFormation(Request $request)
+    public function rechercheFormation(Request $request): Response
     {
         $formation = $request->get('formation');
         $em = $this->getDoctrine()->getManager();
@@ -64,23 +64,34 @@ class FormationController extends AbstractController
     /**
      * @Route("formation/ajouter")
      */
-    public function ajouterFormation(Request $request)
+    public function ajouterFormation(Request $request): Response
     {
-        $formation = new Formation();
-        $form = $this->createForm(FormationType::class, $formation);
-        $form->handleRequest($request);
+        return $this->ajoutFormation(new Formation(), $request);
+    }
 
-        $email = $request->getSession()->get(Security::LAST_USERNAME);
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
+    public function ajoutFormation($formation, $request): Response
+    {
+        $form = $this->createForm(FormationType::class, $formation)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
+
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+            'email' => $request->getSession()->get(Security::LAST_USERNAME)
+        ]);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($formation->getDebut() > $formation->getFin()) {
+                $this->addFlash('error', 'La date de fin doit être supérieure a la date de debut');
+                return $this->ajoutFormation($formation, $request);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $formation->setSociete($user->getSociete());
 
             $entityManager->persist($formation);
             $entityManager->flush();
 
-            return $this->redirect('/back_end_societe/formation');
+            return $this->redirect('/espace_societe/formation');
         }
 
         return $this->render('back_end_societe/societe/formation/manipuler.html.twig', [
@@ -96,13 +107,19 @@ class FormationController extends AbstractController
     public function modifierFormation(Request $request, $idFormation)
     {
         $formation = $this->getDoctrine()->getRepository(Formation::class)->find($idFormation);
-        $form = $this->createForm(FormationType::class, $formation);
-        $form->handleRequest($request);
+        $form = $this->createForm(FormationType::class, $formation)
+            ->add('submit', SubmitType::class)
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($formation->getDebut() > $formation->getFin()) {
+                $this->addFlash('error', 'La date de fin doit être supérieure a la date de debut');
+                return $this->modifierFormation($request, $idFormation);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirect('/back_end_societe/formation');
+            return $this->redirect('/espace_societe/formation/' . $idFormation . '/afficher');
         }
 
         return $this->render('back_end_societe/societe/formation/manipuler.html.twig', [
@@ -115,13 +132,13 @@ class FormationController extends AbstractController
     /**
      * @Route("formation/{idFormation}/supprimer")
      */
-    public function supprimerFormation(Request $request, $idFormation)
+    public function supprimerFormation(Request $request, $idFormation): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $formation = $this->getDoctrine()->getRepository(Formation::class)->find($idFormation);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($formation);
         $entityManager->flush();
 
-        return $this->redirect('/back_end_societe/formation');
+        return $this->redirect('/espace_societe/formation');
     }
 }

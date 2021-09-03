@@ -114,7 +114,7 @@ class MissionController extends AbstractController
      */
     public function rechercheMission(Request $request, NormalizerInterface $normalizer): Response
     {
-        $recherche = $request->get("valeurRecherche");
+        $recherche = $request->get("valeur-recherche");
         $mission = $this->getDoctrine()->getRepository(Mission::class)->findOneByMissionName($recherche);
 
         $jsonContent = $normalizer->normalize($mission, 'json', ['groups' => 'post:read',]);

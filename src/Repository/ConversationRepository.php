@@ -33,7 +33,7 @@ class ConversationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findDernierMessage($idConvesation) : array
+    public function findDernierMessage($idConvesation): array
     {
         try {
             return $this->createQueryBuilder('c')
@@ -82,9 +82,7 @@ class ConversationRepository extends ServiceEntityRepository
                 ->andWhere('m.estVu = false')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            return 0;
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException | NonUniqueResultException $e) {
             return 0;
         }
     }

@@ -18,7 +18,7 @@ class CommentaireType extends AbstractType
             ->add('publication', EntityType::class, [
                 'class' => Publication::class,
                 'choice_label' => 'id',
-                'multiple' => false]);;
+                'multiple' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

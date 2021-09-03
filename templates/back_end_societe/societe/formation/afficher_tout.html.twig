@@ -1,25 +1,27 @@
 {% extends '/back_end_societe/base.html.twig' %}
 {% block content %}
-    <!-- Begin Page Content -->
     <div class="container-fluid">
-        <!-- Page Heading -->
-        <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                <div class="row m-2">
+                    <h2 class="col-md-9 m-0 text-primary">Vos formations</h2>
+                    <a class="col-md-3 btn btn-primary float-right"
+                       href="{{ asset('espace_societe/formation/ajouter') }}">
+                        + Ajouter une formation
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
 
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable">
                         <thead>
-                        <tr>
-                            <th>Id</th>
+                        <tr class="text-dark">
                             <th>Nom</th>
                             <th>Filiere</th>
                             <th>Debut</th>
                             <th>Fin</th>
-                            <th>actions</th>
+                            <th style="width: 13%">Actions</th>
                         </tr>
                         </thead>
 
@@ -27,18 +29,25 @@
 
                         {% for formation in formations %}
                             <tr>
-                                <td>{{ formation.id }}</td>
                                 <td>{{ formation.nom }}</td>
                                 <td>{{ formation.filiere }}</td>
                                 <td>{{ formation.debut ? formation.debut|date('Y-m-d') : '' }}</td>
                                 <td>{{ formation.fin ? formation.fin|date('Y-m-d') : '' }}</td>
                                 <td>
                                     <a href="{{ asset('espace_societe/formation/'~formation.id~'/afficher') }}"
-                                       class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">Afficher</a>
+                                       class="d-none d-sm-inline-block btn btn-sm btn-dark shadow-sm m-1">
+                                        <i class="fa fa-book"></i> Afficher
+                                    </a>
                                     <a href="{{ asset('espace_societe/formation/'~formation.id~'/modifier') }}"
-                                       class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">Modifier</a>
-                                    <a href="{{ asset('espace_societe/formation/'~formation.id~'/supprimer') }}"
-                                       class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">Supprimer</a>
+                                       class="d-none d-sm-inline-block btn btn-sm btn-dark shadow-sm m-1">
+                                        <i class="fa fa-pen"></i> Modifier
+                                    </a>
+                                    <form method="post"
+                                          action="{{ asset('espace_societe/formation/'~formation.id~'/supprimer') }}"
+                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette formation ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ formation.id) }}">
+                                        <input type="submit" class="btn btn-danger" value="Supprimer">
+                                    </form>
                                 </td>
                             </tr>
                         {% else %}
@@ -50,19 +59,9 @@
                     </table>
                 </div>
             </div>
-            <br>
-            {# display navigation #}
-            <div class="navigation text-center">
-                <h3><b>  {{ knp_pagination_render(formations) }}</b></h3>
-                <style>
-                    .text-center {
-                        text-align: center !important;
-                        margin-left: 530px;
-                    }
-                </style>
+            <div class="navigation text-center mb-5">
+                {{ knp_pagination_render(formations, '/back_end_societe/template_pagination.html.twig') }}
             </div>
-            <br><br>
         </div>
     </div>
-    <a href="{{ asset('espace_societe/ajouter_formation') }}">Ajouter formation</a>
 {% endblock %}

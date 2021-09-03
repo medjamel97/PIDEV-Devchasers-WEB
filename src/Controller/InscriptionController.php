@@ -9,6 +9,7 @@ use App\Form\CandidatType;
 use App\Form\RegistrationFormType;
 use App\Form\SocieteType;
 use App\Security\EmailVerifier;
+use DateTime;
 use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,7 @@ class InscriptionController extends AbstractController
      */
     public function inscriptionCandidat(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        if ($request->getSession()->get(Security::LAST_USERNAME)){
+        if ($request->getSession()->get(Security::LAST_USERNAME)) {
             return $this->redirect("/accueil");
         }
 
@@ -62,7 +63,7 @@ class InscriptionController extends AbstractController
                 $filename
             );
 
-            $dateNaissance = new \DateTime(
+            $dateNaissance = new DateTime(
                 $request->get('registration_form')['candidat']['dateNaissance']['day'] . "-" .
                 $request->get('registration_form')['candidat']['dateNaissance']['month'] . "-" .
                 $request->get('registration_form')['candidat']['dateNaissance']['year']
@@ -108,7 +109,7 @@ class InscriptionController extends AbstractController
      */
     public function inscriptionSociete(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        if ($request->getSession()->get(Security::LAST_USERNAME)){
+        if ($request->getSession()->get(Security::LAST_USERNAME)) {
             return $this->redirect("/accueil");
         }
 
@@ -135,7 +136,7 @@ class InscriptionController extends AbstractController
                 $filename
             );
 
-            $dateCreation = new \DateTime(
+            $dateCreation = new DateTime(
                 $request->get('registration_form')['societe']['dateCreation']['day'] . "-" .
                 $request->get('registration_form')['societe']['dateCreation']['month'] . "-" .
                 $request->get('registration_form')['societe']['dateCreation']['year']
@@ -176,7 +177,7 @@ class InscriptionController extends AbstractController
     /**
      * @Route("verify/email", name="app_verify_email")
      */
-    public function verifyUserEmail(Request $request)
+    public function verifyUserEmail(Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 

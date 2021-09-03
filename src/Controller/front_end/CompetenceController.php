@@ -64,7 +64,7 @@ class CompetenceController extends AbstractController
     /**
      * @Route("competence/{idCompetence}/supprimer", name="supprimer_competence")
      */
-    public function supprimerCompetence($idCompetence)
+    public function supprimerCompetence($idCompetence): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $manager = $this->getDoctrine()->getManager();
         $competence = $manager->getRepository(Competence::class)->find($idCompetence);

@@ -27,7 +27,7 @@ class PublicationController extends AbstractController
     public function afficherToutPublication(): Response
     {
         return $this->render('front_end/publication/afficher_tout.html.twig', [
-            'publications' => $this->getDoctrine()->getRepository(Publication::class)->findBy([],[
+            'publications' => $this->getDoctrine()->getRepository(Publication::class)->findBy([], [
                 'date' => 'DESC'
             ]),
             'commentaires' => $this->getDoctrine()->getManager()->getRepository(Commentaire::class)->findAll(),
@@ -133,7 +133,7 @@ class PublicationController extends AbstractController
      */
     public function recherchePublication(Request $request, NormalizerInterface $normalizer): Response
     {
-        $recherche = $request->get("valeurRecherche");
+        $recherche = $request->get("valeur-recherche");
         $titre = $this->getDoctrine()->getRepository(Publication::class)->findStudentByTitre($recherche);
         $jsonContent = $normalizer->normalize($titre, 'json', ['groups' => 'post:read',]);
         $retour = json_encode($jsonContent);

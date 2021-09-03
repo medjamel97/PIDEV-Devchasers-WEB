@@ -20,7 +20,7 @@ class InterviewController extends AbstractController
     /**
      * @Route("interview")
      */
-    public function afficherToutInterview()
+    public function afficherToutInterview(): Response
     {
         return $this->render('/back_end_admin/interview/afficher_tout.html.twig', [
             'interviews' => $this->getDoctrine()->getRepository(Interview::class)->findAll()
@@ -76,7 +76,7 @@ class InterviewController extends AbstractController
     /**
      * @Route("interview/{idInterview}/supprimer")
      */
-    public function supprimerInterview($idInterview)
+    public function supprimerInterview($idInterview): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Interview::class)->find($idInterview));

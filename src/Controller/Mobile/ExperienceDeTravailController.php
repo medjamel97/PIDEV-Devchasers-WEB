@@ -27,7 +27,7 @@ class ExperienceDeTravailController extends AbstractController
             'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($candidatId)
         ]);
 
-        if (!$experiences_de_travail){
+        if (!$experiences_de_travail) {
             return new Response(null);
         }
 
@@ -51,7 +51,7 @@ class ExperienceDeTravailController extends AbstractController
     /**
      * @Route("ajouter_experience_de_travail")
      */
-    public function ajouterExperienceDeTravail(Request $request)
+    public function ajouterExperienceDeTravail(Request $request): Response
     {
         $candidatId = (int)$request->get('candidatId');
         $description = $request->get('description');
@@ -82,7 +82,7 @@ class ExperienceDeTravailController extends AbstractController
     /**
      * @Route("supprimer_experience_de_travail")
      */
-    public function supprimerExperienceDeTravail(Request $request)
+    public function supprimerExperienceDeTravail(Request $request): Response
     {
         $idExperienceDeTravail = (int)$request->get("id");
         $manager = $this->getDoctrine()->getManager();

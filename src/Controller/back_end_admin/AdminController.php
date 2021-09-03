@@ -13,7 +13,7 @@ class AdminController extends AbstractController
     /**
      * @Route("")
      */
-    public function dashboard()
+    public function dashboard(): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->redirect("/espace_admin/candidat");
     }

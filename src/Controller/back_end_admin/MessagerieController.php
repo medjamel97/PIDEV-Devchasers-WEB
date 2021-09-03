@@ -33,7 +33,7 @@ class MessagerieController extends AbstractController
 
             $request->attributes->set('idUserExpediteur', $idUserExpediteur);
             $request->attributes->set('idUserDestinataire', $idUserDestinataire);
-            $idConversation = json_decode($this->ajouterConversation($request)->getContent(),true)['id'];
+            $idConversation = json_decode($this->ajouterConversation($request)->getContent(), true)['id'];
         }
         return $this->render('/back_end_admin/messagerie/afficher.html.twig', [
             'conversation' =>
@@ -120,7 +120,8 @@ class MessagerieController extends AbstractController
                         $jsonContent[$i]["dernierMessage"] = 'Vous : ' . $dernierMessage['contenu'];
                     } else {
                         $jsonContent[$i]["dernierMessage"] = $dernierMessage['contenu'];
-                    }                    $jsonContent[$i]["dernierMessageEstVu"] = $conversationsRepository->findDernierMessageEstVu($conversation->getId());
+                    }
+                    $jsonContent[$i]["dernierMessageEstVu"] = $conversationsRepository->findDernierMessageEstVu($conversation->getId());
                     $jsonContent[$i]["nombreNotifications"] = $conversationsRepository->getNombreMessageNonLues($conversation->getId());
                     $i++;
                 }

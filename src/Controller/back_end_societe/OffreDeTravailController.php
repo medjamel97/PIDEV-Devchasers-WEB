@@ -22,7 +22,7 @@ class OffreDeTravailController extends AbstractController
     /**
      * @Route("offre_de_travail")
      */
-    public function afficherToutOffreDeTravail()
+    public function afficherToutOffreDeTravail(): Response
     {
         return $this->render('back_end_societe/societe/offre_de_travail/afficher_tout.html.twig', [
             'offreDeTravails' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->findAll()
@@ -32,7 +32,7 @@ class OffreDeTravailController extends AbstractController
     /**
      * @Route("offre_de_travail/{idOffreDeTravail}/afficher")
      */
-    public function afficherOffreDeTravail($idOffreDeTravail)
+    public function afficherOffreDeTravail($idOffreDeTravail): Response
     {
         return $this->render('back_end_societe/societe/offre_de_travail/afficher.html.twig', [
             'offreDeTravails' => $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail)
@@ -43,9 +43,9 @@ class OffreDeTravailController extends AbstractController
      * @Route("offre_de_travail/recherche")
      * @throws ExceptionInterface
      */
-    public function rechercheOffreDeTravail(Request $request, NormalizerInterface $normalizer)
+    public function rechercheOffreDeTravail(Request $request, NormalizerInterface $normalizer): Response
     {
-        $recherche = $request->get("valeurRecherche");
+        $recherche = $request->get("valeur-recherche");
         $offreDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)->findOneByOffreDeTravailName($recherche);
 
         $jsonContent = $normalizer->normalize($offreDeTravail, 'json', ['groups' => 'post:read',]);
@@ -88,7 +88,7 @@ class OffreDeTravailController extends AbstractController
                 $entityManager->persist($offreDeTravail);
                 $entityManager->flush();
 
-                return $this->redirect('/back_end_societe/offre_de_travail');
+                return $this->render('/espace_societe/offre_de_travail');
             }
 
             return $this->render('back_end_societe/societe/offre_de_travail/manipuler.html.twig', [
@@ -105,13 +105,13 @@ class OffreDeTravailController extends AbstractController
      * @Route("offre_de_travail/{idOffreDeTravail}/supprimer")
      */
     public
-    function supprimerOffreDeTravail($idOffreDeTravail)
+    function supprimerOffreDeTravail($idOffreDeTravail): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $offreDeTravail = $this->getDoctrine()->getRepository(OffreDeTravail::class)->find($idOffreDeTravail);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($offreDeTravail);
         $entityManager->flush();
 
-        return $this->redirect('/back_end_societe/offre_de_travail');
+        return $this->render('/espace_societe/offre_de_travail');
     }
 }

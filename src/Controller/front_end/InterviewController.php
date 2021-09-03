@@ -123,7 +123,10 @@ class InterviewController extends AbstractController
                     $interview = $form->getData();
                     if ($candidatureOffre) $interview->setCandidatureOffre($candidatureOffre);
 
-                    $interview->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+                    try {
+                        $interview->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+                    } catch (Exception $e) {
+                    }
 
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($interview);
@@ -295,7 +298,7 @@ class InterviewController extends AbstractController
         $email = $request->getSession()->get(Security::LAST_USERNAME);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        $valeurRecherche = $request->get('valeurRecherche');
+        $valeurRecherche = $request->get('valeur-recherche');
         if ($valeurRecherche != null) {
             $societe = $this->getDoctrine()->getRepository(Societe::class)->findStartingWith($valeurRecherche);
             if ($societe) {

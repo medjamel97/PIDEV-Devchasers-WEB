@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Calendar;
 use App\Entity\Evenement;
 use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,11 +44,20 @@ class ApiController extends AbstractController
             // On hydrate l'objet avec les données
             $evenement->setTitre($donnees->title);
             $evenement->setDescription($donnees->description);
-            $evenement->setDebut(new DateTime($donnees->start));
+            try {
+                $evenement->setDebut(new DateTime($donnees->start));
+            } catch (Exception $e) {
+            }
             if ($donnees->allDay) {
-                $evenement->setFin(new DateTime($donnees->start));
+                try {
+                    $evenement->setFin(new DateTime($donnees->start));
+                } catch (Exception $e) {
+                }
             } else {
-                $evenement->setFin(new DateTime($donnees->end));
+                try {
+                    $evenement->setFin(new DateTime($donnees->end));
+                } catch (Exception $e) {
+                }
             }
             $evenement->setAllDay($donnees->allDay);
 

@@ -42,7 +42,7 @@ class CandidatController extends AbstractController
         $jsonContent = null;
         $i = 0;
 
-        if (!$candidatureOffres){
+        if (!$candidatureOffres) {
             return new Response(null);
         }
 
@@ -67,7 +67,7 @@ class CandidatController extends AbstractController
      * @Route("recuperer_candidats")
      * @return Response
      */
-    public function recupererCandidats(Request $request)
+    public function recupererCandidats(Request $request): Response
     {
 
         $jsonContent = null;
@@ -75,7 +75,7 @@ class CandidatController extends AbstractController
 
         $candidats = $this->getDoctrine()->getRepository(Candidat::class)->findAll();
 
-        if (!$candidats){
+        if (!$candidats) {
             return new Response(null);
         }
 
@@ -100,7 +100,7 @@ class CandidatController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function supprimerCandidat(Request $request)
+    public function supprimerCandidat(Request $request): Response
     {
         $idCandidat = (int)$request->get("candidatId");
 

@@ -23,7 +23,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("candidat/{idCandidat}/profil", name="profil_candidat")
      */
-    public function profile($idCandidat)
+    public function profile($idCandidat): Response
     {
         $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat);
         $educations = $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat);
@@ -42,7 +42,7 @@ class CandidatController extends AbstractController
      * @Route("candidat/recherche", name="recherche_candidats")
      * @throws Exception
      */
-    public function rechercheCandidat(Request $request)
+    public function rechercheCandidat(Request $request): Response
     {
         $recherche = $request->get('recherche');
 
@@ -74,7 +74,7 @@ class CandidatController extends AbstractController
         $email = $request->getSession()->get(Security::LAST_USERNAME);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        if ($user->getCandidat()->getId() != $idCandidat){
+        if ($user->getCandidat()->getId() != $idCandidat) {
             throw new Error("Vous ne pouvez pas modifier les informations des autres candidats !");
         }
 

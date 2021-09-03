@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Categorie;
 use App\Entity\OffreDeTravail;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -53,14 +54,17 @@ class OffreDeTravailRepository extends ServiceEntityRepository
 
         $em = $this->getEntityManager();
 
-        $query = $this->getEntityManager($categorie_id)
+        $query = $this->getEntityManager()
             ->createQuery('
             SELECT a, v FROM OffreDeTravail:Categorie a
             JOIN v.Categorie v
             WHERE a.id = :id'
             )->setParameter('id', $categorie_id);
 
-        return $query->getOneOrNullResult();
+        try {
+            return $query->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findOffreByNsc($job)

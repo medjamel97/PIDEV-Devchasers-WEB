@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ConversationRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,12 +58,12 @@ class Conversation
         return $this->id;
     }
 
-    public function getDateDernierMessage(): ?\DateTimeInterface
+    public function getDateDernierMessage(): ?DateTimeInterface
     {
         return $this->dateDernierMessage;
     }
 
-    public function setDateDernierMessage(\DateTimeInterface $dateDernierMessage): self
+    public function setDateDernierMessage(DateTimeInterface $dateDernierMessage): self
     {
         $this->dateDernierMessage = $dateDernierMessage;
 

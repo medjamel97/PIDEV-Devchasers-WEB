@@ -20,7 +20,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("candidat")
      */
-    public function afficherToutCandidat(Request $request, PaginatorInterface $paginator)
+    public function afficherToutCandidat(Request $request, PaginatorInterface $paginator): Response
     {
         return $this->render('back_end_societe/candidat/afficher_tout.html.twig', [
             'candidats' => $paginator->paginate(
@@ -33,7 +33,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("candidat/{idCandidat}/profil")
      */
-    public function profile($idCandidat)
+    public function profile($idCandidat): Response
     {
         $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat);
         $educations = $this->getDoctrine()->getRepository(Education::class)->findOneBySomeField($idCandidat);
@@ -52,7 +52,7 @@ class CandidatController extends AbstractController
      * @Route("candidat/recherche")
      * @throws Exception
      */
-    public function rechercheCandidat(Request $request)
+    public function rechercheCandidat(Request $request): Response
     {
         $recherche = $request->get('recherche');
 

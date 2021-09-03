@@ -20,7 +20,7 @@ class RevueController extends AbstractController
     /**
      * @Route("revue")
      */
-    public function afficherToutRevue()
+    public function afficherToutRevue(): Response
     {
         return $this->render('/back_end_admin/revue/afficher_tout.html.twig', [
             'revues' => $this->getDoctrine()->getRepository(Revue::class)->findAll()
@@ -76,7 +76,7 @@ class RevueController extends AbstractController
     /**
      * @Route("revue/{idRevue}/supprimer")
      */
-    public function supprimerRevue($idRevue)
+    public function supprimerRevue($idRevue): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Revue::class)->find($idRevue));

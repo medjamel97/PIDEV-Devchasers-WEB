@@ -54,11 +54,8 @@ class PublicationRepository extends ServiceEntityRepository
             ->andWhere('m.titre LIKE :val')
             ->setParameter('val', $titre)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
- 
 
-    
 }

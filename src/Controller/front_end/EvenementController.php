@@ -16,7 +16,9 @@ class EvenementController extends AbstractController
     public function evenement(): Response
     {
         return $this->render('front_end/societe/evenement/afficher_tout.html.twig', [
-            'evenements' => $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findAll()
+            'evenements' => $this->getDoctrine()->getRepository(Evenement::class)->findBy([], [
+                'debut' => 'ASC'
+            ])
         ]);
     }
 
@@ -28,6 +30,8 @@ class EvenementController extends AbstractController
         $societe = $this->getDoctrine()->getRepository(Societe::class)->find($societeId);
         $evenements = $this->getDoctrine()->getRepository(Evenement::class)->findBy([
             'societe' => $societe
+        ], [
+            'debut' => 'ASC'
         ]);
 
         return $this->render('front_end/societe/evenement/afficher_par_societe.html.twig', [
@@ -50,16 +54,14 @@ class EvenementController extends AbstractController
             $rendezVous[] = [
                 'id' => $evenement->getId(),
                 'societe' => $evenement->getSociete()->getId(),
-                'start' => $evenement->getDebut()->format('H:i - d/M/Y'),
-                'end' => $evenement->getFin()->format('H:i - d/M/Y'),
                 'title' => $evenement->getTitre(),
+                'start' => $evenement->getDebut()->format('Y-m-d H:i'),
+                'end' => $evenement->getFin()->format('Y-m-d H:i'),
                 'description' => $evenement->getDescription(),
                 'allDay' => $evenement->getAllDay(),
             ];
         }
-
         $data = json_encode($rendezVous);
-
         return $this->render('front_end/societe/evenement/calendrier.html.twig', compact('data'));
     }
 }

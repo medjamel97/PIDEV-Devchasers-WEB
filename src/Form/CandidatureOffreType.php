@@ -17,7 +17,7 @@ class CandidatureOffreType extends AbstractType
             ->add('candidat', EntityType::class, [
                 'class' => Candidat::class,
                 'choice_label' => 'id',
-                'multiple' => false,]);;
+                'multiple' => false,]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

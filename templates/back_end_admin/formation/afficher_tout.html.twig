@@ -27,10 +27,12 @@
                     <td>{{ formation.fin|date("d-m-Y") }}</td>
                     <td>{{ formation.filiere }}</td>
                     <td>
-                        <a class="btn btn-dark m-1" href="{{ asset('espace_admin/formation/'~formation.id~'/modifier') }}">
+                        <a class="btn btn-dark m-1"
+                           href="{{ asset('espace_admin/formation/'~formation.id~'/modifier') }}">
                             Modifier
                         </a>
-                        <a class="btn btn-danger m-1" href="{{ asset('espace_admin/formation/'~formation.id~'/supprimer') }}">
+                        <a class="btn btn-danger m-1"
+                           href="{{ asset('espace_admin/formation/'~formation.id~'/supprimer') }}">
                             Supprimer
                         </a>
                     </td>

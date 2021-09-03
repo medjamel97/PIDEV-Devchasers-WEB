@@ -20,7 +20,7 @@ class SocieteController extends AbstractController
     /**
      * @Route("societe")
      */
-    public function afficherToutSociete()
+    public function afficherToutSociete(): Response
     {
         return $this->render('/back_end_admin/societe/afficher_tout.html.twig', [
             'societes' => $this->getDoctrine()->getRepository(Societe::class)->findAll()
@@ -76,7 +76,7 @@ class SocieteController extends AbstractController
     /**
      * @Route("societe/{idSociete}/supprimer")
      */
-    public function supprimerSociete($idSociete)
+    public function supprimerSociete($idSociete): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Societe::class)->find($idSociete));

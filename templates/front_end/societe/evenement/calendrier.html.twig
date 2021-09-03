@@ -3,7 +3,7 @@
 
 <div id="calendrier">
     <input type="hidden" class="medId">
-    <a hidden id="show-event" data-toggle="collapse" href="#collapse-6"></a>
+    <a hidden id="show-event" data-toggle="collapse" href="#collapse-11"></a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.0/main.min.js"
@@ -26,7 +26,8 @@
             eventResizableFromStart: true
         })
         calendar.on('eventClick', (e) => {
-            $('#show-event').attr("href", "#collapse-" + e.event.id).trigger("click");
+            $('#show-event').attr("href", "#collapse-" + e.event.id);
+            $('#show-event')[0].click();
         })
         calendar.render()
     }

@@ -6,7 +6,8 @@
                 <p class="h1 m-5">Liste des categories</p>
             </div>
             <div class="col-md-5 m-auto">
-                <a class="btn btn-primary float-right" href="{{ asset('espace_admin/categorie/ajouter') }}">Ajouter une categorie</a>
+                <a class="btn btn-primary float-right" href="{{ asset('espace_admin/categorie/ajouter') }}">Ajouter une
+                    categorie</a>
             </div>
         </div>
         <table class="table bg-white border text-center">
@@ -20,10 +21,12 @@
                     <td>{{ categorie.id }}</td>
                     <td>{{ categorie.nom }}</td>
                     <td>
-                        <a class="btn btn-dark m-1" href="{{ asset('espace_admin/categorie/'~categorie.id~'/modifier') }}">
+                        <a class="btn btn-dark m-1"
+                           href="{{ asset('espace_admin/categorie/'~categorie.id~'/modifier') }}">
                             Modifier
                         </a>
-                        <a class="btn btn-danger m-1" href="{{ asset('espace_admin/categorie/'~categorie.id~'/supprimer') }}">
+                        <a class="btn btn-danger m-1"
+                           href="{{ asset('espace_admin/categorie/'~categorie.id~'/supprimer') }}">
                             Supprimer
                         </a>
                     </td>

@@ -20,7 +20,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("candidat")
      */
-    public function afficherToutCandidat()
+    public function afficherToutCandidat(): Response
     {
         return $this->render('/back_end_admin/candidat/afficher_tout.html.twig', [
             'candidats' => $this->getDoctrine()->getRepository(Candidat::class)->findAll()
@@ -76,7 +76,7 @@ class CandidatController extends AbstractController
     /**
      * @Route("candidat/{idCandidat}/supprimer")
      */
-    public function supprimerCandidat($idCandidat)
+    public function supprimerCandidat($idCandidat): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($this->getDoctrine()->getRepository(Candidat::class)->find($idCandidat));

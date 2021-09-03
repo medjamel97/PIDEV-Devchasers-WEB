@@ -85,6 +85,7 @@
         </div>
     </section>
     <section id="contenaire-recherche-formation" class="section bg-light p-1">
+        <h4 class="text-center"> - Resultats recherche - </h4>
         <div id="resultat-formation" class="row col-md-6 mx-auto my-3 py-2 border rounded shadow-lg bg-white">
 
         </div>
@@ -103,7 +104,7 @@
                             type: 'GET',
                             url: "/formation/recherche",
                             data: {
-                                'valeurRecherche': value
+                                'valeur-recherche': value
                             },
                             success: function (retour) {
 
@@ -115,7 +116,7 @@
                                         $("#resultat-formation").append(
                                             "<div class='d-block bg-light mx-auto my-2 border rounded'>" +
                                             "   <div class='row'>" +
-                                            "       <div class='row col-md-6'>"+
+                                            "       <div class='row col-md-6'>" +
                                             "           <div class='col-md-4'>" +
                                             "               <img alt='formation' src='" + obj.idPhotoSociete + "'" +
                                             "                 width='70' height='70'" +
@@ -128,8 +129,8 @@
                                             "                   &nbsp&nbsp&nbsp&nbsp" + obj.adresseSociete +
                                             "               </p>" +
                                             "           </div>" +
-                                            "       </div>"+
-                                            "       <div class='row col-md-6 my-2'>"+
+                                            "       </div>" +
+                                            "       <div class='row col-md-6 my-2'>" +
                                             "           <div class='col-md-12 my-auto text-dark'>" +
                                             "               <b class='col-md-12 my-auto'>Formation : " + obj.nom + "</b>" +
                                             "               <p class='col-md-12 my-auto'>Filiere : " + obj.filiere + "</p>" +

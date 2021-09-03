@@ -26,7 +26,7 @@ class InscriptionController extends AbstractController
      * @Route("inscription_candidat")
      * @throws Exception
      */
-    public function inscriptionCandidat(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function inscriptionCandidat(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
         $candidat = new Candidat();
@@ -45,9 +45,9 @@ class InscriptionController extends AbstractController
 
         $dateNaissance =
             DateTime::createFromFormat('d/m/Y',
-                (string)$request->get('day') . "/" .
-                (string)$request->get('month') . "/" .
-                (string)$request->get('year')
+                $request->get('day') . "/" .
+                $request->get('month') . "/" .
+                $request->get('year')
             );
 
         $candidat
@@ -70,7 +70,7 @@ class InscriptionController extends AbstractController
      * @Route("inscription_societe")
      * @throws Exception
      */
-    public function inscriptionSociete(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function inscriptionSociete(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
         $societe = new societe();
@@ -89,9 +89,9 @@ class InscriptionController extends AbstractController
 
         $dateCreation =
             DateTime::createFromFormat('d/m/Y',
-                (string)$request->get('day') . "/" .
-                (string)$request->get('month') . "/" .
-                (string)$request->get('year')
+                $request->get('day') . "/" .
+                $request->get('month') . "/" .
+                $request->get('year')
             );
 
         $societe

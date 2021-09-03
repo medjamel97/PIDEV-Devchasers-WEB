@@ -13,7 +13,7 @@ class CompetenceType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('level');;
+            ->add('level');
     }
 
     public function configureOptions(OptionsResolver $resolver)

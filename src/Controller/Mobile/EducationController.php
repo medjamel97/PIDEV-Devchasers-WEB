@@ -21,7 +21,8 @@ class EducationController extends AbstractController
 {
     /**
      * @Route("recuperer_education")
-     * @return
+     * @param Request $request
+     * @return Response
      */
     public function recupererEducations(Request $request): Response
     {
@@ -31,7 +32,7 @@ class EducationController extends AbstractController
             'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($candidatId)
         ]);
 
-        if (!$educations){
+        if (!$educations) {
             return new Response(null);
         }
 
@@ -52,18 +53,19 @@ class EducationController extends AbstractController
         $json = json_encode($jsonContent);
         return new Response($json);
     }
+
     /**
      * @Route("ajouter_education")
      */
-    public function ajouterEducation(Request $request)
+    public function ajouterEducation(Request $request): Response
     {
         $candidatId = (int)$request->get('candidatId');
         $description = $request->get('description');
         $niveauEducation = $request->get('niveauEducation');
-        $filiere=$request->get('filiere');
-        $etablissement=$request->get('etablissement');
-        $ville=$request->get('ville');
-        $duree=$request->get('duree');
+        $filiere = $request->get('filiere');
+        $etablissement = $request->get('etablissement');
+        $ville = $request->get('ville');
+        $duree = $request->get('duree');
 
 
         $candidat = $this->getDoctrine()->getRepository(Candidat::class)->find($candidatId);
@@ -121,9 +123,9 @@ class EducationController extends AbstractController
     /**
      * @Route("supprimer_education")
      */
-    public function supprimerEducation(Request $request)
+    public function supprimerEducation(Request $request): Response
     {
-        $idEducation=(int)$request->get("id");
+        $idEducation = (int)$request->get("id");
         $manager = $this->getDoctrine()->getManager();
         $education = $manager->getRepository(Education::class)->find($idEducation);
         $manager->remove($education);

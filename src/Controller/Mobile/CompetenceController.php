@@ -30,7 +30,7 @@ class CompetenceController extends AbstractController
             'candidat' => $this->getDoctrine()->getRepository(Candidat::class)->find($candidatId)
         ]);
 
-        if (!$competences){
+        if (!$competences) {
             return new Response(null);
         }
 
@@ -51,7 +51,7 @@ class CompetenceController extends AbstractController
     /**
      * @Route("ajouter_competence")
      */
-    public function ajouterCompetence(Request $request)
+    public function ajouterCompetence(Request $request): Response
     {
         $candidatId = (int)$request->get('candidatId');
         $level = (int)$request->get('level');
@@ -73,7 +73,7 @@ class CompetenceController extends AbstractController
     /**
      * @Route("modifier_competence")
      */
-    public function modifierCompetence(Request $request)
+    public function modifierCompetence(Request $request): Response
     {
         $idCompetence = (int)$request->get("id");
         $competence = $this->getDoctrine()->getRepository(Competence::class)->find($idCompetence);
@@ -92,7 +92,7 @@ class CompetenceController extends AbstractController
     /**
      * @Route("supprimer_competence")
      */
-    public function supprimerCompetence(Request $request)
+    public function supprimerCompetence(Request $request): Response
     {
         $idCompetence = (int)$request->get("id");
 

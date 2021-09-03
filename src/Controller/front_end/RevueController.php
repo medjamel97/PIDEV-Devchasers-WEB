@@ -123,7 +123,10 @@ class RevueController extends AbstractController
                     $revue = $form->getData();
                     if ($candidatureOffre) $revue->setCandidatureOffre($candidatureOffre);
 
-                    $revue->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+                    try {
+                        $revue->setDateCreation(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+                    } catch (Exception $e) {
+                    }
 
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($revue);
@@ -295,7 +298,7 @@ class RevueController extends AbstractController
         $email = $request->getSession()->get(Security::LAST_USERNAME);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        $valeurRecherche = $request->get('valeurRecherche');
+        $valeurRecherche = $request->get('valeur-recherche');
         if ($valeurRecherche != null) {
             $societe = $this->getDoctrine()->getRepository(Societe::class)->findStartingWith($valeurRecherche);
             if ($societe) {
@@ -358,7 +361,7 @@ class RevueController extends AbstractController
 
         $societeId = (int)$request->get('societeId');
         $offreDeTravailId = (int)$request->get('offreDeTravailId');
-        $nbEtoiles = (int)$request->get('valeurRecherche');
+        $nbEtoiles = (int)$request->get('valeur-recherche');
 
         $revues = null;
 

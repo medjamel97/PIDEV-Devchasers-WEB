@@ -99,7 +99,7 @@ class CommentaireController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function supprimerCommentaire(Request $request)
+    public function supprimerCommentaire(Request $request): Response
     {
         $idCommentaire = (int)$request->get("id");
 
@@ -115,7 +115,7 @@ class CommentaireController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function ajouterCommentaire(Request $request)
+    public function ajouterCommentaire(Request $request): Response
     {
         $idUser = $this->getDoctrine()->getRepository(User::class)->find($request->get('idUser'))->getId();
 

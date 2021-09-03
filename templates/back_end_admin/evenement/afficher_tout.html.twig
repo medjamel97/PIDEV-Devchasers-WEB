@@ -27,16 +27,14 @@
                     <td>{{ evenement.debut|date("d-m-Y") }}</td>
                     <td>{{ evenement.fin|date("d-m-Y") }}</td>
                     <td>{{ evenement.description }}</td>
-                    {% if evenement.allDay == 1 %}
-                        <td>Oui</td>
-                    {% else %}
-                        <td>Non</td>
-                    {% endif %}
+                    <td>{{ evenement.allDay ? 'Oui' : 'Non' }}</td>
                     <td>
-                        <a class="btn btn-dark m-1" href="{{ asset('espace_admin/evenement/'~evenement.id~'/modifier') }}">
+                        <a class="btn btn-dark m-1"
+                           href="{{ asset('espace_admin/evenement/'~evenement.id~'/modifier') }}">
                             Modifier
                         </a>
-                        <a class="btn btn-danger m-1" href="{{ asset('espace_admin/evenement/'~evenement.id~'/supprimer') }}">
+                        <a class="btn btn-danger m-1"
+                           href="{{ asset('espace_admin/evenement/'~evenement.id~'/supprimer') }}">
                             Supprimer
                         </a>
                     </td>

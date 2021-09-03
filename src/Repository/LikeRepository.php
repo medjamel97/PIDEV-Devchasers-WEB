@@ -30,9 +30,7 @@ class LikeRepository extends ServiceEntityRepository
                 ->setParameter('idPublication', $idPublication)
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            return 0;
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException | NonUniqueResultException $e) {
             return 0;
         }
     }
@@ -47,14 +45,12 @@ class LikeRepository extends ServiceEntityRepository
                 ->setParameters(['likeType' => true, 'idPublication' => $idPublication])
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            return 0;
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException | NonUniqueResultException $e) {
             return 0;
         }
     }
 
-    public function date()
+    public function date(): \Doctrine\ORM\QueryBuilder
     {
         return
             $this->createQueryBuilder('a')

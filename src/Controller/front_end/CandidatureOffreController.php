@@ -18,7 +18,7 @@ class CandidatureOffreController extends AbstractController
     /**
      * @Route("candidature_offre/{idOffreDeTravail}/ajouter")
      */
-    public function ajouterCandidatureOffre(Request $request, $idOffreDeTravail)
+    public function ajouterCandidatureOffre(Request $request, $idOffreDeTravail): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $email = $request->getSession()->get(Security::LAST_USERNAME);
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $email]);
@@ -31,15 +31,18 @@ class CandidatureOffreController extends AbstractController
 
         if (!$checkCandidature) {
             $candidatureOffre = new CandidatureOffre();
-            $candidatureOffre
-                ->setCandidat($user->getCandidat())
-                ->setOffreDeTravail($offreDeTravail)
-                ->setDate(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+            try {
+                $candidatureOffre
+                    ->setCandidat($user->getCandidat())
+                    ->setOffreDeTravail($offreDeTravail)
+                    ->setDate(new DateTime('now', new DateTimeZone('Africa/Tunis')));
+            } catch (\Exception $e) {
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($candidatureOffre);
             $entityManager->flush();
         }
 
-        return $this->redirect('/offre_de_travail/'.$idOffreDeTravail.'/afficher');
+        return $this->redirect('/offre_de_travail/' . $idOffreDeTravail . '/afficher');
     }
 }

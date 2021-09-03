@@ -74,7 +74,6 @@ class User implements UserInterface
     private $societe;
 
 
-
     public function __construct()
     {
         $this->publication = new ArrayCollection();
@@ -133,7 +132,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self

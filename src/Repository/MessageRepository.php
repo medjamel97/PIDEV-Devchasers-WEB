@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,13 +24,17 @@ class MessageRepository extends ServiceEntityRepository
     public function findLastMessages($idConvesation, $maxResults, $page)
     {
 
-        $countResult = $this->createQueryBuilder('m')
-            ->select('count(m.id)')
-            ->join('m.conversation', 'c')
-            ->where('c.id = :val')
-            ->setParameter("val", $idConvesation)
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            $countResult = $this->createQueryBuilder('m')
+                ->select('count(m.id)')
+                ->join('m.conversation', 'c')
+                ->where('c.id = :val')
+                ->setParameter("val", $idConvesation)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e) {
+        } catch (NonUniqueResultException $e) {
+        }
 
 
         if ($countResult > ($maxResults * $page)) {

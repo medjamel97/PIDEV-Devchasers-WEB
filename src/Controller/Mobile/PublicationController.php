@@ -165,7 +165,10 @@ class PublicationController extends AbstractController
         $idCandidat = (int)$request->get("candidatId");
         $titre = $request->get("titre");
         $description = $request->get("description");
-        $date = new DateTime('now', new DateTimeZone('Africa/Tunis'));
+        try {
+            $date = new DateTime('now', new DateTimeZone('Africa/Tunis'));
+        } catch (Exception $e) {
+        }
 
 
         $publication = new Publication();

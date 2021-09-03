@@ -16,7 +16,7 @@ class LikeController extends AbstractController
     /**
      * @Route("like", name="like")
      */
-    public function like(Request $request)
+    public function like(Request $request): Response
     {
         $idUser = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' =>
             $request->getSession()->get(Security::LAST_USERNAME)])->getId();

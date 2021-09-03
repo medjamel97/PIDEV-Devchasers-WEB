@@ -22,7 +22,7 @@ class CategorieController extends AbstractController
     /**
      * @Route("categorie")
      */
-    public function afficherToutCategorie()
+    public function afficherToutCategorie(): Response
     {
         return $this->render('back_end_societe/societe/offre_de_travail/categorie/afficher_tout.html.twig', [
             'categories' => $this->getDoctrine()->getRepository(Categorie::class)->findAll()
@@ -32,7 +32,7 @@ class CategorieController extends AbstractController
     /**
      * @Route("categorie/{idCategorie}/afficher")
      */
-    public function afficherCategorie($idCategorie)
+    public function afficherCategorie($idCategorie): Response
     {
         return $this->render('back_end_societe/societe/offre_de_travail/categorie/afficher.html.twig', [
             'categories' => $this->getDoctrine()->getRepository(Categorie::class)->find($idCategorie)
@@ -43,9 +43,9 @@ class CategorieController extends AbstractController
      * @Route("categorie/recherche")
      * @throws ExceptionInterface
      */
-    public function rechercheCategorie(Request $request, NormalizerInterface $normalizer)
+    public function rechercheCategorie(Request $request, NormalizerInterface $normalizer): Response
     {
-        $recherche = $request->get("valeurRecherche");
+        $recherche = $request->get("valeur-recherche");
         $categorie = $this->getDoctrine()->getRepository(Categorie::class)->findOneByCategorieName($recherche);
 
         $jsonContent = $normalizer->normalize($categorie, 'json', ['groups' => 'post:read',]);
@@ -86,7 +86,7 @@ class CategorieController extends AbstractController
                 $entityManager->persist($categorie);
                 $entityManager->flush();
 
-                return $this->redirect('/back_end_societe/categorie');
+                return $this->render('/espace_societe/categorie');
             }
 
             return $this->render('back_end_societe/societe/offre_de_travail/categorie/manipuler.html.twig', [
@@ -103,13 +103,13 @@ class CategorieController extends AbstractController
      * @Route("categorie/{idCategorie}/supprimer")
      */
     public
-    function supprimerCategorie($idCategorie)
+    function supprimerCategorie($idCategorie): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $categorie = $this->getDoctrine()->getRepository(Categorie::class)->find($idCategorie);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($categorie);
         $entityManager->flush();
 
-        return $this->redirect('/back_end_societe/categorie');
+        return $this->render('/espace_societe/categorie');
     }
 }

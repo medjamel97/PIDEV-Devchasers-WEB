@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\InterviewRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -74,12 +75,12 @@ class Interview
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTimeInterface
+    public function getDateCreation(): ?DateTimeInterface
     {
         return $this->dateCreation;
     }
 
-    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    public function setDateCreation(DateTimeInterface $dateCreation): self
     {
         $this->dateCreation = $dateCreation;
 

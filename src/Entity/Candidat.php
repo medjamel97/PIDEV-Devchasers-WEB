@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CandidatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -121,12 +122,12 @@ class Candidat
         return $this;
     }
 
-    public function getDateNaissance(): ?\DateTimeInterface
+    public function getDateNaissance(): ?DateTimeInterface
     {
         return $this->dateNaissance;
     }
 
-    public function setDateNaissance(\DateTimeInterface $dateNaissance): self
+    public function setDateNaissance(DateTimeInterface $dateNaissance): self
     {
         $this->dateNaissance = $dateNaissance;
 

@@ -4,31 +4,190 @@
         <div class="container">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                        <div class="col-lg-5 d-none d-lg-block border"
+                             style="background-image:url('{{ asset('back-end/images/BG-formation.jpg') }}');">
+                            <a href="{{ asset('espace_societe/formation') }}"
+                               class="d-none d-sm-inline-block btn btn-sm btn-dark shadow-sm m-3">
+                                <i class="fa fa-arrow-left"></i>&nbsp Retour
+                            </a>
+                        </div>
                         <div class="col-lg-7">
-                            <div class="p-5">
+                            <div class="p-4">
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">{{ manipulation }} formation</h1>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        {{ form_start(form) }}
-                                        {{ form_widget(form) }}
+                                {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+                                <div class="row mx-auto m-3 p-2 rounded bg-white text-dark">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form_label(form.nom) }}
+                                            {{ form_widget(form.nom, {'attr': {'placeholder': 'Tapez le nom de votre formation','class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="text-danger">
+                                            {{ form_errors(form.nom) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form_label(form.filiere) }}
+                                            {{ form_widget(form.filiere, {'attr': {'placeholder': 'Tapez la filiere de votre formation','class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="text-danger">
+                                            {{ form_errors(form.filiere) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="text-dark">Debut :</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Jour :</label>
+                                            {{ form_row(form.debut.date.day, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Mois :</label>
+                                            {{ form_row(form.debut.date.month, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Année :</label>
+                                            {{ form_row(form.debut.date.year, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-2">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Heure :</label>
+                                            {{ form_row(form.debut.time.hour, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Minute :</label>
+                                            {{ form_row(form.debut.time.minute, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-danger">
+                                        {{ form_errors(form.debut) }}
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="text-dark">Fin :</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Jour :</label>
+                                            {{ form_row(form.fin.date.day, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Mois :</label>
+                                            {{ form_row(form.fin.date.month, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Année :</label>
+                                            {{ form_row(form.fin.date.year, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-2">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Heure :</label>
+                                            {{ form_row(form.fin.time.hour, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group position-relative" style="color: grey">
+                                            <label class="text-muted">Minute :</label>
+                                            {{ form_row(form.fin.time.minute, {
+                                                label : false,
+                                                'attr': {
+                                                    'class': 'form-control',
+                                                },
+                                            }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-danger">
+                                        {% for message in app.flashes('error') %}
+                                            • {{ message }}
+                                        {% endfor %}
+                                        {{ form_errors(form.fin) }}
+                                    </div>
+                                    <div class="col-md-12 pt-2">
+                                        <div class="form-group">
+                                            {{ form_widget(form.captcha, {
+                                                'label' : 'Captcha',
+                                                'attr': {
+                                                    'class': 'form-control m-2',
+                                                },
+                                            }) }}
+                                        </div>
+                                        <div class="text-danger">
+                                            {{ form_errors(form.captcha) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 pt-2">
+                                        <div class="form-group">
+                                            {{ form_widget(form.submit, {
+                                                'label' : 'Enregistrer',
+                                                'attr': {
+                                                    'class': 'submitBnt btn btn-primary btn-block mx-auto','style':'width: 300px;'
+                                                }}) }}
+                                        </div>
                                     </div>
                                 </div>
-                                <button class="btn">{{ button_label|default('Save') }}</button>
                                 {{ form_end(form) }}
-                                <script>
-                                    $(function () {
-                                        $("a[title ~= 'BotDetect']").removeAttr("style");
-                                        $("a[title ~= 'BotDetect']").removeAttr("href");
-                                        $("a[title ~= 'BotDetect']").css('visibility', 'hidden');
-                                    });
-                                </script>
-                                <a href="{{ asset('espace_societe/formation') }}"
-                                   class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">back to list</a>
                             </div>
                         </div>
                     </div>

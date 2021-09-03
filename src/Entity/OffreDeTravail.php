@@ -100,7 +100,7 @@ class OffreDeTravail
         return $this;
     }
 
-    function setId($id)
+    function setId($id): OffreDeTravail
     {
 
         $this->id = $id;

@@ -21,16 +21,12 @@ class SocieteRepository extends ServiceEntityRepository
         parent::__construct($registry, Societe::class);
     }
 
-    public function findStartingWith($recherche)
+    public function findSocieteByName($recherche)
     {
-        try {
-            return $this->createQueryBuilder('s')
-                ->where('s.nom LIKE :val')
-                ->setParameter("val", $recherche . '%')
-                ->getQuery()
-                ->getSingleResult();
-        } catch (NoResultException | NonUniqueResultException $e) {
-            return null;
-        }
+        return $this->createQueryBuilder('s')
+            ->where('s.nom LIKE :val')
+            ->setParameter("val", $recherche . '%')
+            ->getQuery()
+            ->getResult();
     }
 }
