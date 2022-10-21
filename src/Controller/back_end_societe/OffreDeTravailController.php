@@ -88,7 +88,7 @@ class OffreDeTravailController extends AbstractController
                 $entityManager->persist($offreDeTravail);
                 $entityManager->flush();
 
-                return $this->render('/espace_societe/offre_de_travail');
+                return $this->render('/back_end_societe/societe/offre_de_travail/offre_de_travail.html.twig');
             }
 
             return $this->render('back_end_societe/societe/offre_de_travail/manipuler.html.twig', [

@@ -42,7 +42,7 @@ class NotificationController extends AbstractController
                 'etat' => 'non traité'
             ]);
 
-        $notifications = null;
+        $notifications = [];
         $i = 0;
         foreach ($candidatureOffres as $candidatureOffre) {
             $notifications[$i]['date'] = $candidatureOffre->getDate()->format('H:i - d/M/Y');
@@ -66,6 +66,7 @@ class NotificationController extends AbstractController
             $notifications[$i]['offre'] = $candidatureMission->getMission()->getNom();
             $i++;
         }
+
         asort($notifications);
 
         return $this->render('back_end_societe/societe/notification/afficher_tout_notification.html.twig', [
